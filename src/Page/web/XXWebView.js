@@ -289,12 +289,12 @@ export default class XXWebView extends Component {
                 uri: TW_Store.dataStore.targetAppDir+"/index.html"+"?app=true",
             };
         }
-        // if (TW_IS_DEBIG) {
-        //     // source =  require('./../../../android/app/src/main/assets/gamelobby/index.html');
-        //     let uri = "http://localhost:8081/android/app/src/main/assets/gamelobby/index.html?platform=ios&hash=7e5876ea5a240467db5670550b53411b&rm-" + this.rom
-        //     source = {uri}
-        // }
 
+        if (TW_IS_DEBIG) {
+            // source =  require('./../../../android/app/src/main/assets/gamelobby/index.html');
+            let uri = "http://localhost:8081/android/app/src/main/assets/gamelobby/index.html?platform=ios&hash=7e5876ea5a240467db5670550b53411b&rm-" + this.rom
+            source = {uri}
+        }
         TW_Log("targetAppDir----MainBundlePath-TW_Store.dataStore.isAppInited-----" + TW_Store.dataStore.isAppInited+"---TW_Store.appStore.deviceToken="+TW_Store.appStore.deviceToken, source);
         if (!TW_Store.dataStore.isAppInited) {
             return null
@@ -421,14 +421,16 @@ export default class XXWebView extends Component {
                             TW_Store.gameUIStroe.checkWXInstall((ret)=>{
                                 if(ret){
                                     TN_WechatAuth(   (code, result, message) => {
-                                        TW_Store.dataStore.log+="\n message---"+JSON.stringify(result)+"---\n--code===="+code;
+                                        TW_Store.dataStore.log+="\n message---"+JSON.stringify(result)+"---\n--code===="+code+"===message=="+message;
                                         TW_Log("code----"+code+"---message---"+message,result);
                                         if(result){
-                                            if (code == 200) {
+                                            if (code == 200||code==0) {
                                                 this.onEvaleJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.wxLogin,{data:result}));
                                             }else{
                                                 this.onEvaleJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.popTip, {data: "微信授权异常!"}));
                                             }
+                                        }else{
+                                            this.onEvaleJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.popTip, {data: "微信授权异常!"}));
                                         }
                                     });
                                 }
