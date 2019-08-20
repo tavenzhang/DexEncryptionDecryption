@@ -35,11 +35,9 @@ export default class SubGameView extends Component {
             height: SCREEN_H,
             backgroundColor: "rgba(10,10,10,0.3)",zIndex:-999}}  ref={"myView"}>
            <TWWebGameView  {...TW_Store.bblStore.subGameParams}/>
-            <PhoneStateView />
+            {/*<PhoneStateView />*/}
         </View>)
     }
-
-
 }
 
 
