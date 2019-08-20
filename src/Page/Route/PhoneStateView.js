@@ -47,7 +47,7 @@ export default class PhoneStateView extends Component {
         this.checkIsWifi();
         this.pingGoogle();
         this.monitorBatteryLevel();
-          
+
         this.intervalID = setInterval(
             () => {
                 this.setState({ time: moment(new Date()).format("HH:mm") });
@@ -89,9 +89,11 @@ export default class PhoneStateView extends Component {
 
     componentWillUnmount() {
         clearInterval(this.intervalID);
-
-        deviceInfoEmitter.removeAllListeners();
-
+        try {
+            deviceInfoEmitter.removeAllListeners();
+        } catch (e) {
+            TW_Log("PhoneStateView >> error: " + e.message)
+        }
         //NetInfo.removeAllListeners();
     }
 
@@ -233,13 +235,13 @@ export default class PhoneStateView extends Component {
                 "4g": phoneState.mb4G
             }[cellularGeneration] || phoneState.mb4bars;
             */
-    
+
             if (!isInternetReachable) {
                 img = phoneState.mbNoConn;
             } else {
                 const delay = delayTime.substring(0, delayTime.indexOf("m"));
                 //console.log('delay', delay);
-    
+
                 if (delay <= 60) {
                     img = phoneState.mb4bars;
                 } else if (delay > 60 && delay <= 90) {
@@ -271,7 +273,7 @@ export default class PhoneStateView extends Component {
         return (
                 <View style={{ position: "absolute", bottom: position.top, right: position.right }}>
                     {
-                        (isShow === "1") ? 
+                        (isShow === "1") ?
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             {/*<Image source={this.wifiIndicator(msgData.delay)} resizeMode='contain' style={[styles.iconSmall, { marginRight: 5 }]} />*/}
                             <Image source={this.cellularIndicator(delay)} resizeMode='contain' style={[styles.iconSmall, { marginRight: 5 }]} />
@@ -279,7 +281,6 @@ export default class PhoneStateView extends Component {
                             <Image source={this.phoneBatteryIndicator()} resizeMode='contain' style={[styles.icon, { marginLeft: 5 }]} />
                             {/*<Text style={[styles.text, { marginLeft: 5 }]}>{ip}</Text>
                             <Text style={[styles.text, { marginLeft: 5 }]}>{isShow}</Text>*/}
-
                             <Text style={[styles.text, { marginLeft: 15 }]}>{time}</Text>
                         </View> : null
                     }
@@ -291,7 +292,7 @@ export default class PhoneStateView extends Component {
 
 const styles = StyleSheet.create({
     text: {
-        fontSize: 12, 
+        fontSize: 12,
         color: "#d8dee5"
     },
     icon: {
