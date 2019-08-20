@@ -12,7 +12,6 @@ import PhoneStateView from "../Route/PhoneStateView";
 @observer
 export default class SubGameView extends Component {
 
-
     constructor(state) {
         super(state)
         this.state = {}
@@ -24,18 +23,18 @@ export default class SubGameView extends Component {
 
 
     render() {
-        let isShow = !TW_Store.bblStore.isShowCircle&&TW_Store.bblStore.subGameParams.url!="";
+        let isShow = !TW_Store.bblStore.isShowCircle && TW_Store.bblStore.subGameParams.url != "";
         //pointerEvents={TW_Store.bblStore.subGameParams.url!="" ? "auto":"none"}
-        if(this.refs.myView){
-            this.refs.myView.setNativeProps({style: {zIndex:isShow ?999:-999}});
+        if (this.refs.myView) {
+            this.refs.myView.setNativeProps({style: {zIndex: isShow ? 999 : -999}});
         }
-        TW_Log("SubGameView--TW_Store.bblStore.isShowCircle---"+TW_Store.bblStore.isShowCircle,TW_Store.bblStore.subGameParams)
-        return (<View pointerEvents={isShow ? "auto":"none"}  style={{
-            position: "absolute", width:SCREEN_W,
+        TW_Log("SubGameView--TW_Store.bblStore.isShowCircle---" + TW_Store.bblStore.isShowCircle, TW_Store.bblStore.subGameParams)
+        return (<View pointerEvents={isShow ? "auto" : "none"} style={{
+            position: "absolute", width: SCREEN_W,
             height: SCREEN_H,
-            backgroundColor: "rgba(10,10,10,0.3)",zIndex:-999}}  ref={"myView"}>
-           <TWWebGameView  {...TW_Store.bblStore.subGameParams}/>
-            {/*<PhoneStateView />*/}
+            backgroundColor: "rgba(10,10,10,0.3)", zIndex: -999}} ref={"myView"}>
+            <TWWebGameView  {...TW_Store.bblStore.subGameParams}/>
+            <PhoneStateView/>
         </View>)
     }
 }
