@@ -59,7 +59,7 @@ export default class TWWebGameView extends Component {
             homePre += "/";
         }
         let newUrl = homePre + "index.html";
-        if (TW_Store.appStore.clindId == '31') {
+        if (TW_Store.appStore.isSitApp) {
             myParam += "&time=" + Math.random() * 9999;
         }
 

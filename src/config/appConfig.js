@@ -3,17 +3,17 @@ import React, {
 } from 'react-native';
 
 export const appDomainBase = {
-    base1: 'http://sit.106games.com',
-    base2: 'http://sit.106games.com',
-    base3: 'http://sit.106games.com',
-    base4: 'http://sit.106games.com',
-    base5: 'http://sit.106games.com',
-    base6: 'http://sit.106games.com',
-    base7: 'http://sit.106games.com',
+    base1: 'http://bbl.3gb2.com',
+    base2: 'http://bbl.3gb2.com',
+    base3: 'http://bbl.3gb2.com',
+    base4: 'http://bbl.3gb2.com',
+    base5: 'http://bbl.3gb2.com',
+    base6: 'http://bbl.3gb2.com',
+    base7: 'http://bbl.3gb2.com',
 }
 
 
-export let configAppId = "31"
+export let configAppId = "4"
 
 
 export const AppConfig = {
@@ -40,7 +40,7 @@ export const MyAppName = '博博乐sit';
 
 export const versionHotFix = 'v7.26';
 
-export const MyOwnerPlatName= 'sit';
+export const MyOwnerPlatName= 'sh';
 
 // export const safeguardDomain = [
 //     'https://987645ba00a9b0416b254f33d918ed64.oss-cn-shenzhen.aliyuncs.com',
