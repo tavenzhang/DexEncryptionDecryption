@@ -3,17 +3,17 @@ import React, {
 } from 'react-native';
 
 export const appDomainBase = {
-    base1: 'http://bbl.3gb2.com',
-    base2: 'http://bbl.3gb2.com',
-    base3: 'http://bbl.3gb2.com',
-    base4: 'http://bbl.3gb2.com',
-    base5: 'http://bbl.3gb2.com',
-    base6: 'http://bbl.3gb2.com',
-    base7: 'http://bbl.3gb2.com',
+    base1: 'http://sit.106games.com',
+    base2: 'http://sit.106games.com',
+    base3: 'http://sit.106games.com',
+    base4: 'http://sit.106games.com',
+    base5: 'http://sit.106games.com',
+    base6: 'http://sit.106games.com',
+    base7: 'http://sit.106games.com',
 }
 
 
-export let configAppId = "4"
+export let configAppId = "31"
 
 
 export const AppConfig = {
