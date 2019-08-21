@@ -40,7 +40,7 @@ export const MyAppName = '博博乐sit';
 
 export const versionHotFix = 'v7.26';
 
-export const MyOwnerPlatName= 'sh';
+export const MyOwnerPlatName= 'sit';
 
 // export const safeguardDomain = [
 //     'https://987645ba00a9b0416b254f33d918ed64.oss-cn-shenzhen.aliyuncs.com',
