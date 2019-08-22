@@ -455,7 +455,7 @@ export default class AppInfoStore {
     return new Promise(resolve => {
       try {
         NativeModules.JXHelper.getCFUUID((err, uuid) => {
-          if (!uuid) {
+          if (!uuid||(uuid&&uuid.length<4)) {
             uuid = this.getGUIDd();
           }
           resolve(uuid);
