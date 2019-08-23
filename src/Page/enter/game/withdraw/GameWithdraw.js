@@ -56,7 +56,6 @@ export default class GameWithdraw extends Component {
         let leftPosition = SCREEN_W > 800 ? 25 : SCREEN_W > 700 ? 5 : SCREEN_W > 640 ? -15 : -35
         let {itemData} = this.props;
         let num = itemData.withdrawModel.aggregateBetRequirements - itemData.withdrawModel.aggregateBets
-        TW_Log("Benny>> W=" + SCREEN_W + ", leftPosition=" + leftPosition)
         return (<View style={styles.container}>
             {/*金币图片*/}
             <TCImage source={ASSET_Images.gameUI.payOutTopIcon} resizeMode={'stretch'} style={{
@@ -142,7 +141,7 @@ export default class GameWithdraw extends Component {
                             <TCText borderRadius={5}
                                     backgroundStyle={{
                                         backgroundColor: "rgb(209,212,230)", paddingHorizontal: SCREEN_W * 0.07,
-                                        paddingVertical: 2, left: leftPosition + 110, top: SCREEN_H * 0.38, width: 240
+                                        paddingVertical: 2, left: leftPosition + 110, top: SCREEN_H * 0.38, width: 260
                                     }}
                                     textStyle={{color: "#353535", fontSize: 15}}
                                     text={this.onFormatBank(itemData.bank.bankCardNo)}
