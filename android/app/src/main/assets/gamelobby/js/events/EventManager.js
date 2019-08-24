@@ -289,6 +289,7 @@ var EventType = /** @class */ (function () {
     //微信绑定
     EventType.WeChatBind = "WeChatBind";
     EventType.INIT_LOGINVIEW = "initLoginView"; //初始化登录流程
+    EventType.BALANCE_PADSETING = "balancePwdSeting"; //余额宝密码设置成功
     return EventType;
 }());
 //# sourceMappingURL=EventManager.js.map

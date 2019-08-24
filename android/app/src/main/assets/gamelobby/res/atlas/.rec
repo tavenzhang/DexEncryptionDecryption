@@ -25,7 +25,7 @@ P 63543EBB img_daili_tou_ewm.png
 P 937CB5A9 img_daili_tou_wdyj.png
 P 38B6C7A1 img_daili_tou_zhishu.png
 P F4EF15A2 img_daili_weixinfenxiang.png
-P 220B905C img_daili_xinxizi.png
+P 888D823C img_daili_xinxizi.png
 P ABD374E5 img_daili_zi01.png
 P FA03C191 img_daili_zi010.png
 P 79305A02 img_daili_zi02.png
@@ -119,18 +119,14 @@ P 97CB587D btn_grzx_bd02.png
 P 175FF56D btn_grzx_fz01.png
 P B11425F1 btn_grzx_ghtx01.png
 P C6AF7635 btn_grzx_ghtxk01.png
-P 98692EDA btn_grzx_gjyhk01.png
-P 749BA6CA btn_grzx_qd01.png
 P 2B9243F0 btn_grzx_tczh01.png
 P 58E902A8 btn_grzx_wz04.png
 P 8874D800 btn_grzx_xg01.png
 P FAD5E9D5 btn_grzx_xg02.png
-P 62F187BA btn_grzx_xkmm01.png
 P C16C942D btn_grzx_zhxx01.png
 P 252F0497 check_gou.png
 P 7F518D9F check_msc.png
 P A0E3B8F9 combobox.png
-P 5EC27BBE img_com_xiankuang.png
 P DD115BC1 img_grzx_bt.png
 P 7BD9D864 img_grzx_bt01.png
 P F6A85470 img_grzx_bt02.png
@@ -233,10 +229,10 @@ P 6DB049F5 bgLabel.png
 P 989D3CC9 img_hd_bt01.png
 P EF34E72C img_hdzx_hdzx.png
 P 4EA615A8 markNew.png
-P B50B0BB7 按钮_公告_1.png
-P D9B062FB 按钮_公告_2.png
-P 4FFC534F 按钮_公告_3.png
-P 3B36161D 活动公告-静态活动_图框.png
+P B50B0BB7 noticeui_01.png
+P D9B062FB noticeui_02.png
+P 4FFC534F noticeui_03.png
+P 3B36161D noticeui_04.png
 D ui/res_login
 P 6F3B0136 BG_dl01.jpg
 P 0B52B06B btn_dl_baocun01.png
@@ -376,14 +372,13 @@ D ui/panel_notice/roullette
 P 0C8DC137 huojiang_tiaoxing_an.png
 P 01D72506 huojiang_tiaoxing_liang.png
 P 6098DA99 huojiang_tiaoxing_liang2.png
-P A5834519 ui_活动_1-1.png
-P 585CB540 ui_活动_2.png
-P 9218002C ui_活动_3.png
-P 4BA3A834 ui_获奖_1-1.png
-P 0BE49FC9 ui_获奖_2.png
-P 45F0D295 ui_获奖_3.png
-P BB1A0228 ui_获奖_4.png
-P 2888F367 ui_获奖_5.png
+P 585CB540 ui_r02.png
+P 9218002C ui_r03.png
+P 4BA3A834 ui_r04.png
+P 0BE49FC9 ui_r05.png
+P 45F0D295 ui_r06.png
+P BB1A0228 ui_r07.png
+P 2888F367 ui_r08.png
 D ui/panel_notice/share
 P 9D3A4ECE fasonggeipengyou_guan.png
 P 7ED46EB3 fasongggeipengyou_kai.png

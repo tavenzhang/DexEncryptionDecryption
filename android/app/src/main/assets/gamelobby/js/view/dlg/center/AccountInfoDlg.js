@@ -26,7 +26,7 @@ var view;
                 function AccountInfoDlg() {
                     var _this = _super.call(this) || this;
                     _this.bankCardInfo = null; //银行卡相关信息
-                    _this.bankList = null; //银行列表
+                    _this.bankList = []; //银行列表
                     _this.playSound = true;
                     _this.initView();
                     return _this;
@@ -111,9 +111,12 @@ var view;
                         _this.tabHandler(null, 1);
                     });
                 };
-                //银行卡--------------------------------------------------------------
                 AccountInfoDlg.prototype.showBackCardView = function () {
                     var _this = this;
+                    if (!this.cardPwdExtend)
+                        this.cardPwdExtend = InputExtend.getInput(this.cardPwd);
+                    if (this.cardPwdExtend)
+                        this.cardPwdLook.visible = false;
                     if (this.bankCardInfo) { //有银行绑定信息
                         this.cardName.text = this.bankCardInfo.bankAccountName;
                         this.cardNum.text = this.bankCardInfo.bankCardNo;
@@ -180,7 +183,7 @@ var view;
                     this.subBank.mouseEnabled = false;
                     this.cardPwd.mouseEnabled = false;
                     this.cardPwdLook.visible = false;
-                    this.cardPwd.text = "****";
+                    this.cardPwd.text = "●●●●";
                 };
                 AccountInfoDlg.prototype.checkBindType = function () {
                     if (!Common.cardInfo) {
@@ -197,7 +200,8 @@ var view;
                 //首次绑定
                 AccountInfoDlg.prototype.onceBind = function () {
                     var item = this.bankComb.selectItem;
-                    var epwd = window['SecretUtils'].rsaEncodePWD(this.cardPwd.text);
+                    var pwdStr = this.cardPwdExtend ? this.cardPwdExtend.text : this.cardPwd.text;
+                    var epwd = window['SecretUtils'].rsaEncodePWD(pwdStr);
                     var data = {
                         realName: this.cardName.text,
                         securityPassword: epwd,
@@ -214,7 +218,8 @@ var view;
                 //二次绑定
                 AccountInfoDlg.prototype.twiceBind = function () {
                     var item = this.bankComb.selectItem;
-                    var epwd = window['SecretUtils'].rsaEncodePWD(this.cardPwd.text);
+                    var pwdStr = this.cardPwdExtend ? this.cardPwdExtend.text : this.cardPwd.text;
+                    var epwd = window['SecretUtils'].rsaEncodePWD(pwdStr);
                     var data = {
                         bankAccountName: this.cardName.text,
                         bankAddress: this.subBank.text,
@@ -282,13 +287,13 @@ var view;
                                 if (!_this.moneyPwdView.checkOldPwdInfos())
                                     return;
                                 LayaMain.getInstance().showCircleLoading(true);
-                                HttpRequester.changePassword(_this.moneyPwdView.pwdTxt1.text, _this.moneyPwdView.pwdTxt2.text, false, _this, _this.responseMoneyPwdSeted);
+                                HttpRequester.changePassword(_this.moneyPwdView.getPwdStr(1), _this.moneyPwdView.getPwdStr(2), false, _this, _this.responseMoneyPwdSeted);
                             }
                             else { //短信验证修改
                                 if (!_this.moneyPwdView.checkPhoneCodePwdInfos())
                                     return;
                                 LayaMain.getInstance().showCircleLoading(true);
-                                HttpRequester.changePasswordWithPhone(_this.moneyPwdView.pwdTxt4.text, _this.moneyPwdView.phoneTxt.text, _this.moneyPwdView.codeTxt.text, false, _this, _this.responseMoneyPwdSeted);
+                                HttpRequester.changePasswordWithPhone(_this.moneyPwdView.getPwdStr(4), _this.moneyPwdView.phoneTxt.text, _this.moneyPwdView.codeTxt.text, false, _this, _this.responseMoneyPwdSeted);
                             }
                         });
                         //获取验证
@@ -327,7 +332,7 @@ var view;
                             }
                             if (!isReset) {
                                 var pwd = SaveManager.getObj().get(SaveManager.KEY_QK_PASSWORD, "123456");
-                                this.loginPwdView.pwdTxt1.text = pwd;
+                                this.loginPwdView.setPwdStr(1, pwd);
                                 this.loginPwdView.pwdTxt1.editable = false;
                                 this.loginPwdView.pwdTxt1.mouseEnabled = false;
                             }
@@ -348,7 +353,7 @@ var view;
                             if (!isReset) {
                                 var pwd = SaveManager.getObj().get(SaveManager.KEY_PHONEPWD, null);
                                 if (pwd) {
-                                    this.loginPwdView.pwdTxt1.text = pwd;
+                                    this.loginPwdView.setPwdStr(1, pwd);
                                     this.loginPwdView.pwdTxt1.editable = false;
                                     this.loginPwdView.pwdTxt1.mouseEnabled = false;
                                 }
@@ -363,7 +368,7 @@ var view;
                             if (!isReset) {
                                 var pwd = SaveManager.getObj().get(SaveManager.KEY_WEICHATPWD, null);
                                 if (pwd) {
-                                    this.loginPwdView.pwdTxt1.text = pwd;
+                                    this.loginPwdView.setPwdStr(1, pwd);
                                     this.loginPwdView.pwdTxt1.editable = false;
                                     this.loginPwdView.pwdTxt1.mouseEnabled = false;
                                 }
@@ -381,13 +386,13 @@ var view;
                                 if (!_this.loginPwdView.checkOldPwdInfos())
                                     return;
                                 LayaMain.getInstance().showCircleLoading(true);
-                                HttpRequester.changePassword(_this.loginPwdView.pwdTxt1.text, _this.loginPwdView.pwdTxt2.text, true, _this, _this.responseLoginPwdSeted);
+                                HttpRequester.changePassword(_this.loginPwdView.getPwdStr(1), _this.loginPwdView.getPwdStr(2), true, _this, _this.responseLoginPwdSeted);
                             }
                             else { //短信验证修改
                                 if (!_this.loginPwdView.checkPhoneCodePwdInfos())
                                     return;
                                 LayaMain.getInstance().showCircleLoading(true);
-                                HttpRequester.changePasswordWithPhone(_this.loginPwdView.pwdTxt4.text, _this.loginPwdView.phoneTxt.text, _this.loginPwdView.codeTxt.text, true, _this, _this.responseLoginPwdSeted);
+                                HttpRequester.changePasswordWithPhone(_this.loginPwdView.getPwdStr(4), _this.loginPwdView.phoneTxt.text, _this.loginPwdView.codeTxt.text, true, _this, _this.responseLoginPwdSeted);
                             }
                         });
                         //获取验证
@@ -407,7 +412,7 @@ var view;
                         var isfastName = fastName == Common.loginInfo.username;
                         if (Common.loginType == LoginType.Fast || isfastName) {
                             Common.loginInfo.strongPwd = true;
-                            var pwd = this.loginPwdView.isOldPwd ? this.loginPwdView.pwdTxt2.text : this.loginPwdView.pwdTxt4.text;
+                            var pwd = this.loginPwdView.isOldPwd ? this.loginPwdView.getPwdStr(2) : this.loginPwdView.getPwdStr(4);
                             SaveManager.getObj().save(SaveManager.KEY_QK_PASSWORD, pwd);
                             SaveManager.getObj().save(SaveManager.KEY_QK_PWD_CHANGED, true);
                             SaveManager.getObj().save(SaveManager.KEY_LOGIN_INFO, Common.loginInfo);
