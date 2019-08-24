@@ -100,7 +100,6 @@ export default class AppInfoStore {
   }
 
   init() {
-
     TW_Data_Store.getItem(TW_DATA_KEY.platData, (err, ret) => {
       TW_Log(
         "TN_GetPlatInfo---versionBBL--TW_DATA_KEY.platDat====eeror=" +
@@ -108,7 +107,6 @@ export default class AppInfoStore {
           "--ret--" +
           ret
       );
-
       if (err) {
         this.checkAppInfoUpdate(null);
       } else {
@@ -122,6 +120,7 @@ export default class AppInfoStore {
           this.checkAppInfoUpdate(null);
         }
       }
+
     });
 
   }

@@ -108,5 +108,13 @@ global.TN_ExitApp = () => {
         BackHandler.exitApp();
     }
 };
-
+global.TN_SetCodePushConifg = (serverUrl,appVersion="2.2.2") => {
+    JXCodePushServerUrl = serverUrl;
+    //ios 强制固定设置 热更新的 appVersion
+    if (G_IS_IOS) {
+        if(NativeModules.JDHelper.setCodePushConfig){
+            NativeModules.JDHelper.setCodePushConfig(serverUrl,appVersion)
+        }
+    }
+};
 global.TN_UMShareModule = NativeModules.UMShareModule;
