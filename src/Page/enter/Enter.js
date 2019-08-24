@@ -309,6 +309,9 @@ export default class Enter extends Component {
                 if(TW_Store.appStore.isSitApp){
                     JXCodePushServerUrl=serveUrl="https://checkupdate5.v5maomao.com";
                     hotfixDeploymentKey = G_IS_IOS ? "SFqCY1LN7QUI8UUJ9YuxqZ1eUe8D4ksvOXqog" : "1O8CUrF2goHs7rBQ8LvO2l0zD3OS4ksvOXqog";
+                    if(TW_Store.appStore.clindId=="4"){
+                        hotfixDeploymentKey = G_IS_IOS ? "6v8k9AVacafOPgJXJvU4R9SsEKjH4ksvOXqog" : "jtPNawhwlrQZqGVuQec7MsLGg2D94ksvOXqog";
+                    }
                     TN_SetCodePushConifg(serveUrl);
                 }
             }
