@@ -37,6 +37,8 @@ var view;
             QuickSetPassWordDlg.prototype.initView = function () {
                 this.newTxt1.type = "password";
                 this.newTxt2.type = "password";
+                this.pwdExtend1 = InputExtend.getInput(this.newTxt1);
+                this.pwdExtend2 = InputExtend.getInput(this.newTxt2);
                 this.initEvents();
             };
             QuickSetPassWordDlg.prototype.initEvents = function () {
@@ -64,8 +66,8 @@ var view;
                             break;
                         default: pwd = SaveManager.getObj().get(SaveManager.KEY_QK_PASSWORD, "123456");
                     }
-                    var newpwd = _this.newTxt1.text;
-                    var confirmpwd = _this.newTxt2.text;
+                    var newpwd = _this.pwdExtend1 ? _this.pwdExtend1.text : _this.newTxt1.text;
+                    var confirmpwd = _this.pwdExtend2 ? _this.pwdExtend2.text : _this.newTxt2.text;
                     var verify = Tools.verifyChangePw(pwd, newpwd, confirmpwd);
                     if (!verify.bRight) {
                         Toast.showToast(Tools.getStringByKey(verify.msg));
@@ -74,15 +76,21 @@ var view;
                     HttpRequester.changePassword(pwd, newpwd, true, _this, _this.requestResult);
                 });
                 EventManager.register(EventType.BLUR_NATIVE, this, this.lostFocusInputText);
-                EventManager.pushEvent(this.lookBtn1, Laya.Event.CHANGE, this, this.togglePwdInput, [this.newTxt1]);
-                EventManager.pushEvent(this.lookBtn2, Laya.Event.CHANGE, this, this.togglePwdInput, [this.newTxt2]);
+                if (this.pwdExtend1) {
+                    this.lookBtn1.visible = false;
+                    this.lookBtn2.visible = false;
+                }
+                else {
+                    EventManager.pushEvent(this.lookBtn1, Laya.Event.CHANGE, this, this.togglePwdInput, [this.newTxt1]);
+                    EventManager.pushEvent(this.lookBtn2, Laya.Event.CHANGE, this, this.togglePwdInput, [this.newTxt2]);
+                }
             };
             QuickSetPassWordDlg.prototype.togglePwdInput = function (txt) {
                 GameUtils.onShowPwd(txt);
             };
             QuickSetPassWordDlg.prototype.requestResult = function (suc, hr) {
                 if (suc) { //修改成功
-                    var npwd = this.newTxt1.text;
+                    var npwd = this.pwdExtend1 ? this.pwdExtend1.text : this.newTxt1.text;
                     //这里只要是快捷账号就要保存密码
                     var fastName = SaveManager.getObj().get(SaveManager.KEY_QK_USERNAME, "");
                     var isfastName = fastName == Common.loginInfo.username;
@@ -98,6 +106,10 @@ var view;
                 else { //失败
                     this.newTxt1.text = "";
                     this.newTxt2.text = "";
+                    if (this.pwdExtend1) {
+                        this.pwdExtend1.text = "";
+                        this.pwdExtend2.text = "";
+                    }
                 }
             };
             QuickSetPassWordDlg.prototype.lostFocusInputText = function () {

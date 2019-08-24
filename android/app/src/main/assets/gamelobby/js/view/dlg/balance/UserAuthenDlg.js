@@ -35,6 +35,7 @@ var view;
                 };
                 UserAuthenDlg.prototype.initView = function () {
                     var _this = this;
+                    this.pwdExtend = InputExtend.getInput(this.pwdTxt);
                     EventManager.addTouchScaleListener(this.closeBtn, this, function () {
                         SoundPlayer.closeSound();
                         _this.close(null, true);
@@ -45,7 +46,8 @@ var view;
                         if (!bl)
                             return;
                         LayaMain.getInstance().showCircleLoading(true);
-                        HttpRequester.postHttpData(ConfObjRead.httpCmd.yuebaoWithdraw, { amount: _this.money, yebPassword: _this.pwdTxt.text }, _this, _this.withdrawCallback);
+                        var pwd = _this.pwdExtend ? _this.pwdExtend.text : _this.pwdTxt.text;
+                        HttpRequester.postHttpData(ConfObjRead.httpCmd.yuebaoWithdraw, { amount: _this.money, yebPassword: pwd }, _this, _this.withdrawCallback);
                     });
                     EventManager.addTouchScaleListener(this.setPwdBtn, this, function () {
                         SoundPlayer.enterPanelSound();

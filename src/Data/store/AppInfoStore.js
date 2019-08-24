@@ -424,9 +424,11 @@ export default class AppInfoStore {
       });
 
     if (this.deviceToken.length === 0) {
-      //this.deviceToken = await this.initDeviceTokenFromNative();
       this.deviceToken = await this.initDeviceUniqueID();
-      this.saveDeviceTokenToLocalStore();
+      if(this.deviceToken.length<=0){
+          this.deviceToken = this.getGUIDd();
+      }
+       this.saveDeviceTokenToLocalStore();
     }
   }
 
@@ -455,7 +457,7 @@ export default class AppInfoStore {
     return new Promise(resolve => {
       try {
         NativeModules.JXHelper.getCFUUID((err, uuid) => {
-          if (!uuid) {
+          if (!uuid||(uuid&&uuid.length<3)) {
             uuid = this.getGUIDd();
           }
           resolve(uuid);
