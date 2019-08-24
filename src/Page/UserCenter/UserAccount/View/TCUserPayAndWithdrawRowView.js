@@ -113,9 +113,31 @@ export  default  class TCUserPayAndWithdrawRowView extends Component {
                     <Image style={styles.button}
                            source={ASSET_Images.gameUI.btn_copy}/>
                 </TouchableOpacity>
+                {
+                    this.props.rowData.remarks == null ? null :
+                        (<TouchableOpacity style={{position: "absolute", top: 15, left: 200}}
+                                           onPress={() => Toast.showLongCenter(this.onFormatRemark(this.props.rowData.remarks))}>
+                            <Image style={styles.button}
+                                   source={ASSET_Images.gameUI.btnRemark}/>
+                        </TouchableOpacity>)
+                }
             </View>
         );
     };
+
+    onFormatRemark=(remark)=> {
+        let ret = "";
+        if (remark && remark.length > 0) {
+            for (let i = 0; i < remark.length; i++) {
+                if (i % 10 == 0 && i != 0) {
+                    ret += "\n" + remark[i];
+                } else {
+                    ret += remark[i]
+                }
+            }
+        }
+        return ret
+    }
 
     changeLayout = () => {
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
