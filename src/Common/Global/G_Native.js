@@ -90,10 +90,10 @@ global.TN_WechatShare = (text, image, url, title, isPyq,callBack) => {
         }
     }
     NativeModules.UMShareModule.share(
-        title,
-        image,
-        "",
         text,
+        image,
+        url,
+        title,
         isPyq ? 3 : 2,
         (code, message) => {if(callBack){
             callBack(code);
