@@ -89,7 +89,7 @@ export default class GamePayStepOne extends Component {
                                  placeholder={"请输入金额"}
                                  keyboardType={"numeric"}
                                  inputStyle={[styles.inputStyle, {fontSize: 14, textAlign: "center"}]}
-                                 placeholderTextColor={"rgb(132,168,168)"}
+                                 placeholderTextColor={"rgb(241,114,170)"}
                                  maxLength={12}/>
                     <View style={{
                         position: "absolute",
@@ -539,7 +539,7 @@ const styles = StyleSheet.create({
     inputStyle: {
         fontSize: 11,
         fontWeight: "bold",
-        color: "#efe8cd",
+        color: "rgb(0,255,0)",
         width:150
     },
     emptyTip: {

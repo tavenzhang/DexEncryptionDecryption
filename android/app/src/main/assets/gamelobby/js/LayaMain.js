@@ -97,13 +97,10 @@ var LayaMain = /** @class */ (function () {
         SoundPlayer.initSoundSetting();
     };
     LayaMain.prototype.onGameResume = function () {
-        try {
-            //兼容最新的音频设置
-            SoundPlayer.CompatibleSetting();
-            //刷新用户信息
-            EventManager.dispath(EventType.FLUSH_USERINFO);
-        }
-        catch (e) { }
+        //兼容最新的音频设置
+        SoundPlayer.CompatibleSetting();
+        //刷新用户信息
+        EventManager.dispath(EventType.FLUSH_USERINFO);
     };
     LayaMain.prototype.handleIFrameAction = function (e) {
         var data = e.data;

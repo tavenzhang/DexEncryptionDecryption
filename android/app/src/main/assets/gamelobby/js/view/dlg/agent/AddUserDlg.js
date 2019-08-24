@@ -37,6 +37,7 @@ var view;
                 };
                 AddUserDlg.prototype.initView = function () {
                     var _this = this;
+                    this.pwdExtend = InputExtend.getInput(this.pwdTxt);
                     if (AgentModel.level >= 8) {
                         this.typeIcon.skin = "ui/agent/img_daili_zi_wanjia.png";
                         this.typeStr = "PLAYER";
@@ -50,7 +51,7 @@ var view;
                         var bl = GameUtils.checkStr(_this.userTxt.text, "用户名不能为空");
                         if (!bl)
                             return;
-                        var pwd = _this.pwdTxt.text;
+                        var pwd = _this.pwdExtend ? _this.pwdExtend.text : _this.pwdTxt.text;
                         if (pwd == "")
                             pwd = "123456";
                         var jobj = {

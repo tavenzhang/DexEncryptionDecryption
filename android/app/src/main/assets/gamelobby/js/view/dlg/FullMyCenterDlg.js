@@ -157,14 +157,14 @@ var view;
             FullMyCenterDlg.prototype.selectMusic = function () {
                 var switchKey = this.musicBtn.selected ? 1 : 0;
                 SaveManager.getObj().set(SaveManager.KEY_MUSIC_SWITCH, switchKey);
-                SaveManager.getObj().set(SaveManager.KEY_MUSIC_VL, this.musicBtn.selected ? 1 : 0);
+                SaveManager.getObj().set(SaveManager.KEY_MUSIC_VL, switchKey);
                 SoundPlayer.ChangeMusicSwitch(switchKey);
                 SaveManager.getObj().saveData();
             };
             FullMyCenterDlg.prototype.selectSound = function () {
                 var switchKey = this.soundBtn.selected ? 1 : 0;
                 SaveManager.getObj().set(SaveManager.KEY_SFX_SWITCH, switchKey);
-                SaveManager.getObj().set(SaveManager.KEY_SFX_VL, this.soundBtn.selected ? 1 : 0);
+                SaveManager.getObj().set(SaveManager.KEY_SFX_VL, switchKey);
                 SoundPlayer.ChangeSoundSwitch(switchKey);
                 SaveManager.getObj().saveData();
             };

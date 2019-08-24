@@ -292,8 +292,9 @@ var Tools = /** @class */ (function () {
                 "usergateway": AppData.NATIVE_DATA.loginDomain,
                 "gamecenter": domainUrl,
                 "wss": wssUrl,
-                "openDebug": Debug.httpDebug
+                "openDebug": Debug.openDebug
             };
+            Debug.log("lobbyToGame-token=", Common.access_token);
             // Debug.log("Tools.jump2game jobj:");
             // Debug.log(jobj);
             var b = new MyBase64();

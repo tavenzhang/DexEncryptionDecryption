@@ -92,16 +92,13 @@ var view;
                             var obj = JSON.parse(err);
                             var str = obj.message || "";
                             //设备号限制(绑定成功,但是不能在此设备领取)(备注：由于后端没法区分错误code，临时通过文字判断解决)
-                            if (str.indexOf("绑定成功") != -1 && str.indexOf("绑定手机次数过多") != -1 && str.indexOf("无法获得彩金奖励") != -1) {
+                            if (str.indexOf("绑定成功") != -1) {
                                 GameData.isGetBindAward = true;
                                 EventManager.dispath(EventType.GETBINDAWARD_SUCC, _this.numTxt.text);
                                 _this.close(null, true);
+                                Debug.error("绑定超限,绑定成功,但无送金");
                             }
-                            // if (obj.code == 1003) {//设备号限制(绑定成功,但是不能在此设备领取)
-                            // 	GameData.isGetBindAward = true;
-                            // 	EventManager.dispath(EventType.GETBINDAWARD_SUCC, this.numTxt.text);
-                            // 	this.close(null, true);
-                            // }
+                            Debug.log("手机绑定:" + str);
                         }
                     });
                 };
