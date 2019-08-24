@@ -296,12 +296,23 @@ export default class Enter extends Component {
             return
         }
         AsyncStorage.getItem('cacheDomain').then((response) => {
-
+            TW_Log("JXCodePushServerUrl----getItem")
+            TW_Store.dataStore.log+="\ncacheDomain-----"+response+"---\n";
             let cacheDomain = JSON.parse(response)
-            JXCodePushServerUrl = cacheDomain.hotfixDomains[0].domain
-            let hotfixDeploymentKey = G_IS_IOS ? cacheDomain.hotfixDomains[0].iosDeploymentKey : cacheDomain.hotfixDomains[0].androidDeploymentKey;
-            // JXCodePushServerUrl ="http://192.168.14.70:3000"
-            // let hotfixDeploymentKey =G_IS_IOS ? "mOx5dmR7vyM1vto4yR5GuGlPGHOi4ksvOXqog":"k1EZHlHkZnQQpiJwz0Pbq0laaKDX4ksvOXqog";
+            let hotfixDeploymentKey=""
+            let serveUrl = ""
+            if(cacheDomain&&cacheDomain.hotfixDomains.length>0){
+                JXCodePushServerUrl=serveUrl = cacheDomain.hotfixDomains[0].domain
+                hotfixDeploymentKey = G_IS_IOS ? cacheDomain.hotfixDomains[0].iosDeploymentKey : cacheDomain.hotfixDomains[0].androidDeploymentKey;
+                TN_SetCodePushConifg(serveUrl);
+            }else{
+                if(TW_Store.appStore.isSitApp){
+                    JXCodePushServerUrl=serveUrl="https://checkupdate5.v5maomao.com";
+                    hotfixDeploymentKey = G_IS_IOS ? "SFqCY1LN7QUI8UUJ9YuxqZ1eUe8D4ksvOXqog" : "1O8CUrF2goHs7rBQ8LvO2l0zD3OS4ksvOXqog";
+                    TN_SetCodePushConifg(serveUrl);
+                }
+            }
+            TW_Log("JXCodePushServerUrl----cacheDomain",cacheDomain)
             TW_Store.hotFixStore.currentDeployKey = hotfixDeploymentKey;
             this.hotFix(hotfixDeploymentKey)
 

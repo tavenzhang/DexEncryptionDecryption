@@ -89,8 +89,9 @@ export default class AppInfoStore {
   //openInstallData
   @observable
   openInstallData = { appKey: "", data: null };
+
   @observable
-  isSitApp=this.clindId=="31"
+  isSitApp=false
 
   openInstallCheckCount = 1;
 
@@ -106,7 +107,6 @@ export default class AppInfoStore {
           "--ret--" +
           ret
       );
-
       if (err) {
         this.checkAppInfoUpdate(null);
       } else {
@@ -120,7 +120,9 @@ export default class AppInfoStore {
           this.checkAppInfoUpdate(null);
         }
       }
+
     });
+
   }
 
   checkAppInfoUpdate = (oldData = null) => {
@@ -286,7 +288,7 @@ export default class AppInfoStore {
       // TN_START_SHARE("111","222");
       TN_StartUMeng(this.appInfo.UmengKey, this.appInfo.Affcode);
     }
-    this.isSitApp=this.clindId=="31";
+    this.isSitApp =this.clindId=="31"||this.clindId=="4"
   };
 
   checkAndroidsubType(initDomain) {

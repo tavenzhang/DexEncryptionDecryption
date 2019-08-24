@@ -5,7 +5,7 @@
 //  Created by Sam on 10/03/2018.
 //  Copyright © 2018 JD. All rights reserved.
 //
-
+#import "CodePush.h"
 #import "JDHelper.h"
 #import <React/RCTConvert.h>
 #import <React/RCTEventDispatcher.h>
@@ -205,6 +205,14 @@ RCT_EXPORT_METHOD(setAgent
 
 RCT_EXPORT_METHOD(exitApp) {
   exit(0);
+}
+
+RCT_EXPORT_METHOD(setCodePushConfig:(NSString *)server:(NSString *)appVersion){
+  if (server) {
+    [[CodePushConfig current]setServerURL:server];
+  }
+  if(appVersion)
+   [[CodePushConfig current] setAppVersion:appVersion];
 }
 
 @end
