@@ -71,7 +71,11 @@ export default class ShareBox extends Component {
 
     onClickWechatShare() {
         let shareData=TW_Store.gameUIStroe.shareData;
-        TN_WechatShare(WECHAT.SHARE_TITLE, shareData.image, shareData.param, WECHAT.SHARE_MSG, false,()=>{
+        let url = shareData.param;
+        if(shareData.image){
+            url=url+"&pic="+shareData.image
+        }
+        TN_WechatShare(WECHAT.SHARE_TITLE, shareData.image, url, WECHAT.SHARE_MSG, false,()=>{
 
         });
         setTimeout(()=>{
@@ -83,7 +87,11 @@ export default class ShareBox extends Component {
 
     onClickWechatPyqShare() {
         let shareData=TW_Store.gameUIStroe.shareData;
-        TN_WechatShare(WECHAT.SHARE_TITLE, shareData.image, shareData.param, WECHAT.SHARE_MSG, true,()=>{
+        let url = shareData.param;
+        if(shareData.image){
+            url=url+"&pic="+shareData.image
+        }
+        TN_WechatShare(WECHAT.SHARE_TITLE, shareData.image, url, WECHAT.SHARE_MSG, true,()=>{
 
         });
         setTimeout(()=>{
