@@ -35,6 +35,8 @@ var view;
                 };
                 BalancePwdDlg.prototype.initView = function () {
                     var _this = this;
+                    this.pwdExtend1 = InputExtend.getInput(this.pwdTxt1);
+                    this.pwdExtend2 = InputExtend.getInput(this.pwdTxt2);
                     EventManager.addTouchScaleListener(this.closeBtn, this, function () {
                         SoundPlayer.closeSound();
                         _this.close(null, true);
@@ -44,15 +46,32 @@ var view;
                         var bl = GameUtils.checkStr(_this.pwdTxt1.text, "密码不能为空");
                         if (!bl)
                             return;
-                        if (_this.pwdTxt1.text != _this.pwdTxt2.text) {
+                        if (!_this.checkPwd(1, 2)) {
                             Toast.showToast("确认密码输入错误");
                             return;
                         }
                         LayaMain.getInstance().showCircleLoading();
-                        HttpRequester.postHttpData(ConfObjRead.httpCmd.yuebaoSetPwd, { newYebPassword: _this.pwdTxt2.text }, _this, _this.setPwdCallback);
+                        var pwd = _this.pwdExtend2 ? _this.pwdExtend2.text : _this.pwdTxt2.text;
+                        HttpRequester.postHttpData(ConfObjRead.httpCmd.yuebaoSetPwd, { newYebPassword: pwd }, _this, _this.setPwdCallback);
                     });
-                    EventManager.pushEvent(this.lookBtn1, Laya.Event.CHANGE, this, this.togglePwdInput, [this.pwdTxt1]);
-                    EventManager.pushEvent(this.lookBtn2, Laya.Event.CHANGE, this, this.togglePwdInput, [this.pwdTxt2]);
+                    if (this.pwdExtend1) {
+                        this.lookBtn1.visible = false;
+                        this.lookBtn2.visible = false;
+                    }
+                    else {
+                        EventManager.pushEvent(this.lookBtn1, Laya.Event.CHANGE, this, this.togglePwdInput, [this.pwdTxt1]);
+                        EventManager.pushEvent(this.lookBtn2, Laya.Event.CHANGE, this, this.togglePwdInput, [this.pwdTxt2]);
+                    }
+                };
+                //比较前后密码输入是否一致
+                BalancePwdDlg.prototype.checkPwd = function (id1, id2) {
+                    var extend1 = this["pwdExtend" + id1];
+                    var extend2 = this["pwdExtend" + id2];
+                    var txt1 = this["pwdTxt" + id1];
+                    var txt2 = this["pwdTxt" + id2];
+                    if (extend1)
+                        return extend1.text == extend2.text;
+                    return txt1.text == txt2.text;
                 };
                 BalancePwdDlg.prototype.setPwdCallback = function (suc, jobj) {
                     LayaMain.getInstance().showCircleLoading(false);
@@ -60,6 +79,7 @@ var view;
                         this.close(null, true);
                         Toast.showToast("余额宝密码设置成功");
                         view.dlg.balance.UserAuthenDlg.show(this.money);
+                        EventManager.dispath(EventType.BALANCE_PADSETING);
                     }
                 };
                 BalancePwdDlg.prototype.togglePwdInput = function (txt) {

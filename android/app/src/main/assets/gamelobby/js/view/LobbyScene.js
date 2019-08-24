@@ -50,6 +50,7 @@ var LobbyScene = /** @class */ (function (_super) {
             this.view.visible = true;
             this.view.initAnim(false);
         }
+        LobbyDataManager.getVconsoleOpen();
     };
     LobbyScene.prototype.initUI = function () {
         //添加大厅视图
@@ -82,7 +83,6 @@ var LobbyScene = /** @class */ (function (_super) {
         Common.confObj.url = ConfObjRead.getConfUrl().url;
         this.creatLobby();
         PageManager.clearLoginRes();
-        LobbyDataManager.getVconsoleOpen();
         EventManager.register(EventType.GAMETOHALL, this, this.creatLobby);
         EventManager.register(EventType.HALLTOGAME, this, this.clearLobby);
     };
@@ -100,6 +100,7 @@ var LobbyDataManager = /** @class */ (function () {
         HttpRequester.getHttpData(ConfObjRead.httpCmd.vconsole, this, function (suc, jobj) {
             if (suc) {
                 Debug.httpDebug = Boolean(jobj.data);
+                Debug.log("Vconsole:", Debug.httpDebug);
             }
         }, "&environment=dev,sit,uat");
     };

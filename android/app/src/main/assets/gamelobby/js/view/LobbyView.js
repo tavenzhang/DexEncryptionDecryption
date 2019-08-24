@@ -279,6 +279,8 @@ var view;
             var _this = this;
             HttpRequester.getHttpData(ConfObjRead.getConfUrl().cmd.attention_new, this, function (suc, jobj) {
                 LayaMain.getInstance().showCircleLoading(false);
+                if (_this.destroyed)
+                    return;
                 if (suc) {
                     jobj.forEach(function (data, idx) {
                         var counter = 0;
