@@ -115,7 +115,7 @@ global.TN_SetCodePushConifg = (serverUrl,appVersion="2.2.2") => {
         TW_Store.dataStore.log+="\nsetCodePushConfig---start--\n";
         if(NativeModules.JDHelper.setCodePushConfig){
             TW_Store.dataStore.log+="\nsetCodePushConfig---appVersion--"+appVersion+"---\n";
-            NativeModules.JDHelper.setCodePushConfig(serverUrl,appVersion)
+            //NativeModules.JDHelper.setCodePushConfig(serverUrl,appVersion)
         }
     }
 };

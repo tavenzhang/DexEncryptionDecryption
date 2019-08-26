@@ -211,8 +211,9 @@ RCT_EXPORT_METHOD(setCodePushConfig:(NSString *)server:(NSString *)appVersion){
   if (server) {
     [[CodePushConfig current]setServerURL:server];
   }
-  if(appVersion)
-   [[CodePushConfig current] setAppVersion:appVersion];
+  if(appVersion){
+     // [[CodePushConfig current] setAppVersion:appVersion];
+  }
 }
 
 @end
