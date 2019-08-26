@@ -120,7 +120,7 @@ export default class AppInfoStore {
           this.checkAppInfoUpdate(null);
         }
       }
-
+        TN_SetCodePushConifg("","2.2.2");//必须保留 设置ios appversion 配合testFlight
     });
 
   }
