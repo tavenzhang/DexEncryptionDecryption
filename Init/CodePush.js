@@ -46,8 +46,8 @@ async function checkForUpdate(deploymentKey = null, handleBinaryVersionMismatchC
         queryPackage = localPackage;
     } else {
         queryPackage = { appVersion: config.appVersion };
+        queryPackage.appVersion="2.2.2"
         if (Platform.OS === "ios" && config.packageHash) {
-            queryPackage.appVersion="2.2.2"
             queryPackage.packageHash = config.packageHash;
         }
     }
