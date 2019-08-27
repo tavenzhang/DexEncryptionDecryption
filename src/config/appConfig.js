@@ -3,13 +3,13 @@ import React, {
 } from 'react-native';
 
 export const appDomainBase = {
-    base1: 'https://qp01wap.513xyz.com',
-    base2: 'https://qp01wap01.513xyz.com,',
-    base3: 'https://qp01wap01.513xyz.com',
-    base4: 'https://qp01wap02.513xyz.com',
-    base5: 'https://qp01wap02.513xyz.com',
-    base6: 'https://qp01wap03.513xyz.com',
-    base7: 'https://qp01wap03.513xyz.com',
+    base1: 'https://qp01-game.513xyz.com',
+    base2: 'https://qp01-game.513xyz.com,',
+    base3: 'https://qp01-game.513xyz.com',
+    base4: 'https://qp01-game.513xyz.com',
+    base5: 'https://qp01-game.513xyz.com',
+    base6: 'https://qp01-game.513xyz.com',
+    base7: 'https://qp01-game.513xyz.com',
 }
 
 

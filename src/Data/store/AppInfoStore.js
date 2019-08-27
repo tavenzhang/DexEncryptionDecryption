@@ -204,7 +204,7 @@ export default class AppInfoStore {
         }
       } else {
         if (callBack) {
-          if (this.openInstallCheckCount < 3) {
+          if (this.openInstallCheckCount <= 3) {
             this.openInstallCheckCount += 1;
             callBack(this.onOpenInstallCheck);
           }
