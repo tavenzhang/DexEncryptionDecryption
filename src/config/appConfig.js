@@ -3,17 +3,17 @@ import React, {
 } from 'react-native';
 
 export const appDomainBase = {
-    base1: 'https://qp01-game.513xyz.com',
-    base2: 'https://qp01-game.513xyz.com,',
-    base3: 'https://qp01-game.513xyz.com',
-    base4: 'https://qp01-game.513xyz.com',
-    base5: 'https://qp01-game.513xyz.com',
-    base6: 'https://qp01-game.513xyz.com',
-    base7: 'https://qp01-game.513xyz.com',
+    base1: 'https://webplatform.psxiaohe.com',
+    base2: 'https://webplatform.psxiaohe.com',
+    base3: 'https://webplatform.psxiaohe.com',
+    base4: 'https://webplatform.psxiaohe.com',
+    base5: 'https://webplatform.psxiaohe.com',
+    base6: 'https://webplatform.psxiaohe.com',
+    base7: 'https://webplatform.psxiaohe.com',
 }
 
 
-export let configAppId = "214"
+export let configAppId = "5"
 
 
 export const AppConfig = {
@@ -38,9 +38,9 @@ export const AppConfig = {
 
 export const MyAppName = '博博乐';
 
-export const versionHotFix = 'v8.27';
+export const versionHotFix = 'v7.24';
 
-export const MyOwnerPlatName= '博博乐';
+export const MyOwnerPlatName= 'uat彩票';
 
 // export const safeguardDomain = [
 //     'https://987645ba00a9b0416b254f33d918ed64.oss-cn-shenzhen.aliyuncs.com',
@@ -62,8 +62,8 @@ export const platInfo = {
         release_server: "/game/release/uat"
     },
     platId: configAppId,
-    brand: "qp01",
-    latestNativeVersion:{ios:"9.0",android:"9.0"},//用于强制更新 匹配，与info.plist 还有 gradle.properties. 需要严格一致。否则 会弹窗 强制下载
+    brand: "uat01",
+    latestNativeVersion:{ios:"8.0",android:"8.0"},//用于强制更新 匹配，与info.plist 还有 gradle.properties. 需要严格一致。否则 会弹窗 强制下载
 }
 
 
