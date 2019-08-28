@@ -100,6 +100,7 @@ export default class AppInfoStore {
   }
 
   init() {
+
     TW_Data_Store.getItem(TW_DATA_KEY.platData, (err, ret) => {
       TW_Log(
         "TN_GetPlatInfo---versionBBL--TW_DATA_KEY.platDat====eeror=" +
@@ -120,7 +121,7 @@ export default class AppInfoStore {
           this.checkAppInfoUpdate(null);
         }
       }
-        TN_SetCodePushConifg("","2.2.2");//必须保留 设置ios appversion 配合testFlight
+
     });
 
   }
@@ -203,7 +204,7 @@ export default class AppInfoStore {
         }
       } else {
         if (callBack) {
-          if (this.openInstallCheckCount < 3) {
+          if (this.openInstallCheckCount <= 3) {
             this.openInstallCheckCount += 1;
             callBack(this.onOpenInstallCheck);
           }
@@ -406,6 +407,7 @@ export default class AppInfoStore {
   async initAppVersion() {
     let nativeConfig = await CodePush.getConfiguration();
     this.appVersion = nativeConfig.appVersion;
+    TW_Store.dataStore.log+="\n---nativeConfig--"+JSON.stringify(nativeConfig)+"---\n";
     TW_Log(
       "appInfo----version-nativeConfig--  this.appVersion " + this.appVersion,
       nativeConfig
