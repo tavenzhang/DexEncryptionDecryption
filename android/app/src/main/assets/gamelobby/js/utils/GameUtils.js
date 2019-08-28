@@ -84,7 +84,15 @@ var GameUtils = /** @class */ (function () {
          */
         get: function () {
             var uid = MyUid.getUid();
-            return this.isNativeApp ? (AppData.NATIVE_DATA.deviceToken || uid) : uid;
+            var device;
+            if (this.isNativeApp)
+                device = AppData.NATIVE_DATA.deviceToken;
+            else
+                device = MyUid.getUid();
+            if ((!device || device.length < 5) && this.isNativeApp) {
+                console.error("deviceToken异常", this.isNativeApp, device);
+            }
+            return device;
         },
         enumerable: true,
         configurable: true

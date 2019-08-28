@@ -158,7 +158,7 @@ var HttpRequester = /** @class */ (function () {
             data.hash = hash;
             var jsonStr = JSON.stringify(data);
             var url = ConfObjRead.getConfUrl().url.apihome + ConfObjRead.getConfUrl().cmd.userreg;
-            var header = ["Content-Type", "application/json; charset=utf-8", "Accept", "*/*"];
+            var header = ["Content-Type", "application/json; charset=utf-8", "Accept", "*/*", "device_token", GameUtils.deviceToken];
             _this.doRequest(url, header, jsonStr, caller, callback);
         });
     };
