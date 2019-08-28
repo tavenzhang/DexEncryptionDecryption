@@ -5,11 +5,11 @@
 	<key>com.openinstall.APP_KEY</key>
 	<string>k9e92p</string>
 	<key>APP_DOWNLOAD_VERSION</key>
-	<string>8.0</string>
+	<string>9.0</string>
 	<key>PLAT_CH</key>
 	<string>1</string>
 	<key>PLAT_ID</key>
-	<string>5</string>
+	<string>214</string>
 	<key>Affcode</key>
 	<string></string>
 	<key>UmengKey</key>
@@ -24,7 +24,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>QP-UAT</string>
+	<string>QP-UAT-New</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
