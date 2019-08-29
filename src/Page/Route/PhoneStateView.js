@@ -36,11 +36,10 @@ export default class PhoneStateView extends PureComponent {
 
     async componentDidMount() {
 
-        NetInfo.fetch().then(state => {
-            console.log("Connection type", state.type);
-            console.log("Is connected?", state.isConnected);
-        });
-
+        // NetInfo.fetch().then(state => {
+        //     console.log("Connection type", state.type);
+        //     console.log("Is connected?", state.isConnected);
+        // });
 
         //console.log('DeviceInfo', DeviceInfo.getCarrier());
 
@@ -134,9 +133,11 @@ export default class PhoneStateView extends PureComponent {
         try{
             const ip = await DeviceInfo.getIPAddress();
             const isWifi = (ip.substring(0, 3) === "192") ? true : false;
+            TW_Log("checkIsWifi----isWifi==ip=="+ip,isWifi)
             this.setState({ ip, isWifi });
         }catch (e) {
-            this.setState({ ip,isWifi:false });
+            TW_Log("checkIsWifi----",e)
+            this.setState({ isWifi:false });
         }
 
         /*
