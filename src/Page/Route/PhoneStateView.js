@@ -28,7 +28,7 @@ export default class PhoneStateView extends PureComponent {
             time: moment(new Date()).format("HH:mm"),
             isWifi: false,
             isConnected: false,
-            isInternetReachable: true,
+            isInternetReachable: false,
             carrierName: DeviceInfo.getCarrier(),
             ip: null,
         }
@@ -205,16 +205,12 @@ export default class PhoneStateView extends PureComponent {
     */
 
     cellularIndicator=(delayTime)=> {
-        const { isWifi, isInternetReachable } = this.state;
+        const { isWifi } = this.state;
+        let delay = parseInt(delayTime)
         let img = null;
-
+        let isNetworkOK=true;
         if (isWifi) {
             //img = phoneState.wfFull;
-            if (!isInternetReachable) {
-                img = phoneState.wfNoConn;
-            } else {
-                let delay = parseInt(delayTime)
-
                 if (delay <= 100) {
                     img = phoneState.wfFull;
                 } else if (delay > 100 && delay <= 200) {
@@ -223,11 +219,7 @@ export default class PhoneStateView extends PureComponent {
                     img = phoneState.wf2bars;
                 } else if (delay > 300) {
                     img = phoneState.wf1bar;
-                    if(delay>2000){
-                        img = phoneState.wfNoConn;
-                    }
                 }
-            }
         } else {
             /*
             img = {
@@ -237,11 +229,6 @@ export default class PhoneStateView extends PureComponent {
                 "4g": phoneState.mb4G
             }[cellularGeneration] || phoneState.mb4bars;
             */
-            if (!isInternetReachable) {
-                img = phoneState.mbNoConn;
-            } else {
-                let delay = parseInt(delayTime)
-
                 if (delay <= 100) {
                     img = phoneState.mb4bars;
                 } else if (delay > 100 && delay <= 200) {
@@ -250,13 +237,19 @@ export default class PhoneStateView extends PureComponent {
                     img = phoneState.mb2bars;
                 } else if (delay > 300) {
                     img = phoneState.mb1bar;
-                    if(delay>2000){
-                        img = phoneState.wfNoConn;
-                    }
                 }
-            }
         }
 
+        if(delay>2000){
+            img = phoneState.wfNoConn;
+            if(this.state.isInternetReachable){
+                this.setState({isInternetReachable:false})
+            }
+        }else{
+            if(!this.state.isInternetReachable){
+                this.setState({isInternetReachable:true})
+            }
+        }
         return img;
     }
 
