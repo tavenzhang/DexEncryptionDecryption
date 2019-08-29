@@ -272,7 +272,7 @@ export default class PhoneStateView extends Component {
         const { battStat, time, carrierName, ip } = this.state;
 
         return (
-                <View style={{ position: "absolute", bottom: position.top, right: position.right }}>
+                <View style={{ position: "absolute", top: position.top, right: position.right }}>
                     {
                         (isShow == "1") ?
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
