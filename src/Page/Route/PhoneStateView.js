@@ -35,12 +35,12 @@ export default class PhoneStateView extends PureComponent {
     }
 
     async componentDidMount() {
-        /*
+
         NetInfo.fetch().then(state => {
             console.log("Connection type", state.type);
             console.log("Is connected?", state.isConnected);
         });
-        */
+
 
         //console.log('DeviceInfo', DeviceInfo.getCarrier());
 
@@ -134,10 +134,13 @@ export default class PhoneStateView extends PureComponent {
 
     async checkIsWifi() {
         //console.log('checkIsWifi');
-
-        const ip = await DeviceInfo.getIPAddress();
-        const isWifi = (ip.substring(0, 3) === "192") ? true : false;
-        this.setState({ ip, isWifi });
+        try{
+            const ip = await DeviceInfo.getIPAddress();
+            const isWifi = (ip.substring(0, 3) === "192") ? true : false;
+            this.setState({ ip, isWifi });
+        }catch (e) {
+            this.setState({ ip,isWifi:false });
+        }
 
         /*
         await DeviceInfo.getIPAddress().then(ip => {
@@ -153,7 +156,7 @@ export default class PhoneStateView extends PureComponent {
     }
 
     pingGoogle() {
-        fetch('https://www.google.com')
+        fetch('https://www.baidu.com')
         .then((response) => {
             //console.log('response ', response)
             if (response.status === 200) {
@@ -260,7 +263,7 @@ export default class PhoneStateView extends PureComponent {
     render() {
 
         const { delay, position, isShow } = TW_Store.bblStore.netInfo;
-        const { battStat, time, carrierName, ip } = this.state;
+        const { battStat, time } = this.state;
         let isVeryDealy = delay >= 400 ? true:false;
 
         return (
