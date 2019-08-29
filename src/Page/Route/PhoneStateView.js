@@ -262,7 +262,7 @@ export default class PhoneStateView extends PureComponent {
         let isVeryDealy = delay >= 400 ? true:false;
 
         return (
-                <View style={{ position: "absolute", top: position.top, right: position.right }}>
+                <View style={{ position: "absolute", top: position.top, right: position.right }} pointerEvents={"none"}>
                     {
                         (isShow == "1") ?
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
