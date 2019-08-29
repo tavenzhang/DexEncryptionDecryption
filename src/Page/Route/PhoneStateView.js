@@ -31,7 +31,6 @@ export default class PhoneStateView extends PureComponent {
             isInternetReachable: false,
             carrierName: DeviceInfo.getCarrier(),
             ip: null,
-            isVeryDealy:false
         }
     }
 
@@ -223,15 +222,6 @@ export default class PhoneStateView extends PureComponent {
                     img = phoneState.wf2bars;
                 } else if (delay > 300) {
                     img = phoneState.wf1bar;
-                    if(delay>400){
-                        if(!this.state.isVeryDealy){
-                            this.setState({isVeryDealy:true})
-                        }
-                    }else{
-                        if(this.state.isVeryDealy){
-                            this.setState({isVeryDealy:false})
-                        }
-                    }
                 }
             }
         } else {
@@ -258,15 +248,6 @@ export default class PhoneStateView extends PureComponent {
                     img = phoneState.mb2bars;
                 } else if (delay > 300) {
                     img = phoneState.mb1bar;
-                    if(delay>400){
-                        if(!this.state.isVeryDealy){
-                            this.setState({isVeryDealy:true})
-                        }
-                    }else{
-                        if(this.state.isVeryDealy){
-                            this.setState({isVeryDealy:false})
-                        }
-                    }
                 }
             }
         }
@@ -280,6 +261,7 @@ export default class PhoneStateView extends PureComponent {
 
         const { delay, position, isShow } = TW_Store.bblStore.netInfo;
         const { battStat, time, carrierName, ip } = this.state;
+        let isVeryDealy = delay >= 400 ? true:false;
 
         return (
                 <View style={{ position: "absolute", top: position.top, right: position.right }}>
@@ -288,7 +270,7 @@ export default class PhoneStateView extends PureComponent {
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             {/*<Image source={this.wifiIndicator(msgData.delay)} resizeMode='contain' style={[styles.iconSmall, { marginRight: 5 }]} />*/}
                             <Image source={this.cellularIndicator(delay)} resizeMode='contain' style={[styles.iconSmall, { marginRight: 5 }]} />
-                            <Text style={[styles.text,this.state.isVeryDealy ? {color:"red"}:null]}>{delay}</Text>
+                            <Text style={[styles.text,isVeryDealy ? {color:"red"}:null]}>{delay}</Text>
                             <Image source={this.phoneBatteryIndicator()} resizeMode='contain' style={[styles.icon, { marginLeft: 5 }]} />
                             {/*<Text style={[styles.text, { marginLeft: 5 }]}>{ip}</Text>
                             <Text style={[styles.text, { marginLeft: 5 }]}>{isShow}</Text>*/}
