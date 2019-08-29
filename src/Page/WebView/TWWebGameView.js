@@ -163,7 +163,7 @@ export default class TWWebGameView extends Component {
         if (message && message.action) {
             switch (message.action) {
                 case "appStatus":
-                    //TW_Log("TWWebGameView---appStatus==", message);
+                    TW_Log("TWWebGameView---appStatus==", message);
                     TW_Store.bblStore.setNetInfo(message);
                     break;
                 case "Log":

@@ -203,7 +203,8 @@ export default class PhoneStateView extends Component {
     }
     */
 
-    cellularIndicator(delayTime) {
+    cellularIndicator=(delayTime)=> {
+        delayTime=`${delayTime}`
         const { isWifi, isInternetReachable } = this.state;
         let img = null;
 
@@ -273,7 +274,7 @@ export default class PhoneStateView extends Component {
         return (
                 <View style={{ position: "absolute", bottom: position.top, right: position.right }}>
                     {
-                        (isShow === "1") ?
+                        (isShow == "1") ?
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             {/*<Image source={this.wifiIndicator(msgData.delay)} resizeMode='contain' style={[styles.iconSmall, { marginRight: 5 }]} />*/}
                             <Image source={this.cellularIndicator(delay)} resizeMode='contain' style={[styles.iconSmall, { marginRight: 5 }]} />
