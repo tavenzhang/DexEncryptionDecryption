@@ -28,7 +28,7 @@ export default class PhoneStateView extends PureComponent {
             time: moment(new Date()).format("HH:mm"),
             isWifi: false,
             isConnected: false,
-            isInternetReachable: false,
+            isInternetReachable: true,
             carrierName: DeviceInfo.getCarrier(),
             ip: null,
         }
@@ -45,15 +45,12 @@ export default class PhoneStateView extends PureComponent {
         //console.log('DeviceInfo', DeviceInfo.getCarrier());
 
         this.checkIsWifi();
-        this.pingGoogle();
         this.monitorBatteryLevel();
 
         this.intervalID = setInterval(
             () => {
                 this.setState({ time: moment(new Date()).format("HH:mm") });
-                this.pingGoogle();
                 this.checkIsWifi();
-
                 if (!G_IS_IOS) {
                     this.monitorBatteryLevel();
                 }
@@ -215,7 +212,7 @@ export default class PhoneStateView extends PureComponent {
             if (!isInternetReachable) {
                 img = phoneState.wfNoConn;
             } else {
-                const delay = parseInt(delayTime)
+                let delay = parseInt(delayTime)
 
                 if (delay <= 100) {
                     img = phoneState.wfFull;
@@ -240,7 +237,8 @@ export default class PhoneStateView extends PureComponent {
             if (!isInternetReachable) {
                 img = phoneState.mbNoConn;
             } else {
-                const delay = parseInt(delayTime)
+                let delay = parseInt(delayTime)
+
                 if (delay <= 100) {
                     img = phoneState.mb4bars;
                 } else if (delay > 100 && delay <= 200) {
