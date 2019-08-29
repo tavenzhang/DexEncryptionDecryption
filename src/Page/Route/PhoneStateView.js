@@ -240,9 +240,7 @@ export default class PhoneStateView extends PureComponent {
             if (!isInternetReachable) {
                 img = phoneState.mbNoConn;
             } else {
-                const delay = delayTime.substring(0, delayTime.indexOf("m"));
-                //console.log('delay', delay);
-
+                const delay = parseInt(delayTime)
                 if (delay <= 100) {
                     img = phoneState.mb4bars;
                 } else if (delay > 100 && delay <= 200) {
