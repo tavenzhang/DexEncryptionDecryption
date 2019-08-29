@@ -222,6 +222,9 @@ export default class PhoneStateView extends PureComponent {
                     img = phoneState.wf2bars;
                 } else if (delay > 300) {
                     img = phoneState.wf1bar;
+                    if(delay>2000){
+                        img = phoneState.wfNoConn;
+                    }
                 }
             }
         } else {
@@ -233,7 +236,6 @@ export default class PhoneStateView extends PureComponent {
                 "4g": phoneState.mb4G
             }[cellularGeneration] || phoneState.mb4bars;
             */
-
             if (!isInternetReachable) {
                 img = phoneState.mbNoConn;
             } else {
@@ -247,6 +249,9 @@ export default class PhoneStateView extends PureComponent {
                     img = phoneState.mb2bars;
                 } else if (delay > 300) {
                     img = phoneState.mb1bar;
+                    if(delay>2000){
+                        img = phoneState.wfNoConn;
+                    }
                 }
             }
         }
