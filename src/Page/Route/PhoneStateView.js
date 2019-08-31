@@ -203,13 +203,44 @@ export default class PhoneStateView extends PureComponent {
         return img;
     }
     */
+    cellularWifiState=(delayTime)=>{
+        const { isWifi } = this.state;
+        let delay = parseInt(delayTime)
+        let img = null;
+        if (isWifi) {
+            //img = phoneState.wfFull;
+            if (delay <= 100) {
+                img = phoneState.wfFull;
+            } else if (delay > 100 && delay <= 200) {
+                img = phoneState.wf3bars;
+            } else if (delay > 200 && delay <= 300) {
+                img = phoneState.wf2bars;
+            } else if (delay > 300) {
+                img = phoneState.wf1bar;
+            }
+        }else{
+            img = phoneState.mb4G;
+        }
+        if(delay>2000){
+            img = phoneState.wfNoConn;
+            if(this.state.isInternetReachable){
+                this.setState({isInternetReachable:false})
+            }
+        }else{
+            if(!this.state.isInternetReachable){
+                this.setState({isInternetReachable:true})
+            }
+        }
+        return img;
+    }
+
 
     cellularIndicator=(delayTime)=> {
         const { isWifi } = this.state;
         let delay = parseInt(delayTime)
         let img = null;
         let isNetworkOK=true;
-        if (isWifi) {
+        if (!isWifi) {
             //img = phoneState.wfFull;
                 if (delay <= 100) {
                     img = phoneState.wfFull;
@@ -262,13 +293,14 @@ export default class PhoneStateView extends PureComponent {
         let isVeryDealy = delay >= 400 ? true:false;
 
         return (
-                <View style={{ position: "absolute", top: position.top, right: position.right }} pointerEvents={"none"}>
+                <View style={{ position: "absolute", ...position}} pointerEvents={"none"}>
                     {
                         (isShow == "1") ?
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             {/*<Image source={this.wifiIndicator(msgData.delay)} resizeMode='contain' style={[styles.iconSmall, { marginRight: 5 }]} />*/}
+                            <Image source={this.cellularWifiState(delay)} resizeMode='contain' style={[styles.iconSmall, { marginRight: 5 }]} />
                             <Image source={this.cellularIndicator(delay)} resizeMode='contain' style={[styles.iconSmall, { marginRight: 5 }]} />
-                            <Text style={[styles.text,isVeryDealy ? {color:"red"}:null]}>{delay}</Text>
+                            <Text style={[styles.text,isVeryDealy ? {color:"red"}:null]}>{`${delay}ms`}</Text>
                             <Image source={this.phoneBatteryIndicator()} resizeMode='contain' style={[styles.icon, { marginLeft: 5 }]} />
                             {/*<Text style={[styles.text, { marginLeft: 5 }]}>{ip}</Text>
                             <Text style={[styles.text, { marginLeft: 5 }]}>{isShow}</Text>*/}
