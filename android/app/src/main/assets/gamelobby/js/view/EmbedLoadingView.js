@@ -45,7 +45,7 @@ var view;
             this.left = 0;
             this.right = 0;
             //设置遮罩
-            this.bgMask.alpha = alp;
+            this.bgMask.alpha = 0; //产品要求改为透明
             this.bgMask.graphics.drawRect(0, 0, embedBox.width, embedBox.height, "#000000");
         };
         EmbedLoadingView.prototype.destroy = function () {

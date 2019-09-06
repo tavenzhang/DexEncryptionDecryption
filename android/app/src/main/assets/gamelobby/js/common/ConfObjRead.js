@@ -30,6 +30,7 @@ var ConfObjRead = /** @class */ (function () {
     ConfObjRead.getGameIconConfig = function () {
         if (!this.gameIconConfig) {
             this.gameIconConfig = Laya.Loader.getRes("./assets/conf/gameIcons.json");
+            this.graySuffix = this.gameIconConfig.graySuffix || "_gray";
         }
         return this.gameIconConfig;
     };
@@ -46,6 +47,7 @@ var ConfObjRead = /** @class */ (function () {
      * 游戏图标配置
      */
     ConfObjRead.gameIconConfig = null;
+    ConfObjRead.graySuffix = ""; //灰度图片后缀
     ConfObjRead.verConfig = null;
     return ConfObjRead;
 }());

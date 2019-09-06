@@ -18,12 +18,18 @@ var view;
     (function (dlg) {
         var balance;
         (function (balance) {
+            /**
+             * 余额宝存取明细item
+             */
             var DetailItemView = /** @class */ (function (_super) {
                 __extends(DetailItemView, _super);
                 function DetailItemView() {
-                    return _super.call(this) || this;
+                    var _this = _super.call(this) || this;
+                    _this.descBtn.visible = false;
+                    return _this;
                 }
                 DetailItemView.prototype.readData = function (data) {
+                    var _this = this;
                     this.txt1.text = data.type || "";
                     this.txt2.text = data.subType || "";
                     this.txt3.text = data.processTime;
@@ -33,6 +39,14 @@ var view;
                     this.txt4.text = mstr;
                     this.txt4.color = color;
                     this.txt5.text = data.curAmount + "";
+                    this.descStr = data.remarks || "";
+                    if (this.descStr.length > 1 && data.type != "收益") {
+                        this.descBtn.visible = true;
+                        EventManager.addTouchScaleListener(this.descBtn, this, function () {
+                            SoundPlayer.clickSound();
+                            EventManager.dispath(EventType.BALANCE_DETAILIITEM_DESE, _this.descStr);
+                        });
+                    }
                 };
                 return DetailItemView;
             }(ui.dlg.balance.DetailItemViewUI));
