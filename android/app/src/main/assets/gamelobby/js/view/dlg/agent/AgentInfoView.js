@@ -104,7 +104,7 @@ var view;
                         this.qrbox.addChild(sp);
                         EventManager.addTouchScaleListener(this.qrbox, this, function () {
                             SoundPlayer.enterPanelSound();
-                            agent.AgentQrDlg.show(_this.linkTxt.text, data.appShareTips || "");
+                            agent.AgentQrDlg.show(_this.linkTxt.text, data.appShareTips || "", _this.referrerTxt.text);
                         }, null, 1);
                     }
                 };
