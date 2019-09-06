@@ -47,12 +47,6 @@ var view;
                         var htmlC = bgBox.drawToCanvas(bgBox.width, bgBox.height, 0, 0);
                         var cv = htmlC.getCanvas();
                         var base64 = cv.toDataURL("image/png");
-                        //test
-                        // var img = new Laya.Image();
-                        // img.skin = base64;
-                        // Laya.stage.addChild(img);
-                        // img.centerX = img.centerY = 0;
-                        // img.scale(0.5,0.5);
                         //通知App保存图片
                         PostMHelp.game_common({ do: "saveImage", param: base64 });
                         //关闭界面
@@ -70,17 +64,17 @@ var view;
                  * @param url 二维码链接
                  * @param msg 海报信息
                  */
-                AgentQrDlg.show = function (url, msg) {
+                AgentQrDlg.show = function (url, msg, nameStr) {
                     var dlg = new AgentQrDlg();
                     //全屏适配
                     dlg.width = Laya.stage.width;
                     dlg.height = Laya.stage.height;
                     //初始化
-                    dlg.SetData(url, msg);
+                    dlg.SetData(url, msg, nameStr);
                     //显示
                     dlg.popup(false, true);
                 };
-                AgentQrDlg.prototype.SetData = function (url, msg) {
+                AgentQrDlg.prototype.SetData = function (url, msg, str) {
                     //生成二维码
                     var size = 290;
                     var sp = qr.QRCode.create(url, "#000000", size, size, 3);
@@ -91,6 +85,10 @@ var view;
                     this.qrIcon.graphics.drawRect(0, 0, this.qrIcon.width, this.qrIcon.height, "#ffffff");
                     //设置文本信息
                     this.msgLabel.text = msg.toString();
+                    //显示分享者账号
+                    this.nameTxt.text = str;
+                    this.nameBox.width = this.nameTxt.textWidth + 40;
+                    this.nameTxt.x = this.nameBox.width - this.nameTxt.width >> 1;
                 };
                 AgentQrDlg.prototype.onClosed = function (type) {
                     EventManager.removeAllEvents(this);
