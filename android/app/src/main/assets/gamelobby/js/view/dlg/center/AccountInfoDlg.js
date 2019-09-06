@@ -307,10 +307,8 @@ var view;
                 };
                 AccountInfoDlg.prototype.responseMoneyPwdSeted = function (suc, jobj) {
                     LayaMain.getInstance().showCircleLoading(false);
-                    if (suc) {
-                        Toast.showToast("提现密码修改成功");
-                        this.moneyPwdView.clearInput();
-                    }
+                    Toast.showToast("提现密码修改成功");
+                    this.moneyPwdView.clearInput();
                 };
                 //登录密码------------------------------------------------------
                 AccountInfoDlg.prototype.showLoginPwdView = function () {

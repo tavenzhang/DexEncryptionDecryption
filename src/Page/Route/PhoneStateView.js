@@ -240,7 +240,7 @@ export default class PhoneStateView extends PureComponent {
         let delay = parseInt(delayTime)
         let img = null;
         let isNetworkOK=true;
-        if (!isWifi) {
+        if (isWifi) {
             //img = phoneState.wfFull;
                 if (delay <= 100) {
                     img = phoneState.wfFull;
@@ -298,7 +298,7 @@ export default class PhoneStateView extends PureComponent {
                         (isShow == "1") ?
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             {/*<Image source={this.wifiIndicator(msgData.delay)} resizeMode='contain' style={[styles.iconSmall, { marginRight: 5 }]} />*/}
-                            <Image source={this.cellularWifiState(delay)} resizeMode='contain' style={[styles.iconSmall, { marginRight: 5 }]} />
+                            {/*<Image source={this.cellularWifiState(delay)} resizeMode='contain' style={[styles.iconSmall, { marginRight: 5 }]} />*/}
                             <Image source={this.cellularIndicator(delay)} resizeMode='contain' style={[styles.iconSmall, { marginRight: 5 }]} />
                             <Text style={[styles.text,isVeryDealy ? {color:"red"}:null]}>{`${delay}ms`}</Text>
                             <Image source={this.phoneBatteryIndicator()} resizeMode='contain' style={[styles.icon, { marginLeft: 5 }]} />
