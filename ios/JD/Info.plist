@@ -31,13 +31,13 @@
         		<string>62ef8d30f3c4e244bde8831dd2f4ec84</string>
         	</dict>
 	<key>com.openinstall.APP_KEY</key>
-	<string>evna9i</string>
-	<key>PLAT_ID</key>
-	<string>31</string>
-	<key>PLAT_CH</key>
-	<string>1</string>
+	<string>k9e92p</string>
 	<key>APP_DOWNLOAD_VERSION</key>
 	<string>8.0</string>
+	<key>PLAT_CH</key>
+	<string>1</string>
+	<key>PLAT_ID</key>
+	<string>5</string>
 	<key>Affcode</key>
 	<string></string>
 	<key>JPushKey</key>
@@ -47,7 +47,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>QP-SIT</string>
+	<string>QP-UAT</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -159,6 +159,13 @@
 		<string>armv7</string>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
+	<key>UTImportedTypeDeclarations</key>
 	<array>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>

@@ -3,17 +3,17 @@ import React, {
 } from 'react-native';
 
 export const appDomainBase = {
-    base1: 'http://sit.106games.com',
-    base2: 'http://sit.106games.com',
-    base3: 'http://sit.106games.com',
-    base4: 'http://sit.106games.com',
-    base5: 'http://sit.106games.com',
-    base6: 'http://sit.106games.com',
-    base7: 'http://sit.106games.com',
+    base1: 'https://webplatform.psxiaohe.com',
+    base2: 'https://webplatform.psxiaohe.com',
+    base3: 'https://webplatform.psxiaohe.com',
+    base4: 'https://webplatform.psxiaohe.com',
+    base5: 'https://webplatform.psxiaohe.com',
+    base6: 'https://webplatform.psxiaohe.com',
+    base7: 'https://webplatform.psxiaohe.com',
 }
 
 
-export let configAppId = "31"
+export let configAppId = "5"
 
 
 export const AppConfig = {
@@ -38,9 +38,9 @@ export const AppConfig = {
 
 export const MyAppName = '博博乐sit';
 
-export const versionHotFix = 'v7.26';
+export const versionHotFix = 'v7.24';
 
-export const MyOwnerPlatName= 'sit';
+export const MyOwnerPlatName= 'uat彩票';
 
 // export const safeguardDomain = [
 //     'https://987645ba00a9b0416b254f33d918ed64.oss-cn-shenzhen.aliyuncs.com',
@@ -58,9 +58,8 @@ export const platInfo = {
         release_server: "/game/release/sit"
     },
     platId: configAppId,
-    brand: "106",
+    brand: "uat01",
     latestNativeVersion:{ios:"8.0",android:"8.0"},//用于强制更新 匹配，与info.plist 还有 gradle.properties. 需要严格一致。否则 会弹窗 强制下载
-
 }
 
 
