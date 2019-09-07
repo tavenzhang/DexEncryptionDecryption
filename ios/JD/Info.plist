@@ -33,11 +33,11 @@
 	<key>com.openinstall.APP_KEY</key>
 	<string>evna9i</string>
 	<key>PLAT_ID</key>
-	<string>31</string>
+	<string>1209</string>
 	<key>PLAT_CH</key>
 	<string>1</string>
 	<key>APP_DOWNLOAD_VERSION</key>
-	<string>8.0</string>
+	<string>10</string>
 	<key>Affcode</key>
 	<string></string>
 	<key>JPushKey</key>
@@ -47,7 +47,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>QP-SIT</string>
+	<string>SIT-NEW</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
