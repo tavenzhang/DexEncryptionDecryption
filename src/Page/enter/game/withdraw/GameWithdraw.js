@@ -490,7 +490,7 @@ const styles = StyleSheet.create({
     inputStyle: {
         fontSize: 11,
         fontWeight: "bold",
-        color: "#efe8cd",
+        color: "rgb(0,255,0)",
         width:150
     },
     itemStyle: {
