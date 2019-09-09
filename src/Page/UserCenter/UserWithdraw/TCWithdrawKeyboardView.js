@@ -266,6 +266,8 @@ const styles = StyleSheet.create({
     modalBackgroundStyle: {
         flex: 1,
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        position:'absolute',
+        bottom:0
     },
     contentStyle: {
         justifyContent: 'center',
