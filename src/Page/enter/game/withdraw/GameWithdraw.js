@@ -141,7 +141,7 @@ export default class GameWithdraw extends Component {
                             <TCText borderRadius={5}
                                     backgroundStyle={{
                                         backgroundColor: "rgb(209,212,230)", paddingHorizontal: SCREEN_W * 0.07,
-                                        paddingVertical: 2, left: leftPosition + 110, top: SCREEN_H * 0.38, width: 260
+                                        paddingVertical: 2, left: leftPosition + 110, top: SCREEN_H * 0.38, width: 272
                                     }}
                                     textStyle={{color: "#353535", fontSize: 15}}
                                     text={this.onFormatBank(itemData.bank.bankCardNo)}
@@ -490,7 +490,7 @@ const styles = StyleSheet.create({
     inputStyle: {
         fontSize: 11,
         fontWeight: "bold",
-        color: "#efe8cd",
+        color: "rgb(0,255,0)",
         width:150
     },
     itemStyle: {
