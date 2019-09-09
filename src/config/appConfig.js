@@ -4,17 +4,17 @@ import React, {
 
 
 export const appDomainBase = {
-    base1: 'https://qp01-game.513xyz.com',
-    base2: 'https://qp01-game.513xyz.com,',
-    base3: 'https://qp01-game.513xyz.com',
-    base4: 'https://qp01-game.513xyz.com',
-    base5: 'https://qp01-game.513xyz.com',
-    base6: 'https://qp01-game.513xyz.com',
-    base7: 'https://qp01-game.513xyz.com',
+    base1: 'https://38fo28gk.ewxsg.cn',
+    base2: "https://38fo28gk.jjxzt.cn",
+    base3: "https://38fo28gk.gybye.cn",
+    base4: "https://hosobw29.ewxsg.cn",
+    base5: "https://hosobw29.jjxzt.cn",
+    base6: "https://hosobw29.gybye.cn",
+    base7: "https://hosobw29.gybye.cn",
 }
 
 
-export let configAppId = "214"
+export let configAppId = "1147"
 
 
 export const AppConfig = {
@@ -37,11 +37,8 @@ export const AppConfig = {
 }
 
 
-export const MyAppName = '博博乐';
-
-export const versionHotFix = 'v8.27';
-
-export const MyOwnerPlatName= '博博乐';
+export const MyAppName = '超会赢棋牌';
+export const MyOwnerPlatName= '超会赢棋牌';
 
 export const versionHotFix = 'v7.22';
 
@@ -60,8 +57,7 @@ export const platInfo = {
     },
     latestNativeVersion:{ios:"6.0",android:"7.0"},//用于强制更新 匹配，与info.plist 还有 gradle.properties. 需要严格一致。否则 会弹窗 强制下载
     platId: configAppId,
-    brand: "qp01",
-    latestNativeVersion:{ios:"10",android:"10"},//用于强制更新 匹配，与info.plist 还有 gradle.properties. 需要严格一致。否则 会弹窗 强制下载
+    brand: "chyqp",
 }
 
 
