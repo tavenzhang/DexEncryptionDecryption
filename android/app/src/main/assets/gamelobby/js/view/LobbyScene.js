@@ -38,7 +38,9 @@ var LobbyScene = /** @class */ (function (_super) {
     LobbyScene.prototype.clearLobby = function () {
         if (this.view) {
             this.view.visible = false;
+            this.view.hallToGame();
             PageManager.clearLobbyRes();
+            PageManager.clearLoginRes();
         }
     };
     //
@@ -48,6 +50,7 @@ var LobbyScene = /** @class */ (function (_super) {
         }
         else {
             this.view.visible = true;
+            this.view.gameToHall();
             this.view.initAnim(false);
         }
     };
@@ -72,7 +75,6 @@ var LobbyScene = /** @class */ (function (_super) {
         }));
     };
     LobbyScene.prototype.onLoaded = function (s) {
-        Common.access_token = SaveManager.getObj().get(SaveManager.KEY_TOKEN, "");
         if (!Common.access_token) {
             LayaMain.getInstance().initLogin();
             return;
@@ -81,7 +83,6 @@ var LobbyScene = /** @class */ (function (_super) {
         SaveManager.getObj().initCommon(Common.access_token, ConfObjRead.getConfUrl().url.apihome);
         Common.confObj.url = ConfObjRead.getConfUrl().url;
         this.creatLobby();
-        PageManager.clearLoginRes();
         LobbyDataManager.getVconsoleOpen();
         EventManager.register(EventType.GAMETOHALL, this, this.creatLobby);
         EventManager.register(EventType.HALLTOGAME, this, this.clearLobby);
@@ -149,6 +150,28 @@ var LobbyDataManager = /** @class */ (function () {
         HttpRequester.getHttpData(ConfObjRead.getConfUrl().cmd.userinfo, this, function (suc, jobj) {
             if (suc) {
                 Common.userInfo_current = jobj;
+                var vo = SaveManager.getObj().get(SaveManager.KEY_LASTLOGININFO, null);
+                if (jobj.phoneNumber) { //如果玩家绑定过手机,则将缓存的用户名改为手机号
+                    LoginModel.loginType = LoginMethod.account;
+                    if (vo) {
+                        vo.user = jobj.phoneNumber;
+                        vo.type = LoginMethod.account;
+                        SaveManager.getObj().save(SaveManager.KEY_LASTLOGININFO, vo);
+                    }
+                    else {
+                        console.error("正式账号登录成功,但没有缓存数据");
+                    }
+                }
+                else {
+                    LoginModel.loginType = LoginMethod.visitor;
+                    if (vo && vo.type != LoginMethod.visitor) {
+                        vo.type = LoginMethod.visitor;
+                        SaveManager.getObj().save(SaveManager.KEY_LASTLOGININFO, vo);
+                    }
+                    else if (!vo) {
+                        console.error("非正式账号登录成功,但没有缓存数据");
+                    }
+                }
                 EventManager.dispath(EventType.GETUSER_CURRENT);
             }
         });
@@ -165,7 +188,7 @@ var LobbyDataManager = /** @class */ (function () {
                     tempId = "05";
                 tempId = Tools.FormatNumber(parseInt(tempId), 2);
                 Common.avatorInfo.avatorId = tempId;
-                SaveManager.getObj().get(SaveManager.KEY_AVATOR_ID, tempId);
+                SaveManager.getObj().save(SaveManager.KEY_AVATOR_ID, tempId);
                 EventManager.dispath(EventType.GETAVATOR_INFO);
             }
         });

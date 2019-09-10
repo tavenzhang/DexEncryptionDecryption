@@ -53,8 +53,7 @@ var PageManager = /** @class */ (function () {
             ],
             _a[DlgCmd.personCenter] = [view.dlg.FullMyCenterDlg, ["./res/atlas/ui/fullMyCenter.atlas"]],
             _a[DlgCmd.bindPhoneAct] = [view.dlg.bindPhone.BindPhoneActiveDlg, ["./res/atlas/ui/bindPhone.atlas"]],
-            _a[DlgCmd.bindPhone] = [view.dlg.center.BindPhoneDlg, ["./res/atlas/ui/fullMyCenter.atlas"]],
-            _a[DlgCmd.changePwdDlg] = [view.dlg.QuickSetPassWordDlg, ["./res/atlas/ui/fullMyCenter.atlas"]],
+            _a[DlgCmd.bindPhone] = [view.dlg.center.BindPhoneDlg, null],
             _a[DlgCmd.accountInfo] = [view.dlg.center.AccountInfoDlg, ["./res/atlas/ui/fullMyCenter.atlas"]],
             _a[DlgCmd.alipayBind] = [view.dlg.center.BindAlipayDlg, ["./res/atlas/ui/fullMyCenter.atlas"]],
             _a[DlgCmd.balance] = [
@@ -123,6 +122,10 @@ var PageManager = /** @class */ (function () {
         for (var _i = 3; _i < arguments.length; _i++) {
             args[_i - 3] = arguments[_i];
         }
+        if (!assets) { //只依赖公共资源
+            dlgClass.show(params, args);
+            return;
+        }
         var res = Laya.loader.getRes(assets[0]);
         if (res) {
             dlgClass.show(params, args);
@@ -137,7 +140,7 @@ var PageManager = /** @class */ (function () {
         }
     };
     /**
-     * 释放弹窗占用内存
+     * 释放弹窗占用内存(释放后体验效果不是很好,慎重使用)
      * @param cmd
      */
     PageManager.clearDlgRes = function (cmd) {
@@ -167,10 +170,10 @@ var PageManager = /** @class */ (function () {
         this.clearDlgRes(DlgCmd.balance);
     };
     /**
-     * 释放login界面占用内存
+     * 释放login界面占用内存(释放后体验效果不是很好,慎重使用)
      */
     PageManager.clearLoginRes = function () {
-        Laya.loader.clearTextureRes("res/atlas/ui/res_login.atlas");
+        Laya.loader.clearTextureRes("res/atlas/ui/login.atlas");
     };
     //当前页面
     PageManager.current = null;
@@ -183,7 +186,6 @@ var PageManager = /** @class */ (function () {
         "res/atlas/ui/common.atlas",
         "res/atlas/ui/lobby.atlas",
         "assets/ui/avatorpad/touxiang.atlas",
-        "ui/lobby/bg_dating.jpg",
         "asset/animation/coins/money_icon.png",
         "asset/animation/girl/girl.png",
         "asset/animation/loading/xiaoLoding.png",

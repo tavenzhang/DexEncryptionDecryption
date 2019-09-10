@@ -46,6 +46,7 @@ var view;
                 this.moneyTxt.text = value.toFixed(2);
                 this.bindPhoneBtn.visible = !Boolean(current.certifiedPhone);
                 this.phoneTxt.text = this.bindPhoneBtn.visible ? "未绑定" : current.phoneNumber;
+                this.visitorMark.visible = Boolean(LoginModel.loginType != LoginMethod.account);
                 //绑定微信
                 this.bindWeChat.visible = !Boolean(current.certifiedWeChat);
                 this.wechatTxt.text = this.bindWeChat.visible ? "未绑定" : "已绑定";
@@ -75,12 +76,16 @@ var view;
                 //账户信息
                 EventManager.addTouchScaleListener(this.accInfoBtn, this, function () {
                     SoundPlayer.enterPanelSound();
+                    if (LoginModel.loginType != LoginMethod.account) { //游客不能打开
+                        view.dlg.TipsDlg.show("亲爱的老板\n使用账户信息功能需要先升级为正式账号哦~", _this, _this.openAccountUpgrade);
+                        return;
+                    }
                     view.dlg.center.AccountInfoDlg.show();
                 });
                 //退出账号
                 EventManager.addTouchScaleListener(this.backAccBtn, this, function () {
                     SoundPlayer.enterPanelSound();
-                    dlg_1.SystemDlg.show("确定退出该账号吗？", LayaMain.getInstance(), LayaMain.getInstance().loginOut);
+                    dlg_1.SystemDlg.show("确定切换账号吗？", LayaMain.getInstance(), LayaMain.getInstance().loginOut);
                 });
                 //复制账号
                 EventManager.addTouchScaleListener(this.accCopyBtn, this, function () {
@@ -95,7 +100,7 @@ var view;
                 //绑定微信
                 EventManager.addTouchScaleListener(this.bindWeChat, this, function () {
                     SoundPlayer.enterPanelSound();
-                    LayaMain.getInstance().weChatCertification(1);
+                    LoginModel.weChatCertification(1);
                 });
                 //绑定手机号
                 EventManager.addTouchScaleListener(this.bindPhoneBtn, this, function () {
@@ -120,6 +125,9 @@ var view;
                 EventManager.pushEvent(this.soundBtn, Laya.Event.CHANGE, this, this.selectSound);
                 EventManager.pushEvent(this.musicBtn, Laya.Event.CHANGE, this, this.selectMusic);
             };
+            FullMyCenterDlg.prototype.openAccountUpgrade = function () {
+                PageManager.showDlg(DlgCmd.bindPhone);
+            };
             FullMyCenterDlg.prototype.flushMoney = function () {
                 var data = Common.userInfo;
                 if (!data)
@@ -132,6 +140,7 @@ var view;
             FullMyCenterDlg.prototype.bindPhoneSuc = function (num) {
                 if (!num)
                     return;
+                this.visitorMark.visible = false;
                 var current = Common.userInfo_current;
                 current.certifiedPhone = true;
                 current.phoneNumber = num;
@@ -155,6 +164,7 @@ var view;
                 }
             };
             FullMyCenterDlg.prototype.selectMusic = function () {
+                SoundPlayer.clickSound();
                 var switchKey = this.musicBtn.selected ? 1 : 0;
                 SaveManager.getObj().set(SaveManager.KEY_MUSIC_SWITCH, switchKey);
                 SaveManager.getObj().set(SaveManager.KEY_MUSIC_VL, switchKey);
@@ -162,6 +172,7 @@ var view;
                 SaveManager.getObj().saveData();
             };
             FullMyCenterDlg.prototype.selectSound = function () {
+                SoundPlayer.clickSound();
                 var switchKey = this.soundBtn.selected ? 1 : 0;
                 SaveManager.getObj().set(SaveManager.KEY_SFX_SWITCH, switchKey);
                 SaveManager.getObj().set(SaveManager.KEY_SFX_VL, switchKey);

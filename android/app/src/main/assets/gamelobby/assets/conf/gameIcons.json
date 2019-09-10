@@ -55,6 +55,7 @@
         {
             "desc": "21点",
             "alias": "tto",
+            "lowRoom": true,
             "norm": "./assets/ui/game/icon_bj.png",
             "anim_sk": "./assets/animation/icons/21dot/21dian.sk"
         },
