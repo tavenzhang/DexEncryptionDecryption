@@ -12,8 +12,6 @@ var __assign = (this && this.__assign) || function () {
 var LayaMain = /** @class */ (function () {
     function LayaMain() {
         this.sceneLobby = null;
-        /** 微信认证类型 */
-        this.weChatCertificationType = null; //0登录 1绑定
         LayaMain.obj = this;
         Laya.init(0, Common.GM_SCREEN_H, Laya.WebGL);
         // Laya.URL.rootPath = Laya.URL.basePath + window["sPubRes"];
@@ -40,11 +38,11 @@ var LayaMain = /** @class */ (function () {
         SoundPlayer.initSoundSetting();
         //UI
         PageManager.showPage([
-            "res/atlas/ui/res_login.atlas",
+            "res/atlas/ui/login.atlas",
             "./assets/conf/assets_lobby.json",
             "./assets/conf/gameIcons.json",
             "./assets/conf/version.json"
-        ], PageLogin);
+        ], LoginScene);
     }
     LayaMain.getInstance = function () {
         return LayaMain.obj;
@@ -82,14 +80,13 @@ var LayaMain = /** @class */ (function () {
     /**
      * 退出到登录界面
      */
-    LayaMain.prototype.loginOut = function (cmd) {
-        if (cmd === void 0) { cmd = null; }
+    LayaMain.prototype.loginOut = function () {
         PostMHelp.game_common({ name: "loginout" });
         SaveManager.getObj().save(SaveManager.KEY_TOKEN, "");
         Common.resetData();
         Dialog.manager.closeAll();
         this.clearChild();
-        PageManager.showPage(null, PageLogin, cmd);
+        PageManager.showPage(null, LoginScene);
     };
     LayaMain.prototype.onGamePause = function () {
         SoundPlayer.StopAllSounds();
@@ -117,10 +114,10 @@ var LayaMain = /** @class */ (function () {
         if (message && message.action) {
             switch (message.action) {
                 case "wxLogin": //微信登录
-                    if (this.weChatCertificationType == 0) {
+                    if (LoginModel.weChatCertificationType == 0) {
                         EventManager.dispath(EventType.WeChatLogin, message); //广播微信登录
                     }
-                    else if (this.weChatCertificationType == 1) {
+                    else if (LoginModel.weChatCertificationType == 1) {
                         EventManager.dispath(EventType.WeChatBind, message); //广播微信绑定
                     }
                     break;
@@ -285,8 +282,6 @@ var LayaMain = /** @class */ (function () {
     LayaMain.prototype.initLobby = function () {
         this.clearChild();
         if (this.sceneLobby == null) {
-            Common.loginType = SaveManager.getObj().get(SaveManager.KEY_LOGIN_TYPE, LoginType.unknown);
-            Common.loginInfo = SaveManager.getObj().get(SaveManager.KEY_LOGIN_INFO, Common.emptyLoginInfo());
             this.sceneLobby = new LobbyScene();
             this.sceneLobby.onLoaded(null);
             LayaMain.getInstance().getRootNode().addChild(this.sceneLobby);
@@ -320,14 +315,6 @@ var LayaMain = /** @class */ (function () {
         }
         //未跳出执行后续逻辑
         EventManager.dispath(EventType.INIT_LOGINVIEW);
-    };
-    /**
-        * 微信认证 0登录 1绑定
-        */
-    LayaMain.prototype.weChatCertification = function (cType) {
-        this.weChatCertificationType = cType;
-        Debug.log("Try wxLogin = " + cType);
-        PostMHelp.game_common({ do: "wxLogin", param: "" });
     };
     /**
      * 显示loading

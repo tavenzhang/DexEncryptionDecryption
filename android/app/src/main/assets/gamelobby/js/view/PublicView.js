@@ -29,6 +29,7 @@ var view;
             _super.prototype.createChildren.call(this);
             this.head_oldx = this.headGroup.x;
             this.mouseThrough = true; //设置可穿透
+            this.checkMark();
             //版本号
             this.verTxt.text = GameUtils.appVer + "\n" + ResConfig.versions;
             this.goAnim = new DragonBoneAnim();
@@ -38,6 +39,12 @@ var view;
             //滚动通告
             this.initRollView();
             this.setLayout();
+        };
+        /**
+         * 检测游客标记
+         */
+        PublicView.prototype.checkMark = function () {
+            this.visitorMark.visible = Boolean(LoginModel.loginType != LoginMethod.account);
         };
         PublicView.prototype.initAnim = function () {
             this.verTxt.alpha = 0;
@@ -69,6 +76,12 @@ var view;
             EventManager.register(EventType.GETAVATOR_INFO, this, this.showHeadIcon);
             EventManager.register(EventType.FLUSH_USERINFO, this, this.flushUserInfo);
             EventManager.register(EventType.FLUSH_HEADICON, this, this.flushHeadIcon);
+        };
+        /**
+         * 隐藏游客标记
+         */
+        PublicView.prototype.hideMark = function () {
+            this.visitorMark.visible = false;
         };
         PublicView.prototype.flushUserInfo = function () {
             LobbyDataManager.reqUserInfo();

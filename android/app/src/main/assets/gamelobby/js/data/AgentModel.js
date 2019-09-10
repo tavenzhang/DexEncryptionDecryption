@@ -149,6 +149,7 @@ var AgentModel = /** @class */ (function () {
     AgentModel.customerServiceUrl = ""; //客服服务
     AgentModel.todaysPerformance = 0;
     AgentModel.appShareUrl = "";
+    AgentModel.shareBase64 = null; //用于分享的二维码界面
     return AgentModel;
 }());
 //# sourceMappingURL=AgentModel.js.map

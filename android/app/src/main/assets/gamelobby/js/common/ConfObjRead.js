@@ -27,6 +27,14 @@ var ConfObjRead = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(ConfObjRead, "apihome", {
+        //获取当前域名
+        get: function () {
+            return this.getConfUrl().url.apihome;
+        },
+        enumerable: true,
+        configurable: true
+    });
     ConfObjRead.getGameIconConfig = function () {
         if (!this.gameIconConfig) {
             this.gameIconConfig = Laya.Loader.getRes("./assets/conf/gameIcons.json");

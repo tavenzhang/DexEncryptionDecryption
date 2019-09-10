@@ -35,7 +35,10 @@ var view;
                 };
                 AccessDetailDlg.prototype.initView = function () {
                     var _this = this;
-                    this.itemPanel.vScrollBarSkin = "";
+                    this.itemList.vScrollBarSkin = "";
+                    this.itemList.itemRender = view.dlg.balance.DetailItemView;
+                    this.itemList.spaceY = 6;
+                    this.itemList.renderHandler = Laya.Handler.create(this, this.renderItems, null, false);
                     this.descGroup.visible = false;
                     this.descBg.mouseEnabled = true;
                     this.mkmc.size(Laya.stage.width, Laya.stage.height);
@@ -61,6 +64,10 @@ var view;
                         }
                     });
                 };
+                AccessDetailDlg.prototype.renderItems = function (item, index) {
+                    item.readData(item.dataSource);
+                };
+                //显示描述信息
                 AccessDetailDlg.prototype.showDese = function (value) {
                     this.descGroup.visible = true;
                     this.infoTxt.text = value;
@@ -94,22 +101,12 @@ var view;
                     }
                 };
                 AccessDetailDlg.prototype.showDetail = function (arr) {
-                    var _this = this;
-                    if (this.itemPanel.numChildren > 0) {
-                        this.itemPanel.removeChildren();
-                        this.itemPanel.refresh();
-                    }
-                    var item;
-                    arr.forEach(function (value, index) {
-                        item = new view.dlg.balance.DetailItemView();
-                        item.readData(value);
-                        item.y = index * (item.height + 6);
-                        _this.itemPanel.addChild(item);
-                    });
+                    this.itemList.array = arr;
+                    this.itemList.tweenTo(0, 300);
                 };
                 AccessDetailDlg.prototype.onClosed = function (type) {
                     Laya.Tween.clearTween(this.descBg);
-                    this.itemPanel.destroy(true);
+                    this.itemList.destroy(true);
                     EventManager.removeAllEvents(this);
                     _super.prototype.onClosed.call(this, type);
                     this.destroy(true);

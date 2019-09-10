@@ -33,7 +33,7 @@ var Notice_Share = /** @class */ (function (_super) {
         if (Common.userInfo) {
             this.isplayer = Boolean(Common.userInfo.userRole == "PLAYER");
         }
-        //非普通玩家
+        //非普通玩家(代理)
         if (!this.isplayer)
             AgentModel.checkAndCreatAffcode();
     };
@@ -106,7 +106,7 @@ var Notice_Share = /** @class */ (function (_super) {
             var affcode = null;
             switch ($e.currentTarget) {
                 case this.friend_up:
-                case this.friend_down:
+                case this.friend_down: //发送给朋友
                     this.friend_up.visible = true;
                     this.friend_down.visible = false;
                     this.circle_up.visible = true;
@@ -123,12 +123,13 @@ var Notice_Share = /** @class */ (function (_super) {
                         PostMHelp.game_common({ "do": "share", "type": "friend", "param": "", "image": this.image.skin });
                     }
                     else {
-                        PostMHelp.game_common({ "do": "share", "type": "friend", "param": "", "image": this.image.skin, "affcode": affcode });
+                        var shareobj = { "do": "share", "type": "friend", "param": "", "image": this.image.skin, "affcode": affcode };
+                        view.dlg.agent.AgentQrDlg.shareDarw(shareobj);
                     }
                     NoticeData.shareId = this.noticeid;
                     break;
                 case this.circle_up:
-                case this.circle_down:
+                case this.circle_down: //分享朋友圈
                     this.friend_up.visible = true;
                     this.friend_down.visible = false;
                     this.circle_up.visible = true;
@@ -145,7 +146,8 @@ var Notice_Share = /** @class */ (function (_super) {
                         PostMHelp.game_common({ "do": "share", "type": "circle", "param": "", "image": this.image.skin });
                     }
                     else {
-                        PostMHelp.game_common({ "do": "share", "type": "circle", "param": "", "image": this.image.skin, "affcode": affcode });
+                        var shareobj = { "do": "share", "type": "circle", "param": "", "image": this.image.skin, "affcode": affcode };
+                        view.dlg.agent.AgentQrDlg.shareDarw(shareobj);
                     }
                     NoticeData.shareId = this.noticeid;
                     break;

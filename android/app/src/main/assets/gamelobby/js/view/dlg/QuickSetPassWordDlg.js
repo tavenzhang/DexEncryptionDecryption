@@ -17,7 +17,7 @@ var view;
     var dlg;
     (function (dlg_1) {
         /**
-         * 修改密码框
+         * 修改密码框todo:待删除
          * 用于提现时使用，如果提现时没有修改过密码就需要先修改密码
          */
         var QuickSetPassWordDlg = /** @class */ (function (_super) {
