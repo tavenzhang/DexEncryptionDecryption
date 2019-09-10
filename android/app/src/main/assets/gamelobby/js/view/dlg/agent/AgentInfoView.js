@@ -26,12 +26,18 @@ var view;
                 function AgentInfoView() {
                     var _this = _super.call(this) || this;
                     _this.centerX = _this.centerY = 0;
-                    AgentModel.getAgentInfo(_this, _this.initView);
+                    if (AgentModel.agentInfo)
+                        _this.initView();
+                    else
+                        AgentModel.getAgentInfo(_this, _this.initView);
                     return _this;
                 }
                 AgentInfoView.prototype.initView = function () {
                     var _this = this;
-                    AgentModel.searchAgentInvatCode(this, this.invationCallback);
+                    if (!AgentModel.invationVo)
+                        AgentModel.searchAgentInvatCode(this, this.invationCallback);
+                    else
+                        this.invationCallback();
                     this.setHeadIcon();
                     var data = AgentModel.agentInfo;
                     this.referrerTxt.text = data.username;
@@ -65,7 +71,13 @@ var view;
                     });
                     EventManager.addTouchScaleListener(this.wechatBtn, this, function () {
                         SoundPlayer.enterPanelSound();
-                        PostMHelp.game_common({ "do": "share", "param": _this.linkTxt.text });
+                        var obj = { "do": "share", "param": _this.linkTxt.text };
+                        if (AgentModel.isUser) {
+                            PostMHelp.game_common(obj);
+                        }
+                        else { //需要截图
+                            view.dlg.agent.AgentQrDlg.shareDarw(obj);
+                        }
                     });
                     EventManager.addTouchScaleListener(this.copyAcc, this, function () {
                         SoundPlayer.clickSound();

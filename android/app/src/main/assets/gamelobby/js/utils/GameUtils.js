@@ -97,6 +97,23 @@ var GameUtils = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(GameUtils, "affcode", {
+        /**
+         * 获取邀请码
+         */
+        get: function () {
+            return this.isNativeApp ? AppData.NATIVE_DATA.affCode : "";
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * 加密密码
+     * @param pwd
+     */
+    GameUtils.encryptPwd = function (pwd) {
+        return window['SecretUtils'].rsaEncodePWD(pwd);
+    };
     Object.defineProperty(GameUtils, "isAppSound", {
         /**
          * 判断是否native播放背景音乐
@@ -292,16 +309,18 @@ var InnerJumpUtil = /** @class */ (function () {
                 Tools.jump2module(ConfObjRead.getConfUrl().url.g_custom, "custom");
                 break;
             }
-            case DlgCmd.withdraw: {
-                if (Common.userInfo_current && Common.userInfo_current.needResetPwd) {
-                    PageManager.showDlg(DlgCmd.changePwdDlg);
+            case DlgCmd.withdraw: { //提现
+                if (LoginModel.loginType != LoginMethod.account) {
+                    view.dlg.TipsDlg.show("亲爱的老板\n使用提现功能需要先升级为正式账号哦~", this, this.openAccountUpgrade);
+                    return;
                 }
-                else {
-                    Tools.jump2module(ConfObjRead.getConfUrl().url.g_redraw, "redraw");
-                }
+                Tools.jump2module(ConfObjRead.getConfUrl().url.g_redraw, "redraw");
                 break;
             }
         }
+    };
+    InnerJumpUtil.openAccountUpgrade = function () {
+        PageManager.showDlg(DlgCmd.bindPhone);
     };
     return InnerJumpUtil;
 }());

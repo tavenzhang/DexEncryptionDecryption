@@ -25,6 +25,7 @@ var view;
                 __extends(DetailItemView, _super);
                 function DetailItemView() {
                     var _this = _super.call(this) || this;
+                    _this.addEvt = false;
                     _this.descBtn.visible = false;
                     return _this;
                 }
@@ -41,11 +42,21 @@ var view;
                     this.txt5.text = data.curAmount + "";
                     this.descStr = data.remarks || "";
                     if (this.descStr.length > 1 && data.type != "收益") {
+                        if (this.addEvt)
+                            return;
                         this.descBtn.visible = true;
                         EventManager.addTouchScaleListener(this.descBtn, this, function () {
                             SoundPlayer.clickSound();
                             EventManager.dispath(EventType.BALANCE_DETAILIITEM_DESE, _this.descStr);
                         });
+                        this.addEvt = true;
+                    }
+                    else {
+                        if (this.addEvt) {
+                            this.descBtn.visible = false;
+                            EventManager.removeBtnEvent(this.descBtn);
+                            this.addEvt = false;
+                        }
                     }
                 };
                 return DetailItemView;

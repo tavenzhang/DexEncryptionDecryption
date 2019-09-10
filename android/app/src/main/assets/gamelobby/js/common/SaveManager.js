@@ -137,6 +137,9 @@ var SaveManager = /** @class */ (function () {
         var token = this.get(SaveManager.KEY_TOKEN, token);
         var httpUrl = this.get(SaveManager.KEY_API_URL, rooturl);
     };
+    /**
+     * 调用set之后统一保存
+     */
     SaveManager.prototype.saveData = function () {
         this.saveObjTotal(SaveManager.SAVE_KEY_NN, this.commonJosnObj);
         this.saveObjTotal(SaveManager.SAVE_KEY_LOBBY, this.lobbyJosnObj);
@@ -176,6 +179,9 @@ var SaveManager = /** @class */ (function () {
     SaveManager.KEY_WEICHATPWD = "weichat_pwd"; //微信登录密码
     SaveManager.KEY_ACCOUNT = "keyAccount"; //本地缓存账号
     SaveManager.KEY_PHONE = "keyPhone"; //本地缓存手机登录账号
+    SaveManager.KEY_FLUSHTOKEN = "keyFlushToken"; //用于刷新token的标记
+    SaveManager.KEY_LASTLOGININFO = "keyLastLoginInfo"; //缓存最后一次登录的信息(包括登录方式，用户名，密码)
+    SaveManager.KEY_VISTORINFO = "keyVisitorInfo"; //用于缓存游客账号(如果游客账号变成了正式账号时要清空此账号)
     return SaveManager;
 }());
 //# sourceMappingURL=SaveManager.js.map

@@ -566,8 +566,7 @@ var PageLogin = /** @class */ (function (_super) {
      * 微信登陆
      */
     PageLogin.prototype.showWeChatLoginView = function () {
-        //todo:test 
-        LayaMain.getInstance().weChatCertification(0);
+        // LayaMain.getInstance().weChatCertification(0);
     };
     /**
      * 手机号登陆
@@ -608,7 +607,6 @@ var PageLogin = /** @class */ (function (_super) {
      * 显示忘记密码页面
      */
     PageLogin.prototype.showForgetPasswordPanel = function () {
-        //todo:...
     };
     ///////////////////////////////////////////////////////////////////////
     PageLogin.prototype.togglePwdInput = function (txt) {

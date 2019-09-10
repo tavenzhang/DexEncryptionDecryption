@@ -8,6 +8,7 @@ var DefDownLoadGame;
 */
 var GameListManager = /** @class */ (function () {
     function GameListManager(listbox) {
+        this.tweenDist = 400; //点击箭头每次滚动距离
         this.iconList = [];
         this.defDownLoads = []; //需要默认下载的游戏
         this.errIndex = 0;
@@ -15,15 +16,13 @@ var GameListManager = /** @class */ (function () {
         this.init();
     }
     //点击右侧箭头滚动
-    GameListManager.prototype.doRightArrow = function (dist) {
-        if (dist === void 0) { dist = 330; }
+    GameListManager.prototype.doRightArrow = function () {
         if (this.dragBox)
-            this.dragBox.tweenTo(dist, MoveDirect.left);
+            this.dragBox.tweenTo(this.tweenDist, MoveDirect.left);
     };
-    GameListManager.prototype.doLeftArrow = function (dist) {
-        if (dist === void 0) { dist = 330; }
+    GameListManager.prototype.doLeftArrow = function () {
         if (this.dragBox)
-            this.dragBox.tweenTo(dist, MoveDirect.right);
+            this.dragBox.tweenTo(this.tweenDist, MoveDirect.right);
     };
     //重置滑动区域大小
     GameListManager.prototype.resetView = function () {
@@ -110,8 +109,8 @@ var GameListManager = /** @class */ (function () {
         var iconGroup = new Laya.Sprite();
         iconGroup.mouseEnabled = true;
         var len = glist ? glist.length : 0;
-        var gapX = 30; //x轴间隔
-        var gapY = 30;
+        var gapX = 34; //x轴间隔
+        var gapY = 45;
         var contentWidth = 0;
         for (var i = 0; i < len; i++) {
             icon = new view.UI.GameIconView();
@@ -131,10 +130,11 @@ var GameListManager = /** @class */ (function () {
         if (icon) {
             var count = Math.floor(len / 2) + len % 2;
             contentWidth = (icon.width + gapX) * count;
+            this.tweenDist = icon.width * 2 + gapX * 2;
         }
         if (len > 0) {
             //拖动容器的位置和拖动区域大小数据
-            var ix = 430;
+            var ix = GameUtils.getScreencOffset(413, 454); //430;
             var iy = 176;
             var iw = Laya.stage.width - ix;
             var ih = icon.height * 2 + gapY;

@@ -36,19 +36,11 @@ var view;
                     //保存海报
                     EventManager.addTouchScaleListener(_this.saveBtn, _this, function () {
                         SoundPlayer.clickSound();
-                        //生成截图画布
-                        var bgBox = new Laya.Sprite();
-                        bgBox.width = Math.min(_this.bgImage.width, _this.width);
-                        bgBox.height = Math.min(_this.bgImage.height, _this.height);
-                        //添加截图内容
-                        bgBox.addChild(_this.posterNode);
-                        _this.posterNode.centerX = _this.posterNode.centerY = 0;
-                        //保存截图
-                        var htmlC = bgBox.drawToCanvas(bgBox.width, bgBox.height, 0, 0);
-                        var cv = htmlC.getCanvas();
-                        var base64 = cv.toDataURL("image/png");
+                        if (!AgentQrDlg.saveBase64) {
+                            AgentQrDlg.saveBase64 = _this.creatShareBase64();
+                        }
                         //通知App保存图片
-                        PostMHelp.game_common({ do: "saveImage", param: base64 });
+                        PostMHelp.game_common({ do: "saveImage", param: AgentQrDlg.saveBase64 });
                         //关闭界面
                         _this.close(null, true);
                     });
@@ -68,11 +60,98 @@ var view;
                     var dlg = new AgentQrDlg();
                     //全屏适配
                     dlg.width = Laya.stage.width;
-                    dlg.height = Laya.stage.height;
                     //初始化
                     dlg.SetData(url, msg, nameStr);
                     //显示
                     dlg.popup(false, true);
+                };
+                AgentQrDlg.shareDarw = function (shareobj) {
+                    if (AgentModel.shareBase64) {
+                        shareobj.base64 = AgentModel.shareBase64;
+                        PostMHelp.game_common(shareobj);
+                        return;
+                    }
+                    this.shareObj = shareobj;
+                    LayaMain.getInstance().showCircleLoading(true);
+                    var arr = PageManager.dlgMap[DlgCmd.agentCenter];
+                    var assets = arr[1];
+                    var res = Laya.loader.getRes(assets[0]);
+                    if (res) {
+                        this.checkData();
+                    }
+                    else {
+                        Laya.loader.load(assets, Handler.create(this, this.checkData));
+                    }
+                };
+                AgentQrDlg.checkData = function () {
+                    if (!AgentModel.agentInfo) {
+                        AgentModel.getAgentInfo(this, this.readAgentInfo);
+                    }
+                    else {
+                        this.readAgentInfo();
+                    }
+                };
+                AgentQrDlg.readAgentInfo = function () {
+                    if (!AgentModel.invationVo) {
+                        AgentModel.searchAgentInvatCode(this, this.agentDataInited);
+                    }
+                    else {
+                        this.agentDataInited();
+                    }
+                };
+                AgentQrDlg.agentDataInited = function () {
+                    var _this = this;
+                    LayaMain.getInstance().showCircleLoading(false);
+                    if (!AgentModel.agentInfo || !AgentModel.invationVo) {
+                        Toast.showToast("分享数据异常,请稍后再试");
+                        return;
+                    }
+                    LayaMain.getInstance().showCircleLoading(true);
+                    var data = AgentModel.agentInfo;
+                    var invatVo = AgentModel.invationVo;
+                    var shareUrl = data.appShareUrl;
+                    var user = data.username;
+                    var msg = data.appShareTips || "";
+                    var inva = "";
+                    if (invatVo.length > 0) {
+                        inva = invatVo[0].affCode;
+                    }
+                    if (inva) {
+                        shareUrl += ("&affCode=" + inva);
+                    }
+                    var dlg = new AgentQrDlg();
+                    dlg.width = Laya.stage.width;
+                    dlg.visible = false;
+                    dlg.SetData(shareUrl, msg, user);
+                    Laya.timer.once(300, this, function () {
+                        LayaMain.getInstance().showCircleLoading(false);
+                        AgentModel.shareBase64 = dlg.creatShareBase64(0.5);
+                        _this.shareObj.base64 = AgentModel.shareBase64;
+                        PostMHelp.game_common(_this.shareObj);
+                        dlg.destroy(true);
+                    });
+                }; //------------------end------------
+                //用于分享
+                AgentQrDlg.prototype.creatShareBase64 = function (scl) {
+                    if (scl === void 0) { scl = 1; }
+                    var iw = this.posterNode.width * scl;
+                    var ih = this.posterNode.height * scl;
+                    this.posterNode.transform = new Laya.Matrix(scl, 0, 0, scl);
+                    //
+                    var htmlC = this.posterNode.drawToCanvas(iw, ih, 0, 0);
+                    var cv = htmlC.getCanvas();
+                    var base64 = cv.toDataURL("image/png");
+                    //--------debug--------------
+                    // let fileName = "222";
+                    // let href = base64.replace(/^data:image[^;]*/, "data:image/octet-stream");
+                    // let aLink = document.createElement('a');
+                    // let fname: string = fileName;
+                    // aLink['download'] = fname + "." + "png";
+                    // aLink.href = href;
+                    // let evt = document.createEvent('MouseEvents');
+                    // evt.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+                    // aLink.dispatchEvent(evt);
+                    return base64;
                 };
                 AgentQrDlg.prototype.SetData = function (url, msg, str) {
                     //生成二维码
@@ -95,6 +174,7 @@ var view;
                     _super.prototype.onClosed.call(this, type);
                     this.destroy(true);
                 };
+                AgentQrDlg.saveBase64 = null;
                 return AgentQrDlg;
             }(ui.dlg.agent.AgentQrDlgUI));
             agent.AgentQrDlg = AgentQrDlg;

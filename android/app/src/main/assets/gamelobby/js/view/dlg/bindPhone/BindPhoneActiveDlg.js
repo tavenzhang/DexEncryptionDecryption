@@ -40,15 +40,27 @@ var view;
                 };
                 BindPhoneActiveDlg.prototype.initView = function () {
                     var _this = this;
+                    this.line = new Laya.TimeLine();
+                    this.line.to(this.star1, { alpha: 0, scaleX: 0.5, scaleY: 0.5, rotation: 360 }, 600)
+                        .to(this.star1, { alpha: 1, scaleX: 1, scaleY: 1, rotation: 360 }, 600, null, 400);
+                    this.line.play(0, true);
+                    this.line2 = new Laya.TimeLine();
+                    this.line2.to(this.star2, { alpha: 0, scaleX: 0.5, scaleY: 0.5, rotation: 360 }, 900)
+                        .to(this.star2, { alpha: 1, scaleX: 1.5, scaleY: 1.5, rotation: 360 }, 900, null, 600);
+                    this.line2.play(0, true);
+                    this.btnline = new Laya.TimeLine();
+                    this.btnline.to(this.bindBtn, { scaleX: 1.05, scaleY: 1.05 }, 600, Laya.Ease.elasticOut, 1200)
+                        .to(this.bindBtn, { scaleX: 1, scaleY: 1 }, 600, null, 600);
+                    this.btnline.play(0, true);
                     this.bitFont = new BitmapFont(ResConfig.bitFont_bindPhone);
                     this.numbox.addChild(this.bitFont);
                     this.bitFont.text = GameData.bindAward.toString();
                     this.bitFont.y = this.numbox.height - this.bitFont.height >> 1;
                     this.numbox.width = this.bitFont.width;
-                    this.yuan.x = this.numbox.x + this.numbox.width + 6;
-                    var isbind = Common.userInfo_current.certifiedPhone;
-                    if (isbind)
-                        this.bindBtn.skin = "ui/bindPhone/btn_bdsj_ljlq01.png";
+                    this.numbox.x = this.width - this.numbox.width >> 1;
+                    this.jbIcon.x = this.numbox.x + this.numbox.width;
+                    // let isbind = Common.userInfo_current.certifiedPhone;
+                    // if (isbind) this.bindBtn.skin = "ui/bindPhone/btn_bdsj_ljlq01.png";
                     //
                     EventManager.addTouchScaleListener(this.closeBtn, this, function () {
                         SoundPlayer.closeSound();
@@ -57,29 +69,14 @@ var view;
                     //绑定手机或领取奖励
                     EventManager.addTouchScaleListener(this.bindBtn, this, function () {
                         SoundPlayer.clickSound();
-                        if (isbind) { //领取绑定送金奖励
-                            HttpRequester.getHttpData(ConfObjRead.getConfUrl().cmd.getBindAward, _this, _this.responseBindAward, "&deviceId=" + GameUtils.deviceToken);
-                        }
-                        else {
-                            PageManager.showDlg(DlgCmd.bindPhone);
-                        }
+                        PageManager.showDlg(DlgCmd.bindPhone);
                         _this.close(null, true);
                     });
-                    //已经有手机号了(跳转到手机登录界面)
-                    EventManager.addTouchScaleListener(this.backLogin, this, function () {
-                        SoundPlayer.clickSound();
-                        LayaMain.getInstance().loginOut({ type: LoginType.Phone });
-                    }, null, 1);
-                };
-                BindPhoneActiveDlg.prototype.responseBindAward = function (suc, jobj) {
-                    if (suc) {
-                        GameData.isGetBindAward = true;
-                        EventManager.dispath(EventType.GETBINDAWARD_SUCC);
-                        Toast.showToast("奖励已放入余额，若没到账，请手动刷新余额");
-                        this.close(null, true);
-                    }
                 };
                 BindPhoneActiveDlg.prototype.onClosed = function (type) {
+                    this.line.destroy();
+                    this.line2.destroy();
+                    this.btnline.destroy();
                     EventManager.removeAllEvents(this);
                     this.bitFont.destroy();
                     BindPhoneActiveDlg.opened = false;
