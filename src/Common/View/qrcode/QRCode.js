@@ -84,12 +84,12 @@ export  default class QRCode extends React.Component {
     render() {
         let size = this.props.size;
         let value = this.utf16to8(this.props.value);
-
+        TW_Log("size---",this.props)
         return (
             <View >
                 <Canvas
                     context={{
-                        size: size,
+                        size: size*4,
                         value: this.props.value,
                         bgColor: this.props.bgColor,
                         fgColor: this.props.fgColor,

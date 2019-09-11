@@ -11,9 +11,8 @@ import {TCButtonImg} from "../../../Common/View/button/TCButtonView";
 import PropTypes from "prop-types";
 import Toast from "../../../Common/JXHelper/JXToast";
 import TCButtonView from "../../../Common/View/button/TCButtonView";
-import QRCode from 'react-native-qrcode-svg';
+
 import ShareBox from "./pay/ShareBox";
-import TCUserOpenPayApp from "../../UserCenter/UserPay/TCUserOpenPayApp";
 
 @observer
 export default class GameShareView extends Component {

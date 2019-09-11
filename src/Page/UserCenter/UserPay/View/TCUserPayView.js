@@ -1,9 +1,7 @@
 import React, {Component} from 'react'
 
 import {View, StyleSheet, Text, TouchableOpacity, Image, Platform, ScrollView, Clipboard,} from 'react-native'
-// import  QRCode from '../../../../Common/View/qrcode/QRCode'
-import QRCode from 'react-native-qrcode-svg';
-//import QRCode from 'react-native-qrcode-svg';
+import  QRCode from '../../../../Common/View/qrcode/QRCode'
 
 import Toast from '../../../../Common/JXHelper/JXToast'
 import {
