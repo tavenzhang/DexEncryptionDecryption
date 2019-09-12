@@ -459,12 +459,17 @@ export default class AppInfoStore {
   async initDeviceTokenFromNative() {
     return new Promise(resolve => {
       try {
-        NativeModules.JXHelper.getCFUUID((err, uuid) => {
-          if (!uuid||(uuid&&uuid.length<3)) {
-            uuid = this.getGUIDd();
+          if(G_IS_IOS){
+              NativeModules.JXHelper.getCFUUID((err, uuid) => {
+                  if (!uuid||(uuid&&uuid.length<3)) {
+                      uuid = this.getGUIDd();
+                  }
+                  resolve(uuid);
+              });
+          }else{
+              resolve(this.getGUIDd());
           }
-          resolve(uuid);
-        });
+
       } catch (e) {
         resolve(this.getGUIDd());
       }
