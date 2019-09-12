@@ -216,19 +216,16 @@ export default class AppInfoStore {
   onShowDownAlert = url => {
     //处于渠道验证阶段 不需要检测强更新
     if (url && url.length > 0 && !this.isInAnroidHack) {
-      TW_Log(
-        "onShowDownAlert-----url==this.APP_DOWNLOAD_VERSION=" +
-          this.APP_DOWNLOAD_VERSION,
-        this.latestNativeVersion
-      );
+      TW_Log("onShowDownAlert-----url==this.APP_DOWNLOAD_VERSION=" + this.APP_DOWNLOAD_VERSION, this.latestNativeVersion);
       let isShowAlert=this.APP_DOWNLOAD_VERSION != this.latestNativeVersion;
-      if(!isShowAlert&&this.appInfo.PLAT_ID=="1147"){
-          //针对超会赢棋牌app 做特殊处理 由于超会赢中途更新了app微信账号
-          if(this.appInfo.PLAT_ID=="1147"&&this.appInfo.AppSecret&&this.appInfo.AppSecret.weixin){
-              isShowAlert = (this.appInfo.AppSecret.weixin != "c05ff4e9cb83b964dd7e1c46b7f3f080")
-          }
-      }
-        TW_Log("onBackAndroid---this.APP_DOWNLOAD_VERSION==-" + this.APP_DOWNLOAD_VERSION, this.latestNativeVersion);
+      // if(!isShowAlert&&this.appInfo.PLAT_ID=="1147"){
+      //     //针对超会赢棋牌app 做特殊处理 由于超会赢中途更新了app微信账号
+      //     if(this.appInfo.PLAT_ID=="1147"&&this.appInfo.AppSecret&&this.appInfo.AppSecret.weixin){
+      //         isShowAlert = (this.appInfo.AppSecret.weixin != "c05ff4e9cb83b964dd7e1c46b7f3f080")
+      //     }
+      // }
+
+      TW_Log("onBackAndroid---this.APP_DOWNLOAD_VERSION==-" + this.APP_DOWNLOAD_VERSION, this.latestNativeVersion);
       if (isShowAlert) {
 
         //清除所有的缓存数据 方便app升级
@@ -432,6 +429,12 @@ export default class AppInfoStore {
       if(this.deviceToken.length<=0){
           this.deviceToken = this.getGUIDd();
       }
+      TW_OnValueJSHome(
+            TW_Store.bblStore.getWebAction(
+                TW_Store.bblStore.ACT_ENUM.appNativeData,
+                { data: TW_Store.bblStore.getAppData() }
+            )
+        );
        this.saveDeviceTokenToLocalStore();
     }
   }
@@ -441,17 +444,17 @@ export default class AppInfoStore {
       const oriUniqueID = DeviceInfo.getUniqueID();
       let enhancedUniqueID = oriUniqueID;
       TW_Log('deviceToken: oriUniqueID: ', oriUniqueID);
-  
+
       if (!G_IS_IOS) {
         enhancedUniqueID = `${oriUniqueID.substring(0, 8)}-${oriUniqueID.substring(8, 12)}-${oriUniqueID.substring(12, 16)}-${oriUniqueID.substring(0, 4)}-${oriUniqueID.substring(4)}`;
       }
-  
+
       TW_Log('deviceToken: enhancedUniqueID: ', enhancedUniqueID);
-  
+
       return enhancedUniqueID;
     } catch (e) {
       const enhancedUniqueID = await this.initDeviceTokenFromNative();
-      
+
       return enhancedUniqueID;
     }
   }
