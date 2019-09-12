@@ -260,6 +260,10 @@ var LayaMain = /** @class */ (function () {
                     Toast.showToast(message.data);
                     break;
                 }
+                case "appNativeData": {
+                    AppData.NATIVE_DATA = message.data;
+                    break;
+                }
             }
         }
     };

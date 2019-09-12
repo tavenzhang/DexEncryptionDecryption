@@ -151,7 +151,7 @@ var LobbyDataManager = /** @class */ (function () {
             if (suc) {
                 Common.userInfo_current = jobj;
                 var vo = SaveManager.getObj().get(SaveManager.KEY_LASTLOGININFO, null);
-                if (jobj.phoneNumber) { //如果玩家绑定过手机,则将缓存的用户名改为手机号
+                if (jobj.certifiedPhone) { //如果玩家绑定过手机,则将缓存的用户名改为手机号
                     LoginModel.loginType = LoginMethod.account;
                     if (vo) {
                         vo.user = jobj.phoneNumber;
