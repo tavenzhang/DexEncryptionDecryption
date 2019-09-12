@@ -429,8 +429,12 @@ export default class AppInfoStore {
       if(this.deviceToken.length<=0){
           this.deviceToken = this.getGUIDd();
       }
-      //刷新游戏appNativeData 数据
-      TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appNativeData, { data: TW_Store.bblStore.getAppGameData()}));
+      TW_OnValueJSHome(
+            TW_Store.bblStore.getWebAction(
+                TW_Store.bblStore.ACT_ENUM.appNativeData,
+                { data: TW_Store.bblStore.getAppData() }
+            )
+        );
        this.saveDeviceTokenToLocalStore();
     }
   }
@@ -459,17 +463,12 @@ export default class AppInfoStore {
   async initDeviceTokenFromNative() {
     return new Promise(resolve => {
       try {
-          if(G_IS_IOS){
-              NativeModules.JXHelper.getCFUUID((err, uuid) => {
-                  if (!uuid||(uuid&&uuid.length<3)) {
-                      uuid = this.getGUIDd();
-                  }
-                  resolve(uuid);
-              });
-          }else{
-              resolve(this.getGUIDd());
+        NativeModules.JXHelper.getCFUUID((err, uuid) => {
+          if (!uuid||(uuid&&uuid.length<3)) {
+            uuid = this.getGUIDd();
           }
-
+          resolve(uuid);
+        });
       } catch (e) {
         resolve(this.getGUIDd());
       }
