@@ -8,7 +8,7 @@ import {
 } from 'react-native'
 import {observer} from 'mobx-react';
 import TCImage from "../../../Common/View/image/TCImage";
-import {ASSET_Images, JX_PLAT_INFO} from "../../asset";
+import {ASSET_Images,} from "../../asset";
 import {TCButtonImg} from "../../../Common/View/button/TCButtonView";
 import PropTypes from "prop-types";
 import GameGuestTab from "./guest/GameGuestTab";
