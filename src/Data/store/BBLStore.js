@@ -249,6 +249,7 @@ export  default  class BBLStore {
     getAppData(){
         let  url = TW_Store.bblStore.gameDomain+ config.api.gameShareDown.replace("#0",platInfo.brand);
         let downUrl="";
+        TW_Log("getAppData-------------url",url)
         NetUitls.getUrlAndParamsAndCallback(url, null, (ret) => {
             if(ret.rs&&ret.content){
                 this.shareData = ret.content;
@@ -276,7 +277,7 @@ export  default  class BBLStore {
         return url
     }
 
-    getAppData() {
+    getAppGameData() {
         return {
             isApp: true,
             taven: "isOk",
