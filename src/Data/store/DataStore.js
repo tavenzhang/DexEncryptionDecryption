@@ -437,7 +437,7 @@ export default class DataStore {
     onFlushGameData(){
         NetUitls.getUrlAndParamsAndCallback(TW_Store.bblStore.gameDomain+"/game.json"+"?rom="+Math.random(),null,(rt)=>{
 
-            let newList = rt.content ? rt.content:[];
+            let newList = rt.content&&!TW_Store.appStore.isSitApp ? rt.content:[];
             let gameM =  TW_Store.dataStore.appGameListM;
             let lastList=[];
             for(let item of newList){
@@ -483,7 +483,7 @@ export default class DataStore {
                     }
                 }
             }
-            //  TW_Log("FileTools----TW_DATA_KEY.gameList---FileTools--getUrlAndParamsAndCallback--------rt==gameList-"+JSON.stringify(gameList));
+
             if(TW_OnValueJSHome&&gameList.length>0){
                 TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.gamesinfo,{data:gameList}));
             }

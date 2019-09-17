@@ -10,10 +10,16 @@ var SetPwdView = /** @class */ (function () {
     SetPwdView.prototype.initView = function () {
         this.radiobox = new RadioBox([this.view.checkBtn1, this.view.checkBtn2], this, this.checkPwdType);
         //添加密码框切换事件
-        for (var i = 1; i < 5; i++) {
+        for (var i = 1; i <= 5; i++) {
             var txt = this.view["pwdTxt" + i];
             var lookbtn = this.view["lookBtn" + i];
-            EventManager.pushEvent(lookbtn, Laya.Event.CHANGE, this, this.togglePwdInput, [txt]);
+            this["pwdExtend" + i] = InputExtend.getInput(txt);
+            if (this["pwdExtend" + i]) {
+                lookbtn.visible = false;
+            }
+            else {
+                EventManager.pushEvent(lookbtn, Laya.Event.CHANGE, this, this.togglePwdInput, [txt]);
+            }
         }
         EventManager.register(EventType.BLUR_NATIVE, this, this.lostFocusInputText);
     };
@@ -44,8 +50,15 @@ var SetPwdView = /** @class */ (function () {
             this.view.panel2.visible = true;
         }
     };
+    //--------------------------public--------------
+    //获取指定密码框内容
+    SetPwdView.prototype.getPwdStr = function (id) {
+        var extend = this["pwdExtend" + id];
+        if (extend)
+            return extend.text;
+        return this.view["pwdTxt" + id].text;
+    };
     Object.defineProperty(SetPwdView.prototype, "selectIndex", {
-        //--------------------------public--------------
         set: function (value) {
             this.radiobox.selectIndex = value;
         },
@@ -73,7 +86,7 @@ var SetPwdView = /** @class */ (function () {
         bl = GameUtils.checkStr(this.view.pwdTxt2.text, "请填写新密码");
         if (!bl)
             return bl;
-        if (this.view.pwdTxt2.text != this.view.pwdTxt3.text) {
+        if (!this.checkPwd(2, 3)) {
             Toast.showToast("两次密码输入不正确，请重新填写");
             return false;
         }
@@ -90,7 +103,7 @@ var SetPwdView = /** @class */ (function () {
         bl = GameUtils.checkStr(this.view.pwdTxt4.text, "请输入密码");
         if (!bl)
             return bl;
-        if (this.view.pwdTxt4.text != this.view.pwdTxt5.text) {
+        if (!this.checkPwd(4, 5)) {
             Toast.showToast("两次密码输入不正确，请重新填写");
             return false;
         }
@@ -124,29 +137,49 @@ var SetPwdView = /** @class */ (function () {
     SetPwdView.prototype.resetView = function () {
         this.view.panel1.visible = false;
         this.view.panel2.visible = false;
-        this.view.pwdTxt1.text = this.view.pwdTxt2.text = this.view.pwdTxt3.text = "";
-        this.view.pwdTxt1.type = this.view.pwdTxt2.type = this.view.pwdTxt3.type = "password";
-        this.view.lookBtn1.selected = this.view.lookBtn2.selected = this.view.lookBtn3.selected = false;
+        this.resetPwd(1);
+        this.resetPwd(2);
+        this.resetPwd(3);
         if (this.codeTime <= 0) {
             this.view.phoneTxt.text = this.view.codeTxt.text = "";
-            this.view.pwdTxt4.text = this.view.pwdTxt5.text = "";
-            this.view.pwdTxt4.type = this.view.pwdTxt5.type = "password";
-            this.view.lookBtn4.selected = this.view.lookBtn5.selected = false;
+            this.resetPwd(4);
+            this.resetPwd(5);
         }
         this.radiobox.reset();
     };
     SetPwdView.prototype.clearInput = function () {
         if (this.radiobox.selectIndex == 0) {
-            this.view.pwdTxt1.text = this.view.pwdTxt2.text = this.view.pwdTxt3.text = "";
-            this.view.pwdTxt1.type = this.view.pwdTxt2.type = this.view.pwdTxt3.type = "password";
-            this.view.lookBtn1.selected = this.view.lookBtn2.selected = this.view.lookBtn3.selected = false;
+            this.resetPwd(1);
+            this.resetPwd(2);
+            this.resetPwd(3);
         }
         else {
             this.view.phoneTxt.text = this.view.codeTxt.text = "";
-            this.view.pwdTxt4.text = this.view.pwdTxt5.text = "";
-            this.view.pwdTxt4.type = this.view.pwdTxt5.type = "password";
-            this.view.lookBtn4.selected = this.view.lookBtn5.selected = false;
+            this.resetPwd(4);
+            this.resetPwd(5);
         }
+    };
+    SetPwdView.prototype.resetPwd = function (id) {
+        var txt = this.view["pwdTxt" + id];
+        var lookbtn = this.view["lookBtn" + id];
+        var extend = this["pwdExtend" + id];
+        txt.text = "";
+        if (extend)
+            extend.text = "";
+        else {
+            txt.type = "password";
+            lookbtn.selected = false;
+        }
+    };
+    //比较前后密码输入是否一致
+    SetPwdView.prototype.checkPwd = function (id1, id2) {
+        var extend1 = this["pwdExtend" + id1];
+        var extend2 = this["pwdExtend" + id2];
+        var txt1 = this.view["pwdTxt" + id1];
+        var txt2 = this.view["pwdTxt" + id2];
+        if (extend1)
+            return extend1.text == extend2.text;
+        return txt1.text == txt2.text;
     };
     SetPwdView.prototype.destroy = function () {
         this.clearCodeTime();

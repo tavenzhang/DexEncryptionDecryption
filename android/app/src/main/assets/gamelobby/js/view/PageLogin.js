@@ -539,9 +539,6 @@ var PageLogin = /** @class */ (function (_super) {
         //请求第一次
         this.askCode();
     };
-    /**
-     * 账号登陆
-     */
     PageLogin.prototype.showAccountLoginView = function (comeFast) {
         if (comeFast === void 0) { comeFast = false; }
         this.isCodeLogin = false;
@@ -549,7 +546,14 @@ var PageLogin = /** @class */ (function (_super) {
         this.acc_nameTxt.text = '';
         this.acc_pwdTxt.text = '';
         this.acc_pwdTxt.type = "password";
-        this.acc_lookBtn.skin = "ui/res_login/btn_dl_yanjing01.png";
+        this.acc_lookBtn.selected = false;
+        if (!this.acc_pwdTxtExtend)
+            this.acc_pwdTxtExtend = InputExtend.getInput(this.acc_pwdTxt);
+        if (this.acc_pwdTxtExtend) {
+            this.acc_pwdTxtExtend.text = "";
+            this.acc_pwdTxtExtend.isPassword = true;
+            this.acc_lookBtn.visible = false;
+        }
         this.accCodeGroup.visible = false;
         this.panelAccount.visible = true;
         if (this.isChangePwd && comeFast) {
@@ -562,8 +566,7 @@ var PageLogin = /** @class */ (function (_super) {
      * 微信登陆
      */
     PageLogin.prototype.showWeChatLoginView = function () {
-        //todo:test 
-        LayaMain.getInstance().weChatCertification(0);
+        // LayaMain.getInstance().weChatCertification(0);
     };
     /**
      * 手机号登陆
@@ -571,10 +574,6 @@ var PageLogin = /** @class */ (function (_super) {
     PageLogin.prototype.showPhoneLoginView = function () {
         this.panelPhone.visible = true;
     };
-    ///////////////////////////////////////////////////////////////////////
-    /**
-     * 注册面板
-     */
     PageLogin.prototype.showRegisterView = function () {
         //隐藏全部UI
         this.hideAllLoginUI();
@@ -582,8 +581,19 @@ var PageLogin = /** @class */ (function (_super) {
         this.reg_pwdTxt1.text = "";
         this.reg_pwdTxt2.text = "";
         this.reg_codeTxt.text = "";
-        this.reg_lookBtn1.skin = this.reg_lookBtn2.skin = "ui/res_login/btn_dl_yanjing01.png";
+        this.reg_lookBtn1.selected = this.reg_lookBtn2.selected = false;
         this.reg_pwdTxt1.type = this.reg_pwdTxt2.type = "password";
+        if (!this.reg_pwdExtend1) {
+            this.reg_pwdExtend1 = InputExtend.getInput(this.reg_pwdTxt1);
+            this.reg_pwdExtend2 = InputExtend.getInput(this.reg_pwdTxt2);
+        }
+        if (this.reg_pwdExtend1) {
+            this.reg_pwdExtend1.text = "";
+            this.reg_pwdExtend2.text = "";
+            this.reg_pwdExtend1.isPassword = true;
+            this.reg_pwdExtend2.isPassword = true;
+            this.reg_lookBtn1.visible = this.reg_lookBtn2.visible = false;
+        }
         var affcode = AppData.NATIVE_DATA.affCode;
         if (affcode && affcode.length > 3) {
             this.affcodeTxt.text = affcode;
@@ -597,10 +607,27 @@ var PageLogin = /** @class */ (function (_super) {
      * 显示忘记密码页面
      */
     PageLogin.prototype.showForgetPasswordPanel = function () {
-        //todo:...
     };
     ///////////////////////////////////////////////////////////////////////
     PageLogin.prototype.togglePwdInput = function (txt) {
+        if (txt == this.acc_pwdTxt) {
+            if (this.acc_pwdTxtExtend) {
+                this.acc_pwdTxtExtend.isPassword = !this.acc_pwdTxtExtend.isPassword;
+                return;
+            }
+        }
+        else if (txt == this.reg_pwdTxt1) {
+            if (this.reg_pwdExtend1) {
+                this.reg_pwdExtend1.isPassword = !this.reg_pwdExtend1.isPassword;
+                return;
+            }
+        }
+        else if (txt == this.reg_pwdTxt2) {
+            if (this.reg_pwdExtend2) {
+                this.reg_pwdExtend2.isPassword = !this.reg_pwdExtend2.isPassword;
+                return;
+            }
+        }
         GameUtils.onShowPwd(txt);
     };
     /**
@@ -696,7 +723,7 @@ var PageLogin = /** @class */ (function (_super) {
     PageLogin.prototype.doAccountLogin = function () {
         var _this = this;
         var name = this.acc_nameTxt.text;
-        var pwd = this.acc_pwdTxt.text;
+        var pwd = this.acc_pwdTxtExtend ? this.acc_pwdTxtExtend.text : this.acc_pwdTxt.text;
         if (name == "openDebug" && pwd == "059") { //debug-open
             view.debug.DebugDlg.show();
             this.acc_nameTxt.text = "";
@@ -743,7 +770,7 @@ var PageLogin = /** @class */ (function (_super) {
     PageLogin.prototype.doAccountLoginWithVC = function () {
         var _this = this;
         var name = this.acc_nameTxt.text;
-        var pwd = this.acc_pwdTxt.text;
+        var pwd = this.acc_pwdTxtExtend ? this.acc_pwdTxtExtend.text : this.acc_pwdTxt.text;
         var yzm = this.acc_codeTxt.text;
         var verify = Tools.verifyLogin(name, pwd, yzm);
         if (!verify.bRight) {
@@ -789,8 +816,8 @@ var PageLogin = /** @class */ (function (_super) {
     PageLogin.prototype.doRegisterAccount = function () {
         var _this = this;
         var name = this.reg_nameTxt.text;
-        var pwd = this.reg_pwdTxt1.text;
-        var pwdconfirm = this.reg_pwdTxt2.text;
+        var pwd = this.reg_pwdExtend1 ? this.reg_pwdExtend1.text : this.reg_pwdTxt1.text;
+        var pwdconfirm = this.reg_pwdExtend2 ? this.reg_pwdExtend2.text : this.reg_pwdTxt2.text;
         var code = this.reg_codeTxt.text;
         var verify = Tools.verifyReg(name, pwd, pwdconfirm, code);
         if (!verify.bRight) {

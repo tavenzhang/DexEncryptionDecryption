@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component ,PureComponent} from 'react'
 import {
     Text,
     View,
@@ -18,7 +18,7 @@ if(NativeModules.RNDeviceInfo){
 }
 
 @observer
-export default class PhoneStateView extends Component {
+export default class PhoneStateView extends PureComponent {
     constructor(props) {
         super(props);
 
@@ -30,30 +30,26 @@ export default class PhoneStateView extends Component {
             isConnected: false,
             isInternetReachable: false,
             carrierName: DeviceInfo.getCarrier(),
-            ip: null
+            ip: null,
         }
     }
 
     async componentDidMount() {
-        /*
-        NetInfo.fetch().then(state => {
-            console.log("Connection type", state.type);
-            console.log("Is connected?", state.isConnected);
-        });
-        */
+
+        // NetInfo.fetch().then(state => {
+        //     console.log("Connection type", state.type);
+        //     console.log("Is connected?", state.isConnected);
+        // });
 
         //console.log('DeviceInfo', DeviceInfo.getCarrier());
 
         this.checkIsWifi();
-        this.pingGoogle();
         this.monitorBatteryLevel();
 
         this.intervalID = setInterval(
             () => {
                 this.setState({ time: moment(new Date()).format("HH:mm") });
-                this.pingGoogle();
                 this.checkIsWifi();
-
                 if (!G_IS_IOS) {
                     this.monitorBatteryLevel();
                 }
@@ -134,10 +130,15 @@ export default class PhoneStateView extends Component {
 
     async checkIsWifi() {
         //console.log('checkIsWifi');
-
-        const ip = await DeviceInfo.getIPAddress();
-        const isWifi = (ip.substring(0, 3) === "192") ? true : false;
-        this.setState({ ip, isWifi });
+        try{
+            const ip = await DeviceInfo.getIPAddress();
+            const isWifi = (ip.substring(0, 3) === "192") ? true : false;
+            TW_Log("checkIsWifi----isWifi==ip=="+ip,isWifi)
+            this.setState({ ip, isWifi });
+        }catch (e) {
+            TW_Log("checkIsWifi----",e)
+            this.setState({ isWifi:false });
+        }
 
         /*
         await DeviceInfo.getIPAddress().then(ip => {
@@ -153,7 +154,7 @@ export default class PhoneStateView extends Component {
     }
 
     pingGoogle() {
-        fetch('https://www.google.com')
+        fetch('https://www.baidu.com')
         .then((response) => {
             //console.log('response ', response)
             if (response.status === 200) {
@@ -202,30 +203,54 @@ export default class PhoneStateView extends Component {
         return img;
     }
     */
-
-    cellularIndicator(delayTime) {
-        const { isWifi, isInternetReachable } = this.state;
+    cellularWifiState=(delayTime)=>{
+        const { isWifi } = this.state;
+        let delay = parseInt(delayTime)
         let img = null;
-
         if (isWifi) {
             //img = phoneState.wfFull;
+            if (delay <= 100) {
+                img = phoneState.wfFull;
+            } else if (delay > 100 && delay <= 200) {
+                img = phoneState.wf3bars;
+            } else if (delay > 200 && delay <= 300) {
+                img = phoneState.wf2bars;
+            } else if (delay > 300) {
+                img = phoneState.wf1bar;
+            }
+        }else{
+            img = phoneState.mb4G;
+        }
+        if(delay>2000){
+            img = phoneState.wfNoConn;
+            if(this.state.isInternetReachable){
+                this.setState({isInternetReachable:false})
+            }
+        }else{
+            if(!this.state.isInternetReachable){
+                this.setState({isInternetReachable:true})
+            }
+        }
+        return img;
+    }
 
-            if (!isInternetReachable) {
-                img = phoneState.wfNoConn;
-            } else {
-                const delay = delayTime.substring(0, delayTime.indexOf("m"));
-                //console.log('delay', delay);
 
-                if (delay <= 60) {
+    cellularIndicator=(delayTime)=> {
+        const { isWifi } = this.state;
+        let delay = parseInt(delayTime)
+        let img = null;
+        let isNetworkOK=true;
+        if (isWifi) {
+            //img = phoneState.wfFull;
+                if (delay <= 100) {
                     img = phoneState.wfFull;
-                } else if (delay > 60 && delay <= 90) {
+                } else if (delay > 100 && delay <= 200) {
                     img = phoneState.wf3bars;
-                } else if (delay > 90 && delay <= 120) {
+                } else if (delay > 200 && delay <= 300) {
                     img = phoneState.wf2bars;
-                } else if (delay > 120) {
+                } else if (delay > 300) {
                     img = phoneState.wf1bar;
                 }
-            }
         } else {
             /*
             img = {
@@ -235,49 +260,47 @@ export default class PhoneStateView extends Component {
                 "4g": phoneState.mb4G
             }[cellularGeneration] || phoneState.mb4bars;
             */
-
-            if (!isInternetReachable) {
-                img = phoneState.mbNoConn;
-            } else {
-                const delay = delayTime.substring(0, delayTime.indexOf("m"));
-                //console.log('delay', delay);
-
-                if (delay <= 60) {
+                if (delay <= 100) {
                     img = phoneState.mb4bars;
-                } else if (delay > 60 && delay <= 90) {
+                } else if (delay > 100 && delay <= 200) {
                     img = phoneState.mb3bars;
-                } else if (delay > 90 && delay <= 120) {
+                } else if (delay > 200 && delay <= 300) {
                     img = phoneState.mb2bars;
-                } else if (delay > 120) {
+                } else if (delay > 300) {
                     img = phoneState.mb1bar;
                 }
-            }
         }
 
+        if(delay>2000){
+            img = phoneState.wfNoConn;
+            if(this.state.isInternetReachable){
+                this.setState({isInternetReachable:false})
+            }
+        }else{
+            if(!this.state.isInternetReachable){
+                this.setState({isInternetReachable:true})
+            }
+        }
         return img;
     }
 
+
+
     render() {
-        /*
-        const msgData = {
-            action: "appStatus",
-            delay: "90ms",
-            position: { top: 10, right: 50 },
-            isShow: "1"
-        };
-        */
 
         const { delay, position, isShow } = TW_Store.bblStore.netInfo;
-        const { battStat, time, carrierName, ip } = this.state;
+        const { battStat, time } = this.state;
+        let isVeryDealy = delay >= 400 ? true:false;
 
         return (
-                <View style={{ position: "absolute", bottom: position.top, right: position.right }}>
+                <View style={{ position: "absolute", ...position}} pointerEvents={"none"}>
                     {
-                        (isShow === "1") ?
+                        (isShow == "1") ?
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             {/*<Image source={this.wifiIndicator(msgData.delay)} resizeMode='contain' style={[styles.iconSmall, { marginRight: 5 }]} />*/}
+                            {/*<Image source={this.cellularWifiState(delay)} resizeMode='contain' style={[styles.iconSmall, { marginRight: 5 }]} />*/}
                             <Image source={this.cellularIndicator(delay)} resizeMode='contain' style={[styles.iconSmall, { marginRight: 5 }]} />
-                            <Text style={styles.text}>{delay}</Text>
+                            <Text style={[styles.text,isVeryDealy ? {color:"red"}:null]}>{`${delay}ms`}</Text>
                             <Image source={this.phoneBatteryIndicator()} resizeMode='contain' style={[styles.icon, { marginLeft: 5 }]} />
                             {/*<Text style={[styles.text, { marginLeft: 5 }]}>{ip}</Text>
                             <Text style={[styles.text, { marginLeft: 5 }]}>{isShow}</Text>*/}

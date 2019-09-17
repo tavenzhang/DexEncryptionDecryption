@@ -104,6 +104,8 @@
         "yuebaoChangePwdByoldpwd": "/yuebao/me/password/change/bypassword",
         "yuebaoChangePwdBycode": "/yuebao/me/password/change/bycode",
         "yuebaoDetail": "/yuebao/me/events/recent",
-        "vconsole": "/gamecenter/gcenter/vconsole/game/switch"
+        "vconsole": "/gamecenter/gcenter/vconsole/game/switch",
+        "flushToken": "/account/account/system/refreshToken/",
+        "findPassword": "/account/webapi/account/users/secure/resetUserPassword"
     }
 }

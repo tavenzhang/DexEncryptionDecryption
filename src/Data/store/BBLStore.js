@@ -182,6 +182,7 @@ export  default  class BBLStore {
         wxLogin:"wxLogin",
         popTip:"popTip",
         affcode:"affcode",
+        appNativeData:"appNativeData",
     }
 
     //bgm.mp3 click.mp3 close.mp3 flopleft.mp3 flopright.mp3 recharge.mp3 rightbottomclose.mp3 showlogo.mp3
@@ -248,6 +249,7 @@ export  default  class BBLStore {
     getAppData(){
         let  url = TW_Store.bblStore.gameDomain+ config.api.gameShareDown.replace("#0",platInfo.brand);
         let downUrl="";
+        TW_Log("getAppData-------------url",url)
         NetUitls.getUrlAndParamsAndCallback(url, null, (ret) => {
             if(ret.rs&&ret.content){
                 this.shareData = ret.content;
@@ -273,6 +275,25 @@ export  default  class BBLStore {
     getBrandUrl(){
         let  url = TW_Store.bblStore.gameDomain+ config.api.gameShareDown.replace("#0",platInfo.brand);
         return url
+    }
+
+    getAppGameData() {
+        return {
+            isApp: true,
+            taven: "isOk",
+            brandUrl: TW_Store.bblStore.getBrandUrl(),
+            clientId: TW_Store.appStore.clindId,
+            urlJSON: TW_Store.bblStore.getUriConfig(),
+            isAndroidHack: TW_Store.appStore.isInAnroidHack,
+            deviceToken: TW_Store.appStore.deviceToken,
+            loginDomain: TW_Store.bblStore.loginDomain + "/api/v1/account",
+            gameDomain: TW_Store.bblStore.gameDomain + "/api/v1/gamecenter",
+            affCode: TW_Store.appStore.userAffCode,
+            isDebug: TW_IS_DEBIG,
+            appVersion: TW_Store.appStore.versionHotFix + (!G_IS_IOS && TW_Store.appStore.subAppType != "0" ? ` - ${TW_Store.appStore.subAppType}` : ""),
+            isAppSound: TW_Store.dataStore.isAppSound,
+            isNewApp: G_IS_IOS ? true : false
+        }
     }
 
 

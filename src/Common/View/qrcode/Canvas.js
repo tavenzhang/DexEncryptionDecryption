@@ -1,7 +1,8 @@
 'use strict';
 import React, {Component} from 'react'
-import {View, WebView} from 'react-native'
+import {View} from 'react-native'
 import PropTypes from 'prop-types'
+import {WebView} from 'react-native-webview';
 
 export default class Canvas extends Component {
     static  propTypes = {

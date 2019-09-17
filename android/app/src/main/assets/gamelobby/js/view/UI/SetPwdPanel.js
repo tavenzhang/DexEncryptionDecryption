@@ -29,8 +29,20 @@ var view;
             SetPwdPanel.prototype.initView = function () {
                 this.view = new SetPwdView(this);
             };
+            //--------------------------public--------------
+            //获取指定密码框内容
+            SetPwdPanel.prototype.getPwdStr = function (id) {
+                return this.view.getPwdStr(id);
+            };
+            //设置指定密码框内容
+            SetPwdPanel.prototype.setPwdStr = function (id, str) {
+                var extend = this.view["pwdExtend" + id];
+                if (extend)
+                    extend.text = str;
+                else
+                    this["pwdTxt" + id].text = str;
+            };
             Object.defineProperty(SetPwdPanel.prototype, "selectIndex", {
-                //--------------------------public--------------
                 set: function (value) {
                     this.view.selectIndex = value;
                 },

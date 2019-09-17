@@ -17,6 +17,8 @@ cp -rf ./Init/RNCWebViewManager.java ${scriptPath}/node_modules/react-native-web
 #极光
 cp -rf ./Init/JpushAndroidManifest.xml ${scriptPath}/node_modules/jpush-react-native/android/src/main/AndroidManifest.xml
 
+#codePush ios 指定版本号
+cp -rf ./Init/CodePushConfig.m  ${scriptPath}/node_modules/react-native-code-push/ios/CodePush/CodePushConfig.m
 
 cp -rf ./Init/RN_Fetch_fs.js  ${scriptPath}/node_modules/react-native-fetch-blob/fs.js
 

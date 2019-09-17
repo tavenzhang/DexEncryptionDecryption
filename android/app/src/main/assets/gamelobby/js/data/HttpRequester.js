@@ -38,131 +38,6 @@ var HttpRequester = /** @class */ (function () {
         this.doRequest(url, header, null, caller, callback, "post");
     };
     /**
-     * 快速登录
-     * @param userName 用户名
-     * @param passWord 密码
-     * @param caller 上下文
-     * @param callback 回调函数
-     */
-    HttpRequester.fastLogin = function (userName, passWord, caller, callback) {
-        var url = ConfObjRead.getConfUrl().url.apihome;
-        if (GameUtils.isNativeApp)
-            url += ConfObjRead.getConfUrl().cmd.quicklogin_app;
-        else
-            url += ConfObjRead.getConfUrl().cmd.quicklogin;
-        var header = this.getEncryHeader();
-        var ePwd = window['SecretUtils'].rsaEncodePWD(passWord);
-        var data = {
-            username: userName,
-            password: ePwd,
-            affCode: AppData.NATIVE_DATA.affCode
-        };
-        var dataStr = JSON.stringify(data);
-        this.doRequest(url, header, dataStr, caller, callback, "post");
-    };
-    /**
-     * 快速登录之验证码登录
-     * @param userName
-     * @param passWord
-     * @param code
-     * @param random
-     * @param caller
-     * @param callback
-     */
-    HttpRequester.fastLoginWithVC = function (userName, passWord, code, random, caller, callback) {
-        var url = ConfObjRead.getConfUrl().url.apihome;
-        if (GameUtils.isNativeApp)
-            url += ConfObjRead.getConfUrl().cmd.quickloginWithVC_app;
-        else
-            url += ConfObjRead.getConfUrl().cmd.quickloginWithVC;
-        var header = this.getEncryHeader();
-        var ePwd = window['SecretUtils'].rsaEncodePWD(passWord);
-        var data = {
-            username: userName,
-            password: ePwd,
-            validateCode: code,
-            webUniqueCode: random,
-            affCode: AppData.NATIVE_DATA.affCode
-        };
-        var dataStr = JSON.stringify(data);
-        this.doRequest(url, header, dataStr, caller, callback, "post");
-    };
-    /**
-     * 账户登录
-     * @param userName
-     * @param passWord
-     * @param caller
-     * @param callback
-     */
-    HttpRequester.accountLogin = function (userName, passWord, caller, callback) {
-        var url = ConfObjRead.getConfUrl().url.apihome;
-        if (GameUtils.isNativeApp)
-            url += ConfObjRead.getConfUrl().cmd.userlogin_app;
-        else
-            url += ConfObjRead.getConfUrl().cmd.userlogin;
-        var header = this.getEncryHeader();
-        var ePwd = window['SecretUtils'].rsaEncodePWD(passWord);
-        var data = {
-            username: userName,
-            password: ePwd
-        };
-        var dataStr = JSON.stringify(data);
-        this.doRequest(url, header, dataStr, caller, callback, "post");
-    };
-    /**
-     * 账户登录-带验证码
-     * @param userName
-     * @param passWord
-     * @param code
-     * @param random
-     * @param caller
-     * @param callback
-     */
-    HttpRequester.accountLoginWithVC = function (userName, passWord, code, random, caller, callback) {
-        var url = ConfObjRead.getConfUrl().url.apihome;
-        if (GameUtils.isNativeApp)
-            url += ConfObjRead.getConfUrl().cmd.userloginWithVC_app;
-        else
-            url += ConfObjRead.getConfUrl().cmd.userloginWithVC;
-        var header = this.getEncryHeader();
-        var ePwd = window['SecretUtils'].rsaEncodePWD(passWord);
-        var data = {
-            username: userName,
-            password: ePwd,
-            validateCode: code,
-            webUniqueCode: random
-        };
-        var dataStr = JSON.stringify(data);
-        this.doRequest(url, header, dataStr, caller, callback, "post");
-    };
-    /**
-     * 注册账号
-     * @param pwd
-     * @param code
-     * @param rand
-     * @param caller
-     * @param callback
-     */
-    HttpRequester.registerAccount = function (uname, pwd, code, rand, affCode, caller, callback) {
-        var _this = this;
-        var ePwd = window['SecretUtils'].rsaEncodePWD(pwd);
-        var data = {
-            username: uname,
-            password: ePwd,
-            hash: '',
-            validateCode: code,
-            webUniqueCode: rand,
-            affCode: affCode
-        };
-        window['SecretUtils'].encode(name, pwd, function (hash) {
-            data.hash = hash;
-            var jsonStr = JSON.stringify(data);
-            var url = ConfObjRead.getConfUrl().url.apihome + ConfObjRead.getConfUrl().cmd.userreg;
-            var header = ["Content-Type", "application/json; charset=utf-8", "Accept", "*/*"];
-            _this.doRequest(url, header, jsonStr, caller, callback);
-        });
-    };
-    /**
      * 获取手机验证码
      * @param phone
      * @param isAuthor 是否已授权(未登录前为false)
@@ -185,60 +60,6 @@ var HttpRequester = /** @class */ (function () {
         var jd = JSON.stringify(data);
         var header = ["Content-Type", "application/json; charset=utf-8", "Accept", "*/*"];
         this.doRequest(url, header, jd, caller, callback);
-    };
-    /**
-     * 手机登录
-     * @param num
-     * @param code
-     * @param caller
-     * @param callback
-     */
-    HttpRequester.phoneLogin = function (num, code, caller, callback) {
-        var url = ConfObjRead.getConfUrl().url.apihome;
-        if (GameUtils.isNativeApp)
-            url += ConfObjRead.getConfUrl().cmd.phoneLogin_app;
-        else
-            url += ConfObjRead.getConfUrl().cmd.phoneLogin_web;
-        var header = this.getEncryHeader();
-        var data = {
-            affCode: AppData.NATIVE_DATA.affCode,
-            phoneNumber: num,
-            verificationCode: code
-        };
-        var jsonStr = JSON.stringify(data);
-        this.doRequest(url, header, jsonStr, caller, callback);
-    };
-    /**
-     * 微信登录
-     * @param wxId 微信ID
-     * @param caller
-     * @param callback
-     */
-    HttpRequester.wxLogin = function (wxId, caller, callback) {
-        var url = ConfObjRead.getConfUrl().url.apihome;
-        url += ConfObjRead.getConfUrl().cmd.wxLogin_app;
-        var header = this.getEncryHeader();
-        //微信ID加密
-        var eWxId = window['SecretUtils'].rsaEncodePWD(wxId);
-        /** 发送服务器参数
-         *  UserWXRegisterRequest {
-                affCode (string, optional): 推荐人邀请码,
-                hash (string, optional):  secret,
-                options (inline_model_2, optional): 手机号、邮箱等附加的选项。key,value都是字符串,
-                wap (boolean, optional),
-                wxId (string):  微信ID
-            }
-        */
-        var data = {
-            // options: {
-            // },
-            // wap: null,
-            //参照账号登陆
-            wxId: eWxId,
-            affCode: AppData.NATIVE_DATA.affCode,
-        };
-        var jsonStr = JSON.stringify(data);
-        this.doRequest(url, header, jsonStr, caller, callback);
     };
     /**
      * 修改密码(包括登录密码和取款密码)
@@ -310,7 +131,8 @@ var HttpRequester = /** @class */ (function () {
     HttpRequester.getHttpData = function (cmd, caller, callback, urlParams) {
         var url = ConfObjRead.getConfUrl().url.apihome;
         url += cmd;
-        url += "?access_token=" + Common.access_token;
+        if (Common.access_token)
+            url += "?access_token=" + Common.access_token;
         if (urlParams)
             url += urlParams;
         var header = ["Accept", "application/json"];
@@ -324,14 +146,28 @@ var HttpRequester = /** @class */ (function () {
         if (addHeaderToken === void 0) { addHeaderToken = true; }
         var url = ConfObjRead.getConfUrl().url.apihome;
         url += cmd;
-        url += "?access_token=" + Common.access_token;
+        if (Common.access_token)
+            url += "?access_token=" + Common.access_token;
         var jsonStr = null;
         if (data)
             jsonStr = JSON.stringify(data);
         var header = ["Content-Type", "application/json; charset=utf-8", "Accept", "*/*"];
-        if (addHeaderToken)
+        if (addHeaderToken && Common.access_token)
             header.push("Authorization", "bearer " + Common.access_token);
         this.doRequest(url, header, jsonStr, caller, callback, "post");
+    };
+    /**
+     * post方式登录专用
+     * @param cmd
+     * @param data
+     * @param caller
+     * @param callback
+     */
+    HttpRequester.postHttpLogin = function (cmd, data, caller, callback) {
+        var url = ConfObjRead.apihome + cmd;
+        var header = this.getEncryHeader();
+        var jsonStr = JSON.stringify(data);
+        this.doRequest(url, header, jsonStr, caller, callback);
     };
     /**
      * 通用delete方式请求
@@ -342,7 +178,8 @@ var HttpRequester = /** @class */ (function () {
     HttpRequester.deleteHttpData = function (cmd, caller, callback) {
         var url = ConfObjRead.getConfUrl().url.apihome;
         url += cmd;
-        url += "?access_token=" + Common.access_token;
+        if (Common.access_token)
+            url += "?access_token=" + Common.access_token;
         var header = ["Accept", "application/json"];
         this.doRequest(url, header, null, caller, callback, "delete");
     };
@@ -357,11 +194,14 @@ var HttpRequester = /** @class */ (function () {
         if (data === void 0) { data = null; }
         var url = ConfObjRead.getConfUrl().url.apihome;
         url += cmd;
-        url += "?access_token=" + Common.access_token;
+        if (Common.access_token)
+            url += "?access_token=" + Common.access_token;
         var jsonStr = null;
         if (data)
             jsonStr = JSON.stringify(data);
-        var header = ["Content-Type", "application/json; charset=utf-8", "Accept", "*/*", "Authorization", "bearer " + Common.access_token];
+        var header = ["Content-Type", "application/json; charset=utf-8", "Accept", "*/*"];
+        if (Common.access_token)
+            header.push("Authorization", "bearer " + Common.access_token);
         this.doRequest(url, header, jsonStr, caller, callback, "put");
     };
     /**

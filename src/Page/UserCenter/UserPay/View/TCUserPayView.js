@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 
 import {View, StyleSheet, Text, TouchableOpacity, Image, Platform, ScrollView, Clipboard,} from 'react-native'
-// import  QRCode from '../../../../Common/View/qrcode/QRCode'
-import QRCode from 'react-native-qrcode-svg';
+import  QRCode from '../../../../Common/View/qrcode/QRCode'
+
 import Toast from '../../../../Common/JXHelper/JXToast'
 import {
     Size,
@@ -71,13 +71,13 @@ export default class TCUserPayView extends Component {
         )
     }
 
-    onCopy(text) {
+    onCopy=(text)=> {
         TW_Store.bblStore.playSoundByFile(TW_Store.bblStore.SOUND_ENUM.click);
         Clipboard.setString('' + text);
         Toast.showShortCenter("充值金额已复制！")
     }
 
-    getInfoText() {
+    getInfoText=()=> {
         if (this.props.payType === '京东') {
             return (<Text style={styles.tipTxtStyle}>扫码步骤：{'\n'}
                 1.点“立即充值”将自动为您截屏并保存到相册(若图片未保存至相册，请手动截屏)。{'\n'}
@@ -96,7 +96,7 @@ export default class TCUserPayView extends Component {
         }
     }
 
-    getQRCode() {
+    getQRCode=()=> {
         let codeType = this.props.codeType;
         if (codeType === 'URL') {
             return (<QRCode

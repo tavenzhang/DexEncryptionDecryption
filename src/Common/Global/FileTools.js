@@ -89,13 +89,18 @@ export default class FileTools {
         unzip(srcZip, destDir)
             .then((path) => {
                 if (onSucFuc) {
-                    Toast.showShortCenter(param.gameName + " 准备完成");
+                    if(!TW_Store.gameUpateStore.isInSubGame){
+                        Toast.showShortCenter(param.gameName + " 准备完成");
+                    }
                     onSucFuc({rs: true, param})
                 }
                 TW_Log(`FileTools-- unzip completed at------ ${path}`);
             })
             .catch((error) => {
-                Toast.showShortCenter(param.gameName + " 解压失败");
+                if(!TW_Store.gameUpateStore.isInSubGame){
+                    Toast.showShortCenter(param.gameName + " 解压失败");
+                }
+
                 if (onSucFuc) {
                     onSucFuc({rs: false, param})
                 }

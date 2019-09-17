@@ -34,6 +34,7 @@ var view;
                 };
                 BindAlipayDlg.prototype.initView = function () {
                     var _this = this;
+                    this.pwdExtend = InputExtend.getInput(this.pwdTxt);
                     this.pwdTxt.prompt = Common.cardInfo.hasBankCard ? "请输入提现密码(4位数字)" : "请设置提现密码(4位数字)";
                     EventManager.addTouchScaleListener(this.closeBtn, this, function () {
                         SoundPlayer.closeSound();
@@ -59,14 +60,19 @@ var view;
                             _this.onceBind();
                         }
                     });
-                    EventManager.pushEvent(this.lookBtn, Laya.Event.CHANGE, this, this.togglePwdInput, [this.pwdTxt]);
+                    if (this.pwdExtend) {
+                        this.lookBtn.visible = false;
+                    }
+                    else {
+                        EventManager.pushEvent(this.lookBtn, Laya.Event.CHANGE, this, this.togglePwdInput, [this.pwdTxt]);
+                    }
                 };
                 BindAlipayDlg.prototype.togglePwdInput = function (txt) {
                     GameUtils.onShowPwd(txt);
                 };
                 //首次绑定
                 BindAlipayDlg.prototype.onceBind = function () {
-                    var epwd = window['SecretUtils'].rsaEncodePWD(this.pwdTxt.text);
+                    var epwd = window['SecretUtils'].rsaEncodePWD(this.pwdStr);
                     var data = {
                         realName: this.nameTxt.text,
                         securityPassword: epwd,
@@ -82,7 +88,7 @@ var view;
                 };
                 //二次绑定
                 BindAlipayDlg.prototype.twiceBind = function () {
-                    var epwd = window['SecretUtils'].rsaEncodePWD(this.pwdTxt.text);
+                    var epwd = window['SecretUtils'].rsaEncodePWD(this.pwdStr);
                     var data = {
                         bankAccountName: this.nameTxt.text,
                         bankAddress: "支付宝",
@@ -93,6 +99,13 @@ var view;
                     };
                     HttpRequester.postHttpData(ConfObjRead.getConfUrl().cmd.twiceBindCard, data, this, this.responseBindCard);
                 };
+                Object.defineProperty(BindAlipayDlg.prototype, "pwdStr", {
+                    get: function () {
+                        return this.pwdExtend ? this.pwdExtend.text : this.pwdTxt.text;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
                 BindAlipayDlg.prototype.responseBindCard = function (suc, jobj) {
                     LayaMain.getInstance().showCircleLoading(false);
                     if (suc) {

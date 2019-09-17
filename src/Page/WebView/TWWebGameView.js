@@ -16,6 +16,9 @@ import {observer} from "mobx-react";
 import PropTypes from "prop-types";
 import {SoundHelper} from "../../Common/JXHelper/SoundHelper";
 import Toast from "../../Common/JXHelper/JXToast";
+import Tools from "../../Common/View/Tools";
+import TCUserOpenPayApp from "../UserCenter/UserPay/TCUserOpenPayApp";
+import FileTools from "../../Common/Global/FileTools";
 
 
 @observer
@@ -59,7 +62,7 @@ export default class TWWebGameView extends Component {
             homePre += "/";
         }
         let newUrl = homePre + "index.html";
-        if (TW_Store.appStore.clindId == '31') {
+        if (TW_Store.appStore.isSitApp) {
             myParam += "&time=" + Math.random() * 9999;
         }
 
@@ -160,7 +163,7 @@ export default class TWWebGameView extends Component {
         if (message && message.action) {
             switch (message.action) {
                 case "appStatus":
-                    //TW_Log("TWWebGameView---appStatus==", message);
+                    TW_Log("TWWebGameView---appStatus==", message);
                     TW_Store.bblStore.setNetInfo(message);
                     break;
                 case "Log":
@@ -179,12 +182,26 @@ export default class TWWebGameView extends Component {
                 case "game_start": //子游戏准备ok
                     this.onEnterGame();
                     break;
-                case "copylink":
-                    Clipboard.setString(message.param);
-                    if (message.hint && message.hint.length > 0) {
-                        Toast.showShortCenter(message.hint);
-                    } else {
-                        Toast.showShortCenter("已复制成功!");
+                case "game_common":
+                    let actions = message.name || message.do
+                    switch (actions) {
+                        case "saveToPhone":
+                            Tools.onSaveScreenPhone();
+                            break;
+                        case "loginout":
+                            TW_Store.userStore.exitAppToLoginPage();
+                            break;
+                        case "openWeb":
+                            TCUserOpenPayApp.linkingWeb(message.param)
+                            break;
+                        case "copylink":
+                            Clipboard.setString(message.param);
+                            if (message.hint && message.hint.length > 0) {
+                                Toast.showShortCenter(message.hint);
+                            } else {
+                                Toast.showShortCenter("已复制成功!");
+                            }
+                            break;
                     }
                     break;
             }

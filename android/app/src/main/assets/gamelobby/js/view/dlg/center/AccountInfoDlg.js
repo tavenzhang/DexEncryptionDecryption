@@ -26,7 +26,7 @@ var view;
                 function AccountInfoDlg() {
                     var _this = _super.call(this) || this;
                     _this.bankCardInfo = null; //银行卡相关信息
-                    _this.bankList = null; //银行列表
+                    _this.bankList = []; //银行列表
                     _this.playSound = true;
                     _this.initView();
                     return _this;
@@ -111,9 +111,12 @@ var view;
                         _this.tabHandler(null, 1);
                     });
                 };
-                //银行卡--------------------------------------------------------------
                 AccountInfoDlg.prototype.showBackCardView = function () {
                     var _this = this;
+                    if (!this.cardPwdExtend)
+                        this.cardPwdExtend = InputExtend.getInput(this.cardPwd);
+                    if (this.cardPwdExtend)
+                        this.cardPwdLook.visible = false;
                     if (this.bankCardInfo) { //有银行绑定信息
                         this.cardName.text = this.bankCardInfo.bankAccountName;
                         this.cardNum.text = this.bankCardInfo.bankCardNo;
@@ -132,27 +135,29 @@ var view;
                     }
                     if (!this.initBankView) {
                         //设置银行卡
+                        var self_1 = this;
                         EventManager.addTouchScaleListener(this.openCardBtn, this, function () {
                             SoundPlayer.clickSound();
                             var num = 0;
-                            try {
+                            try { //排查绑定按钮点击后没有任何反应的问题
                                 num = 1;
-                                if (!_this.checkCardInfos())
+                                if (!self_1.checkCardInfos())
                                     return;
                                 num = 2;
                                 LayaMain.getInstance().showCircleLoading(true);
                                 num = 3;
                                 if (!Common.cardInfo) {
                                     num = 4;
-                                    LobbyDataManager.getCardInfo(_this, _this.checkBindType);
+                                    LobbyDataManager.getCardInfo(self_1, self_1.checkBindType);
                                 }
                                 else {
                                     num = 5;
-                                    _this.checkBindType();
+                                    self_1.checkBindType();
+                                    num = 6;
                                 }
                             }
                             catch (e) {
-                                Toast.showToast("error-num:" + num);
+                                Toast.showToast("error-num:" + num + ">>>" + e);
                             }
                         });
                         EventManager.pushEvent(this.cardPwdLook, Laya.Event.CHANGE, this, this.togglePwdInput, [this.cardPwd]);
@@ -180,7 +185,7 @@ var view;
                     this.subBank.mouseEnabled = false;
                     this.cardPwd.mouseEnabled = false;
                     this.cardPwdLook.visible = false;
-                    this.cardPwd.text = "****";
+                    this.cardPwd.text = "●●●●";
                 };
                 AccountInfoDlg.prototype.checkBindType = function () {
                     if (!Common.cardInfo) {
@@ -197,7 +202,8 @@ var view;
                 //首次绑定
                 AccountInfoDlg.prototype.onceBind = function () {
                     var item = this.bankComb.selectItem;
-                    var epwd = window['SecretUtils'].rsaEncodePWD(this.cardPwd.text);
+                    var pwdStr = this.cardPwdExtend ? this.cardPwdExtend.text : this.cardPwd.text;
+                    var epwd = window['SecretUtils'].rsaEncodePWD(pwdStr);
                     var data = {
                         realName: this.cardName.text,
                         securityPassword: epwd,
@@ -214,7 +220,8 @@ var view;
                 //二次绑定
                 AccountInfoDlg.prototype.twiceBind = function () {
                     var item = this.bankComb.selectItem;
-                    var epwd = window['SecretUtils'].rsaEncodePWD(this.cardPwd.text);
+                    var pwdStr = this.cardPwdExtend ? this.cardPwdExtend.text : this.cardPwd.text;
+                    var epwd = window['SecretUtils'].rsaEncodePWD(pwdStr);
                     var data = {
                         bankAccountName: this.cardName.text,
                         bankAddress: this.subBank.text,
@@ -259,10 +266,12 @@ var view;
                         this.moneyPwdView.pos(this.yhkView.x, this.yhkView.y);
                         this.moneyPwdView.pwdTxt2.prompt = "请输入提现密码(4位数字)";
                         this.moneyPwdView.pwdTxt4.prompt = "请输入提现密码(4位数字)";
+                        this.moneyPwdView.pwdTxt1.restrict = "0123456789";
                         this.moneyPwdView.pwdTxt2.restrict = "0123456789";
                         this.moneyPwdView.pwdTxt3.restrict = "0123456789";
                         this.moneyPwdView.pwdTxt4.restrict = "0123456789";
                         this.moneyPwdView.pwdTxt5.restrict = "0123456789";
+                        this.moneyPwdView.pwdTxt1.maxChars = 4;
                         this.moneyPwdView.pwdTxt2.maxChars = 4;
                         this.moneyPwdView.pwdTxt3.maxChars = 4;
                         this.moneyPwdView.pwdTxt4.maxChars = 4;
@@ -282,13 +291,13 @@ var view;
                                 if (!_this.moneyPwdView.checkOldPwdInfos())
                                     return;
                                 LayaMain.getInstance().showCircleLoading(true);
-                                HttpRequester.changePassword(_this.moneyPwdView.pwdTxt1.text, _this.moneyPwdView.pwdTxt2.text, false, _this, _this.responseMoneyPwdSeted);
+                                HttpRequester.changePassword(_this.moneyPwdView.getPwdStr(1), _this.moneyPwdView.getPwdStr(2), false, _this, _this.responseMoneyPwdSeted);
                             }
                             else { //短信验证修改
                                 if (!_this.moneyPwdView.checkPhoneCodePwdInfos())
                                     return;
                                 LayaMain.getInstance().showCircleLoading(true);
-                                HttpRequester.changePasswordWithPhone(_this.moneyPwdView.pwdTxt4.text, _this.moneyPwdView.phoneTxt.text, _this.moneyPwdView.codeTxt.text, false, _this, _this.responseMoneyPwdSeted);
+                                HttpRequester.changePasswordWithPhone(_this.moneyPwdView.getPwdStr(4), _this.moneyPwdView.phoneTxt.text, _this.moneyPwdView.codeTxt.text, false, _this, _this.responseMoneyPwdSeted);
                             }
                         });
                         //获取验证
@@ -300,10 +309,13 @@ var view;
                     this.moneyPwdView.visible = true;
                     this.initDepositPwdView = true;
                 };
+                //提现密码修改结果
                 AccountInfoDlg.prototype.responseMoneyPwdSeted = function (suc, jobj) {
                     LayaMain.getInstance().showCircleLoading(false);
-                    Toast.showToast("提现密码修改成功");
-                    this.moneyPwdView.clearInput();
+                    if (suc) {
+                        Toast.showToast("提现密码修改成功");
+                        this.moneyPwdView.clearInput();
+                    }
                 };
                 //登录密码------------------------------------------------------
                 AccountInfoDlg.prototype.showLoginPwdView = function () {
@@ -314,62 +326,13 @@ var view;
                         this.loginPwdView = new view.UI.SetPwdPanel();
                         this.loginPwdView.pos(this.yhkView.x, this.yhkView.y);
                         this.addChild(this.loginPwdView);
+                        this.loginPwdView.pwdTxt1.restrict = "0-9A-Za-z";
+                        this.loginPwdView.pwdTxt1.maxChars = 15;
                     }
-                    switch (Common.loginType) {
-                        case LoginType.Fast: {
-                            // 快捷账号未修改密码、未绑定手机号：旧密码修改（默认填写且不可修改）
-                            // 快捷账号未修改密码、绑定过手机号：旧密码修改（默认填写且不可修改）、短信验证修改
-                            // 快捷账号修改过密码，未绑定手机号：旧密码修改
-                            // 快捷账号修改过密码、绑定了手机号：旧密码修改、短息验证修改
-                            if (!bindPhone) {
-                                this.loginPwdView.setGrayIndex(1, true);
-                                this.loginPwdView.checkGroup2.alpha = 0.5;
-                            }
-                            if (!isReset) {
-                                var pwd = SaveManager.getObj().get(SaveManager.KEY_QK_PASSWORD, "123456");
-                                this.loginPwdView.pwdTxt1.text = pwd;
-                                this.loginPwdView.pwdTxt1.editable = false;
-                                this.loginPwdView.pwdTxt1.mouseEnabled = false;
-                            }
-                            break;
-                        }
-                        case LoginType.Account: {
-                            // 账号注册登录用户未绑定手机号：旧密码修改
-                            // 账号注册登录用户且绑定过手机号：旧密码修改、短信验证修改
-                            if (!bindPhone) {
-                                this.loginPwdView.setGrayIndex(1, true);
-                                this.loginPwdView.checkGroup2.alpha = 0.5;
-                            }
-                            break;
-                        }
-                        case LoginType.Phone: {
-                            // 手机注册登录用户但没有修改过密码：旧密码修改（默认填写且不可修改）、短信验证修改
-                            // 手机注册登录修改过密码：旧密码修改、短信验证修改
-                            if (!isReset) {
-                                var pwd = SaveManager.getObj().get(SaveManager.KEY_PHONEPWD, null);
-                                if (pwd) {
-                                    this.loginPwdView.pwdTxt1.text = pwd;
-                                    this.loginPwdView.pwdTxt1.editable = false;
-                                    this.loginPwdView.pwdTxt1.mouseEnabled = false;
-                                }
-                            }
-                            break;
-                        }
-                        case LoginType.WeChat: {
-                            if (!bindPhone) {
-                                this.loginPwdView.setGrayIndex(1, true);
-                                this.loginPwdView.checkGroup2.alpha = 0.5;
-                            }
-                            if (!isReset) {
-                                var pwd = SaveManager.getObj().get(SaveManager.KEY_WEICHATPWD, null);
-                                if (pwd) {
-                                    this.loginPwdView.pwdTxt1.text = pwd;
-                                    this.loginPwdView.pwdTxt1.editable = false;
-                                    this.loginPwdView.pwdTxt1.mouseEnabled = false;
-                                }
-                            }
-                            break;
-                        }
+                    //屏蔽短信验证
+                    if (!bindPhone) {
+                        this.loginPwdView.setGrayIndex(1, true);
+                        this.loginPwdView.checkGroup2.alpha = 0.5;
                     }
                     //默认选择旧密码修改
                     this.loginPwdView.selectIndex = 0;
@@ -381,13 +344,13 @@ var view;
                                 if (!_this.loginPwdView.checkOldPwdInfos())
                                     return;
                                 LayaMain.getInstance().showCircleLoading(true);
-                                HttpRequester.changePassword(_this.loginPwdView.pwdTxt1.text, _this.loginPwdView.pwdTxt2.text, true, _this, _this.responseLoginPwdSeted);
+                                HttpRequester.changePassword(_this.loginPwdView.getPwdStr(1), _this.loginPwdView.getPwdStr(2), true, _this, _this.responseLoginPwdSeted);
                             }
                             else { //短信验证修改
                                 if (!_this.loginPwdView.checkPhoneCodePwdInfos())
                                     return;
                                 LayaMain.getInstance().showCircleLoading(true);
-                                HttpRequester.changePasswordWithPhone(_this.loginPwdView.pwdTxt4.text, _this.loginPwdView.phoneTxt.text, _this.loginPwdView.codeTxt.text, true, _this, _this.responseLoginPwdSeted);
+                                HttpRequester.changePasswordWithPhone(_this.loginPwdView.getPwdStr(4), _this.loginPwdView.phoneTxt.text, _this.loginPwdView.codeTxt.text, true, _this, _this.responseLoginPwdSeted);
                             }
                         });
                         //获取验证
@@ -399,21 +362,15 @@ var view;
                     this.loginPwdView.visible = true;
                     this.initLoginPwdView = true;
                 };
+                //登录密码修改结果
                 AccountInfoDlg.prototype.responseLoginPwdSeted = function (suc, jobj) {
                     LayaMain.getInstance().showCircleLoading(false);
                     if (suc) {
-                        //这里只要是快捷账号就要保存密码
-                        var fastName = SaveManager.getObj().get(SaveManager.KEY_QK_USERNAME, "");
-                        var isfastName = fastName == Common.loginInfo.username;
-                        if (Common.loginType == LoginType.Fast || isfastName) {
-                            Common.loginInfo.strongPwd = true;
-                            var pwd = this.loginPwdView.isOldPwd ? this.loginPwdView.pwdTxt2.text : this.loginPwdView.pwdTxt4.text;
-                            SaveManager.getObj().save(SaveManager.KEY_QK_PASSWORD, pwd);
-                            SaveManager.getObj().save(SaveManager.KEY_QK_PWD_CHANGED, true);
-                            SaveManager.getObj().save(SaveManager.KEY_LOGIN_INFO, Common.loginInfo);
-                        }
-                        LayaMain.getInstance().loginOut();
-                        Toast.showToast("登录密码修改成功，请重新登录");
+                        Toast.showToast("登录密码修改成功");
+                        //更新缓存
+                        var pwd = this.loginPwdView.isOldPwd ? this.loginPwdView.getPwdStr(2) : this.loginPwdView.getPwdStr(4);
+                        LoginModel.changeLoginPwdSuc(pwd);
+                        this.loginPwdView.clearInput();
                     }
                 };
                 AccountInfoDlg.prototype.togglePwdInput = function (txt) {

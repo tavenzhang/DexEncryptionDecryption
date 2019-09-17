@@ -27,6 +27,7 @@ var view;
                 _this.gapTime = 350; //控制点击间隔时间
                 _this.progressValue = 0;
                 _this.index = 0;
+                _this.lowMark.visible = false;
                 _this.resetView();
                 return _this;
             }
@@ -65,8 +66,19 @@ var view;
              */
             GameIconView.prototype.readData = function (vo) {
                 this.gameVo = vo;
+                //读取本地配置
                 this.config = ResConfig.getGameIconConfig(vo.alias);
+                var normArr = this.config.norm.split(".png");
+                this.config.gray = normArr[0] + ConfObjRead.graySuffix + ".png";
+                var skArr = this.config.anim_sk.split(".sk");
+                this.config.anim_png = skArr[0] + ".png";
                 this.setGameState(GameState[vo.state]);
+                //显示体验房标记(目前本地配死)
+                if (this.config.lowRoom) {
+                    this.lowMark.alpha = 0;
+                    this.lowMark.visible = true;
+                    Laya.Tween.to(this.lowMark, { alpha: 1 }, 500, null, null, 300);
+                }
             };
             /**
              * 执行点击事件

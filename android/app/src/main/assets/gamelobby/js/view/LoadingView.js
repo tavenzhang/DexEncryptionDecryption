@@ -55,7 +55,7 @@ var view;
             //背景框
             var bg = new Laya.Sprite();
             bg.graphics.drawRect(0, 0, Laya.stage.width, Laya.stage.height, "#000000");
-            bg.alpha = this._alp;
+            bg.alpha = 0; //this._alp;需求将遮罩背景去掉:https://jira.mtkefu.com/browse/TGQP-2782?filter=-1
             this.addChildAt(bg, 0);
             this.anim = new DragonBoneAnim();
             this.anim.parseInit({ skUrl: "./assets/animation/loading/xiaoLoding.sk", pngUrl: "./assets/animation/loading/xiaoLoding.png" });

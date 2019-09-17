@@ -89,8 +89,9 @@ export default class AppInfoStore {
   //openInstallData
   @observable
   openInstallData = { appKey: "", data: null };
+
   @observable
-  isSitApp=this.clindId=="31"
+  isSitApp=false
 
   openInstallCheckCount = 1;
 
@@ -99,6 +100,7 @@ export default class AppInfoStore {
   }
 
   init() {
+
     TW_Data_Store.getItem(TW_DATA_KEY.platData, (err, ret) => {
       TW_Log(
         "TN_GetPlatInfo---versionBBL--TW_DATA_KEY.platDat====eeror=" +
@@ -106,7 +108,6 @@ export default class AppInfoStore {
           "--ret--" +
           ret
       );
-
       if (err) {
         this.checkAppInfoUpdate(null);
       } else {
@@ -120,7 +121,9 @@ export default class AppInfoStore {
           this.checkAppInfoUpdate(null);
         }
       }
+
     });
+
   }
 
   checkAppInfoUpdate = (oldData = null) => {
@@ -201,7 +204,7 @@ export default class AppInfoStore {
         }
       } else {
         if (callBack) {
-          if (this.openInstallCheckCount < 3) {
+          if (this.openInstallCheckCount <= 3) {
             this.openInstallCheckCount += 1;
             callBack(this.onOpenInstallCheck);
           }
@@ -213,19 +216,16 @@ export default class AppInfoStore {
   onShowDownAlert = url => {
     //处于渠道验证阶段 不需要检测强更新
     if (url && url.length > 0 && !this.isInAnroidHack) {
-      TW_Log(
-        "onShowDownAlert-----url==this.APP_DOWNLOAD_VERSION=" +
-          this.APP_DOWNLOAD_VERSION,
-        this.latestNativeVersion
-      );
+      TW_Log("onShowDownAlert-----url==this.APP_DOWNLOAD_VERSION=" + this.APP_DOWNLOAD_VERSION, this.latestNativeVersion);
       let isShowAlert=this.APP_DOWNLOAD_VERSION != this.latestNativeVersion;
-      if(!isShowAlert&&this.appInfo.PLAT_ID=="1147"){
-          //针对超会赢棋牌app 做特殊处理 由于超会赢中途更新了app微信账号
-          if(this.appInfo.PLAT_ID=="1147"&&this.appInfo.AppSecret&&this.appInfo.AppSecret.weixin){
-              isShowAlert = (this.appInfo.AppSecret.weixin != "c05ff4e9cb83b964dd7e1c46b7f3f080")
-          }
-      }
-        TW_Log("onBackAndroid---this.APP_DOWNLOAD_VERSION==-" + this.APP_DOWNLOAD_VERSION, this.latestNativeVersion);
+      // if(!isShowAlert&&this.appInfo.PLAT_ID=="1147"){
+      //     //针对超会赢棋牌app 做特殊处理 由于超会赢中途更新了app微信账号
+      //     if(this.appInfo.PLAT_ID=="1147"&&this.appInfo.AppSecret&&this.appInfo.AppSecret.weixin){
+      //         isShowAlert = (this.appInfo.AppSecret.weixin != "c05ff4e9cb83b964dd7e1c46b7f3f080")
+      //     }
+      // }
+
+      TW_Log("onBackAndroid---this.APP_DOWNLOAD_VERSION==-" + this.APP_DOWNLOAD_VERSION, this.latestNativeVersion);
       if (isShowAlert) {
 
         //清除所有的缓存数据 方便app升级
@@ -286,7 +286,7 @@ export default class AppInfoStore {
       // TN_START_SHARE("111","222");
       TN_StartUMeng(this.appInfo.UmengKey, this.appInfo.Affcode);
     }
-    this.isSitApp=this.clindId=="31";
+    this.isSitApp =this.clindId=="31"||this.clindId=="4"
   };
 
   checkAndroidsubType(initDomain) {
@@ -404,6 +404,7 @@ export default class AppInfoStore {
   async initAppVersion() {
     let nativeConfig = await CodePush.getConfiguration();
     this.appVersion = nativeConfig.appVersion;
+    TW_Store.dataStore.log+="\n---nativeConfig--"+JSON.stringify(nativeConfig)+"---\n";
     TW_Log(
       "appInfo----version-nativeConfig--  this.appVersion " + this.appVersion,
       nativeConfig
@@ -424,9 +425,13 @@ export default class AppInfoStore {
       });
 
     if (this.deviceToken.length === 0) {
-      //this.deviceToken = await this.initDeviceTokenFromNative();
       this.deviceToken = await this.initDeviceUniqueID();
-      this.saveDeviceTokenToLocalStore();
+      if(this.deviceToken.length<=0){
+          this.deviceToken = this.getGUIDd();
+      }
+      //刷新游戏appNativeData 数据
+      TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appNativeData, { data: TW_Store.bblStore.getAppGameData()}));
+       this.saveDeviceTokenToLocalStore();
     }
   }
 
@@ -435,17 +440,17 @@ export default class AppInfoStore {
       const oriUniqueID = DeviceInfo.getUniqueID();
       let enhancedUniqueID = oriUniqueID;
       TW_Log('deviceToken: oriUniqueID: ', oriUniqueID);
-  
+
       if (!G_IS_IOS) {
         enhancedUniqueID = `${oriUniqueID.substring(0, 8)}-${oriUniqueID.substring(8, 12)}-${oriUniqueID.substring(12, 16)}-${oriUniqueID.substring(0, 4)}-${oriUniqueID.substring(4)}`;
       }
-  
+
       TW_Log('deviceToken: enhancedUniqueID: ', enhancedUniqueID);
-  
+
       return enhancedUniqueID;
     } catch (e) {
       const enhancedUniqueID = await this.initDeviceTokenFromNative();
-      
+
       return enhancedUniqueID;
     }
   }
@@ -454,12 +459,17 @@ export default class AppInfoStore {
   async initDeviceTokenFromNative() {
     return new Promise(resolve => {
       try {
-        NativeModules.JXHelper.getCFUUID((err, uuid) => {
-          if (!uuid) {
-            uuid = this.getGUIDd();
+          if(G_IS_IOS){
+              NativeModules.JXHelper.getCFUUID((err, uuid) => {
+                  if (!uuid||(uuid&&uuid.length<3)) {
+                      uuid = this.getGUIDd();
+                  }
+                  resolve(uuid);
+              });
+          }else{
+              resolve(this.getGUIDd());
           }
-          resolve(uuid);
-        });
+
       } catch (e) {
         resolve(this.getGUIDd());
       }

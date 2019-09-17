@@ -105,7 +105,8 @@ var view;
             Laya.Tween.to(this.TLbox, { y: 0 }, time, easeing, null, 100);
             Laya.Tween.to(this.bottomBg, { y: 681 }, time, easeing, null, 100);
             Laya.Tween.to(this.bottomGroup, { y: 644 }, time, easeing, null, 100);
-            Laya.Tween.to(this.girlSp, { x: 36 }, 600, Laya.Ease.backOut, null, 200);
+            var girlx = GameUtils.getScreencOffset(-85, -34); //36
+            Laya.Tween.to(this.girlSp, { x: girlx }, 600, Laya.Ease.backOut, null, 200);
             Laya.Tween.to(this.iconbox, { x: 0 }, 600, Laya.Ease.backOut, null, 200);
             Laya.Tween.to(this.rightBtn, { right: GameUtils.posOffset }, 300, Laya.Ease.backOut, null, 800);
             if (check)
@@ -122,12 +123,12 @@ var view;
             EventManager.addTouchScaleListener(this.rightBtn, this, function () {
                 SoundPlayer.clickSound();
                 if (_this.gameList)
-                    _this.gameList.doRightArrow(548);
+                    _this.gameList.doRightArrow();
             }, null, 1);
             EventManager.addTouchScaleListener(this.leftBtn, this, function () {
                 SoundPlayer.clickSound();
                 if (_this.gameList)
-                    _this.gameList.doLeftArrow(548);
+                    _this.gameList.doLeftArrow();
             }, null, 1);
             //----------------top-btn-------------------
             //活动
@@ -159,13 +160,7 @@ var view;
             //提现
             EventManager.addTouchScaleListener(this.btn_tx, this, function () {
                 SoundPlayer.enterPanelSound();
-                //如果没有修改过密码则需要先修改密码
-                if (Common.userInfo_current && Common.userInfo_current.needResetPwd) {
-                    PageManager.showDlg(DlgCmd.changePwdDlg);
-                }
-                else {
-                    Tools.jump2module(ConfObjRead.getConfUrl().url.g_redraw, "redraw");
-                }
+                InnerJumpUtil.doJump(DlgCmd.withdraw);
             });
             //绑定送金
             EventManager.addTouchScaleListener(this.btn_bind, this, function () {
@@ -186,8 +181,6 @@ var view;
             EventManager.register(EventType.RESIZE, this, this.resize);
             EventManager.register(EventType.GETBINDAWARD_SUCC, this, this.hideBindBtn);
             EventManager.register(EventType.LIFE_CYCLE, this, this.lifeCycleHandler);
-            EventManager.register(EventType.GAMETOHALL, this, this.gameToHall);
-            EventManager.register(EventType.HALLTOGAME, this, this.hallToGame);
             EventManager.register(EventType.GETUSER_CURRENT, this, this.checkBindPhone);
             EventManager.register(EventType.BINDPHONE_INFO, this, this.checkBindPhone);
             EventManager.register(EventType.GETUSERS_INFO, this, this.showUserInfo);
@@ -201,7 +194,9 @@ var view;
         LobbyView.prototype.lifeCycleHandler = function (state) {
             Debug.log("前后台切换：", state);
         };
-        //从游戏返回到大厅
+        /**
+         * 从游戏返回到大厅
+         */
         LobbyView.prototype.gameToHall = function () {
             Debug.log("进入大厅，开始播放动画");
             //恢复动画播放
@@ -226,7 +221,9 @@ var view;
             //检查全局维护公告
             LayaMain.getInstance().checkGameMaintenance();
         };
-        //从大厅进入游戏
+        /**
+         * 从大厅进入游戏
+         */
         LobbyView.prototype.hallToGame = function () {
             Debug.log("进入游戏，暂停动画播放");
             this.requestCycelData();
@@ -247,21 +244,18 @@ var view;
             this.publicUI.showUserInfo();
         };
         LobbyView.prototype.checkBindPhone = function () {
-            if (!Common.bindPhoneInfo || !Common.userInfo_current)
+            if (!Common.userInfo_current)
                 return;
-            var bind = Common.userInfo_current.certifiedPhone;
-            if (GameData.bindOpen) {
-                if ((!GameData.isGetBindAward && bind) || !bind) {
-                    this.btn_bind.visible = true;
-                    if (GameData.joinLobbyType == JoinLobbyType.loginJoin) {
-                        QueueTask.addQueue(QueueType.bindPhoneActiv);
-                        //显示逻辑已经放到活动公告关闭后,如果没有活动公告则直接显示
-                    }
-                }
+            this.publicUI.checkMark();
+            if (LoginModel.loginType != LoginMethod.account) { //只要不是正式账号
+                this.btn_bind.visible = true;
+                QueueTask.addQueue(QueueType.bindPhoneActiv);
+                //显示逻辑已经放到活动公告关闭后,如果没有活动公告则直接显示
             }
         };
         LobbyView.prototype.hideBindBtn = function () {
             this.btn_bind.visible = false;
+            this.publicUI.hideMark();
             LobbyDataManager.refreshMoney();
             LobbyDataManager.reqUserCurrentInfo();
         };
@@ -279,6 +273,8 @@ var view;
             var _this = this;
             HttpRequester.getHttpData(ConfObjRead.getConfUrl().cmd.attention_new, this, function (suc, jobj) {
                 LayaMain.getInstance().showCircleLoading(false);
+                if (_this.destroyed)
+                    return;
                 if (suc) {
                     jobj.forEach(function (data, idx) {
                         var counter = 0;
@@ -307,9 +303,11 @@ var view;
         LobbyView.prototype.resize = function () {
             this.width = Laya.stage.width;
             var gap = GameUtils.posOffset;
+            var lw = this.leftBtn.width >> 1;
             this.bottomGroup.right = gap;
             this.TLbox.right = gap;
-            this.rightBtn.right = gap;
+            this.rightBtn.right = GameUtils.getScreencOffset(26 - lw, 96 - lw);
+            this.leftBtn.left = GameUtils.getScreencOffset(346 - lw, 490 - lw);
             if (this.gameList)
                 this.gameList.resetView();
         };
@@ -317,7 +315,6 @@ var view;
         LobbyView.prototype.initCycelView = function (suc, data) {
             if (!suc)
                 return;
-            Debug.log("cyc:", data); //debugxxx
             var arr;
             if (data && data.carousels) {
                 var urls = data.carousels;
@@ -331,9 +328,10 @@ var view;
             if (!this.cycleView) {
                 this.cycleView = new CyclePageBox(378, 198);
                 this.cycleView.init(arr, 3000);
-                this.cycleView.pos(-this.cycleView.width * 2, 506);
+                this.cycleView.pos(-this.cycleView.width * 2, 484);
                 this.addChild(this.cycleView);
-                Laya.Tween.to(this.cycleView, { x: GameUtils.posOffset }, 600, Laya.Ease.backOut, null, 200);
+                var ix = GameUtils.getScreencOffset(0, 28);
+                Laya.Tween.to(this.cycleView, { x: ix }, 600, Laya.Ease.backOut, null, 200);
             }
             else {
                 this.cycleView.flushData(arr);

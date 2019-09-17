@@ -24,21 +24,6 @@ var ResConfig = /** @class */ (function () {
         arr = list.filter(function (value) { return value.alias == alias; });
         return arr[0];
     };
-    /**
-     * 获取游戏列表素材配置(用于预加载)
-     */
-    ResConfig.getGameListResConfig = function () {
-        var config = ConfObjRead.getGameIconConfig();
-        var list = config.list;
-        var arr = [];
-        list.forEach(function (value) {
-            // arr.push({ url: value.norm, type: Laya.Loader.IMAGE });
-            // arr.push({ url: value.gray, type: Laya.Loader.IMAGE });
-            arr.push({ url: value.anim_png, type: Laya.Loader.IMAGE });
-            arr.push({ url: value.anim_sk, type: Laya.Loader.BUFFER });
-        });
-        return arr;
-    };
     ResConfig.addTween = true; //大厅元素初始化是否添加淡入动画
     //转移至version.json
     ResConfig.platform_font = [

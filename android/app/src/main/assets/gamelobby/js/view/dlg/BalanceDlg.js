@@ -99,6 +99,12 @@ var view;
                 });
                 //
                 EventManager.register(EventType.FLUSH_YUEBAOINFO, this, this.reqInfo);
+                EventManager.register(EventType.BALANCE_PADSETING, this, this.flushPwdState);
+            };
+            BalanceDlg.prototype.flushPwdState = function () {
+                if (this.yuebaoInfo) {
+                    this.yuebaoInfo.isPasswordAvailable = true;
+                }
             };
             BalanceDlg.prototype.reqInfo = function () {
                 LayaMain.getInstance().showCircleLoading(true);

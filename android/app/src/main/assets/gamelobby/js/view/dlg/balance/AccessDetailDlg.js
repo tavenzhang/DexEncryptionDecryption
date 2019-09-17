@@ -25,7 +25,7 @@ var view;
                 __extends(AccessDetailDlg, _super);
                 function AccessDetailDlg() {
                     var _this = _super.call(this) || this;
-                    _this.dataTypes = ["", "DEPOSIT", "WITHDRAW", "INCOME"];
+                    _this.dataTypes = ["", "存入", "取出", "收益"];
                     _this.initView();
                     return _this;
                 }
@@ -35,7 +35,13 @@ var view;
                 };
                 AccessDetailDlg.prototype.initView = function () {
                     var _this = this;
-                    this.itemPanel.vScrollBarSkin = "";
+                    this.itemList.vScrollBarSkin = "";
+                    this.itemList.itemRender = view.dlg.balance.DetailItemView;
+                    this.itemList.spaceY = 6;
+                    this.itemList.renderHandler = Laya.Handler.create(this, this.renderItems, null, false);
+                    this.descGroup.visible = false;
+                    this.descBg.mouseEnabled = true;
+                    this.mkmc.size(Laya.stage.width, Laya.stage.height);
                     EventManager.addTouchScaleListener(this.closeBtn, this, function () {
                         SoundPlayer.closeSound();
                         _this.close(null, true);
@@ -46,10 +52,36 @@ var view;
                         tab.alpha = 0;
                         EventManager.addTouchScaleListener(tab, this, this.tabHandler, i, 1);
                     }
-                    this.tabHandler(null, 1);
+                    EventManager.register(EventType.BALANCE_DETAILIITEM_DESE, this, this.showDese);
+                    EventManager.pushEvent(this.mkmc, Laya.Event.CLICK, this, this.closeDeseTip);
+                    //获取全部数据
+                    LayaMain.getInstance().showCircleLoading(true);
+                    HttpRequester.postHttpData(ConfObjRead.httpCmd.yuebaoDetail, {}, this, function (suc, jobj) {
+                        LayaMain.getInstance().showCircleLoading(false);
+                        if (suc) {
+                            _this.allDatas = jobj;
+                            _this.tabHandler(null, 1);
+                        }
+                    });
+                };
+                AccessDetailDlg.prototype.renderItems = function (item, index) {
+                    item.readData(item.dataSource);
+                };
+                //显示描述信息
+                AccessDetailDlg.prototype.showDese = function (value) {
+                    this.descGroup.visible = true;
+                    this.infoTxt.text = value;
+                    this.descBg.alpha = 0;
+                    this.descBg.scale(0, 0);
+                    Laya.Tween.to(this.descBg, { alpha: 1, scaleX: 1, scaleY: 1 }, 350, Laya.Ease.cubicOut);
+                };
+                AccessDetailDlg.prototype.closeDeseTip = function () {
+                    var _this = this;
+                    Laya.Tween.to(this.descBg, { alpha: 0, scaleX: 0, scaleY: 0 }, 300, Laya.Ease.cubicOut, Laya.Handler.create(this, function () {
+                        _this.descGroup.visible = false;
+                    }));
                 };
                 AccessDetailDlg.prototype.tabHandler = function (evt, id) {
-                    var _this = this;
                     var tab = this["tab" + id];
                     if (tab.alpha == 1)
                         return;
@@ -60,34 +92,21 @@ var view;
                         this.prevTab.alpha = 0;
                     }
                     this.prevTab = tab;
-                    //
-                    var data = {
-                        type: this.dataTypes[id - 1]
-                    };
                     if (id == 1)
-                        data = {};
-                    LayaMain.getInstance().showCircleLoading(true);
-                    HttpRequester.postHttpData(ConfObjRead.httpCmd.yuebaoDetail, data, this, function (suc, jobj) {
-                        LayaMain.getInstance().showCircleLoading(false);
-                        if (suc) {
-                            _this.showDetail(jobj);
-                        }
-                    });
+                        this.showDetail(this.allDatas);
+                    else {
+                        var type_1 = this.dataTypes[id - 1];
+                        var arr = this.allDatas.filter(function (value) { return value.type == type_1; });
+                        this.showDetail(arr);
+                    }
                 };
                 AccessDetailDlg.prototype.showDetail = function (arr) {
-                    var _this = this;
-                    this.itemPanel.removeChildren();
-                    this.itemPanel.refresh();
-                    var item;
-                    arr.forEach(function (value, index) {
-                        item = new view.dlg.balance.DetailItemView();
-                        item.readData(value);
-                        item.y = index * (item.height + 6);
-                        _this.itemPanel.addChild(item);
-                    });
+                    this.itemList.array = arr;
+                    this.itemList.tweenTo(0, 300);
                 };
                 AccessDetailDlg.prototype.onClosed = function (type) {
-                    this.itemPanel.destroy(true);
+                    Laya.Tween.clearTween(this.descBg);
+                    this.itemList.destroy(true);
                     EventManager.removeAllEvents(this);
                     _super.prototype.onClosed.call(this, type);
                     this.destroy(true);
