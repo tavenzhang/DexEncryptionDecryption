@@ -486,6 +486,21 @@ export default class XXWebView extends Component {
                         }
                     }
                     break;
+                case "JumpThirdGame"://跳转第三方游戏
+                    url = TW_Base64.decode(message.data);
+                    if (TW_Store.bblStore.lastGameUrl != url) {
+                        TW_Store.bblStore.lastGameUrl = url;
+                        TW_Store.bblStore.jumpData = this.getJumpData(message.payload);
+                        TW_Store.bblStore.showGameCircle();
+                        TW_Store.bblStore.subGameParams = {
+                            url,
+                            onMsgHandle: this.onMsgHandle,
+                            onEvaleJS: this.onEvaleJS,
+                            isGame: true,
+                            isOrigan:true
+                        }
+                    }
+                    break;
                 case  "game_account":
                     TW_Store.gameUIStroe.isShowUserInfo = !TW_Store.gameUIStroe.isShowUserInfo;
                     break;

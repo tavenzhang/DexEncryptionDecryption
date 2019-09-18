@@ -1,4 +1,4 @@
-import React, { Component ,PureComponent} from 'react'
+import React, {Component, PureComponent} from 'react'
 import {
     Text,
     View,
@@ -8,17 +8,37 @@ import {
 import moment from "moment";
 import DeviceInfo from 'react-native-device-info';
 //import NetInfo from "@react-native-community/netinfo";
-import { observer } from 'mobx-react';
-import { NativeEventEmitter, NativeModules } from 'react-native'
+import {observer} from 'mobx-react';
+import {NativeEventEmitter, NativeModules} from 'react-native'
 
-import { phoneState } from '../asset/images';
-let deviceInfoEmitter={}
-if(NativeModules.RNDeviceInfo){
-     deviceInfoEmitter = new NativeEventEmitter(NativeModules.RNDeviceInfo);
+import {phoneState} from '../asset/images';
+import PropTypes from "prop-types";
+
+let deviceInfoEmitter = {}
+if (NativeModules.RNDeviceInfo) {
+    deviceInfoEmitter = new NativeEventEmitter(NativeModules.RNDeviceInfo);
 }
 
 @observer
 export default class PhoneStateView extends PureComponent {
+
+    static propTypes = {
+        delay: PropTypes.any,
+        position: PropTypes.any,
+        isShow: PropTypes.any,
+        isHideBattery: PropTypes.any,//是否隐藏电池显示
+        isHideTime: PropTypes.any,//是否隐藏时间显示
+
+    }
+
+    static defaultProps = {
+        delay: 100,
+        isShow: false,
+        isHideBattery: "0",
+        isHideTime: "0"
+    }
+
+
     constructor(props) {
         super(props);
 
@@ -48,7 +68,7 @@ export default class PhoneStateView extends PureComponent {
 
         this.intervalID = setInterval(
             () => {
-                this.setState({ time: moment(new Date()).format("HH:mm") });
+                this.setState({time: moment(new Date()).format("HH:mm")});
                 this.checkIsWifi();
                 if (!G_IS_IOS) {
                     this.monitorBatteryLevel();
@@ -59,12 +79,12 @@ export default class PhoneStateView extends PureComponent {
 
         deviceInfoEmitter.addListener('powerStateDidChange', batteryState => {
             //console.log('powerStateDidChange', batteryState);
-            this.setState({ isCharging: batteryState.batteryState === "charging" ? true : false });
+            this.setState({isCharging: batteryState.batteryState === "charging" ? true : false});
         });
 
         deviceInfoEmitter.addListener('batteryLevelDidChange', level => {
             //console.log('batteryLevelDidChange', level);
-            this.setState({ battStat: level.toFixed(2) });
+            this.setState({battStat: level.toFixed(2)});
         });
 
         /*
@@ -96,17 +116,17 @@ export default class PhoneStateView extends PureComponent {
     monitorBatteryLevel() {
         DeviceInfo.getBatteryLevel().then(batteryLevel => {
             //console.log('getBatteryLevel', batteryLevel);
-            this.setState({ battStat: batteryLevel.toFixed(2) });
+            this.setState({battStat: batteryLevel.toFixed(2)});
         });
 
         DeviceInfo.isBatteryCharging().then(isCharging => {
             //console.log('isBatteryCharging', isCharging);
-            this.setState({ isCharging });
+            this.setState({isCharging});
         });
     }
 
     phoneBatteryIndicator() {
-        const { battStat, isCharging } = this.state;
+        const {battStat, isCharging} = this.state;
         let img = null;
 
         if (isCharging) {
@@ -120,7 +140,7 @@ export default class PhoneStateView extends PureComponent {
                 img = phoneState.batt50;
             } else if (battStat > 0.7 && battStat <= 0.9) {
                 img = phoneState.batt80;
-            } else if (battStat > 0.9 ) {
+            } else if (battStat > 0.9) {
                 img = phoneState.battFull;
             }
         }
@@ -130,14 +150,14 @@ export default class PhoneStateView extends PureComponent {
 
     async checkIsWifi() {
         //console.log('checkIsWifi');
-        try{
+        try {
             const ip = await DeviceInfo.getIPAddress();
             const isWifi = (ip.substring(0, 3) === "192") ? true : false;
-            TW_Log("checkIsWifi----isWifi==ip=="+ip,isWifi)
-            this.setState({ ip, isWifi });
-        }catch (e) {
-            TW_Log("checkIsWifi----",e)
-            this.setState({ isWifi:false });
+            TW_Log("checkIsWifi----isWifi==ip==" + ip, isWifi)
+            this.setState({ip, isWifi});
+        } catch (e) {
+            TW_Log("checkIsWifi----", e)
+            this.setState({isWifi: false});
         }
 
         /*
@@ -155,23 +175,23 @@ export default class PhoneStateView extends PureComponent {
 
     pingGoogle() {
         fetch('https://www.baidu.com')
-        .then((response) => {
-            //console.log('response ', response)
-            if (response.status === 200) {
-                this.setState({
-                    isInternetReachable: true
-                });
-            } else {
+            .then((response) => {
+                //console.log('response ', response)
+                if (response.status === 200) {
+                    this.setState({
+                        isInternetReachable: true
+                    });
+                } else {
+                    this.setState({
+                        isInternetReachable: false
+                    });
+                }
+            })
+            .catch((error) => {
                 this.setState({
                     isInternetReachable: false
                 });
-            }
-        })
-        .catch((error) => {
-            this.setState({
-                isInternetReachable: false
-            });
-        })
+            })
     }
 
     /*
@@ -203,8 +223,8 @@ export default class PhoneStateView extends PureComponent {
         return img;
     }
     */
-    cellularWifiState=(delayTime)=>{
-        const { isWifi } = this.state;
+    cellularWifiState = (delayTime) => {
+        const {isWifi} = this.state;
         let delay = parseInt(delayTime)
         let img = null;
         if (isWifi) {
@@ -218,39 +238,39 @@ export default class PhoneStateView extends PureComponent {
             } else if (delay > 300) {
                 img = phoneState.wf1bar;
             }
-        }else{
+        } else {
             img = phoneState.mb4G;
         }
-        if(delay>2000){
+        if (delay > 2000) {
             img = phoneState.wfNoConn;
-            if(this.state.isInternetReachable){
-                this.setState({isInternetReachable:false})
+            if (this.state.isInternetReachable) {
+                this.setState({isInternetReachable: false})
             }
-        }else{
-            if(!this.state.isInternetReachable){
-                this.setState({isInternetReachable:true})
+        } else {
+            if (!this.state.isInternetReachable) {
+                this.setState({isInternetReachable: true})
             }
         }
         return img;
     }
 
 
-    cellularIndicator=(delayTime)=> {
-        const { isWifi } = this.state;
+    cellularIndicator = (delayTime) => {
+        const {isWifi} = this.state;
         let delay = parseInt(delayTime)
         let img = null;
-        let isNetworkOK=true;
+        let isNetworkOK = true;
         if (isWifi) {
             //img = phoneState.wfFull;
-                if (delay <= 100) {
-                    img = phoneState.wfFull;
-                } else if (delay > 100 && delay <= 200) {
-                    img = phoneState.wf3bars;
-                } else if (delay > 200 && delay <= 300) {
-                    img = phoneState.wf2bars;
-                } else if (delay > 300) {
-                    img = phoneState.wf1bar;
-                }
+            if (delay <= 100) {
+                img = phoneState.wfFull;
+            } else if (delay > 100 && delay <= 200) {
+                img = phoneState.wf3bars;
+            } else if (delay > 200 && delay <= 300) {
+                img = phoneState.wf2bars;
+            } else if (delay > 300) {
+                img = phoneState.wf1bar;
+            }
         } else {
             /*
             img = {
@@ -260,54 +280,54 @@ export default class PhoneStateView extends PureComponent {
                 "4g": phoneState.mb4G
             }[cellularGeneration] || phoneState.mb4bars;
             */
-                if (delay <= 100) {
-                    img = phoneState.mb4bars;
-                } else if (delay > 100 && delay <= 200) {
-                    img = phoneState.mb3bars;
-                } else if (delay > 200 && delay <= 300) {
-                    img = phoneState.mb2bars;
-                } else if (delay > 300) {
-                    img = phoneState.mb1bar;
-                }
+            if (delay <= 100) {
+                img = phoneState.mb4bars;
+            } else if (delay > 100 && delay <= 200) {
+                img = phoneState.mb3bars;
+            } else if (delay > 200 && delay <= 300) {
+                img = phoneState.mb2bars;
+            } else if (delay > 300) {
+                img = phoneState.mb1bar;
+            }
         }
 
-        if(delay>2000){
+        if (delay > 2000) {
             img = phoneState.wfNoConn;
-            if(this.state.isInternetReachable){
-                this.setState({isInternetReachable:false})
+            if (this.state.isInternetReachable) {
+                this.setState({isInternetReachable: false})
             }
-        }else{
-            if(!this.state.isInternetReachable){
-                this.setState({isInternetReachable:true})
+        } else {
+            if (!this.state.isInternetReachable) {
+                this.setState({isInternetReachable: true})
             }
         }
         return img;
     }
 
 
-
     render() {
 
-        const { delay, position, isShow } = TW_Store.bblStore.netInfo;
-        const { battStat, time } = this.state;
-        let isVeryDealy = delay >= 400 ? true:false;
+        const {delay, position, isShow, isHideBattery, isHideTime} = TW_Store.bblStore.netInfo;
+        const {battStat, time} = this.state;
+        let isVeryDealy = delay >= 400 ? true : false;
 
         return (
-                <View style={{ position: "absolute", ...position}} pointerEvents={"none"}>
-                    {
-                        (isShow == "1") ?
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{position: "absolute", ...position}} pointerEvents={"none"}>
+                {
+                    (isShow == "1") ?
+                        <View style={{flexDirection: 'row', alignItems: 'center'}}>
                             {/*<Image source={this.wifiIndicator(msgData.delay)} resizeMode='contain' style={[styles.iconSmall, { marginRight: 5 }]} />*/}
                             {/*<Image source={this.cellularWifiState(delay)} resizeMode='contain' style={[styles.iconSmall, { marginRight: 5 }]} />*/}
-                            <Image source={this.cellularIndicator(delay)} resizeMode='contain' style={[styles.iconSmall, { marginRight: 5 }]} />
-                            <Text style={[styles.text,isVeryDealy ? {color:"red"}:null]}>{`${delay}ms`}</Text>
-                            <Image source={this.phoneBatteryIndicator()} resizeMode='contain' style={[styles.icon, { marginLeft: 5 }]} />
-                            {/*<Text style={[styles.text, { marginLeft: 5 }]}>{ip}</Text>
-                            <Text style={[styles.text, { marginLeft: 5 }]}>{isShow}</Text>*/}
-                            <Text style={[styles.text, { marginLeft: 15 }]}>{time}</Text>
+                            <Image source={this.cellularIndicator(delay)} resizeMode='contain'
+                                   style={[styles.iconSmall, {marginRight: 5}]}/>
+                            <Text style={[styles.text, isVeryDealy ? {color: "red"} : null]}>{`${delay}ms`}</Text>
+                            {isHideBattery == "1" ? null :
+                                <Image source={this.phoneBatteryIndicator()} resizeMode='contain'
+                                       style={[styles.icon, {marginLeft: 5}]}/>}
+                            {isHideTime == "1" ? null : <Text style={[styles.text, {marginLeft: 15}]}>{time}</Text>}
                         </View> : null
-                    }
-                </View>
+                }
+            </View>
         )
     }
 }
