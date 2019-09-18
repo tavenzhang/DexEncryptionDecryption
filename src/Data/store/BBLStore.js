@@ -79,11 +79,7 @@ export  default  class BBLStore {
     setNetInfo(payload) {
         //console.log('setNetInfo: payload', payload);
 
-        this.netInfo = {
-            delay: payload.delay,
-            position: { top: payload.position.top, right: payload.position.right },
-            isShow: payload.isShow
-        };
+        this.netInfo = payload;
 
         //console.log('setNetInfo: netInfo', this.netInfo);
     }
