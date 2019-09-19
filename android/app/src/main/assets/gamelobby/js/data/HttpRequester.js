@@ -5,37 +5,20 @@ var HttpRequester = /** @class */ (function () {
     function HttpRequester() {
     }
     /**
-     * 网关初始化信息
-     * @param caller
-     * @param callback
+     * 记录日志
+     * @param value
      */
-    HttpRequester.getGatewayInfo = function (caller, callback) {
-        var header = ["Content-Type", "application/json; charset=utf-8", "Accept", "*/*",
-            "device_token", GameUtils.deviceToken,
-            "rid", MyUid.getUid(),
-            "ts", Laya.Browser.now(),
-            "s", "WAP"
-        ];
-        var url = ConfObjRead.getConfUrl().url.apihome + ConfObjRead.getConfUrl().cmd.gatewayInfo;
-        this.doRequest(url, header, null, caller, callback, "get");
-    };
-    /**
-     * 通过token登录
-     */
-    HttpRequester.loginByToken = function (token, caller, callback) {
-        var url = ConfObjRead.getConfUrl().url.apihome + ConfObjRead.getConfUrl().cmd.userinfobalance + "?access_token=" + token;
-        this.doRequest(url, null, null, caller, callback, "get");
-    };
-    /**
-     * 获取快捷登录用户名和密码信息
-     * 用于首次登录本地无缓存的情况
-     * @param caller
-     * @param callback
-     */
-    HttpRequester.getFastUserInfo = function (caller, callback) {
-        var header = ["Content-Type", "application/json; charset=utf-8", "Accept", "*/*", "device_token", GameUtils.deviceToken];
-        var url = ConfObjRead.getConfUrl().url.apihome + ConfObjRead.getConfUrl().cmd.prequicklogin;
-        this.doRequest(url, header, null, caller, callback, "post");
+    HttpRequester.addLog = function (value) {
+        var url = ConfObjRead.apihome + ConfObjRead.httpCmd.logapi;
+        var obj = {
+            type: "gameLobby",
+            owner: Common.clientId,
+            user: Common.userInfo_current ? Common.userInfo_current.username : "null",
+            value: value
+        };
+        var jobj = JSON.stringify(obj);
+        var header = ["Content-Type", "application/json; charset=utf-8", "Accept", "*/*"];
+        this.doRequest(url, header, jobj, null, null, "post");
     };
     /**
      * 获取手机验证码
@@ -128,7 +111,7 @@ var HttpRequester = /** @class */ (function () {
      * @param caller
      * @param callback
      */
-    HttpRequester.getHttpData = function (cmd, caller, callback, urlParams) {
+    HttpRequester.getHttpData = function (cmd, caller, callback, urlParams, headData) {
         var url = ConfObjRead.getConfUrl().url.apihome;
         url += cmd;
         if (Common.access_token)
@@ -136,6 +119,8 @@ var HttpRequester = /** @class */ (function () {
         if (urlParams)
             url += urlParams;
         var header = ["Accept", "application/json"];
+        if (headData)
+            header = header.concat(headData);
         this.doRequest(url, header, null, caller, callback, "get");
     };
     /**

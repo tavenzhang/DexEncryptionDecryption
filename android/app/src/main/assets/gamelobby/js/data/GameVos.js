@@ -18,6 +18,12 @@ var GameState;
     GameState[GameState["EXPECTATION"] = 2] = "EXPECTATION";
     GameState[GameState["UPDATE"] = 3] = "UPDATE";
 })(GameState || (GameState = {}));
+var GameType;
+(function (GameType) {
+    GameType[GameType["classify"] = 1] = "classify";
+    GameType[GameType["selfGame"] = 2] = "selfGame";
+    GameType[GameType["other"] = 3] = "other";
+})(GameType || (GameType = {}));
 /**
  * 验证码类型
  */
