@@ -256,9 +256,7 @@ export default class TWWebGameView extends Component {
         } else {
             if (navState.url) {
                 if (navState.url.indexOf("g_lobby/index.html") > -1) {
-                    if (isGame) {
-                        this.onBackHomeJs();
-                    }
+                    this.onBackHomeJs();
                     this.bblStore.lastGameUrl = "home"
                 }
             }
