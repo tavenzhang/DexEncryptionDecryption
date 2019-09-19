@@ -292,7 +292,7 @@ var Tools = /** @class */ (function () {
                 "usergateway": AppData.NATIVE_DATA.loginDomain,
                 "gamecenter": domainUrl,
                 "wss": wssUrl,
-                "openDebug": Debug.openDebug
+                "openDebug": Debug.httpDebug
             };
             Debug.log("lobbyToGame-token=", Common.access_token);
             // Debug.log("Tools.jump2game jobj:");
@@ -302,7 +302,6 @@ var Tools = /** @class */ (function () {
             var au = jumpUrl + "?jumpData=" + param;
             var enUrl = encodeURI(au);
             au = enUrl;
-            var ne = b.decode(param);
             Debug.log("Tools.jump2game url:" + au);
             //需要关闭声音等暂停操作
             LayaMain.getInstance().onGamePause();

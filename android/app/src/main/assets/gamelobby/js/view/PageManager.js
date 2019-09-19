@@ -185,11 +185,9 @@ var PageManager = /** @class */ (function () {
         "res/atlas/ui/lobby/bottombar.atlas",
         "res/atlas/ui/common.atlas",
         "res/atlas/ui/lobby.atlas",
-        "assets/ui/avatorpad/touxiang.atlas",
         "asset/animation/coins/money_icon.png",
         "asset/animation/girl/girl.png",
-        "asset/animation/loading/xiaoLoding.png",
-        "asset/animation/shopicon/shopicon.png"
+        "asset/animation/loading/xiaoLoding.png"
     ];
     return PageManager;
 }());

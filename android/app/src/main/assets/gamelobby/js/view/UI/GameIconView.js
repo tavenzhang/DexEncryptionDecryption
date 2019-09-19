@@ -32,8 +32,28 @@ var view;
                 return _this;
             }
             Object.defineProperty(GameIconView.prototype, "alias", {
+                /**
+                 * 获取游戏别名
+                 */
                 get: function () {
                     return this.gameVo.alias;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(GameIconView.prototype, "classify", {
+                /**
+                 * 获取游戏类型
+                 */
+                get: function () {
+                    return this.gameVo.classify;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(GameIconView.prototype, "vo", {
+                get: function () {
+                    return this.gameVo;
                 },
                 enumerable: true,
                 configurable: true
@@ -47,18 +67,14 @@ var view;
                 configurable: true
             });
             GameIconView.prototype.resetView = function () {
-                this.hotIcon.visible = false;
                 this.updateIcon.visible = false;
-                this.updateTxt.visible = false;
                 this.expectIcon.visible = false;
                 this.pauseIcon.visible = false;
-                this.animbox.visible = false;
                 this.normIcon.visible = false;
-                this.grayIcon.visible = false;
-                if (this.grayRect)
-                    this.grayRect.height = this.grayIcon.height;
                 if (this.anim)
                     this.anim.pause();
+                if (this.upload)
+                    this.upload.visible = false;
             };
             /**
              * 读取数据
@@ -66,15 +82,24 @@ var view;
              */
             GameIconView.prototype.readData = function (vo) {
                 this.gameVo = vo;
+                if (vo.classify == GameType.other) { //三方游戏直接读取网络图标
+                    this.normIcon.visible = true;
+                    LoadTool.loadImage(this.normIcon, vo.icon, 200, 200);
+                    return;
+                }
+                //todo:电子类游戏背景用黄色
                 //读取本地配置
                 this.config = ResConfig.getGameIconConfig(vo.alias);
-                var normArr = this.config.norm.split(".png");
-                this.config.gray = normArr[0] + ConfObjRead.graySuffix + ".png";
                 var skArr = this.config.anim_sk.split(".sk");
                 this.config.anim_png = skArr[0] + ".png";
+                //没有本地图标的显示名称
+                if (this.config.alias != this.gameVo.alias) {
+                    this.debugTxt.text = this.gameVo.name;
+                    this.noSkfile = true;
+                }
                 this.setGameState(GameState[vo.state]);
                 //显示体验房标记(目前本地配死)
-                if (this.config.lowRoom) {
+                if (this.config.lowRoom && this.config.alias == this.gameVo.alias) {
                     this.lowMark.alpha = 0;
                     this.lowMark.visible = true;
                     Laya.Tween.to(this.lowMark, { alpha: 1 }, 500, null, null, 300);
@@ -89,6 +114,12 @@ var view;
                     return;
                 this.isclick = false;
                 Laya.timer.once(this.gapTime, this, function () { return _this.isclick = true; });
+                //如果是三方游戏
+                if (this.classify == GameType.other) {
+                    SoundPlayer.enterGameSound();
+                    LobbyModel.checkValidBalance(this.gameVo, false);
+                    return;
+                }
                 switch (this.gameState) {
                     case GameState.NORMAL:
                         this.onLaunchGame();
@@ -103,7 +134,8 @@ var view;
                 Common.gameId = this.gameVo.id;
                 Common.wsUrl = this.gameVo.url;
                 if (this.gameVo.jumpUrl) {
-                    Tools.jump2game(this.gameVo.url);
+                    //进入游戏前先判断玩家的有效余额
+                    LobbyModel.checkValidBalance(this.gameVo, true);
                 }
                 else {
                     Toast.showToast("数据配置异常,无法进入房间");
@@ -131,13 +163,12 @@ var view;
                     return; //维护状态不接受其他状态
                 this.gameState = state;
                 this.resetView();
-                this.hotIcon.visible = this.gameVo.bhot;
                 if (!GameState[state]) {
-                    Debug.error(this.config.desc + "state=" + state, this.gameVo.state);
+                    Debug.error(this.gameVo.name + "state=" + state, this.gameVo.state);
                 }
                 switch (this.gameState) {
                     case GameState.NORMAL:
-                        this.showNorm();
+                        this.showNorm(true);
                         break;
                     case GameState.PAUSE:
                         this.showPause();
@@ -166,9 +197,8 @@ var view;
             GameIconView.prototype.refreshUpdateProgress = function () {
                 if (!this.progressValue)
                     this.progressValue = 0;
-                var value = Tools.FormatFloatNumber(this.progressValue * 100, 2);
-                this.updateTxt.text = "已下载 " + value + "%";
-                this.grayRect.height = this.grayHeight * (1 - this.progressValue);
+                this.creatUpload();
+                this.upload.progressValue = this.progressValue;
                 if (this.progressValue >= 1) {
                     this.isupdating = false;
                     this.setGameState(GameState.NORMAL);
@@ -177,37 +207,34 @@ var view;
             };
             //----------------------------------------
             //正常模式
-            GameIconView.prototype.showNorm = function () {
+            GameIconView.prototype.showNorm = function (autoPlay) {
+                if (this.noSkfile)
+                    return;
                 if (!this.anim) {
                     this.anim = new DragonBoneAnim();
+                    this.anim.scale(0.95, 0.95);
                     this.animbox.addChild(this.anim);
-                    this.anim.loadInit({ skUrl: this.config.anim_sk });
+                    this.anim.loadInit({ skUrl: this.config.anim_sk, autoPlay: autoPlay });
                 }
                 else {
-                    this.anim.resume();
+                    if (autoPlay)
+                        this.anim.resume();
                 }
-                this.animbox.visible = true;
             };
             //维护中
             GameIconView.prototype.showPause = function () {
                 this.pauseIcon.visible = true;
-                this.grayIcon.visible = true;
-                if (!this.grayIcon.skin) {
-                    this.grayIcon.skin = this.config.gray;
-                }
+                this.showNorm(false);
             };
             //敬请期待
             GameIconView.prototype.showExpectation = function () {
                 this.expectIcon.visible = true;
-                this.grayIcon.visible = true;
-                if (!this.grayIcon.skin) {
-                    this.grayIcon.skin = this.config.gray;
-                }
+                this.showNorm(false);
             };
             //待更新
             GameIconView.prototype.showUpdate = function () {
                 this.updateIcon.visible = true;
-                this.showNorm();
+                this.showNorm(false);
             };
             //更新中
             GameIconView.prototype.showUpdating = function () {
@@ -215,30 +242,24 @@ var view;
                 this.gameState = GameState.UPDATE;
                 this.resetView();
                 this.progressValue = 0.0;
-                this.updateTxt.text = this.progressValue.toString();
-                this.updateTxt.visible = true;
-                if (!this.normIcon.skin)
-                    this.normIcon.skin = this.config.norm;
-                if (!this.grayIcon.skin)
-                    this.grayIcon.skin = this.config.gray;
-                this.normIcon.visible = true;
-                this.grayIcon.visible = true;
-                if (!this.grayRect)
-                    this.grayRect = new Laya.Rectangle(0, 0, this.grayIcon.width || 200, this.grayIcon.height || 200);
-                this.grayIcon.scrollRect = this.grayRect;
-                this.grayHeight = this.grayRect.height;
+                this.creatUpload();
+                this.upload.progressValue = 0;
+                //更新前动画是否暂停
+            };
+            GameIconView.prototype.creatUpload = function () {
+                if (!this.upload) {
+                    this.upload = new view.comp.UploadTimeBar();
+                    this.upload.centerX = this.upload.centerY = 0;
+                    this.addChild(this.upload);
+                }
             };
             GameIconView.prototype.pause = function () {
-                if (this.animbox.visible) {
-                    if (this.anim)
-                        this.anim.pause();
-                }
+                if (this.anim)
+                    this.anim.pause();
             };
             GameIconView.prototype.resume = function () {
-                if (this.animbox.visible) {
-                    if (this.anim)
-                        this.anim.resume();
-                }
+                if (this.anim)
+                    this.anim.resume();
             };
             /**
              * 销毁
@@ -246,8 +267,6 @@ var view;
             GameIconView.prototype.destroy = function () {
                 if (this.anim)
                     this.anim.destroy(true);
-                if (this.grayRect)
-                    this.grayRect = null;
                 _super.prototype.destroy.call(this, true);
             };
             return GameIconView;
