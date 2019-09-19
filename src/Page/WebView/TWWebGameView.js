@@ -48,7 +48,7 @@ export default class TWWebGameView extends Component {
     }
 
     render() {
-        let {isOrigan, url} = this.props;
+        let {isOrigan, url,isThirdGame} = this.props;
         let myUrl = url;
         if (url == "") {
             return null
@@ -56,15 +56,21 @@ export default class TWWebGameView extends Component {
         let tempIndex = myUrl.indexOf("?");
         let myParam = myUrl.substr(tempIndex);
         let homePre = myUrl.substring(0, tempIndex);
-        let lastStr = homePre.substr(homePre.length - 1)
-        TW_Log("homePre.lastIndexOf-" + homePre.lastIndexOf("/"), lastStr)
-        if (lastStr != "/") {
-            homePre += "/";
+        let lastStr = homePre.substr(homePre.length - 1);
+        let newUrl="";
+        if(isThirdGame){
+            newUrl =homePre
+        }else{
+            TW_Log("homePre.lastIndexOf-" + homePre.lastIndexOf("/"), lastStr)
+            if (lastStr != "/") {
+                homePre += "/";
+            }
+             newUrl = homePre + "index.html";
+            if (TW_Store.appStore.isSitApp) {
+                myParam += "&time=" + Math.random() * 9999;
+            }
         }
-        let newUrl = homePre + "index.html";
-        if (TW_Store.appStore.isSitApp) {
-            myParam += "&time=" + Math.random() * 9999;
-        }
+
 
         let source = {
             file: newUrl,
@@ -132,7 +138,7 @@ export default class TWWebGameView extends Component {
             if(!isOrigan){
                 this.timeId = setTimeout(this.onEnterGame, G_IS_IOS ? 1000 : 4000)
             }else{
-                this.timeId = setTimeout(this.onEnterGame, 500)
+                this.timeId = setTimeout(this.onEnterGame, 1000)
             }
 
         }
@@ -239,18 +245,18 @@ export default class TWWebGameView extends Component {
 
     onError = (error) => {
         this.onBackHomeJs()
-        TW_Log("onError=====TCweb======event=====", error.nativeEvent)
+        TW_Log("TWWebGameView==onError=====TCweb======event=====", error.nativeEvent)
     }
 
     onShouldStartLoadWithRequest = (event) => {
-        TW_Log("onShouldStartLoadWithRequest=======TWWebGameView====event=====", event);
+        TW_Log("TWWebGameView==onShouldStartLoadWithRequest=======TWWebGameView====event=====", event);
         return true;
     };
 
     onNavigationStateChange = (navState) => {
 
         TW_Log("TWWebGameView===========onNavigationStateChange=====url==" + navState.url+"--W_Store.gameUpateStore.isInSubGame=="+TW_Store.gameUpateStore.isInSubGame, navState)
-        let { isGame, isAddView} = this.props
+        let {  isAddView} = this.props
         if (navState.title == "404 Not Found") {
             this.onBackHomeJs()
         } else {
