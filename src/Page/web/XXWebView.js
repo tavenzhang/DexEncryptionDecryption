@@ -490,6 +490,7 @@ export default class XXWebView extends Component {
                     url = TW_Base64.decode(message.data);
                     if (TW_Store.bblStore.lastGameUrl != url) {
                         TW_Store.bblStore.lastGameUrl = url;
+                        TW_Store.bblStore.showGameCircle();
                         TW_Store.bblStore.subGameParams = {
                             url,
                             onMsgHandle: this.onMsgHandle,
