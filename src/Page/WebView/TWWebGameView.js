@@ -18,7 +18,6 @@ import {SoundHelper} from "../../Common/JXHelper/SoundHelper";
 import Toast from "../../Common/JXHelper/JXToast";
 import Tools from "../../Common/View/Tools";
 import TCUserOpenPayApp from "../UserCenter/UserPay/TCUserOpenPayApp";
-import FileTools from "../../Common/Global/FileTools";
 
 
 @observer
@@ -138,9 +137,8 @@ export default class TWWebGameView extends Component {
             if(!isOrigan){
                 this.timeId = setTimeout(this.onEnterGame, G_IS_IOS ? 1000 : 4000)
             }else{
-                this.timeId = setTimeout(this.onEnterGame, 1000)
+                this.timeId = setTimeout(this.onEnterGame, G_IS_IOS ? 1000 : 3000)
             }
-
         }
         TW_Log("onLoadEnd=TCweb==========event===== TW_Store.bblStore.isLoading--" + TW_Store.bblStore.isLoading, event)
     }
@@ -221,6 +219,7 @@ export default class TWWebGameView extends Component {
     }
 
     onEnterGame = () => {
+        TW_Log("onLoadEnd=TCweb==========event=====onEnterGame")
         TW_Store.bblStore.lastGameUrl = "";
         if (!TW_Store.gameUpateStore.isInSubGame) {
             TW_Store.gameUpateStore.isInSubGame = true
@@ -289,10 +288,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "transparent",
+        overflow:'hidden'
     },
     webView: {
         marginTop: 0,
         flex: 1,
-        backgroundColor: "transparent"
+        backgroundColor: "transparent",
+        overflow:'hidden'
     }
 });
