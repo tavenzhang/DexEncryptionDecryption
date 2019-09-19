@@ -362,7 +362,7 @@ export default class Enter extends Component {
             this.hotFixStore.syncMessage = 'app大厅初始化...'; //防止进入reloadAppDomain
             setTimeout(()=>{
                 this.hotFix(TW_Store.hotFixStore.currentDeployKey);
-            },5000);
+            },G_IS_IOS ? 5000:20000);
             return ;
         }
         // if(TW_Store.gameUpateStore.isCodePushChecking){
