@@ -6,7 +6,7 @@ var ResConfig = /** @class */ (function () {
      * @param id 注意格式为01,02...
      */
     ResConfig.getHeadSkinByID = function (id) {
-        return "touxiang/img_touxiang_" + id + ".jpg";
+        return "ui/headList/icon" + id + ".png";
     };
     /**
      * 通过别名获取游戏本地配置

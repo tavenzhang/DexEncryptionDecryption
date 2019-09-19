@@ -59,7 +59,7 @@ var view;
                     if (suc) {
                         this.close(null, true);
                         dlg_1.TipsDlg.show("成功取出：" + this.money + "元");
-                        LobbyDataManager.refreshMoney();
+                        LobbyModel.refreshMoney();
                         EventManager.dispath(EventType.FLUSH_YUEBAOINFO);
                     }
                 };

@@ -35,7 +35,7 @@ var view;
                 });
                 EventManager.addTouchScaleListener(this.okBtn, this, function () {
                     SoundPlayer.clickSound();
-                    if (_this.cmdTxt.text == "openDebug") {
+                    if (_this.cmdTxt.text == "debug123") {
                         PostMHelp.game_common({ "do": "openDebug" });
                         _this.close(null, true);
                     }

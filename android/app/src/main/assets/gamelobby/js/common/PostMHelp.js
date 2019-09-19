@@ -80,6 +80,13 @@ var PostMHelp = /** @class */ (function () {
     PostMHelp.initGame = function () {
         window.top.postMessage(JSON.stringify({ action: "showGame" }), "*");
     };
+    /**
+     * 跳转三方游戏
+     * @param data
+     */
+    PostMHelp.jumpOtherGame = function (data) {
+        window.top.postMessage(JSON.stringify({ action: "JumpThirdGame", data: data }), "*");
+    };
     return PostMHelp;
 }());
 //# sourceMappingURL=PostMHelp.js.map
