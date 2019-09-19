@@ -137,7 +137,7 @@ export default class TWWebGameView extends Component {
             if(!isOrigan){
                 this.timeId = setTimeout(this.onEnterGame, G_IS_IOS ? 1000 : 4000)
             }else{
-                this.timeId = setTimeout(this.onEnterGame, G_IS_IOS ? 1000 : 2000)
+                this.timeId = setTimeout(this.onEnterGame, G_IS_IOS ? 800 : 1500)
             }
         }
         TW_Log("onLoadEnd=TCweb==========event===== TW_Store.bblStore.isLoading--" + TW_Store.bblStore.isLoading, event)
