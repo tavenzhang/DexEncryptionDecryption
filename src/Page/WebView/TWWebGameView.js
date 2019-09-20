@@ -126,9 +126,15 @@ export default class TWWebGameView extends Component {
 
 
     onLoadEnd = (event) => {
-        let {url} = this.props;
+
+        let {url,isOrigan} = this.props;
         if (url && url.length > 0) {
-            this.timeId = setTimeout(this.onEnterGame, G_IS_IOS ? 1000 : 4000)
+            if(!isOrigan){
+                this.timeId = setTimeout(this.onEnterGame, G_IS_IOS ? 1000 : 4000)
+            }else{
+                this.timeId = setTimeout(this.onEnterGame, 500)
+            }
+
         }
         TW_Log("onLoadEnd=TCweb==========event===== TW_Store.bblStore.isLoading--" + TW_Store.bblStore.isLoading, event)
     }
@@ -250,9 +256,7 @@ export default class TWWebGameView extends Component {
         } else {
             if (navState.url) {
                 if (navState.url.indexOf("g_lobby/index.html") > -1) {
-                    if (isGame) {
-                        this.onBackHomeJs();
-                    }
+                    this.onBackHomeJs();
                     this.bblStore.lastGameUrl = "home"
                 }
             }
