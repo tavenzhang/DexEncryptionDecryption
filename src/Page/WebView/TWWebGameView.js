@@ -90,7 +90,7 @@ export default class TWWebGameView extends Component {
                 };
             }
         }
-        TW_Log("myUrl------------------------myParam--" + myParam + "-\n-newUrl----" + newUrl + "---source==", this.state);
+        TW_Log("myUrl------------------------myParam--" + myParam + "-\n-newUrl----" + newUrl + "---source==", source);
         let injectJs = `(function() {
               window.postMessage = function(data) {
                 window.ReactNativeWebView.postMessage(data);
@@ -272,7 +272,6 @@ export default class TWWebGameView extends Component {
     onNavigationStateChange = (navState) => {
 
         TW_Log("TWWebGameView===========onNavigationStateChange=====url==" + navState.url + "--W_Store.gameUpateStore.isInSubGame==" + TW_Store.gameUpateStore.isInSubGame, navState)
-        let {isAddView} = this.props
         if (navState.title == "404 Not Found") {
             this.onBackHomeJs()
         } else {
@@ -285,8 +284,7 @@ export default class TWWebGameView extends Component {
         }
     };
 
-    onBackHomeJs = () => {
-        let {onEvaleJS} = this.props;
+    onBackHomeJs = () => {;
         if (TW_Store.dataStore.isAppSound) {
             SoundHelper.onCheckPalyMusic();
         }
