@@ -18,6 +18,8 @@ import {SoundHelper} from "../../Common/JXHelper/SoundHelper";
 import Toast from "../../Common/JXHelper/JXToast";
 import Tools from "../../Common/View/Tools";
 import TCUserOpenPayApp from "../UserCenter/UserPay/TCUserOpenPayApp";
+import ExitGameAlertView from "../enter/gameMenu/ExitGameAlertView";
+import GameMenuButton from "../enter/gameMenu/GameMenuButton";
 
 
 @observer
@@ -33,6 +35,7 @@ export default class TWWebGameView extends Component {
         this.state = {
             isHide: false,
             isHttpFail: false,
+            isShowExitAlertView: false
         }
         this.bblStore = TW_Store.bblStore;
     }
@@ -43,11 +46,11 @@ export default class TWWebGameView extends Component {
 
     componentWillMount() {
         TW_OnBackHomeJs = this.onBackHomeJs;
-        TW_OnValueJSSubGame=this.onEvaleJS;
+        TW_OnValueJSSubGame = this.onEvaleJS;
     }
 
     render() {
-        let {isOrigan, url,isThirdGame} = this.props;
+        let {isOrigan, url, isThirdGame} = this.props;
         let myUrl = url;
         if (url == "") {
             return null
@@ -56,15 +59,15 @@ export default class TWWebGameView extends Component {
         let myParam = myUrl.substr(tempIndex);
         let homePre = myUrl.substring(0, tempIndex);
         let lastStr = homePre.substr(homePre.length - 1);
-        let newUrl="";
-        if(isThirdGame){
-            newUrl =homePre
-        }else{
+        let newUrl = "";
+        if (isThirdGame) {
+            newUrl = homePre
+        } else {
             TW_Log("homePre.lastIndexOf-" + homePre.lastIndexOf("/"), lastStr)
             if (lastStr != "/") {
                 homePre += "/";
             }
-             newUrl = homePre + "index.html";
+            newUrl = homePre + "index.html";
             if (TW_Store.appStore.isSitApp) {
                 myParam += "&time=" + Math.random() * 9999;
             }
@@ -88,7 +91,7 @@ export default class TWWebGameView extends Component {
                 };
             }
         }
-        TW_Log("myUrl------------------------myParam--" + myParam + "-\n-newUrl----" + newUrl+"---source==",source);
+        TW_Log("myUrl------------------------myParam--" + myParam + "-\n-newUrl----" + newUrl + "---source==", this.state);
         let injectJs = `(function() {
               window.postMessage = function(data) {
                 window.ReactNativeWebView.postMessage(data);
@@ -125,18 +128,33 @@ export default class TWWebGameView extends Component {
                     alignItems: "center", backgroundColor: "transparent"
                 }}>
                 </View>}
+                {isThirdGame && <GameMenuButton itransEnabled={"ON"}
+                                                onPressExit={this.onClickMenu}/>}
+
+                {this.state.isShowExitAlertView && <ExitGameAlertView
+                    onPressConfirm={()=>{
+                        TW_Store.bblStore.quitSubGame()
+                        this.setState({isShowExitAlertView: false})
+                    }}
+                    onPressCancel={() => this.setState({isShowExitAlertView: false})}
+                />
+                }
             </View>
         );
     }
 
+    onClickMenu=()=>{
+        TW_Log("onClickMenu---")
+        this.setState({isShowExitAlertView: true})
+    }
 
     onLoadEnd = (event) => {
 
-        let {url,isOrigan} = this.props;
+        let {url, isOrigan} = this.props;
         if (url && url.length > 0) {
-            if(!isOrigan){
+            if (!isOrigan) {
                 this.timeId = setTimeout(this.onEnterGame, G_IS_IOS ? 1000 : 4000)
-            }else{
+            } else {
                 this.timeId = setTimeout(this.onEnterGame, G_IS_IOS ? 500 : 1000)
             }
         }
@@ -144,12 +162,11 @@ export default class TWWebGameView extends Component {
     }
 
 
-
     onEvaleJS = (data) => {
         let dataStr = JSON.stringify(data);
         dataStr = dataStr ? dataStr : "";
         if (this.refs.myWebView) {
-            TW_Store.dataStore.log += "\nAppStateChange-sunGame--onEvaleJS\n" +dataStr+"==\n";
+            TW_Store.dataStore.log += "\nAppStateChange-sunGame--onEvaleJS\n" + dataStr + "==\n";
             this.refs.myWebView.postMessage(dataStr, "*");
         }
     }
@@ -254,8 +271,8 @@ export default class TWWebGameView extends Component {
 
     onNavigationStateChange = (navState) => {
 
-        TW_Log("TWWebGameView===========onNavigationStateChange=====url==" + navState.url+"--W_Store.gameUpateStore.isInSubGame=="+TW_Store.gameUpateStore.isInSubGame, navState)
-        let {  isAddView} = this.props
+        TW_Log("TWWebGameView===========onNavigationStateChange=====url==" + navState.url + "--W_Store.gameUpateStore.isInSubGame==" + TW_Store.gameUpateStore.isInSubGame, navState)
+        let {isAddView} = this.props
         if (navState.title == "404 Not Found") {
             this.onBackHomeJs()
         } else {
@@ -270,16 +287,12 @@ export default class TWWebGameView extends Component {
 
     onBackHomeJs = () => {
         let {onEvaleJS} = this.props;
-        TW_Store.gameUpateStore.isInSubGame = false;
         if (TW_Store.dataStore.isAppSound) {
             SoundHelper.onCheckPalyMusic();
         }
         TW_Store.bblStore.quitSubGame();
         clearTimeout(this.timeId);
-        if (onEvaleJS) {
-            onEvaleJS(this.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appData, {isAtHome: true}));
-            onEvaleJS(this.bblStore.getWebAction(this.bblStore.ACT_ENUM.lobbyResume));
-        }
+
     }
 }
 
@@ -288,12 +301,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "transparent",
-        overflow:'hidden'
+        overflow: 'hidden'
     },
     webView: {
         marginTop: 0,
         flex: 1,
         backgroundColor: "transparent",
-        overflow:'hidden'
+        overflow: 'hidden'
     }
 });
