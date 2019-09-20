@@ -29,6 +29,9 @@ export default class TWWebGameView extends Component {
         data: PropTypes.func,
         isShow: PropTypes.any
     }
+    static defaultProps = {
+        title: ''
+    };
 
     constructor(state) {
         super(state)
@@ -39,10 +42,6 @@ export default class TWWebGameView extends Component {
         }
         this.bblStore = TW_Store.bblStore;
     }
-
-    static defaultProps = {
-        title: ''
-    };
 
     componentWillMount() {
         TW_OnBackHomeJs = this.onBackHomeJs;
@@ -157,6 +156,7 @@ export default class TWWebGameView extends Component {
             } else {
                 this.timeId = setTimeout(this.onEnterGame, G_IS_IOS ? 500 : 1000)
             }
+
         }
         TW_Log("onLoadEnd=TCweb==========event===== TW_Store.bblStore.isLoading--" + TW_Store.bblStore.isLoading, event)
     }
