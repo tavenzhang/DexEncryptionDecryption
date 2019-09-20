@@ -313,3 +313,16 @@ export const phoneState = {
     mbH:require('./phone_state/xh_H.png'),
     mbLTE:require('./phone_state/xh_LTE.png'),
 }
+
+export const gameMemu = {
+    btnCancel: require("./gameMenu/btnCancel.png"),
+    btnCollapseLeft: require("./gameMenu/btnCollapseLeft.png"),
+    btnCollapseRight: require("./gameMenu/btnCollapseRight.png"),
+    btnConfirm: require("./gameMenu/btnConfirm.png"),
+    btnExit: require("./gameMenu/btnExit.png"),
+    btnMenu: require("./gameMenu/btnMenu.png"),
+    btnReload: require("./gameMenu/btnReload.png"),
+    btnTransfer: require("./gameMenu/btnTransfer.png"),
+    dialogExit: require("./gameMenu/dialogExit.png"),
+    dialogInfo: require("./gameMenu/dialogInfo.png")
+}

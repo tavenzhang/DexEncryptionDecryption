@@ -481,8 +481,22 @@ export default class XXWebView extends Component {
                             url,
                             onMsgHandle: this.onMsgHandle,
                             onEvaleJS: this.onEvaleJS,
-                            isGame: true,
-                            isOrigan
+                            isOrigan,
+                            isThirdGame:false
+                        }
+                    }
+                    break;
+                case "JumpThirdGame"://跳转第三方游戏
+                    url = TW_Base64.decode(message.data);
+                    if (TW_Store.bblStore.lastGameUrl != url) {
+                        TW_Store.bblStore.lastGameUrl = url;
+                        TW_Store.bblStore.showGameCircle();
+                        TW_Store.bblStore.subGameParams = {
+                            url,
+                            onMsgHandle: this.onMsgHandle,
+                            onEvaleJS: this.onEvaleJS,
+                            isOrigan:true,
+                            isThirdGame:true
                         }
                     }
                     break;

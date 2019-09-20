@@ -29,6 +29,13 @@ export const NavBarHeaderHeight = 44
 export const NavBarHeight = StatusBarHeight + NavBarHeaderHeight
 
 /**
+ * 导航IphoneX刘海高度
+ */
+export const SafeAreaTopHeight = G_IS_IOS && JX_IPHON_X ? 44 : 0
+
+export const SafeAreaBottomHeight = G_IS_IOS && JX_IPHON_X ? 34 : 0
+
+/**
  * 导航栏按钮下拉框距离顶部位置
  */
 export const NavBarModalTop = G_IS_IOS ? NavBarHeight : NavBarHeaderHeight
