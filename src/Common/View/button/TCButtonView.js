@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import FastImage from "react-native-fast-image";
 
 
-class  TCButtonCommon extends PureComponent {
+export class  TCButton extends PureComponent {
 
     static propTypes = {
         disabled: PropTypes.bool,//按钮不可用状态（true不可用，false可用）
@@ -100,12 +100,12 @@ export default class TCButtonView extends PureComponent {
             textStyles.push(txtstyle);
         }
         return (
-            <TCButtonCommon {...this.props} containStyles={buttonStyles}>
+            <TCButton {...this.props} containStyles={buttonStyles}>
                 {text ? <Text style={textStyles}>
                     {text}
                 </Text>:null}
 
-            </TCButtonCommon>
+            </TCButton>
         )
     }
 }
@@ -127,6 +127,7 @@ export  class TCButtonImg extends PureComponent {
         isHorizon:PropTypes.bool,
         isClose:PropTypes.bool,
         soundName:PropTypes.any,
+        resizeMode:PropTypes.any,
 
     };
 
@@ -140,7 +141,8 @@ export  class TCButtonImg extends PureComponent {
         text:null,
         isHorizon:true,
         isClose:false,
-        soundName:null
+        soundName:null,
+        resizeMode:"contain"
     }
 
 
@@ -148,14 +150,14 @@ export  class TCButtonImg extends PureComponent {
         let {disabled,text,imgSource, isHorizon,btnStyle,textStyle,imgStyle,imgSourceDisabled, imgStyleDisable,resizeMode='contain'} = this.props;
         let myImgSourceDisabled = imgSourceDisabled ? imgSourceDisabled:imgSource;
         return (
-            <TCButtonCommon  {...this.props} containStyles={btnStyle}>
+            <TCButton  {...this.props} containStyles={btnStyle}>
                 <View style={{flexDirection:isHorizon ? "row":"column", justifyContent:"center",alignItems:"center"}}>
                 <FastImage style={disabled ? imgStyleDisable:imgStyle}
                            source={disabled ? myImgSourceDisabled:imgSource}
                            resizeMode={resizeMode}/>
                 {text ? <Text style={[styles.text,textStyle]}>{text}</Text>:null}
                 </View>
-            </TCButtonCommon>
+            </TCButton>
         )
     }
 }

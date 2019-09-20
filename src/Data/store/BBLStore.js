@@ -130,11 +130,15 @@ export  default  class BBLStore {
     }
     @action
     quitSubGame() {
+        TW_Store.gameUpateStore.isInSubGame = false;
        this.subGameParams={
             url:"",
             isGame: true
         }
-
+        if (TW_OnValueJSHome) {
+            TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appData, {isAtHome: true}));
+            TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lobbyResume));
+        }
     }
 
     @action
