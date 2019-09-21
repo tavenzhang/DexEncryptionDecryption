@@ -16,6 +16,7 @@ import android.os.Environment;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -183,11 +184,12 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
       WebView.setWebContentsDebuggingEnabled(true);
     }
 
-     //修改
-        settings.setAllowFileAccess(true);
-        settings.setJavaScriptEnabled(true);
-        settings.setAllowFileAccessFromFileURLs(true);
-        settings.setAllowUniversalAccessFromFileURLs(true);
+  //修改
+    settings.setAllowFileAccess(true);
+    settings.setJavaScriptEnabled(true);
+    settings.setAllowFileAccessFromFileURLs(true);
+    settings.setAllowUniversalAccessFromFileURLs(true);
+
 
     webView.setDownloadListener(new DownloadListener() {
       public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
@@ -914,6 +916,23 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
 
     public void setHasScrollEvent(boolean hasScrollEvent) {
       this.hasScrollEvent = hasScrollEvent;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+
+      // Allow scrolling inside ScrollView
+      if (event.findPointerIndex(0) == -1) {
+        return super.onTouchEvent(event);
+      }
+
+      if (event.getPointerCount() >= 1) {
+        requestDisallowInterceptTouchEvent(true);
+      } else {
+        requestDisallowInterceptTouchEvent(false);
+      }
+
+      return super.onTouchEvent(event);
     }
 
     @Override
