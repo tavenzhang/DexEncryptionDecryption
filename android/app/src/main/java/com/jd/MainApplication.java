@@ -123,8 +123,7 @@ public class MainApplication extends Application implements ReactApplication {
                     new JXHelperPackage(),
                     new OpenAppPackage(),
                     new RNAudioPackage(),
-                    new DplusReactPackage(),
-                    new WebViewReactPackage()
+                    new DplusReactPackage()
             );
 
         }
