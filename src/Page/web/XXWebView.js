@@ -289,11 +289,11 @@ export default class XXWebView extends Component {
             };
         }
 
-        if (TW_IS_DEBIG) {
-            // source =  require('./../../../android/app/src/main/assets/gamelobby/index.html');
-            let uri = "http://localhost:8081/android/app/src/main/assets/gamelobby/index.html?platform=ios&hash=7e5876ea5a240467db5670550b53411b&rm-" + this.rom
-            source = {uri}
-        }
+        // if (TW_IS_DEBIG) {
+        //     // source =  require('./../../../android/app/src/main/assets/gamelobby/index.html');
+        //     let uri = "http://localhost:8081/android/app/src/main/assets/gamelobby/index.html?platform=ios&hash=7e5876ea5a240467db5670550b53411b&rm-" + this.rom
+        //     source = {uri}
+        // }
         TW_Log("targetAppDir----MainBundlePath-TW_Store.dataStore.isAppInited-----" + TW_Store.dataStore.isAppInited+"---TW_Store.appStore.deviceToken="+TW_Store.appStore.deviceToken, source);
         if (!TW_Store.dataStore.isAppInited) {
             return null
@@ -497,21 +497,6 @@ export default class XXWebView extends Component {
                             onEvaleJS: this.onEvaleJS,
                             isOrigan:true,
                             isThirdGame:true
-                        }
-                    }
-                    break;
-                case "JumpThirdGame"://跳转第三方游戏
-                    url = TW_Base64.decode(message.data);
-                    if (TW_Store.bblStore.lastGameUrl != url) {
-                        TW_Store.bblStore.lastGameUrl = url;
-                        TW_Store.bblStore.jumpData = this.getJumpData(message.payload);
-                        TW_Store.bblStore.showGameCircle();
-                        TW_Store.bblStore.subGameParams = {
-                            url,
-                            onMsgHandle: this.onMsgHandle,
-                            onEvaleJS: this.onEvaleJS,
-                            isGame: true,
-                            isOrigan:true
                         }
                     }
                     break;
