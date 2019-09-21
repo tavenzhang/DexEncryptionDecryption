@@ -5,7 +5,7 @@
     * LICENSE file in the root directory of this source tree.
 */
 
-#import "RNCWebView.h"
+#import "RNCWKWebView.h"
 #import <React/RCTConvert.h>
     #import <React/RCTAutoInsetsProtocol.h>
     #import "RNCWKProcessPoolManager.h"
@@ -27,7 +27,7 @@ static NSURLCredential* clientAuthenticationCredential;
 }
     @end
 
-    @interface RNCWebView () <WKUIDelegate, WKNavigationDelegate, WKScriptMessageHandler, UIScrollViewDelegate, RCTAutoInsetsProtocol>
+    @interface RNCWKWebView () <WKUIDelegate, WKNavigationDelegate, WKScriptMessageHandler, UIScrollViewDelegate, RCTAutoInsetsProtocol>
 @property (nonatomic, copy) RCTDirectEventBlock onLoadingStart;
     @property (nonatomic, copy) RCTDirectEventBlock onLoadingFinish;
     @property (nonatomic, copy) RCTDirectEventBlock onLoadingError;
@@ -38,7 +38,7 @@ static NSURLCredential* clientAuthenticationCredential;
     @property (nonatomic, copy) WKWebView *webView;
     @end
 
-    @implementation RNCWebView
+    @implementation RNCWKWebView
 {
   UIColor * _savedBackgroundColor;
   BOOL _savedHideKeyboardAccessoryView;
@@ -213,12 +213,14 @@ cookie.expiresDate.timeIntervalSince1970 * 1000
 [script appendString:@";\n"];
 }
 [script appendString:@"})();\n"];
+
 WKUserScript* cookieInScript = [[WKUserScript alloc] initWithSource:script
 injectionTime:WKUserScriptInjectionTimeAtDocumentStart
 forMainFrameOnly:YES];
 [wkWebViewConfig.userContentController addUserScript:cookieInScript];
 }
 }
+
 [wkWebViewConfig.preferences setValue:@"TRUE" forKey:@"allowFileAccessFromFileURLs"];
 [wkWebViewConfig setValue:@"TRUE" forKey:@"allowUniversalAccessFromFileURLs"];
 _webView = [[WKWebView alloc] initWithFrame:self.bounds configuration: wkWebViewConfig];
@@ -634,7 +636,7 @@ override = imp_implementationWithBlock(^void(id me, void* arg0, BOOL arg1, BOOL 
 {
   [super layoutSubviews];
 
-  // Ensure webview takes the position and dimensions of RNCWebView
+  // Ensure webview takes the position and dimensions of RNCWKWebView
   _webView.frame = self.bounds;
   _webView.scrollView.contentInset = _contentInset;
 }
