@@ -427,7 +427,8 @@ export default class DataStore {
                 TW_Log('andorid----androdi_copy_assets-----fileState-== '+fileState, item);
                 if(item.path&&item.path.indexOf("zzzFinish/")>-1){
                     //　利用zzzFinish来判断是否android拷贝完成
-                       this.onSaveCopyState();
+                    setTimeout(this.onSaveCopyState,1500);
+                    //   this.onSaveCopyState();
                 }
             }
         }
