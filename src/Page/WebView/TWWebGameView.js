@@ -29,6 +29,9 @@ export default class TWWebGameView extends Component {
         data: PropTypes.func,
         isShow: PropTypes.any
     }
+    static defaultProps = {
+        title: ''
+    };
 
     constructor(state) {
         super(state)
@@ -39,10 +42,6 @@ export default class TWWebGameView extends Component {
         }
         this.bblStore = TW_Store.bblStore;
     }
-
-    static defaultProps = {
-        title: ''
-    };
 
     componentWillMount() {
         TW_OnBackHomeJs = this.onBackHomeJs;
