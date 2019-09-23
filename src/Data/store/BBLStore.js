@@ -276,7 +276,7 @@ export  default  class BBLStore {
         return url
     }
 
-    getAppData() {
+    getAppNativeData() {
         return {
             isApp: true,
             taven: "isOk",
