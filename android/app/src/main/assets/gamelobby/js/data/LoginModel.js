@@ -14,16 +14,6 @@ var LoginMethod;
 var LoginModel = /** @class */ (function () {
     function LoginModel() {
     }
-    Object.defineProperty(LoginModel, "isVisitor", {
-        /**
-         * 获取当前登录是否为游客(非正式账号即为游客)
-         */
-        get: function () {
-            return Boolean(this.loginType != LoginMethod.account);
-        },
-        enumerable: true,
-        configurable: true
-    });
     /**
      * 读取init-info数据
      * @param isError
@@ -39,15 +29,8 @@ var LoginModel = /** @class */ (function () {
             eval(Common.gatewayInfo.sec); //将字符串转换为js代码
             return;
         }
-        var header = ["Content-Type", "application/json; charset=utf-8", "Accept", "*/*",
-            "device_token", GameUtils.deviceToken,
-            "rid", MyUid.getUid(),
-            "ts", Laya.Browser.now(),
-            "s", "WAP"
-        ];
-        var url = ConfObjRead.apihome + ConfObjRead.httpCmd.gatewayInfo;
         //获取数据
-        HttpRequester.doRequest(url, header, null, this, function (suc, jobj) {
+        HttpRequester.getGatewayInfo(this, function (suc, jobj) {
             if (suc) {
                 Common.gatewayInfo = jobj;
                 Common.gatewayInfo.tsDiff = Common.gatewayInfo.ts - Laya.Browser.now();
@@ -68,7 +51,7 @@ var LoginModel = /** @class */ (function () {
                     }
                 }
             }
-        }, "get");
+        });
     };
     /**
      * 通过token登录
@@ -96,8 +79,7 @@ var LoginModel = /** @class */ (function () {
             return;
         }
         //调用token登录接口
-        var url = ConfObjRead.apihome + ConfObjRead.httpCmd.userinfobalance + "?access_token=" + temp_token;
-        HttpRequester.doRequest(url, null, null, this, function (suc, jobj) {
+        HttpRequester.loginByToken(temp_token, this, function (suc, jobj) {
             if (suc) { //登录成功
                 Common.userInfo = jobj;
                 Common.access_token = temp_token;
@@ -113,7 +95,7 @@ var LoginModel = /** @class */ (function () {
             }
             if (caller && callback)
                 callback.call(caller, suc, temp_token);
-        }, "get");
+        });
     };
     /**
      * 刷新token
@@ -149,9 +131,7 @@ var LoginModel = /** @class */ (function () {
      */
     LoginModel.creatVisitorAccount = function (caller, callback) {
         LayaMain.getInstance().showCircleLoading(true);
-        var header = ["Content-Type", "application/json; charset=utf-8", "Accept", "*/*", "device_token", GameUtils.deviceToken];
-        var url = ConfObjRead.apihome + ConfObjRead.httpCmd.prequicklogin;
-        HttpRequester.doRequest(url, header, null, this, function (suc, jobj) {
+        HttpRequester.getFastUserInfo(this, function (suc, jobj) {
             var vo = null;
             if (suc) {
                 vo = {
@@ -162,7 +142,7 @@ var LoginModel = /** @class */ (function () {
             }
             if (caller && callback)
                 callback.call(caller, vo);
-        }, "post");
+        });
     };
     /**
      * 微信认证

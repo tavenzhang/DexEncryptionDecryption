@@ -63,11 +63,6 @@ var view;
                         SoundPlayer.clickSound();
                         var name = _this.userTxt.text;
                         var pwd = _this.pwdExtend ? _this.pwdExtend.text : _this.pwdTxt.text;
-                        if (name == "debug" && pwd == "123") { //open-debug
-                            view.debug.DebugDlg.show();
-                            _this.close(null, true);
-                            return;
-                        }
                         var verify = Tools.verifyLogin(name, pwd, "111");
                         if (!verify.bRight) {
                             Toast.showToast(Tools.getStringByKey(verify.msg));

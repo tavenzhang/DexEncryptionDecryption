@@ -148,7 +148,7 @@ var view;
                                 num = 3;
                                 if (!Common.cardInfo) {
                                     num = 4;
-                                    LobbyModel.getCardInfo(self_1, self_1.checkBindType);
+                                    LobbyDataManager.getCardInfo(self_1, self_1.checkBindType);
                                 }
                                 else {
                                     num = 5;
@@ -158,7 +158,6 @@ var view;
                             }
                             catch (e) {
                                 Toast.showToast("error-num:" + num + ">>>" + e);
-                                HttpRequester.addLog("银行卡绑定异常,num=" + num + ",err:" + e);
                             }
                         });
                         EventManager.pushEvent(this.cardPwdLook, Laya.Event.CHANGE, this, this.togglePwdInput, [this.cardPwd]);
@@ -408,7 +407,7 @@ var view;
                     return bl;
                 };
                 AccountInfoDlg.prototype.onClosed = function (type) {
-                    LobbyModel.getCardInfo(); //刷新数据
+                    LobbyDataManager.getCardInfo(); //刷新数据
                     EventManager.removeAllEvents(this);
                     this.tabSelectView.destroy();
                     this.bankComb.destroy();

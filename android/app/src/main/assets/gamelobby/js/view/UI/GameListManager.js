@@ -89,7 +89,7 @@ var GameListManager = /** @class */ (function () {
         }
         //执行默认下载
         this.defDownLoads.forEach(function (item) {
-            if (item.isDownload && item.vo.classify == GameType.selfGame)
+            if (item.isDownload)
                 item.doClick();
         });
         this.defDownLoads.length = 0;

@@ -17,7 +17,7 @@ var Debug = /** @class */ (function () {
     Object.defineProperty(Debug, "openDebug", {
         /**是否开启了日志功能 */
         get: function () {
-            return window["openDebug"] || this._httDebug;
+            return this._httDebug;
         },
         enumerable: true,
         configurable: true

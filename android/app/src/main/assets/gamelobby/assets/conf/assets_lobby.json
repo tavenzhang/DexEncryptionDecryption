@@ -6,11 +6,11 @@
         "./assets/conf/config.json",
         "./assets/animation/loading/xiaoLoding.sk",
         "./assets/animation/loading/xiaoLoding.png",
+        "./assets/ui/avatorpad/touxiang.atlas",
         "res/atlas/ui/lobby.atlas",
         "res/atlas/ui/common.atlas",
-        "res/atlas/ui/lobby/menu.atlas",
+        "res/atlas/ui/lobby/bottombar.atlas",
         "res/atlas/ui/panel_common.atlas",
-        "./res/atlas/ui/bitFont/goldFont.atlas",
-        "res/atlas/ui/headList.atlas"
+        "./res/atlas/ui/bitFont/goldFont.atlas"
     ]
 }
