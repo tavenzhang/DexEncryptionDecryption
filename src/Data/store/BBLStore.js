@@ -130,11 +130,15 @@ export  default  class BBLStore {
     }
     @action
     quitSubGame() {
+        TW_Store.gameUpateStore.isInSubGame = false;
        this.subGameParams={
             url:"",
             isGame: true
         }
-
+        if (TW_OnValueJSHome) {
+            TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appData, {isAtHome: true}));
+            TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lobbyResume));
+        }
     }
 
     @action
@@ -245,7 +249,6 @@ export  default  class BBLStore {
     getAppData(){
         let  url = TW_Store.bblStore.gameDomain+ config.api.gameShareDown.replace("#0",platInfo.brand);
         let downUrl="";
-        TW_Log("getAppData-------------url",url)
         NetUitls.getUrlAndParamsAndCallback(url, null, (ret) => {
             if(ret.rs&&ret.content){
                 this.shareData = ret.content;
@@ -273,7 +276,7 @@ export  default  class BBLStore {
         return url
     }
 
-    getAppGameData() {
+    getAppNativeData() {
         return {
             isApp: true,
             taven: "isOk",

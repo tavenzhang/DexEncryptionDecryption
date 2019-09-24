@@ -440,7 +440,24 @@ public class ReactWebViewManager extends SimpleViewManager<WebView> implements A
     }
 
     public void onMessage(String message) {
-      dispatchEvent(this, new TopMessageEvent(this.getId(), message));
+      if (mReactWebViewClient != null) {
+        WebView webView = this;
+        webView.post(new Runnable() {
+          @Override
+          public void run() {
+            if (mReactWebViewClient == null) {
+              return;
+            }
+            WritableMap data = mReactWebViewClient.createWebViewEvent(webView, webView.getUrl());
+            data.putString("data", message);
+            dispatchEvent(webView, new TopMessageEvent(webView.getId(), data));
+          }
+        });
+      } else {
+        WritableMap eventData = Arguments.createMap();
+        eventData.putString("data", message);
+        dispatchEvent(this, new TopMessageEvent(this.getId(), eventData));
+      }
     }
 
     protected void cleanupCallbacksAndDestroy() {
