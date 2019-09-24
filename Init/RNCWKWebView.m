@@ -5,7 +5,7 @@
     * LICENSE file in the root directory of this source tree.
 */
 
-#import "RNCWebView.h"
+#import "RNCWKWebView.h"
 #import <React/RCTConvert.h>
     #import <React/RCTAutoInsetsProtocol.h>
     #import "RNCWKProcessPoolManager.h"
@@ -455,7 +455,6 @@ NSURL *baseURL = [RCTConvert NSURL:allowingReadAccessToURL];
 [_webView loadFileURL:newFile allowingReadAccessToURL:baseURL];
 }
 }
-
 -(void)setKeyboardDisplayRequiresUserAction:(BOOL)keyboardDisplayRequiresUserAction
 {
   if (_webView == nil) {
@@ -636,7 +635,7 @@ override = imp_implementationWithBlock(^void(id me, void* arg0, BOOL arg1, BOOL 
 {
   [super layoutSubviews];
 
-  // Ensure webview takes the position and dimensions of RNCWebView
+  // Ensure webview takes the position and dimensions of RNCWKWebView
   _webView.frame = self.bounds;
   _webView.scrollView.contentInset = _contentInset;
 }
