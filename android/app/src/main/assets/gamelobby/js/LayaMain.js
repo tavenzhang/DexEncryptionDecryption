@@ -162,7 +162,7 @@ var LayaMain = /** @class */ (function () {
                     }
                     break;
                 case "flushMoney":
-                    LobbyModel.refreshMoney();
+                    LobbyDataManager.refreshMoney();
                     break;
                 case "openDebug":
                     window["initVconsole"]();
@@ -260,6 +260,10 @@ var LayaMain = /** @class */ (function () {
                     Toast.showToast(message.data);
                     break;
                 }
+                case "appNativeData": {
+                    AppData.NATIVE_DATA = message.data;
+                    break;
+                }
             }
         }
     };
@@ -283,7 +287,7 @@ var LayaMain = /** @class */ (function () {
         this.clearChild();
         if (this.sceneLobby == null) {
             this.sceneLobby = new LobbyScene();
-            this.sceneLobby.onLoaded();
+            this.sceneLobby.onLoaded(null);
             LayaMain.getInstance().getRootNode().addChild(this.sceneLobby);
         }
     };

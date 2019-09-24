@@ -50,8 +50,8 @@ var view;
                 //events--------------------
                 EventManager.addTouchScaleListener(this.backBtn, this, function () {
                     SoundPlayer.returnLobbySound();
-                    LobbyModel.refreshMoney();
-                    LobbyModel.getUnreadMail();
+                    LobbyDataManager.refreshMoney();
+                    LobbyDataManager.getUnreadMail();
                     _this.close(null, true);
                 }, null, 1);
                 //一键领取

@@ -38,14 +38,12 @@ var view;
                 var _this = this;
                 this.titleGroup.left = GameUtils.getScreencOffset(-48, 0);
                 this.backBtn.right = GameUtils.getScreencOffset(-55, 0);
-                this.verTxt.x = GameUtils.getScreencOffset(28, 78);
                 var info = Common.userInfo;
                 var current = Common.userInfo_current;
                 this.accTxt.text = info.username;
                 this.setNickBtn.visible = false; //todo:暂未开放
-                //版本号
-                this.verTxt.text = GameUtils.appVer + "\n" + ResConfig.versions;
-                this.flushMoney();
+                var value = info.userBalance.balance;
+                this.moneyTxt.text = value.toFixed(2);
                 this.bindPhoneBtn.visible = !Boolean(current.certifiedPhone);
                 this.phoneTxt.text = this.bindPhoneBtn.visible ? "未绑定" : current.phoneNumber;
                 this.visitorMark.visible = Boolean(LoginModel.loginType != LoginMethod.account);
@@ -127,13 +125,17 @@ var view;
                 EventManager.pushEvent(this.soundBtn, Laya.Event.CHANGE, this, this.selectSound);
                 EventManager.pushEvent(this.musicBtn, Laya.Event.CHANGE, this, this.selectMusic);
             };
-            //提示玩家升级账号
             FullMyCenterDlg.prototype.openAccountUpgrade = function () {
                 PageManager.showDlg(DlgCmd.bindPhone);
             };
-            //刷新或显示余额
             FullMyCenterDlg.prototype.flushMoney = function () {
-                this.moneyTxt.text = Tools.FormatMoney(Common.userBalance, 2);
+                var data = Common.userInfo;
+                if (!data)
+                    return;
+                if (data.userBalance) {
+                    var value = data.userBalance.balance;
+                    this.moneyTxt.text = value.toFixed(2);
+                }
             };
             FullMyCenterDlg.prototype.bindPhoneSuc = function (num) {
                 if (!num)

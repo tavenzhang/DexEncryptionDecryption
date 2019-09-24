@@ -15,38 +15,18 @@ var __extends = (this && this.__extends) || (function () {
 var view;
 (function (view) {
     var dlg;
-    (function (dlg_1) {
+    (function (dlg) {
         var center;
         (function (center) {
-            /**
-             * 修改昵称
-             */
             var SetNickNameDlg = /** @class */ (function (_super) {
                 __extends(SetNickNameDlg, _super);
                 function SetNickNameDlg() {
-                    var _this = _super.call(this) || this;
-                    _this.initView();
-                    return _this;
+                    return _super.call(this) || this;
                 }
-                SetNickNameDlg.show = function () {
-                    var dlg = new SetNickNameDlg();
-                    dlg.popup(false, true);
-                };
-                SetNickNameDlg.prototype.initView = function () {
-                    EventManager.addTouchScaleListener(this.cancelBtn, this, function () {
-                        SoundPlayer.clickSound();
-                        //todo:等后端接口
-                    });
-                };
-                SetNickNameDlg.prototype.onClosed = function (type) {
-                    EventManager.removeBtnEvent(this.cancelBtn);
-                    _super.prototype.onClosed.call(this, type);
-                    this.destroy(true);
-                };
                 return SetNickNameDlg;
             }(ui.dlg.center.SetNickNameDlgUI));
             center.SetNickNameDlg = SetNickNameDlg;
-        })(center = dlg_1.center || (dlg_1.center = {}));
+        })(center = dlg.center || (dlg.center = {}));
     })(dlg = view.dlg || (view.dlg = {}));
 })(view || (view = {}));
 //# sourceMappingURL=SetNickNameDlg.js.map

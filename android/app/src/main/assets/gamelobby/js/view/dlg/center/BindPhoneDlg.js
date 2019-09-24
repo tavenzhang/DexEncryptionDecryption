@@ -39,6 +39,9 @@ var view;
                     var _this = this;
                     this.pwdExtend1 = InputExtend.getInput(this.pwdTxt1);
                     this.pwdExtend2 = InputExtend.getInput(this.pwdTxt2);
+                    //todo:显示奖励金
+                    // this.awardTxt.text = this.awardTxt.text.replace("x", GameData.bindAward.toString());
+                    // this.awardTxt.visible = GameData.bindOpen;
                     //
                     EventManager.addTouchScaleListener(this.closeBtn, this, function () {
                         SoundPlayer.closeSound();
