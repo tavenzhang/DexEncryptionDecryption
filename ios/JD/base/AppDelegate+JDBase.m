@@ -113,11 +113,11 @@ static Boolean  IsFirtReuest = YES;
 - (void)loadReactNativeController{
   NSURL *jsCodeLocation;
 #ifdef DEBUG
-  jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.bundle?platform=ios&dev=true"];
+  jsCodeLocation = [NSURL URLWithString:@"http://192.168.11.23:8081/index.bundle?platform=ios&dev=true"];
 #else
   jsCodeLocation = [CodePush bundleURL];
 #endif
-  
+
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation moduleName:@"BBL" initialProperties:nil launchOptions:self.launchOptions];
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
   self.rootView  = rootView;
@@ -260,14 +260,14 @@ static Boolean  IsFirtReuest = YES;
   NSDictionary * userInfo = notification.request.content.userInfo;
   [JPUSHService handleRemoteNotification:userInfo];
   [[NSNotificationCenter defaultCenter] postNotificationName:kJPFDidReceiveRemoteNotification object:userInfo];
-  
+
   completionHandler(UNNotificationPresentationOptionAlert);
 }
 - (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
   NSDictionary * userInfo = response.notification.request.content.userInfo;
   [JPUSHService handleRemoteNotification:userInfo];
   [[NSNotificationCenter defaultCenter] postNotificationName:kJPFOpenNotification object:userInfo];
-  
+
   completionHandler();
 }
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
@@ -298,7 +298,7 @@ static Boolean  IsFirtReuest = YES;
   /* 设置微信的appKey和appSecret */
   NSDictionary *AppSecretDic = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"AppSecret"];
   //NSLog(@"appId--api-:%@---api---%@" , appId,api);
-  
+
   for(NSDictionary *urlTypes in  URLTypesArr){
     if([[urlTypes objectForKey:@"CFBundleURLName"] isEqualToString:@"weixin"]){
       NSArray *weixinKey = [urlTypes objectForKey:@"CFBundleURLSchemes"];
@@ -306,10 +306,10 @@ static Boolean  IsFirtReuest = YES;
       [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatTimeLine appKey:weixinKey.count > 0? weixinKey[0]:@"" appSecret:[AppSecretDic objectForKey:@"weixin"] redirectURL:@""];
     }
   }
-  
+
   [self confitUShareSettings];
-  
-  
+
+
   /*
    * 移除相应平台的分享，如微信收藏
    */
@@ -361,8 +361,8 @@ static Boolean  IsFirtReuest = YES;
     }
   }
   [self confitUShareSettings];
-  
-  
+
+
   /*
    * 移除相应平台的分享，如微信收藏
    */
