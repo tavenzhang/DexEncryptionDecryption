@@ -8,36 +8,25 @@ var Toast = /** @class */ (function () {
     Toast.showToast = function (str) {
         if (!str || str.length < 2)
             return;
-        if (!this.tipbox) {
-            this.tipbox = new Laya.Sprite();
-            this.tipbox.zOrder = Dialog.manager.zOrder + 10;
-            Laya.stage.addChild(this.tipbox);
+        if (!this.tip) {
+            this.tip = new ui.dlg.TipViewUI();
+            this.tip.mouseEnabled = false;
+            this.tip.centerX = 0;
+            this.tip.centerY = 0;
+            Laya.stage.addChild(this.tip);
+            this.tip.zOrder = Dialog.manager.zOrder + 1;
+            this.tip.scale(0, 0);
+            Laya.Tween.to(this.tip, { scaleX: 1, scaleY: 1 }, 300, Laya.Ease.cubicOut);
         }
-        var ui = Laya.Pool.getItem(this.poolMark);
-        if (!ui)
-            ui = new view.comp.ToastView();
-        ui.readInfo(str);
-        this.tipbox.addChild(ui);
-        this.tipArr.push(ui);
-        if (!this.uiHeight)
-            this.uiHeight = ui.height;
-        this.layout();
+        this.tip.infoTxt.text = str;
+        Laya.timer.clear(this, this.clear);
+        Laya.timer.once(3000, this, this.clear);
     };
-    //重新调整布局
-    Toast.layout = function () {
-        var arr = this.tipArr.slice();
-        arr.reverse();
-        var start = Laya.stage.height - this.uiHeight >> 1;
-        var gap = 6;
-        arr.forEach(function (ui, index) {
-            if (index != 0) {
-                var toy = start - index * (ui.height + gap);
-                Laya.Tween.to(ui, { y: toy }, 300);
-            }
-        });
+    Toast.clear = function () {
+        Laya.timer.clear(this, this.clear);
+        this.tip && this.tip.destroy(true);
+        this.tip = null;
     };
-    Toast.tipArr = [];
-    Toast.poolMark = "toastItem"; //用于缓存对象
     return Toast;
 }());
 //# sourceMappingURL=Toast.js.map

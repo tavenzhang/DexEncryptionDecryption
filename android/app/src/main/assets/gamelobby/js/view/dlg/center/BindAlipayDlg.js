@@ -110,7 +110,7 @@ var view;
                     LayaMain.getInstance().showCircleLoading(false);
                     if (suc) {
                         Toast.showToast("支付宝绑定成功");
-                        LobbyModel.getCardInfo();
+                        LobbyDataManager.getCardInfo();
                         this.close(null, true);
                     }
                 };

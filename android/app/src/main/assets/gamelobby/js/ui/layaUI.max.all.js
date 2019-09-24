@@ -15,42 +15,6 @@ var View = laya.ui.View;
 var Dialog = laya.ui.Dialog;
 var ui;
 (function (ui) {
-    var anim;
-    (function (anim) {
-        var lightAnimUI = /** @class */ (function (_super) {
-            __extends(lightAnimUI, _super);
-            function lightAnimUI() {
-                return _super.call(this) || this;
-            }
-            lightAnimUI.prototype.createChildren = function () {
-                _super.prototype.createChildren.call(this);
-                this.createView(ui.anim.lightAnimUI.uiView);
-            };
-            lightAnimUI.uiView = { "type": "View", "props": { "width": 300, "height": 300 }, "child": [{ "type": "Image", "props": { "width": 400, "top": 0, "skin": "ui/lobby/lightLbg.png", "scaleY": 1.8, "scaleX": 1.8, "pivotY": 30, "pivotX": 28, "left": 0, "height": 359 }, "compId": 2 }], "animations": [{ "nodes": [{ "target": 2, "keyframes": { "x": [{ "value": 50, "tweenMethod": "linearNone", "tween": true, "target": 2, "key": "x", "index": 0 }], "rotation": [{ "value": 0, "tweenMethod": "linearNone", "tween": true, "target": 2, "key": "rotation", "index": 0 }, { "value": -20, "tweenMethod": "linearNone", "tween": true, "target": 2, "key": "rotation", "index": 20 }, { "value": 0, "tweenMethod": "linearNone", "tween": true, "target": 2, "key": "rotation", "index": 40 }, { "value": 20, "tweenMethod": "linearNone", "tween": true, "target": 2, "key": "rotation", "index": 60 }, { "value": 0, "tweenMethod": "linearNone", "tween": true, "target": 2, "key": "rotation", "index": 80 }] } }], "name": "defclip", "id": 1, "frameRate": 24, "action": 0 }] };
-            return lightAnimUI;
-        }(View));
-        anim.lightAnimUI = lightAnimUI;
-    })(anim = ui.anim || (ui.anim = {}));
-})(ui || (ui = {}));
-(function (ui) {
-    var comp;
-    (function (comp) {
-        var ClassifyMenuUI = /** @class */ (function (_super) {
-            __extends(ClassifyMenuUI, _super);
-            function ClassifyMenuUI() {
-                return _super.call(this) || this;
-            }
-            ClassifyMenuUI.prototype.createChildren = function () {
-                _super.prototype.createChildren.call(this);
-                this.createView(ui.comp.ClassifyMenuUI.uiView);
-            };
-            ClassifyMenuUI.uiView = { "type": "View", "props": { "width": 304, "height": 512 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "skin": "ui/lobby/img_dating_fenlei01.png" } }, { "type": "Panel", "props": { "y": 68, "x": 8, "width": 288, "var": "itemPanel", "height": 426 } }] };
-            return ClassifyMenuUI;
-        }(View));
-        comp.ClassifyMenuUI = ClassifyMenuUI;
-    })(comp = ui.comp || (ui.comp = {}));
-})(ui || (ui = {}));
-(function (ui) {
     var comp;
     (function (comp) {
         var CombBoxViewUI = /** @class */ (function (_super) {
@@ -84,119 +48,6 @@ var ui;
             return CombItemViewUI;
         }(View));
         comp.CombItemViewUI = CombItemViewUI;
-    })(comp = ui.comp || (ui.comp = {}));
-})(ui || (ui = {}));
-(function (ui) {
-    var comp;
-    (function (comp) {
-        var CycleCompUI = /** @class */ (function (_super) {
-            __extends(CycleCompUI, _super);
-            function CycleCompUI() {
-                return _super.call(this) || this;
-            }
-            CycleCompUI.prototype.createChildren = function () {
-                _super.prototype.createChildren.call(this);
-                this.createView(ui.comp.CycleCompUI.uiView);
-            };
-            CycleCompUI.uiView = { "type": "View", "props": { "width": 272, "height": 96 } };
-            return CycleCompUI;
-        }(View));
-        comp.CycleCompUI = CycleCompUI;
-    })(comp = ui.comp || (ui.comp = {}));
-})(ui || (ui = {}));
-(function (ui) {
-    var comp;
-    (function (comp) {
-        var GameIconListPanelUI = /** @class */ (function (_super) {
-            __extends(GameIconListPanelUI, _super);
-            function GameIconListPanelUI() {
-                return _super.call(this) || this;
-            }
-            GameIconListPanelUI.prototype.createChildren = function () {
-                View.regComponent("view.comp.ClassifyMenu", view.comp.ClassifyMenu);
-                _super.prototype.createChildren.call(this);
-                this.createView(ui.comp.GameIconListPanelUI.uiView);
-            };
-            GameIconListPanelUI.uiView = { "type": "View", "props": { "width": 1334, "height": 750 }, "child": [{ "type": "Sprite", "props": { "y": 184, "x": 326, "width": 400, "var": "referView", "name": "参考界面", "height": 450 } }, { "type": "ClassifyMenu", "props": { "y": 136, "x": 0, "var": "menu", "runtime": "view.comp.ClassifyMenu" } }] };
-            return GameIconListPanelUI;
-        }(View));
-        comp.GameIconListPanelUI = GameIconListPanelUI;
-    })(comp = ui.comp || (ui.comp = {}));
-})(ui || (ui = {}));
-(function (ui) {
-    var comp;
-    (function (comp) {
-        var NoticeCompUI = /** @class */ (function (_super) {
-            __extends(NoticeCompUI, _super);
-            function NoticeCompUI() {
-                return _super.call(this) || this;
-            }
-            NoticeCompUI.prototype.createChildren = function () {
-                View.regComponent("Text", laya.display.Text);
-                _super.prototype.createChildren.call(this);
-                this.createView(ui.comp.NoticeCompUI.uiView);
-            };
-            NoticeCompUI.uiView = { "type": "View", "props": { "width": 658, "height": 48 }, "child": [{ "type": "Image", "props": { "y": 3, "x": 0, "skin": "ui/lobby/img_dating_gonggao01.png" }, "child": [{ "type": "Image", "props": { "y": -3, "x": 2, "skin": "ui/lobby/icon_dt_gg.png" } }] }, { "type": "Sprite", "props": { "y": 0, "x": 55, "width": 578, "var": "msgSp", "height": 48 }, "child": [{ "type": "Text", "props": { "y": 12, "x": 0, "width": 193, "var": "msgTxt", "height": 24, "fontSize": 24, "color": "#e2fefe" } }] }] };
-            return NoticeCompUI;
-        }(View));
-        comp.NoticeCompUI = NoticeCompUI;
-    })(comp = ui.comp || (ui.comp = {}));
-})(ui || (ui = {}));
-(function (ui) {
-    var comp;
-    (function (comp) {
-        var ToastViewUI = /** @class */ (function (_super) {
-            __extends(ToastViewUI, _super);
-            function ToastViewUI() {
-                return _super.call(this) || this;
-            }
-            ToastViewUI.prototype.createChildren = function () {
-                View.regComponent("Text", laya.display.Text);
-                _super.prototype.createChildren.call(this);
-                this.createView(ui.comp.ToastViewUI.uiView);
-            };
-            ToastViewUI.uiView = { "type": "View", "props": { "width": 946, "height": 53 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "skin": "ui/common/toastbg.png" } }, { "type": "Text", "props": { "y": 12, "x": 40, "width": 866, "var": "msgTxt", "overflow": "hidden", "height": 28, "fontSize": 28, "color": "#ffffff", "align": "center" } }] };
-            return ToastViewUI;
-        }(View));
-        comp.ToastViewUI = ToastViewUI;
-    })(comp = ui.comp || (ui.comp = {}));
-})(ui || (ui = {}));
-(function (ui) {
-    var comp;
-    (function (comp) {
-        var UploadTimeBarUI = /** @class */ (function (_super) {
-            __extends(UploadTimeBarUI, _super);
-            function UploadTimeBarUI() {
-                return _super.call(this) || this;
-            }
-            UploadTimeBarUI.prototype.createChildren = function () {
-                _super.prototype.createChildren.call(this);
-                this.createView(ui.comp.UploadTimeBarUI.uiView);
-            };
-            UploadTimeBarUI.uiView = { "type": "View", "props": { "width": 156, "height": 156 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "skin": "ui/lobby/updatebg.png" } }, { "type": "Image", "props": { "y": 0, "x": 0, "var": "cirBar", "skin": "ui/lobby/updatebar.png" } }, { "type": "Label", "props": { "var": "jdTxt", "text": "0%", "fontSize": 36, "color": "#ccffff", "centerY": 0, "centerX": 0 } }] };
-            return UploadTimeBarUI;
-        }(View));
-        comp.UploadTimeBarUI = UploadTimeBarUI;
-    })(comp = ui.comp || (ui.comp = {}));
-})(ui || (ui = {}));
-(function (ui) {
-    var comp;
-    (function (comp) {
-        var UserInfoViewUI = /** @class */ (function (_super) {
-            __extends(UserInfoViewUI, _super);
-            function UserInfoViewUI() {
-                return _super.call(this) || this;
-            }
-            UserInfoViewUI.prototype.createChildren = function () {
-                View.regComponent("Text", laya.display.Text);
-                View.regComponent("SkeletonPlayer", laya.ani.bone.Skeleton);
-                _super.prototype.createChildren.call(this);
-                this.createView(ui.comp.UserInfoViewUI.uiView);
-            };
-            UserInfoViewUI.uiView = { "type": "View", "props": { "width": 578, "height": 130 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "skin": "ui/lobby/img_dating_upperbar.png", "sizeGrid": "48,534,23,20" }, "child": [{ "type": "Image", "props": { "y": 6, "x": 60, "width": 112, "var": "headIcon", "skin": "ui/headList/icon01.png", "height": 112 } }, { "type": "Image", "props": { "y": 100, "x": 89, "var": "visitorMark", "skin": "ui/common/youke.png" } }, { "type": "Text", "props": { "y": 24, "x": 190, "width": 253, "var": "nameTxt", "overflow": "hidden", "height": 30, "fontSize": 30, "color": "#ffff99" } }, { "type": "Image", "props": { "y": 64, "x": 186, "var": "goldBox", "skin": "ui/lobby/img_dating_shuzidi.png" }, "child": [{ "type": "Image", "props": { "y": 18, "x": 210, "var": "addBtn", "skin": "ui/lobby/img_dating_anniuchongzhi.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "SkeletonPlayer", "props": { "y": 21, "x": 16, "width": 0, "var": "goldAnim", "url": "ui/lobby/menu/money_icon.sk", "scaleY": 0.7, "scaleX": 0.7, "height": 0 } }] }] }] };
-            return UserInfoViewUI;
-        }(View));
-        comp.UserInfoViewUI = UserInfoViewUI;
     })(comp = ui.comp || (ui.comp = {}));
 })(ui || (ui = {}));
 (function (ui) {
@@ -805,7 +656,7 @@ var ui;
                     _super.prototype.createChildren.call(this);
                     this.createView(ui.dlg.center.SetHeadBorderDlgUI.uiView);
                 };
-                SetHeadBorderDlgUI.uiView = { "type": "Dialog", "props": { "width": 1034, "height": 630 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "skin": "ui/panel_common/maxdlg.png" }, "child": [{ "type": "Image", "props": { "y": 19, "x": 405, "skin": "ui/fullMyCenter/img_grzx_bt04.png" } }, { "type": "Image", "props": { "y": 49, "x": 987, "var": "closeBtn", "skin": "ui/common/newclose.png", "anchorY": 0.5, "anchorX": 0.5 } }] }, { "type": "Image", "props": { "y": 152, "x": 85, "width": 180, "var": "headIcon", "skin": "ui/headList/icon01.png", "height": 180 } }, { "type": "Image", "props": { "y": 474, "x": 174, "var": "changeBtn", "skin": "ui/common/queding.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 342, "x": 101, "skin": "ui/fullMyCenter/img_grzx_wz01.png" } }, { "type": "Image", "props": { "y": 105, "x": 329, "width": 680, "skin": "ui/common/img_com_xiankuang.png", "height": 502, "sizeGrid": "15,15,15,16" } }, { "type": "Panel", "props": { "y": 125, "x": 349, "width": 640, "var": "itemPanel", "height": 462 } }] };
+                SetHeadBorderDlgUI.uiView = { "type": "Dialog", "props": { "width": 1034, "height": 630 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "skin": "ui/panel_common/maxdlg.png" }, "child": [{ "type": "Image", "props": { "y": 19, "x": 405, "skin": "ui/fullMyCenter/img_grzx_bt04.png" } }, { "type": "Image", "props": { "y": 49, "x": 987, "var": "closeBtn", "skin": "ui/common/newclose.png", "anchorY": 0.5, "anchorX": 0.5 } }] }, { "type": "Image", "props": { "y": 158, "x": 95, "width": 160, "var": "headIcon", "height": 160 } }, { "type": "Image", "props": { "y": 152, "x": 85, "width": 180, "var": "borderIcon", "skin": "ui/common/avatorFrame.png", "height": 180, "sizeGrid": "0,0,0,0" } }, { "type": "Image", "props": { "y": 474, "x": 174, "var": "changeBtn", "skin": "ui/common/queding.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 342, "x": 101, "skin": "ui/fullMyCenter/img_grzx_wz01.png" } }, { "type": "Image", "props": { "y": 105, "x": 329, "width": 680, "skin": "ui/common/img_com_xiankuang.png", "height": 502, "sizeGrid": "15,15,15,16" } }, { "type": "Panel", "props": { "y": 125, "x": 349, "width": 640, "var": "itemPanel", "height": 462 } }] };
                 return SetHeadBorderDlgUI;
             }(Dialog));
             center.SetHeadBorderDlgUI = SetHeadBorderDlgUI;
@@ -826,7 +677,7 @@ var ui;
                     _super.prototype.createChildren.call(this);
                     this.createView(ui.dlg.center.SetHeadDlgUI.uiView);
                 };
-                SetHeadDlgUI.uiView = { "type": "Dialog", "props": { "width": 1034, "height": 630 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "skin": "ui/panel_common/maxdlg.png" }, "child": [{ "type": "Image", "props": { "y": 19, "x": 427, "skin": "ui/fullMyCenter/img_grzx_bt03.png" } }, { "type": "Image", "props": { "y": 49, "x": 987, "var": "closeBtn", "skin": "ui/common/newclose.png", "anchorY": 0.5, "anchorX": 0.5 } }] }, { "type": "Image", "props": { "y": 158, "x": 95, "width": 160, "height": 160 } }, { "type": "Image", "props": { "y": 152, "x": 85, "width": 180, "var": "headIcon", "skin": "ui/headList/icon01.png", "height": 180 } }, { "type": "Image", "props": { "y": 474, "x": 174, "var": "changeBtn", "skin": "ui/common/queding.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 342, "x": 101, "skin": "ui/fullMyCenter/img_grzx_wz01.png" } }, { "type": "Image", "props": { "y": 105, "x": 329, "width": 680, "var": "itembg", "skin": "ui/common/img_com_xiankuang.png", "height": 502, "sizeGrid": "15,15,15,16" } }, { "type": "Panel", "props": { "y": 125, "x": 349, "width": 640, "var": "itemPanel", "height": 462 } }] };
+                SetHeadDlgUI.uiView = { "type": "Dialog", "props": { "width": 1034, "height": 630 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "skin": "ui/panel_common/maxdlg.png" }, "child": [{ "type": "Image", "props": { "y": 19, "x": 427, "skin": "ui/fullMyCenter/img_grzx_bt03.png" } }, { "type": "Image", "props": { "y": 49, "x": 987, "var": "closeBtn", "skin": "ui/common/newclose.png", "anchorY": 0.5, "anchorX": 0.5 } }] }, { "type": "Image", "props": { "y": 158, "x": 95, "width": 160, "var": "headIcon", "height": 160 } }, { "type": "Image", "props": { "y": 152, "x": 85, "width": 180, "var": "borderIcon", "skin": "ui/common/avatorFrame.png", "height": 180, "sizeGrid": "0,0,0,0" } }, { "type": "Image", "props": { "y": 474, "x": 174, "var": "changeBtn", "skin": "ui/common/queding.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 342, "x": 101, "skin": "ui/fullMyCenter/img_grzx_wz01.png" } }, { "type": "Image", "props": { "y": 105, "x": 329, "width": 680, "var": "itembg", "skin": "ui/common/img_com_xiankuang.png", "height": 502, "sizeGrid": "15,15,15,16" } }, { "type": "Panel", "props": { "y": 125, "x": 349, "width": 640, "var": "itemPanel", "height": 462 } }] };
                 return SetHeadDlgUI;
             }(Dialog));
             center.SetHeadDlgUI = SetHeadDlgUI;
@@ -847,7 +698,7 @@ var ui;
                     _super.prototype.createChildren.call(this);
                     this.createView(ui.dlg.center.SetNickNameDlgUI.uiView);
                 };
-                SetNickNameDlgUI.uiView = { "type": "Dialog", "props": { "width": 754, "height": 480 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "skin": "ui/panel_common/mindlg.png" }, "child": [{ "type": "Image", "props": { "y": 23, "x": 287, "skin": "ui/fullMyCenter/img_grzx_bt06.png" } }, { "type": "Image", "props": { "y": 53, "x": 707, "var": "closeBtn", "skin": "ui/common/newclose.png", "anchorY": 0.5, "anchorX": 0.5 } }] }, { "type": "Image", "props": { "y": 104, "x": 32, "width": 690, "skin": "ui/common/img_com_xiankuang.png", "height": 272, "sizeGrid": "15,15,15,16" }, "child": [{ "type": "Image", "props": { "y": 43, "x": 166, "skin": "ui/fullMyCenter/btn_grzx_wz04.png" } }, { "type": "Label", "props": { "y": 202, "x": 229, "text": "每个账户只可修改一次昵称", "fontSize": 18, "color": "#fff600" } }, { "type": "Image", "props": { "y": 121, "x": 140, "width": 410, "skin": "ui/common/shurukuang.png", "sizeGrid": "22,20,21,18", "height": 50 }, "child": [{ "type": "TextInput", "props": { "y": 5, "x": 23, "width": 364, "var": "nickTxt", "maxChars": 12, "height": 40, "fontSize": 30, "color": "#93afc0" } }] }] }, { "type": "Image", "props": { "y": 424, "x": 377, "var": "cancelBtn", "skin": "ui/fullMyCenter/btn_grzx_xg02.png", "anchorY": 0.5, "anchorX": 0.5 } }] };
+                SetNickNameDlgUI.uiView = { "type": "Dialog", "props": { "width": 754, "height": 480 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "skin": "ui/panel_common/mindlg.png" }, "child": [{ "type": "Image", "props": { "y": 22, "x": 287, "skin": "ui/fullMyCenter/img_grzx_bt06.png" } }, { "type": "Image", "props": { "y": 53, "x": 707, "var": "closeBtn", "skin": "ui/common/newclose.png", "anchorY": 0.5, "anchorX": 0.5 } }] }, { "type": "Image", "props": { "y": 104, "x": 32, "width": 690, "skin": "ui/common/img_com_xiankuang.png", "height": 272, "sizeGrid": "15,15,15,16" }, "child": [{ "type": "Image", "props": { "y": 43, "x": 176, "skin": "ui/fullMyCenter/btn_grzx_wz04.png" } }, { "type": "TextInput", "props": { "y": 116, "x": 140, "width": 410, "var": "nickTxt", "type": "text", "top": 121, "skin": "ui/common/shurukuang.png", "sizeGrid": "20,20,20,20", "rotation": 0, "restrict": "0123456789", "promptColor": "#93afc0", "padding": "-6,0,-2,20", "overflow": "hidden", "multiline": false, "maxChars": 11, "left": 137, "layoutEnabled": true, "height": 50, "fontSize": 30, "font": "Microsoft YaHei", "editable": true, "color": "#93afc0", "bold": false, "align": "left" } }, { "type": "Label", "props": { "y": 202, "x": 229, "text": "每个账户只可修改一次昵称", "fontSize": 18, "color": "#fff600" } }] }, { "type": "Image", "props": { "y": 424, "x": 377, "var": "cancelBtn", "skin": "ui/fullMyCenter/btn_grzx_xg02.png", "anchorY": 0.5, "anchorX": 0.5 } }] };
                 return SetNickNameDlgUI;
             }(Dialog));
             center.SetNickNameDlgUI = SetNickNameDlgUI;
@@ -885,11 +736,10 @@ var ui;
                 return _super.call(this) || this;
             }
             FullMyCenterDlgUI.prototype.createChildren = function () {
-                View.regComponent("Text", laya.display.Text);
                 _super.prototype.createChildren.call(this);
                 this.createView(ui.dlg.FullMyCenterDlgUI.uiView);
             };
-            FullMyCenterDlgUI.uiView = { "type": "Dialog", "props": { "width": 1334, "height": 750 }, "child": [{ "type": "Image", "props": { "skin": "ui/panel_common/img_com_quanping_di.jpg", "centerY": 0, "centerX": 0 } }, { "type": "Box", "props": { "y": 139, "centerX": 0 }, "child": [{ "type": "Image", "props": { "y": 2, "skin": "ui/fullMyCenter/img_grzx_txd02.png" }, "child": [{ "type": "Image", "props": { "y": 67, "x": 104, "width": 124, "var": "headIcon", "skin": "ui/headList/icon01.png", "height": 124 } }, { "type": "Image", "props": { "y": 264, "x": 167, "var": "setHeadBtn", "skin": "ui/fullMyCenter/btn_grzx_ghtx01.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 338, "x": 167, "var": "setBorderBtn", "skin": "ui/fullMyCenter/btn_grzx_ghtxk01.png", "gray": true, "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 167, "x": 139, "var": "visitorMark", "skin": "ui/common/youke.png" } }] }, { "type": "Image", "props": { "y": 478, "x": 152, "var": "accInfoBtn", "skin": "ui/fullMyCenter/btn_grzx_zhxx01.png" } }, { "type": "Image", "props": { "y": 478, "x": 874, "var": "backAccBtn", "skin": "ui/fullMyCenter/btn_grzx_tczh01.png" } }, { "type": "Image", "props": { "x": 347, "width": 606, "skin": "ui/common/img_com_xiankuang.png", "height": 448, "sizeGrid": "15,15,15,16" }, "child": [{ "type": "Image", "props": { "y": 32, "x": 31, "skin": "ui/fullMyCenter/img_grzx_zh01.png" } }, { "type": "Image", "props": { "y": 101, "x": 31, "skin": "ui/fullMyCenter/img_grzx_zh02.png" } }, { "type": "Image", "props": { "y": 171, "x": 31, "skin": "ui/fullMyCenter/img_grzx_zh03.png" } }, { "type": "Image", "props": { "y": 240, "x": 31, "skin": "ui/fullMyCenter/img_grzx_zh04.png" } }, { "type": "Image", "props": { "y": 310, "x": 31, "skin": "ui/fullMyCenter/img_grzx_zh05.png" } }, { "type": "Image", "props": { "y": 380, "x": 31, "skin": "ui/fullMyCenter/img_grzx_zh06.png" } }, { "type": "Label", "props": { "y": 30, "x": 175, "width": 216, "var": "accTxt", "valign": "middle", "height": 36, "fontSize": 36, "color": "#ffffff" } }, { "type": "Label", "props": { "y": 100, "x": 175, "width": 216, "var": "nickTxt", "valign": "middle", "text": "即将开放", "height": 36, "fontSize": 36, "color": "#ffffff" } }, { "type": "Label", "props": { "y": 170, "x": 175, "width": 396, "var": "moneyTxt", "valign": "middle", "height": 36, "fontSize": 36, "color": "#ffffff" } }, { "type": "Label", "props": { "y": 239, "x": 175, "width": 216, "var": "phoneTxt", "valign": "middle", "height": 36, "fontSize": 36, "color": "#ffffff" } }, { "type": "Label", "props": { "y": 309, "x": 175, "width": 216, "var": "wechatTxt", "valign": "middle", "text": "即将开放", "height": 36, "fontSize": 36, "color": "#ffffff" } }, { "type": "Label", "props": { "y": 379, "x": 175, "width": 216, "var": "alipayTxt", "valign": "middle", "text": "即将开放", "height": 36, "fontSize": 36, "color": "#ffffff" } }, { "type": "Image", "props": { "y": 254, "x": 494, "var": "bindPhoneBtn", "skin": "ui/fullMyCenter/btn_grzx_bd01.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 327, "x": 494, "var": "bindWeChat", "skin": "ui/fullMyCenter/btn_grzx_bd01.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 49, "x": 494, "var": "accCopyBtn", "skin": "ui/fullMyCenter/btn_grzx_fz01.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 116, "x": 494, "var": "setNickBtn", "skin": "ui/fullMyCenter/btn_grzx_xg01.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 397, "x": 493, "var": "bindAlipayBtn", "skin": "ui/fullMyCenter/btn_grzx_bd01.png", "anchorY": 0.5, "anchorX": 0.5 } }] }, { "type": "Image", "props": { "x": 971, "width": 326, "skin": "ui/common/img_com_xiankuang.png", "height": 448, "sizeGrid": "15,15,15,16" }, "child": [{ "type": "Image", "props": { "y": 59, "x": 101, "skin": "ui/fullMyCenter/img_grzx_sz01.png" } }, { "type": "Image", "props": { "y": 169, "x": 25, "skin": "ui/fullMyCenter/img_grzx_sz02.png" } }, { "type": "Image", "props": { "y": 303, "x": 25, "skin": "ui/fullMyCenter/img_grzx_sz03.png" } }, { "type": "CheckBox", "props": { "y": 162, "x": 149, "var": "musicBtn", "skin": "ui/fullMyCenter/check_msc.png", "selected": false } }, { "type": "CheckBox", "props": { "y": 297, "x": 149, "var": "soundBtn", "skin": "ui/fullMyCenter/check_msc.png", "selected": false } }] }] }, { "type": "Image", "props": { "y": 0, "x": 0, "var": "titleGroup", "skin": "ui/panel_common/img_com_quanping_ce_biaotou.png", "left": -48 }, "child": [{ "type": "Image", "props": { "y": 25, "x": 173, "skin": "ui/fullMyCenter/img_grzx_bt01.png" } }, { "type": "Image", "props": { "y": 20, "x": 62, "skin": "ui/fullMyCenter/img_grzx_bt02.png" } }] }, { "type": "Image", "props": { "y": 0, "x": 0, "var": "backBtn", "skin": "ui/common/img_com_quanping_guanbi01.png", "right": -55 }, "child": [{ "type": "Image", "props": { "y": 14, "x": 122, "skin": "ui/common/img_com_quanping_guanbi02.png" } }] }, { "type": "Text", "props": { "y": 698, "x": 0, "wordWrap": true, "width": 260, "var": "verTxt", "text": "text", "height": 52, "fontSize": 16, "color": "#a28ad1" } }] };
+            FullMyCenterDlgUI.uiView = { "type": "Dialog", "props": { "width": 1334, "height": 750 }, "child": [{ "type": "Image", "props": { "skin": "ui/panel_common/img_com_quanping_di.jpg", "centerY": 0, "centerX": 0 } }, { "type": "Box", "props": { "y": 139, "centerX": 0 }, "child": [{ "type": "Image", "props": { "y": 2, "skin": "ui/fullMyCenter/img_grzx_txd02.png" }, "child": [{ "type": "Image", "props": { "y": 71, "x": 110, "width": 112, "var": "headIcon", "height": 112 } }, { "type": "Image", "props": { "y": 67, "x": 104, "width": 124, "var": "borderIcon", "skin": "ui/common/avatorFrame.png", "sizeGrid": "36,36,52,34", "height": 124 } }, { "type": "Image", "props": { "y": 264, "x": 167, "var": "setHeadBtn", "skin": "ui/fullMyCenter/btn_grzx_ghtx01.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 338, "x": 167, "var": "setBorderBtn", "skin": "ui/fullMyCenter/btn_grzx_ghtxk01.png", "gray": true, "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 153, "x": 164, "var": "visitorMark", "skin": "ui/common/youke.png" } }] }, { "type": "Image", "props": { "y": 478, "x": 152, "var": "accInfoBtn", "skin": "ui/fullMyCenter/btn_grzx_zhxx01.png" } }, { "type": "Image", "props": { "y": 478, "x": 874, "var": "backAccBtn", "skin": "ui/fullMyCenter/btn_grzx_tczh01.png" } }, { "type": "Image", "props": { "x": 347, "width": 606, "skin": "ui/common/img_com_xiankuang.png", "height": 448, "sizeGrid": "15,15,15,16" }, "child": [{ "type": "Image", "props": { "y": 32, "x": 31, "skin": "ui/fullMyCenter/img_grzx_zh01.png" } }, { "type": "Image", "props": { "y": 101, "x": 31, "skin": "ui/fullMyCenter/img_grzx_zh02.png" } }, { "type": "Image", "props": { "y": 171, "x": 31, "skin": "ui/fullMyCenter/img_grzx_zh03.png" } }, { "type": "Image", "props": { "y": 240, "x": 31, "skin": "ui/fullMyCenter/img_grzx_zh04.png" } }, { "type": "Image", "props": { "y": 310, "x": 31, "skin": "ui/fullMyCenter/img_grzx_zh05.png" } }, { "type": "Image", "props": { "y": 380, "x": 31, "skin": "ui/fullMyCenter/img_grzx_zh06.png" } }, { "type": "Label", "props": { "y": 30, "x": 175, "width": 216, "var": "accTxt", "valign": "middle", "height": 36, "fontSize": 36, "color": "#ffffff" } }, { "type": "Label", "props": { "y": 100, "x": 175, "width": 216, "var": "nickTxt", "valign": "middle", "text": "即将开放", "height": 36, "fontSize": 36, "color": "#ffffff" } }, { "type": "Label", "props": { "y": 170, "x": 175, "width": 396, "var": "moneyTxt", "valign": "middle", "height": 36, "fontSize": 36, "color": "#ffffff" } }, { "type": "Label", "props": { "y": 239, "x": 175, "width": 216, "var": "phoneTxt", "valign": "middle", "height": 36, "fontSize": 36, "color": "#ffffff" } }, { "type": "Label", "props": { "y": 309, "x": 175, "width": 216, "var": "wechatTxt", "valign": "middle", "text": "即将开放", "height": 36, "fontSize": 36, "color": "#ffffff" } }, { "type": "Label", "props": { "y": 379, "x": 175, "width": 216, "var": "alipayTxt", "valign": "middle", "text": "即将开放", "height": 36, "fontSize": 36, "color": "#ffffff" } }, { "type": "Image", "props": { "y": 254, "x": 494, "var": "bindPhoneBtn", "skin": "ui/fullMyCenter/btn_grzx_bd01.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 327, "x": 494, "var": "bindWeChat", "skin": "ui/fullMyCenter/btn_grzx_bd01.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 49, "x": 494, "var": "accCopyBtn", "skin": "ui/fullMyCenter/btn_grzx_fz01.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 116, "x": 494, "var": "setNickBtn", "skin": "ui/fullMyCenter/btn_grzx_xg01.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 397, "x": 493, "var": "bindAlipayBtn", "skin": "ui/fullMyCenter/btn_grzx_bd01.png", "anchorY": 0.5, "anchorX": 0.5 } }] }, { "type": "Image", "props": { "x": 971, "width": 326, "skin": "ui/common/img_com_xiankuang.png", "height": 448, "sizeGrid": "15,15,15,16" }, "child": [{ "type": "Image", "props": { "y": 59, "x": 101, "skin": "ui/fullMyCenter/img_grzx_sz01.png" } }, { "type": "Image", "props": { "y": 169, "x": 25, "skin": "ui/fullMyCenter/img_grzx_sz02.png" } }, { "type": "Image", "props": { "y": 303, "x": 25, "skin": "ui/fullMyCenter/img_grzx_sz03.png" } }, { "type": "CheckBox", "props": { "y": 162, "x": 149, "var": "musicBtn", "skin": "ui/fullMyCenter/check_msc.png", "selected": false } }, { "type": "CheckBox", "props": { "y": 297, "x": 149, "var": "soundBtn", "skin": "ui/fullMyCenter/check_msc.png", "selected": false } }] }] }, { "type": "Image", "props": { "y": 0, "x": 0, "var": "titleGroup", "skin": "ui/panel_common/img_com_quanping_ce_biaotou.png", "left": -48 }, "child": [{ "type": "Image", "props": { "y": 25, "x": 173, "skin": "ui/fullMyCenter/img_grzx_bt01.png" } }, { "type": "Image", "props": { "y": 20, "x": 62, "skin": "ui/fullMyCenter/img_grzx_bt02.png" } }] }, { "type": "Image", "props": { "y": 0, "x": 0, "var": "backBtn", "skin": "ui/common/img_com_quanping_guanbi01.png", "right": -55 }, "child": [{ "type": "Image", "props": { "y": 14, "x": 122, "skin": "ui/common/img_com_quanping_guanbi02.png" } }] }] };
             return FullMyCenterDlgUI;
         }(Dialog));
         dlg.FullMyCenterDlgUI = FullMyCenterDlgUI;
@@ -908,7 +758,7 @@ var ui;
                 _super.prototype.createChildren.call(this);
                 this.createView(ui.dlg.GameUpdateNoticeUI.uiView);
             };
-            GameUpdateNoticeUI.uiView = { "type": "Dialog", "props": { "width": 1035, "height": 633 }, "child": [{ "type": "Image", "props": { "skin": "ui/panel_common/maxdlg.png", "centerY": 0, "centerX": 0, "anchorX": 0 }, "child": [{ "type": "Image", "props": { "y": 25, "x": 428, "skin": "ui/login/img_dl_bt01.png" } }, { "type": "Image", "props": { "y": 99, "x": 26, "width": 984, "skin": "ui/common/img_com_xiankuang.png", "sizeGrid": "10,10,10,10", "height": 435 }, "child": [{ "type": "Panel", "props": { "var": "panel", "vScrollBarSkin": "“”", "top": 2, "right": 2, "left": 2, "bottom": 2 }, "child": [{ "type": "HTMLDivElement", "props": { "y": 10, "x": 10, "width": 960, "var": "htmlText", "innerHTML": "<span style='color:#FFFFFF;fontSize:30'>-本次更新维护时间:</span> <span style='color:#fff200;fontSize:24'>Invalid Date~Invalid Date</span> <span style='color:#FFFFFF;fontSize:30'>abctest</span> <span style='color:#FFFFFF;fontSize:24'>1.sahkjdsahdhkjashkjdahkjsdhkjashkjdhkjashkjdsahkjdhkjashkjdhkjasdhkjsahkjdhkjsahkjdhkjasdhkjasdhkjashkjdhkjashkjdhkjsadhkjahkjsdhkjashkjdhkjasdhkjhkjsahkjdsadsahkjdhkjsadadshkj, 2.sadahsdhkjahkjsdhkjashkjdhkjashkjdhkjashkjdhkjashkjdhkjashkjdhkjasdhkjahkjsdhkjsahkjdhkjsadhkjahkjsdhkjsahkjd 3.ashjdkjsadhkjhkjashkjdhkjsahkjdhkjashkjdasdasj</span>", "height": 100 } }] }] }, { "type": "Image", "props": { "y": 579, "x": 518, "var": "btnConfirm", "skin": "ui/common/queding.png", "anchorY": 0.5, "anchorX": 0.5 } }] }] };
+            GameUpdateNoticeUI.uiView = { "type": "Dialog", "props": { "width": 1035, "height": 633 }, "child": [{ "type": "Image", "props": { "skin": "ui/res_login/img_dl_whgg.png", "centerY": 0, "centerX": 0, "anchorX": 0 }, "child": [{ "type": "Image", "props": { "y": 25, "x": 428, "skin": "ui/res_login/img_dl_bt01.png" } }, { "type": "Image", "props": { "y": 99, "x": 26, "width": 984, "skin": "ui/res_login/img_com_xiankuang.png", "sizeGrid": "10,10,10,10", "height": 435 }, "child": [{ "type": "Panel", "props": { "var": "panel", "vScrollBarSkin": "“”", "top": 2, "right": 2, "left": 2, "bottom": 2 }, "child": [{ "type": "HTMLDivElement", "props": { "y": 10, "x": 10, "width": 960, "var": "htmlText", "innerHTML": "<span style='color:#FFFFFF;fontSize:30'>-本次更新维护时间:</span> <span style='color:#fff200;fontSize:24'>Invalid Date~Invalid Date</span> <span style='color:#FFFFFF;fontSize:30'>abctest</span> <span style='color:#FFFFFF;fontSize:24'>1.sahkjdsahdhkjashkjdahkjsdhkjashkjdhkjashkjdsahkjdhkjashkjdhkjasdhkjsahkjdhkjsahkjdhkjasdhkjasdhkjashkjdhkjashkjdhkjsadhkjahkjsdhkjashkjdhkjasdhkjhkjsahkjdsadsahkjdhkjsadadshkj, 2.sadahsdhkjahkjsdhkjashkjdhkjashkjdhkjashkjdhkjashkjdhkjashkjdhkjasdhkjahkjsdhkjsahkjdhkjsadhkjahkjsdhkjsahkjd 3.ashjdkjsadhkjhkjashkjdhkjsahkjdhkjashkjdasdasj</span>", "height": 100 } }] }] }, { "type": "Image", "props": { "y": 579, "x": 518, "var": "btnConfirm", "skin": "ui/res_login/btn_qqwhgg_tuichu.png", "anchorY": 0.5, "anchorX": 0.5 } }] }] };
             return GameUpdateNoticeUI;
         }(Dialog));
         dlg.GameUpdateNoticeUI = GameUpdateNoticeUI;
@@ -1166,6 +1016,24 @@ var ui;
     })(dlg = ui.dlg || (ui.dlg = {}));
 })(ui || (ui = {}));
 (function (ui) {
+    var dlg;
+    (function (dlg) {
+        var TipViewUI = /** @class */ (function (_super) {
+            __extends(TipViewUI, _super);
+            function TipViewUI() {
+                return _super.call(this) || this;
+            }
+            TipViewUI.prototype.createChildren = function () {
+                _super.prototype.createChildren.call(this);
+                this.createView(ui.dlg.TipViewUI.uiView);
+            };
+            TipViewUI.uiView = { "type": "View", "props": { "width": 1172, "height": 228 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "skin": "ui/common/tipsbg.png", "sizeGrid": "66,2,5,150", "height": 228 }, "child": [{ "type": "Label", "props": { "y": 62, "x": 0, "width": 1172, "var": "infoTxt", "valign": "middle", "text": "xxx", "height": 163, "fontSize": 30, "font": "Arial", "color": "#ffedb8", "align": "center" } }] }] };
+            return TipViewUI;
+        }(View));
+        dlg.TipViewUI = TipViewUI;
+    })(dlg = ui.dlg || (ui.dlg = {}));
+})(ui || (ui = {}));
+(function (ui) {
     var EmbedLoadingViewUI = /** @class */ (function (_super) {
         __extends(EmbedLoadingViewUI, _super);
         function EmbedLoadingViewUI() {
@@ -1196,25 +1064,19 @@ var ui;
     ui.LoadingViewUI = LoadingViewUI;
 })(ui || (ui = {}));
 (function (ui) {
-    var LobbyNewViewUI = /** @class */ (function (_super) {
-        __extends(LobbyNewViewUI, _super);
-        function LobbyNewViewUI() {
+    var LobbyViewUI = /** @class */ (function (_super) {
+        __extends(LobbyViewUI, _super);
+        function LobbyViewUI() {
             return _super.call(this) || this;
         }
-        LobbyNewViewUI.prototype.createChildren = function () {
-            View.regComponent("view.anim.LightAnim", view.anim.LightAnim);
-            View.regComponent("view.comp.GameIconListPanel", view.comp.GameIconListPanel);
-            View.regComponent("view.comp.CycleComp", view.comp.CycleComp);
-            View.regComponent("SkeletonPlayer", laya.ani.bone.Skeleton);
-            View.regComponent("view.comp.NoticeComp", view.comp.NoticeComp);
-            View.regComponent("view.comp.UserInfoView", view.comp.UserInfoView);
+        LobbyViewUI.prototype.createChildren = function () {
             _super.prototype.createChildren.call(this);
-            this.createView(ui.LobbyNewViewUI.uiView);
+            this.createView(ui.LobbyViewUI.uiView);
         };
-        LobbyNewViewUI.uiView = { "type": "View", "props": { "width": 1334, "height": 750 }, "child": [{ "type": "Image", "props": { "y": 0, "skin": "ui/lobby/bg_dating.jpg", "centerX": 0 } }, { "type": "lightAnim", "props": { "y": 0, "x": 0, "var": "leftLight", "runtime": "view.anim.LightAnim" } }, { "type": "lightAnim", "props": { "y": 0, "var": "rightLight", "scaleX": -1, "runtime": "view.anim.LightAnim", "right": 300 } }, { "type": "GameIconListPanel", "props": { "y": 0, "x": 0, "var": "gameList", "runtime": "view.comp.GameIconListPanel" } }, { "type": "Image", "props": { "y": 675, "x": -58, "var": "bottomGroup", "skin": "ui/lobby/img_dating_downbar.png" }, "child": [{ "type": "Box", "props": { "y": -40, "x": 398, "width": 534, "var": "blGroup", "height": 114 }, "child": [{ "type": "Image", "props": { "y": 53, "x": 42, "var": "btn_yeb", "skin": "ui/lobby/menu/icon_dt_yeb.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 53, "x": 160, "var": "btn_rank", "skin": "ui/lobby/menu/icon_dt_ph.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 53, "x": 285, "var": "btn_mail", "skin": "ui/lobby/menu/icon_dt_yj.png", "anchorY": 0.5, "anchorX": 0.5 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 56, "var": "mailHot", "skin": "ui/lobby/hotpt.png" } }] }, { "type": "Image", "props": { "y": 53, "x": 403, "var": "btn_service", "skin": "ui/lobby/menu/icon_dt_kf.png", "anchorY": 0.5, "anchorX": 0.5 } }] }, { "type": "CycleComp", "props": { "y": -21, "x": 96, "var": "cirbox", "runtime": "view.comp.CycleComp" } }] }, { "type": "Box", "props": { "y": 633, "width": 588, "var": "brLayout", "right": 20, "height": 98 }, "child": [{ "type": "Sprite", "props": { "y": 49, "x": 477, "width": 212, "var": "payBtn", "pivotY": 47, "pivotX": 106, "height": 94 }, "child": [{ "type": "SkeletonPlayer", "props": { "y": 47, "x": 106, "width": 0, "var": "payAnim", "url": "ui/lobby/menu/czClip.sk", "height": 0 } }] }, { "type": "Sprite", "props": { "y": 49, "x": 279, "width": 212, "var": "withdrawBtn", "pivotY": 47, "pivotX": 106, "height": 94 }, "child": [{ "type": "SkeletonPlayer", "props": { "y": 47, "x": 106, "width": 0, "var": "tixianAnim", "url": "ui/lobby/menu/tixian.sk", "height": 0 } }] }] }, { "type": "Box", "props": { "y": 20, "width": 538, "var": "trLayout", "right": 20, "height": 123 }, "child": [{ "type": "Image", "props": { "y": 55, "x": 239, "var": "cirBtn", "skin": "ui/lobby/menu/img_dating_tubiao2_01.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 55, "x": 363, "var": "actBtn", "skin": "ui/lobby/menu/img_dating_tubiao2_02.png", "anchorY": 0.5, "anchorX": 0.5 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 70, "var": "actHot", "skin": "ui/lobby/hotpt.png" } }] }, { "type": "Image", "props": { "y": 55, "x": 487, "var": "noticeBtn", "skin": "ui/lobby/menu/img_dating_tubiao2_03.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Sprite", "props": { "y": 51, "x": 82, "width": 164, "var": "bindBtn", "pivotY": 51, "pivotX": 82, "height": 102 }, "child": [{ "type": "SkeletonPlayer", "props": { "y": 51, "x": 82, "width": 0, "var": "bindAnim", "url": "ui/lobby/menu/bdsj.sk", "height": 0 } }] }, { "type": "Sprite", "props": { "y": 51, "x": -94, "width": 156, "var": "agentBtn", "pivotY": 49, "pivotX": 78, "height": 98 }, "child": [{ "type": "SkeletonPlayer", "props": { "y": 49, "x": 78, "width": 0, "var": "agentAnim", "url": "ui/lobby/menu/daili.sk", "height": 0 } }] }] }, { "type": "NoticeComp", "props": { "y": 124, "var": "noticeView", "runtime": "view.comp.NoticeComp", "centerX": 36 } }, { "type": "UserInfoView", "props": { "y": 0, "x": -40, "var": "userInfo", "runtime": "view.comp.UserInfoView" } }] };
-        return LobbyNewViewUI;
+        LobbyViewUI.uiView = { "type": "View", "props": { "width": 1334, "height": 750 }, "child": [{ "type": "Image", "props": { "var": "bgUI", "skin": "ui/lobby/bg_dating.jpg", "centerY": 0, "centerX": 0 } }, { "type": "Image", "props": { "y": 681, "var": "bottomBg", "skin": "ui/lobby/bottombar/img_dating_downbar.png", "right": -6, "sizeGrid": "19,30,30,160" } }, { "type": "Sprite", "props": { "y": 0, "x": 0, "var": "iconbox" } }, { "type": "Box", "props": { "width": 1624, "visible": false, "var": "maskPic", "mouseEnabled": false, "height": 750, "centerY": 0, "centerX": 0 }, "child": [{ "type": "Image", "props": { "y": 176, "x": 575, "skin": "ui/lobby/img_dating_huatu.png" } }] }, { "type": "Box", "props": { "y": 216, "x": 36, "width": 420, "var": "girlSp", "mouseEnabled": false, "hitTestPrior": false, "height": 540 } }, { "type": "Sprite", "props": { "y": 0, "x": 0, "var": "uibox", "mouseThrough": true } }, { "type": "Box", "props": { "width": 230, "var": "TLbox", "right": 0, "height": 109 }, "child": [{ "type": "Image", "props": { "y": 46, "x": -14, "var": "actBtn", "skin": "ui/lobby/icon_dt_hd.png", "anchorY": 0.5, "anchorX": 0.5 }, "child": [{ "type": "Image", "props": { "skin": "ui/lobby/icon_dating_notification.png", "name": "alert" } }] }, { "type": "Image", "props": { "y": 46, "x": 179, "var": "serviceBtn", "skin": "ui/lobby/icon_dt_kf.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 46, "x": 82, "var": "noticeBtn", "skin": "ui/lobby/icon_dt_gg.png", "anchorY": 0.5, "anchorX": 0.5 }, "child": [{ "type": "Image", "props": { "skin": "ui/lobby/icon_dating_notification.png", "name": "alert" } }] }] }, { "type": "Box", "props": { "y": 324, "width": 129, "var": "rightBtn", "right": 15, "height": 140 }, "compId": 57, "child": [{ "type": "Image", "props": { "y": 21, "x": 16, "skin": "ui/lobby/dating_right.png" }, "compId": 27 }] }, { "type": "Box", "props": { "y": 644, "x": 615, "width": 719, "var": "bottomGroup", "height": 106 }, "child": [{ "type": "Image", "props": { "y": 53, "x": 358, "var": "btn_tx", "skin": "ui/lobby/bottombar/icon_dt_tx.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 53, "x": -122, "width": 146, "var": "btn_bind", "skin": "ui/lobby/bottombar/btn_dt_bdsj01.png", "height": 92, "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Sprite", "props": { "y": -25, "x": 456, "width": 257, "var": "shopSp", "height": 132 } }, { "type": "Image", "props": { "y": 53, "x": 166, "var": "btn_dl", "skin": "ui/lobby/bottombar/icon_dt_dl.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 53, "x": 37, "var": "btn_mail", "skin": "ui/lobby/bottombar/icon_dt_yj.png", "anchorY": 0.5, "anchorX": 0.5 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "var": "mailDot", "skin": "ui/lobby/icon_dating_notification.png" } }] }, { "type": "Image", "props": { "y": 53, "x": 266, "var": "btn_yeb", "skin": "ui/lobby/bottombar/icon_dt_yeb.png", "anchorY": 0.5, "anchorX": 0.5 } }] }, { "type": "Box", "props": { "y": 324, "x": 430, "width": 129, "var": "leftBtn", "height": 140 }, "compId": 79, "child": [{ "type": "Image", "props": { "y": 21, "x": 129, "skin": "ui/lobby/dating_right.png", "scaleX": -1 }, "compId": 80 }] }], "animations": [{ "nodes": [{ "target": 27, "keyframes": { "x": [{ "value": 0, "tweenMethod": "linearNone", "tween": true, "target": 27, "key": "x", "index": 0 }, { "value": 20, "tweenMethod": "linearNone", "tween": true, "target": 27, "key": "x", "index": 15 }, { "value": 0, "tweenMethod": "linearNone", "tween": true, "target": 27, "key": "x", "index": 30 }] } }, { "target": 80, "keyframes": { "y": [{ "value": 21, "tweenMethod": "linearNone", "tween": true, "target": 80, "key": "y", "index": 0 }], "x": [{ "value": 129, "tweenMethod": "linearNone", "tween": true, "target": 80, "key": "x", "index": 0 }, { "value": 109, "tweenMethod": "linearNone", "tween": true, "target": 80, "key": "x", "index": 15 }, { "value": 129, "tweenMethod": "linearNone", "tween": true, "target": 80, "key": "x", "index": 30 }], "scaleX": [{ "value": -1, "tweenMethod": "linearNone", "tween": true, "target": 80, "key": "scaleX", "index": 0 }] } }, { "target": 79, "keyframes": { "var": [{ "value": "", "tweenMethod": "linearNone", "tween": false, "target": 79, "key": "var", "index": 0 }] } }, { "target": 57, "keyframes": { "var": [{ "value": "", "tweenMethod": "linearNone", "tween": false, "target": 57, "key": "var", "index": 0 }] } }], "name": "arrowAnim", "id": 1, "frameRate": 24, "action": 2 }] };
+        return LobbyViewUI;
     }(View));
-    ui.LobbyNewViewUI = LobbyNewViewUI;
+    ui.LobbyViewUI = LobbyViewUI;
 })(ui || (ui = {}));
 (function (ui) {
     var LoginSceneUI = /** @class */ (function (_super) {
@@ -1234,6 +1096,21 @@ var ui;
     ui.LoginSceneUI = LoginSceneUI;
 })(ui || (ui = {}));
 (function (ui) {
+    var PublicUIUI = /** @class */ (function (_super) {
+        __extends(PublicUIUI, _super);
+        function PublicUIUI() {
+            return _super.call(this) || this;
+        }
+        PublicUIUI.prototype.createChildren = function () {
+            _super.prototype.createChildren.call(this);
+            this.createView(ui.PublicUIUI.uiView);
+        };
+        PublicUIUI.uiView = { "type": "View", "props": { "width": 1334, "mouseThrough": true, "height": 750 }, "child": [{ "type": "Image", "props": { "y": 0, "x": -165, "width": 681, "var": "headGroup", "skin": "ui/lobby/img_dating_upperbar.png", "mouseThrough": true, "height": 107, "sizeGrid": "48,534,23,20" }, "child": [{ "type": "Image", "props": { "y": 10, "x": 280, "skin": "ui/lobby/img_dating_zhanghaozi.png", "mouseEnabled": false } }, { "type": "Label", "props": { "y": 58, "x": 286, "wordWrap": false, "width": 234, "var": "nameTxt", "overflow": "hidden", "mouseEnabled": false, "fontSize": 26, "color": "#ffe996", "align": "left" } }, { "type": "Label", "props": { "y": 690, "x": 172, "width": 219, "var": "verTxt", "valign": "middle", "text": "ver-num", "leading": 2, "height": 54, "fontSize": 20, "color": "#dafcff" } }, { "type": "Image", "props": { "y": 8, "x": 172, "width": 90, "var": "headIcon", "height": 90 } }, { "type": "Image", "props": { "y": 3, "x": 167, "width": 100, "skin": "ui/common/avatorFrame.png", "height": 100, "sizeGrid": "0,0,0,0" } }, { "type": "Image", "props": { "y": 70, "x": 205, "var": "visitorMark", "skin": "ui/common/youke.png" } }] }, { "type": "Image", "props": { "y": 10, "var": "goldUI", "skin": "ui/lobby/img_dating_qian_di.png", "centerX": 75 }, "child": [{ "type": "Image", "props": { "y": 38, "x": 356, "var": "refreshBtn", "skin": "ui/lobby/uiyue.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 38, "x": 300, "var": "addBtn", "skin": "ui/lobby/dating_zengjia.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Sprite", "props": { "y": 39, "x": 11, "width": 20, "var": "goldAnim", "pivotY": 0, "pivotX": 0, "height": 20 } }, { "type": "Sprite", "props": { "y": 18, "x": 51, "width": 205, "var": "fontBox", "height": 40 } }] }, { "type": "Image", "props": { "y": 78, "var": "noticeGroup", "skin": "ui/lobby/img_dating_gonggaodi.png", "centerX": 116 }, "child": [{ "type": "Sprite", "props": { "y": 14, "x": 110, "width": 400, "var": "noticeSp", "height": 40 }, "child": [{ "type": "Label", "props": { "y": 0, "x": 0, "width": 155, "var": "msgTxt", "valign": "middle", "text": "111", "height": 40, "fontSize": 26, "color": "#efe8cd", "align": "left" } }] }] }] };
+        return PublicUIUI;
+    }(View));
+    ui.PublicUIUI = PublicUIUI;
+})(ui || (ui = {}));
+(function (ui) {
     var UI;
     (function (UI) {
         var GameIconViewUI = /** @class */ (function (_super) {
@@ -1242,32 +1119,13 @@ var ui;
                 return _super.call(this) || this;
             }
             GameIconViewUI.prototype.createChildren = function () {
-                View.regComponent("Text", laya.display.Text);
                 _super.prototype.createChildren.call(this);
                 this.createView(ui.UI.GameIconViewUI.uiView);
             };
-            GameIconViewUI.uiView = { "type": "View", "props": { "width": 212, "height": 212 }, "child": [{ "type": "Image", "props": { "y": 10, "x": 10, "var": "bgIcon", "skin": "ui/lobby/iconbg1.png", "centerY": 0, "centerX": 0 } }, { "type": "Image", "props": { "var": "normIcon", "centerY": 0, "centerX": 0 } }, { "type": "Box", "props": { "var": "animbox", "centerY": 0, "centerX": 0 } }, { "type": "Image", "props": { "var": "updateIcon", "top": 0, "skin": "ui/lobby/gengxing.png", "right": 0 } }, { "type": "Image", "props": { "var": "expectIcon", "skin": "ui/lobby/jqqd.png", "centerX": 0, "bottom": 0 } }, { "type": "Image", "props": { "x": 50, "var": "pauseIcon", "skin": "ui/lobby/weihuzhong.png", "centerX": 0, "bottom": 0 } }, { "type": "Image", "props": { "y": 66, "var": "lowMark", "skin": "ui/lobby/img_dating_tiyanfang2.png", "left": 6 } }, { "type": "Text", "props": { "y": 88, "x": 6, "width": 200, "var": "debugTxt", "fontSize": 35, "color": "#d4e513", "bold": true, "align": "center" } }] };
+            GameIconViewUI.uiView = { "type": "View", "props": { "width": 200, "height": 200 }, "child": [{ "type": "Image", "props": { "var": "normIcon", "centerY": 0, "centerX": 0 } }, { "type": "Image", "props": { "y": 10, "x": 10, "var": "grayIcon", "centerY": 0, "centerX": 0 } }, { "type": "Box", "props": { "var": "animbox", "centerY": 0, "centerX": 0 } }, { "type": "Image", "props": { "var": "updateIcon", "top": 0, "skin": "ui/lobby/gengxing.png", "right": 0 } }, { "type": "Label", "props": { "width": 200, "var": "updateTxt", "text": "label", "height": 32, "fontSize": 26, "color": "#ccff00", "centerX": 0, "bottom": 0, "align": "center" } }, { "type": "Image", "props": { "var": "hotIcon", "top": 30, "skin": "ui/lobby/icon_hot.png", "right": 10 } }, { "type": "Image", "props": { "var": "expectIcon", "skin": "ui/lobby/jqqd.png", "centerY": 0, "centerX": 0 } }, { "type": "Image", "props": { "var": "pauseIcon", "skin": "ui/lobby/weihuzhong.png", "centerY": 0, "centerX": 0 } }, { "type": "Image", "props": { "y": 0, "x": 0, "var": "lowMark", "skin": "ui/lobby/img_dating_tiyanfang2.png" } }] };
             return GameIconViewUI;
         }(View));
         UI.GameIconViewUI = GameIconViewUI;
-    })(UI = ui.UI || (ui.UI = {}));
-})(ui || (ui = {}));
-(function (ui) {
-    var UI;
-    (function (UI) {
-        var GameMenuItemUI = /** @class */ (function (_super) {
-            __extends(GameMenuItemUI, _super);
-            function GameMenuItemUI() {
-                return _super.call(this) || this;
-            }
-            GameMenuItemUI.prototype.createChildren = function () {
-                _super.prototype.createChildren.call(this);
-                this.createView(ui.UI.GameMenuItemUI.uiView);
-            };
-            GameMenuItemUI.uiView = { "type": "View", "props": { "width": 288, "height": 76 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "skin": "ui/lobby/img_dating_fenlei03.png" } }, { "type": "Image", "props": { "y": 0, "x": 0, "var": "selectBg", "skin": "ui/lobby/img_dating_fenlei04.png" } }, { "type": "Image", "props": { "y": 5, "x": 15, "var": "icon", "skin": "ui/lobby/micon1.png" } }, { "type": "Image", "props": { "y": 20, "x": 105, "var": "title", "skin": "ui/lobby/dmenu1.png" } }] };
-            return GameMenuItemUI;
-        }(View));
-        UI.GameMenuItemUI = GameMenuItemUI;
     })(UI = ui.UI || (ui.UI = {}));
 })(ui || (ui = {}));
 (function (ui) {

@@ -117,7 +117,6 @@ var Common = /** @class */ (function () {
     };
     Common.GM_SCREEN_H = 750;
     Common.GM_SCREEN_W = 1334;
-    Common.userBalance = 0; //玩家实际余额
     //当前登录用户令牌
     Common.access_token = "";
     //当前用户是否全新登录

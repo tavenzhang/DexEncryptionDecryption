@@ -91,7 +91,6 @@ var GameUtils = /** @class */ (function () {
                 device = MyUid.getUid();
             if ((!device || device.length < 5) && this.isNativeApp) {
                 console.error("deviceToken异常", this.isNativeApp, device);
-                HttpRequester.addLog("deviceToken异常:" + device);
             }
             return device;
         },
@@ -279,54 +278,6 @@ var FormatTool = /** @class */ (function () {
     };
     return FormatTool;
 }());
-/**
- * 加载工具
- */
-var LoadTool = /** @class */ (function () {
-    function LoadTool() {
-    }
-    /**
-     * 加载图片
-     * @param img
-     * @param url
-     * @param width 指定的宽度
-     * @param height 指定的高度
-     * @param ratioScale 是否等比缩放(否则强制拉伸)
-     */
-    LoadTool.loadImage = function (img, url, width, height, ratioScale) {
-        if (ratioScale === void 0) { ratioScale = true; }
-        if (!img || !url)
-            return;
-        var texture = Laya.loader.getRes(url);
-        var scl = 1;
-        if (texture) {
-            img.skin = url;
-            if (ratioScale) {
-                scl = Math.min(width / texture.width, height / texture.height);
-                if (scl < 1)
-                    img.scale(scl, scl);
-            }
-            else {
-                img.size(width, height);
-            }
-        }
-        else {
-            Laya.loader.load(url, Laya.Handler.create(this, function () {
-                img.skin = url;
-                texture = img.source;
-                if (ratioScale) {
-                    scl = Math.min(width / texture.width, height / texture.height);
-                    if (scl < 1)
-                        img.scale(scl, scl);
-                }
-                else {
-                    img.size(width, height);
-                }
-            }), null, Laya.Loader.IMAGE);
-        }
-    };
-    return LoadTool;
-}());
 var InnerJumpUtil = /** @class */ (function () {
     function InnerJumpUtil() {
     }
@@ -350,11 +301,11 @@ var InnerJumpUtil = /** @class */ (function () {
                 PageManager.showDlg(cmd);
                 break;
             }
-            case DlgCmd.recharge: { //充值界面
+            case DlgCmd.recharge: {
                 Tools.jump2module(ConfObjRead.getConfUrl().url.g_recharge, "recharge");
                 break;
             }
-            case DlgCmd.service: { //客服
+            case DlgCmd.service: {
                 Tools.jump2module(ConfObjRead.getConfUrl().url.g_custom, "custom");
                 break;
             }
