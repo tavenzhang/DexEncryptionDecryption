@@ -132,7 +132,7 @@ export default class TWWebGameView extends Component {
 
                 {this.state.isShowExitAlertView && <ExitGameAlertView
                     onPressConfirm={()=>{
-                        TW_Store.bblStore.quitSubGame()
+                        this.onBackHomeJs()
                         this.setState({isShowExitAlertView: false})
                     }}
                     onPressCancel={() => this.setState({isShowExitAlertView: false})}
@@ -283,7 +283,7 @@ export default class TWWebGameView extends Component {
         }
     };
 
-    onBackHomeJs = () => {;
+    onBackHomeJs = () => {
         if (TW_Store.dataStore.isAppSound) {
             SoundHelper.onCheckPalyMusic();
         }
