@@ -365,11 +365,6 @@ export default class GameWithdraw extends Component {
             }
         }
 
-        if (itemData.withdrawModel.surplusSeconds < 0) {
-            this.postponeShowToast('您的操作过于频繁，请' + Math.abs(itemData.withdrawModel.surplusSeconds) + '秒后再试!');
-            return false;
-        }
-
         if (itemData.withdrawModel.surplusWithdrawCount <= 0) {//当天提款次数
             this.postponeShowToast('您今日出款次数已经用完，请明日再来!');
             return false;
