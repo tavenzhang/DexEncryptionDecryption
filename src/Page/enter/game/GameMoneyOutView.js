@@ -102,8 +102,7 @@ export default class GameMoneyOutView extends Component {
             <TCButtonImg imgSource={ASSET_Images.gameUI.payBack}
                          soundName={TW_Store.bblStore.SOUND_ENUM.returnLobbyClick}
                          onClick={() =>
-                         {TW_Store.gameUIStroe.isShowWithDraw = false
-                             TW_Store.dataStore.flushMoney()}
+                             TW_Store.gameUIStroe.isShowWithDraw = false
                          }
                          btnStyle={{
                              position: "absolute",
