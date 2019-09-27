@@ -178,6 +178,8 @@ var view;
              * @param state
              */
             GameIconView.prototype.setGameState = function (state) {
+                if (this.gameVo.classify == GameType.other)
+                    return; //三方游戏不执行这里(防止app推update状态)
                 if (this.gameState == GameState.PAUSE)
                     return; //维护状态不接受其他状态
                 this.gameState = state;
