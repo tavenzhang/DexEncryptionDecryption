@@ -138,13 +138,16 @@ var DragingBox = /** @class */ (function (_super) {
     /**
      * 滚动到item
      * @param item
+     * @param offset 父容器位置偏移(如果父容器x不为0就要设置offset为父容器的x)
      */
-    DragingBox.prototype.scrollToItem = function (item) {
+    DragingBox.prototype.scrollToItem = function (item, offset) {
+        if (offset === void 0) { offset = 0; }
         var pt = this.cbox.localToGlobal(new Laya.Point(item.x, item.y));
+        pt.x -= offset;
         var ix = pt.x + item.width;
         var lborder = this.x; //坐边界
         var rborder = this.x + this.rollRect.width; //右边界
-        var tox;
+        var tox = 0;
         if (ix > rborder) {
             tox = rborder - ix;
         }

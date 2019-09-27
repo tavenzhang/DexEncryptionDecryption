@@ -11,18 +11,12 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var AttentionDialog = /** @class */ (function () {
-    function AttentionDialog() {
-    }
-    AttentionDialog.TYPE_OPEN_MANUAL = 1;
-    AttentionDialog.TYPE_OPEN_AUTO = 2;
-    return AttentionDialog;
-}());
 var NoticeData = {
     shareId: 0,
     shareLimit: 0,
     currentTab: 0,
     noticeid: -1,
+    noticeType: null
 };
 var view;
 (function (view) {
@@ -39,10 +33,16 @@ var view;
                 _this.initView();
                 return _this;
             }
-            NoticeDlg.show = function ($type, noticeid) {
+            /**
+             *
+             * @param type 分类id
+             * @param noticeid 子分类id
+             */
+            NoticeDlg.show = function ($type, noticeid, noticeType) {
                 if (noticeid === void 0) { noticeid = -1; }
                 NoticeData.currentTab = $type;
                 NoticeData.noticeid = noticeid;
+                NoticeData.noticeType = noticeType;
                 var dlg = new NoticeDlg();
                 dlg.width = Laya.stage.width;
                 dlg.game_counter.visible = false;
@@ -68,7 +68,7 @@ var view;
                 }, null, 1);
                 this.arrow.visible = false;
                 //设置默认tab
-                this._currentCategoryTab = NoticeData.currentTab === DlgCmd.activityCenter ? 1 : 0;
+                this.curTabID = NoticeData.currentTab === DlgCmd.activityCenter ? 1 : 0;
                 this.updateCategoryTab(false);
             };
             NoticeDlg.prototype.tabHandler = function (evt) {
@@ -111,10 +111,11 @@ var view;
                 this.tabPanel.destroyChildren();
                 this.tabPanel.refresh();
                 this._tabs.length = 0;
-                var curData = data[this._currentCategoryTab];
+                var curData = data[this.curTabID];
                 var list = curData.noticeList;
                 var tab;
                 var tab0;
+                var active = false; //活动的noticeActivityType字段有可能是重复的
                 list.forEach(function (value, index) {
                     tab = new view.dlg.notice.NoticeTabView();
                     tab.y = index * (tab.height - 5);
@@ -122,10 +123,14 @@ var view;
                     _this._tabs.push(tab);
                     tab.id = index;
                     tab.readData(value);
-                    if (tab.noticeid == NoticeData.noticeid) {
-                        tab.active();
-                        _this.loadTab(tab.id);
-                        _this.prevTab = tab;
+                    //因为公告没有noticeActivityType字段，所以要判断curTabID
+                    if (tab.noticeid == NoticeData.noticeid || (value.noticeActivityType == NoticeData.noticeType && _this.curTabID == 1)) { //指定了子标签
+                        if (!active) {
+                            tab.active();
+                            _this.loadTab(tab.id);
+                            _this.prevTab = tab;
+                            active = true;
+                        }
                     }
                     if (index == 0)
                         tab0 = tab;
@@ -135,7 +140,7 @@ var view;
                     this.loopArrow();
                 else
                     Laya.Tween.clearTween(this.arrow);
-                if (!this.prevTab) {
+                if (!this.prevTab) { //如果没有指定就默认第一个子标签
                     if (tab0) {
                         tab0.active();
                         this.loadTab(0);
@@ -162,17 +167,17 @@ var view;
             NoticeDlg.prototype.onTabClick = function ($e) {
                 switch ($e.currentTarget) {
                     case this.tab_notice: //活动
-                        this._currentCategoryTab = 1;
+                        this.curTabID = 1;
                         break;
                     case this.tab_game: //公告
-                        this._currentCategoryTab = 0;
+                        this.curTabID = 0;
                         break;
                 }
                 this.updateCategoryTab();
             };
             NoticeDlg.prototype.updateCategoryTab = function (play) {
                 if (play === void 0) { play = true; }
-                var bl = Boolean(this._currentCategoryTab == 1);
+                var bl = Boolean(this.curTabID == 1);
                 this.tab_notice.alpha = bl ? 1 : 0;
                 this.tab_game.alpha = bl ? 0 : 1;
                 this.contents.destroyChildren();
@@ -189,13 +194,13 @@ var view;
                         counter++;
                     }
                 }
-                var target = this._currentCategoryTab === 0 ? this.game_counter : this.notice_counter;
+                var target = this.curTabID === 0 ? this.game_counter : this.notice_counter;
                 target.visible = counter > 0;
             };
             NoticeDlg.prototype.loadTab = function ($id) {
                 this.contents.destroyChildren();
                 this.contents.removeChildren();
-                var data = this._data[this._currentCategoryTab].noticeList[$id];
+                var data = this._data[this.curTabID].noticeList[$id];
                 var content;
                 switch (data.noticeActivityType) {
                     case "NORMAL":
@@ -220,14 +225,14 @@ var view;
                 }
                 content.x = content.y = 0;
                 this.contents.addChild(content);
-                this.requestRead(this._data[this._currentCategoryTab].noticeList[$id].noticeid);
+                this.requestRead(data.noticeid);
             };
             NoticeDlg.prototype.requestRead = function (id) {
                 var _this = this;
                 var cmd = ConfObjRead.getConfUrl().cmd.attention_read + id;
                 HttpRequester.putHttpData(cmd, null, this, function (suc, jobj) {
                     if (suc) {
-                        var list = _this._data[_this._currentCategoryTab].noticeList;
+                        var list = _this._data[_this.curTabID].noticeList;
                         list.forEach(function (data, index) {
                             if (data.noticeid === jobj.noticeid || data.noticeid === jobj.noticeId) {
                                 _this._tabs[index].onRead();

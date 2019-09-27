@@ -268,8 +268,15 @@ var Tools = /** @class */ (function () {
             }
             else {
                 ginfo = {
-                    "alias": "",
-                    "name": "" //"炸金花"
+                    alias: "",
+                    gameType: "",
+                    id: 1,
+                    name: "",
+                    jumpUrl: true,
+                    state: "",
+                    url: "",
+                    classify: 1,
+                    icon: ""
                 };
             }
             var domainUrl = AppData.NATIVE_DATA.gameDomain;
@@ -292,7 +299,7 @@ var Tools = /** @class */ (function () {
                 "usergateway": AppData.NATIVE_DATA.loginDomain,
                 "gamecenter": domainUrl,
                 "wss": wssUrl,
-                "openDebug": Debug.openDebug
+                "openDebug": Debug.httpDebug
             };
             Debug.log("lobbyToGame-token=", Common.access_token);
             // Debug.log("Tools.jump2game jobj:");
@@ -302,7 +309,6 @@ var Tools = /** @class */ (function () {
             var au = jumpUrl + "?jumpData=" + param;
             var enUrl = encodeURI(au);
             au = enUrl;
-            var ne = b.decode(param);
             Debug.log("Tools.jump2game url:" + au);
             //需要关闭声音等暂停操作
             LayaMain.getInstance().onGamePause();
@@ -1229,11 +1235,13 @@ var Tools = /** @class */ (function () {
      * 格式化金币
      * @param num
      * @param len 保留小数位数
+     * @param delZero 是否去掉多余的0(默认保留)
      */
-    Tools.FormatMoney = function (num, len) {
+    Tools.FormatMoney = function (num, len, delZero) {
         if (len === void 0) { len = 2; }
-        if (num < 10000)
-            return num.toFixed(len);
+        if (num < 10000) {
+            return this.getFloatStr(num, len, "", delZero);
+        }
         var float, dw;
         if (num >= 10000 && num < 100000000) { //万
             float = num / 10000;
@@ -1243,10 +1251,29 @@ var Tools = /** @class */ (function () {
             float = num / 100000000;
             dw = "亿";
         }
-        var str = float.toFixed(len + 1);
-        var pos = str.indexOf(".");
-        var numStr = str.substring(0, pos + len + 1);
-        return numStr + dw;
+        return this.getFloatStr(float, len, dw, delZero);
+    };
+    Tools.getFloatStr = function (num, len, dw, delZero) {
+        if (dw === void 0) { dw = ""; }
+        var str, pos;
+        var plen, pnum;
+        str = num.toString();
+        pos = str.indexOf(".");
+        if (pos == -1) {
+            if (delZero)
+                pos = str.length;
+            else
+                return num.toFixed(len) + dw;
+        }
+        str = str.substring(0, pos + len + 1);
+        if (!delZero) { //补上缺少的0
+            plen = str.split(".")[1].length;
+            pnum = len - plen;
+            for (var i = 0; i < pnum; i++) {
+                str += "0";
+            }
+        }
+        return str + dw;
     };
     //计算两点角度
     Tools.getL = function (p1, p2) {
@@ -1513,6 +1540,25 @@ var Tools = /** @class */ (function () {
             // Debug.log('copy err:'+err);
         }
         input.remove();
+    };
+    /**
+     * 计算字符长度(这个把所有双字节的都给匹配进去了)
+     * 中文长度为2,英文数字为1
+     * @param str
+     */
+    Tools.getStringLength = function (str) {
+        return str.replace(/[^\x00-\xff]/g, '__').length;
+    };
+    /**
+     * 去掉右侧空格
+     * @param char
+     */
+    Tools.trimRight = function (char) {
+        if (char == null) {
+            return null;
+        }
+        var pattern = /\s*$/;
+        return char.replace(pattern, "");
     };
     Tools.INPUT_LABEL_USERNAME = "username";
     Tools.INPUT_LABEL_PWD = "pwd";

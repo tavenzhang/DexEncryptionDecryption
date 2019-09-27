@@ -102,33 +102,51 @@ var PageManager = /** @class */ (function () {
      * @param cmd
      * @param params
      */
-    PageManager.showDlg = function (cmd, params) {
+    PageManager.showDlg = function (cmd) {
         var args = [];
-        for (var _i = 2; _i < arguments.length; _i++) {
-            args[_i - 2] = arguments[_i];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
         }
         var arr = this.dlgMap[cmd];
         if (arr) {
-            this.addDlg(arr[1], arr[0], params, args);
+            this.addDlg.apply(this, [arr[1], arr[0]].concat(args));
         }
+    };
+    /**
+     * 自定义关闭弹窗
+     * @param dlg
+     */
+    PageManager.closeDlg = function (dlg) {
+        //目前不需要什么关闭效果,所以就直接关闭
+        if (dlg)
+            Laya.Dialog.manager.doClose(dlg);
+        // let toScl = 1;
+        // let toAlp = 0;
+        // let time = 300;
+        // let tox = Laya.stage.width - dlg.width * toScl >> 1;
+        // let toy = Laya.stage.height - dlg.height * toScl >> 1;
+        // Laya.Tween.to(dlg, { x: tox, y: toy, scaleX: toScl, scaleY: toScl, alpha: toAlp }, time, Laya.Ease.cubicOut, Laya.Handler.create(this, () => {
+        //     if (dlg) Laya.Dialog.manager.doClose(dlg);
+        // }));
     };
     /**
      * @param assets 依赖资源列表
      * @param dlgClass 弹窗类
      * @param params 参数
      */
-    PageManager.addDlg = function (assets, dlgClass, params) {
+    PageManager.addDlg = function (assets, dlgClass) {
         var args = [];
-        for (var _i = 3; _i < arguments.length; _i++) {
-            args[_i - 3] = arguments[_i];
+        for (var _i = 2; _i < arguments.length; _i++) {
+            args[_i - 2] = arguments[_i];
         }
         if (!assets) { //只依赖公共资源
-            dlgClass.show(params, args);
+            dlgClass.show.apply(//只依赖公共资源
+            dlgClass, args);
             return;
         }
         var res = Laya.loader.getRes(assets[0]);
         if (res) {
-            dlgClass.show(params, args);
+            dlgClass.show.apply(dlgClass, args);
         }
         else {
             LayaMain.getInstance().showCircleLoading();
@@ -136,7 +154,7 @@ var PageManager = /** @class */ (function () {
         }
         function show() {
             LayaMain.getInstance().showCircleLoading(false);
-            dlgClass.show(params, args);
+            dlgClass.show.apply(dlgClass, args);
         }
     };
     /**
@@ -182,14 +200,11 @@ var PageManager = /** @class */ (function () {
     PageManager.lobbyRes = [
         "res/atlas/ui/bitFont/goldFont.atlas",
         "res/atlas/ui/panel_common.atlas",
-        "res/atlas/ui/lobby/bottombar.atlas",
         "res/atlas/ui/common.atlas",
         "res/atlas/ui/lobby.atlas",
-        "assets/ui/avatorpad/touxiang.atlas",
+        "res/atlas/ui/headList.atlas",
         "asset/animation/coins/money_icon.png",
-        "asset/animation/girl/girl.png",
-        "asset/animation/loading/xiaoLoding.png",
-        "asset/animation/shopicon/shopicon.png"
+        "asset/animation/loading/xiaoLoding.png"
     ];
     return PageManager;
 }());

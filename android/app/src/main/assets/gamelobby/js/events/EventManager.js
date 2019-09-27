@@ -254,7 +254,6 @@ var CustomObj = /** @class */ (function () {
 var EventType = /** @class */ (function () {
     function EventType() {
     }
-    EventType.RESIZE = "resize";
     EventType.FLUSH_USERINFO = "flushUserInfo";
     EventType.FLUSH_HEADICON = "flushHeadIcon";
     EventType.LIFE_CYCLE = "lifeCycle"; //前后台切换
