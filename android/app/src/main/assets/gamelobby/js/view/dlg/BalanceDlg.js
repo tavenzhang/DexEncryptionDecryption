@@ -37,6 +37,7 @@ var view;
                 var _this = this;
                 this.TLgroup.left = GameUtils.getScreencOffset(-40, 0);
                 this.TRgroup.right = GameUtils.getScreencOffset(-55, 0);
+                this.weihuMask.visible = false;
                 this.reqInfo();
                 EventManager.addTouchScaleListener(this.backBtn, this, function () {
                     SoundPlayer.returnLobbySound();
@@ -154,7 +155,7 @@ var view;
                         this.weihuMask.visible = false;
                     }
                     //保存玩家当前钱包余额并通知玩家钱包变化
-                    Common.userInfo.userBalance.balance = jobj.balanceAmt;
+                    Common.userBalance = jobj.balanceAmt;
                     EventManager.dispath(EventType.FLUSH_MONEY);
                 }
                 else {

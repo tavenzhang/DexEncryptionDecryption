@@ -43,6 +43,7 @@ export default class GameMoneyInView extends Component {
             fontSize: 14,
         }
     }
+    currentY =10000;
 
     constructor(state) {
         super(state)
@@ -71,7 +72,9 @@ export default class GameMoneyInView extends Component {
         TW_Store.userPayTypeStore.initPayTypeList();
     }
 
-
+    componentWillUnmount(): void {
+        TW_Store.dataStore.onFlushMoney();
+    }
     render() {
         let {pointerEvents}=this.props;
         let bankitem = this.state.selectPayitem;
@@ -88,7 +91,7 @@ export default class GameMoneyInView extends Component {
             <TCImage source={ASSET_Images.gameUI.moneyBottomBg} style={{position: "absolute",right:0,bottom:0}} resizeMode={'contain'}/>
             <TCImage source={ASSET_Images.gameUI.payBackBg} style={{position: "absolute",right: 0, top: 0,width:SCREEN_W*0.20,height:SCREEN_H*0.12}} resizeMode={'stretch'}/>
             <TCButtonImg imgSource={ASSET_Images.gameUI.payBack}
-                         onClick={() => TW_Store.gameUIStroe.isShowAddPayView = false}
+                         onClick={() =>TW_Store.gameUIStroe.isShowAddPayView = false}
                          soundName={TW_Store.bblStore.SOUND_ENUM.returnLobbyClick}
                          btnStyle={{position: "absolute", right: -15, top: 7,width:SCREEN_W*0.20,height:SCREEN_H*0.12}} resizeMode={'stretch'}/>
             <TCButtonImg imgSource={ASSET_Images.gameUI.btn_minxi}
@@ -127,7 +130,6 @@ export default class GameMoneyInView extends Component {
         this.refs.payTypeList.scrollToEnd();
     }
 
-    currentY =10000;
     _scroll =(event) =>{
         let y = event.nativeEvent.contentOffset.y
         if(this.currentY === 10000){

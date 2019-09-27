@@ -27,16 +27,18 @@ var view;
                 return _this;
             }
             UserInfoView.prototype.initView = function () {
+                var _this = this;
                 this.checkVisitorMark();
+                this.flushMoney();
                 //点击头像打开个人中心
                 EventManager.addTouchScaleListener(this.headIcon, this, function () {
                     SoundPlayer.enterPanelSound();
                     PageManager.showDlg(DlgCmd.personCenter);
                 }, null, 1);
-                //充值
-                EventManager.addTouchScaleListener(this.addBtn, this, function () {
+                //刷新余额
+                EventManager.addTouchScaleListener(this.flushBtn, this, function () {
                     SoundPlayer.enterPanelSound();
-                    InnerJumpUtil.doJump(DlgCmd.recharge);
+                    _this.flushMoney();
                 });
                 //全局事件监听
                 EventManager.register(EventType.GETUSERS_INFO, this, this.showUserInfo);
@@ -44,11 +46,25 @@ var view;
                 EventManager.register(EventType.GETAVATOR_INFO, this, this.showHeadIcon);
                 EventManager.register(EventType.FLUSH_HEADICON, this, this.flushHeadIcon);
             };
+            UserInfoView.prototype.stopAnim = function () {
+                if (this.destroyed)
+                    return;
+                this.rotAnim.gotoAndStop(0);
+            };
             /**
              * 检测游客标记
              */
             UserInfoView.prototype.checkVisitorMark = function () {
                 this.visitorMark.visible = LoginModel.isVisitor;
+            };
+            /**
+             * 刷新余额
+             */
+            UserInfoView.prototype.flushMoney = function () {
+                this.rotAnim.play();
+                Laya.timer.clear(this, this.stopAnim);
+                LobbyModel.refreshMoney(this, this.stopAnim);
+                Laya.timer.once(6000, this, this.stopAnim);
             };
             //玩家头像
             UserInfoView.prototype.showHeadIcon = function () {

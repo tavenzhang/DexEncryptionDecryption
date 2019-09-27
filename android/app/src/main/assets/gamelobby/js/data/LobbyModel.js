@@ -22,8 +22,8 @@ var LobbyModel = /** @class */ (function () {
             if (showloading)
                 LayaMain.getInstance().showCircleLoading(false);
             if (suc) {
-                Debug.log("--->>>gameList:", jobj);
-                _this.classifyPool[vo.gameName] = jobj.datas;
+                Debug.log("--->>>gameList-" + vo.gameId + ":", jobj);
+                _this.classifyPool[vo.gameId] = jobj.datas;
             }
             if (caller && callback)
                 callback.call(caller, suc, jobj);
@@ -37,7 +37,7 @@ var LobbyModel = /** @class */ (function () {
     LobbyModel.reqClassifyMenu = function (caller, callback) {
         LayaMain.getInstance().showCircleLoading();
         HttpRequester.getHttpData(ConfObjRead.httpCmd.gameMenu, this, function (suc, jobj) {
-            LayaMain.getInstance().showCircleLoading();
+            LayaMain.getInstance().showCircleLoading(false);
             Debug.log("--->>>gameMenu:", jobj);
             if (caller && callback)
                 callback.call(caller, suc, jobj);
@@ -51,30 +51,22 @@ var LobbyModel = /** @class */ (function () {
         LayaMain.getInstance().showCircleLoading(true);
         var data = ["gamePlatform", vo.gamePlatform];
         HttpRequester.getHttpData(ConfObjRead.httpCmd.otherGameURI + vo.classifyThirdGameId, this, function (suc, jobj) {
-            LayaMain.getInstance().showCircleLoading(false);
+            if (!GameUtils.isNativeApp)
+                LayaMain.getInstance().showCircleLoading(false);
             if (suc) {
                 if (jobj.data && jobj.data.gameUrl) {
                     PostMHelp.jumpOtherGame(jobj.data.gameUrl);
                     Debug.log("jumpOtherGame:", jobj.data.gameUrl);
                 }
                 else {
-                    Toast.showToast("游戏跳转失败:" + vo.name + vo.classifyThirdGameId);
+                    Toast.showToast("游戏跳转失败:" + jobj.message);
+                    LayaMain.getInstance().showCircleLoading(false);
                 }
             }
+            else {
+                LayaMain.getInstance().showCircleLoading(false);
+            }
         }, null, data);
-    };
-    /**
-     * 检查是否从三方游戏异常退出
-     * @param caller
-     * @param callback
-     */
-    LobbyModel.checkOtherGameErr = function (caller, callback) {
-        LayaMain.getInstance().showCircleLoading(true);
-        HttpRequester.getHttpData(ConfObjRead.httpCmd.checkOtherGameErr, this, function (suc, jobj) {
-            LayaMain.getInstance().showCircleLoading(false);
-            if (caller && callback)
-                callback.call(caller, suc, jobj);
-        });
     };
     /**
      * 进入游戏前先检测有效余额与实际余额
@@ -82,35 +74,18 @@ var LobbyModel = /** @class */ (function () {
      * @param selfGame 是否自有游戏
      */
     LobbyModel.checkValidBalance = function (vo, selfGame) {
-        var _this = this;
-        LobbyModel.getValidBalance(this, function (suc, jobj) {
-            if (!suc)
-                return;
-            var valid = jobj.balance;
-            var real = Common.userBalance;
-            if (valid == real) { //正常进入游戏
+        var obj = Common.balanceInfo;
+        if (obj && obj.failedCollectAmount > 0) { //判断是否有三方游戏的余额未回收
+            var tipstr = "由于您在之前游戏中异常退出，部分余额已锁定，锁定余额将在游戏结束后返还";
+            if (obj.failedCollectAmount == Common.userBalance)
+                tipstr = "由于您在之前游戏中异常退出，余额已被锁定，锁定余额将在游戏结束后返还";
+            view.dlg.TipsDlg.show(tipstr, this, function () {
                 selfGame ? Tools.jump2game(vo.url) : LobbyModel.gotoOhterGame(vo);
-            }
-            else if (valid > 0 && valid != real) { //先提示玩家再进游戏
-                view.dlg.TipsDlg.show("检测到您的账号在之前的游戏中异常退出,部分余额已被锁定,锁定部分余额将在异常退出的游戏结束后恢复", _this, function () {
-                    selfGame ? Tools.jump2game(vo.url) : LobbyModel.gotoOhterGame(vo);
-                });
-            }
-            else if (valid == 0 && real > 0) { //提示玩家不能进入游戏
-                _this.checkOtherGameErr(_this, function (suc, jobj) {
-                    if (suc && vo.id.toString() == jobj) { //进入的是异常退出的三方游戏
-                        LobbyModel.gotoOhterGame(vo);
-                    }
-                    else {
-                        view.dlg.TipsDlg.show("检测到您的账号在之前的游戏中异常退出,需要等待游戏结束后才可以进行游戏,请稍后再试。");
-                        _this.refreshMoney();
-                    }
-                });
-            }
-            else {
-                console.error("进入游戏失败：", valid, real);
-            }
-        });
+            });
+        }
+        else {
+            selfGame ? Tools.jump2game(vo.url) : LobbyModel.gotoOhterGame(vo);
+        }
     };
     //请求vconsole开关
     LobbyModel.getVconsoleOpen = function () {
@@ -139,18 +114,24 @@ var LobbyModel = /** @class */ (function () {
     LobbyModel.checkUnreadNotice = function (caller, callback) {
         HttpRequester.getHttpData(ConfObjRead.httpCmd.attention_new, this, function (suc, jobj) {
             if (suc) {
-                var counter_1 = 0;
-                jobj.forEach(function (data, idx) {
+                //type0-公告，type1-活动 dial-是否显示转盘
+                var hotobj_1 = { type0: false, type1: false, dial: false };
+                jobj.forEach(function (data, index) {
                     if (data.noticeList) {
                         data.noticeList.forEach(function (data) {
-                            if (data.bread === false) {
-                                counter_1++;
+                            if (data.bread === false) { //标记为有未读数据
+                                hotobj_1["type" + index] = true;
+                            }
+                            if (index == 1) { //判断活动中有无转盘的配置
+                                if (data.noticeActivityType == ActiveType[ActiveType.ROULETTE_DRAW]) {
+                                    hotobj_1.dial = true;
+                                }
                             }
                         });
                     }
                 });
                 if (caller && callback)
-                    callback.call(caller, Boolean(counter_1 > 0));
+                    callback.call(caller, hotobj_1);
             }
         });
     };
@@ -170,15 +151,18 @@ var LobbyModel = /** @class */ (function () {
     };
     /**
      * users
+     * flushBalance 是否刷新余额
      */
-    LobbyModel.reqUserInfo = function () {
+    LobbyModel.reqUserInfo = function (flushBalance) {
         var _this = this;
+        if (flushBalance === void 0) { flushBalance = true; }
         HttpRequester.getHttpData(ConfObjRead.getConfUrl().cmd.userinfobalance, this, function (suc, jobj) {
             if (suc) {
                 Common.userInfo = jobj;
                 Common.setLoginPlatform(jobj.loginPlatform);
                 EventManager.dispath(EventType.GETUSERS_INFO);
-                _this.refreshMoney();
+                if (flushBalance)
+                    _this.refreshMoney();
             }
         });
     };
@@ -233,34 +217,18 @@ var LobbyModel = /** @class */ (function () {
         });
     };
     /**
-     * 余额刷新(获取用户的余额信息包含免转金额的回收)
-     * 备注：这个余额为实际余额
+     * 余额刷新(获取用户的余额信息包含免转金额的回收详情)
      */
-    LobbyModel.refreshMoney = function () {
-        HttpRequester.getHttpData(ConfObjRead.httpCmd.realBalance, this, function (suc, jobj) {
+    LobbyModel.refreshMoney = function (caller, callback) {
+        HttpRequester.getHttpData(ConfObjRead.httpCmd.balanceInfo, this, function (suc, jobj) {
             if (suc) {
-                Common.userBalance = jobj.balance;
+                Common.userBalance = jobj.data.totalAmount;
+                Common.balanceInfo = jobj.data;
+                Debug.log("刷新余额：", Common.userBalance);
                 EventManager.dispath(EventType.FLUSH_MONEY);
             }
-        });
-    };
-    /**
-     * 获取玩家有效余额(可用余额)
-     * 备注：如果是特殊情况,比如玩家进入三方游戏后非正常退出游戏到大厅，这个时候会导致玩家的余额没有从第三方免转回收到大厅
-     * 大厅会显示实际余额，但是这个余额又没法正常使用，如果玩家这个时候充值了100，那么这个100就为可使用的有效余额。
-     * @param caller
-     * @param callback
-     */
-    LobbyModel.getValidBalance = function (caller, callback) {
-        HttpRequester.getHttpData(ConfObjRead.httpCmd.validBalance, this, function (suc, jobj) {
-            if (suc) {
-                Debug.log("--->>>玩家有效余额：" + jobj.balance);
-            }
-            else {
-                console.error("玩家有效余额查询失败");
-            }
             if (caller && callback)
-                callback.call(caller, suc, jobj);
+                callback.call(caller);
         });
     };
     /**

@@ -75,6 +75,7 @@ var CyclePageBox = /** @class */ (function (_super) {
     };
     CyclePageBox.prototype.openLink = function (vo) {
         if (vo && vo.carouselHref) {
+            SoundPlayer.clickSound();
             if (vo.jumpInner) {
                 if (vo.jumpGame)
                     EventManager.dispath(EventType.JUMP_GAME, vo.carouselHref);

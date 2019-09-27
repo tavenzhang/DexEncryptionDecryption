@@ -183,6 +183,7 @@ export  default  class BBLStore {
         popTip:"popTip",
         affcode:"affcode",
         appNativeData:"appNativeData",
+
     }
 
     //bgm.mp3 click.mp3 close.mp3 flopleft.mp3 flopright.mp3 recharge.mp3 rightbottomclose.mp3 showlogo.mp3
@@ -294,6 +295,8 @@ export  default  class BBLStore {
             isNewApp: G_IS_IOS ? true : false
         }
     }
+
+
 
 
 }

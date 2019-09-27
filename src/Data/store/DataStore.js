@@ -502,5 +502,12 @@ export default class DataStore {
     getHomeWebHome() {
         return (this.isAppInited  ? this.targetAppDir:this.originAppDir)
     }
+
+    @action
+    onFlushMoney(){
+        if(TW_OnValueJSHome){
+            TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.flushMoney, {}));
+        }
+    }
 }
 
