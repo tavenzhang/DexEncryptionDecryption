@@ -43,7 +43,9 @@ var view;
             //菜单点击事件
             GameIconListPanel.prototype.menuHandler = function (vo) {
                 if (vo.classifyGameIds) {
-                    var list = LobbyModel.classifyPool[vo.gameName];
+                    LobbyModel.menuVo = vo;
+                    var list = LobbyModel.classifyPool[vo.gameId];
+                    Debug.log("menu-click:", list);
                     if (list)
                         this.addGameIcons(list);
                     else {
@@ -76,28 +78,49 @@ var view;
             GameIconListPanel.prototype.addGameIcons = function (glist) {
                 var _this = this;
                 this.clearIcons();
+                Common.gameList = glist; //保存当前列表
                 var icon;
                 var iconGroup = new Laya.Sprite();
                 iconGroup.mouseEnabled = true;
-                var len = glist ? glist.length : 0;
-                var gapX = 50; //x轴间隔
+                var len = 0;
+                var gapX = 36; //x轴间隔
                 var gapY = 22;
                 var iconWidth = 212; //图标视图尺寸
                 var iconHeight = 212;
                 var contentWidth = 0;
+                var startX = Laya.stage.width - this.menu.width; //缓动初始位置
+                var tox; //目标位置
+                var tweenMax = this.width - this.referView.x; //需要缓动的图标的界限值
+                var delayDrag = 350; //延迟执行列表滑动(如果动画没播放完就滑动会有奇怪的效果)
                 glist.forEach(function (value, i) {
-                    icon = new view.UI.GameIconView();
-                    icon.index = i;
-                    icon.mouseEnabled = true;
-                    icon.readData(value);
-                    // icon.setGameState(GameState.UPDATE);//用于调试动画位置
-                    icon.x = Math.floor(i / 2) * (iconWidth + gapX);
-                    icon.y = (i % 2) * (iconHeight + gapY);
-                    iconGroup.addChild(icon);
-                    _this.iconList.push(icon);
-                    //添加需要默认下载的游戏
-                    if (DefDownLoadGame[icon.alias]) {
-                        _this.defDownLoads.push(icon);
+                    //如果游戏没有关闭和下线
+                    if (GameState[value.state] != GameState.CLOSE && value.classifyOnlineFlag) {
+                        icon = new view.UI.GameIconView();
+                        icon.index = len;
+                        icon.mouseEnabled = true;
+                        icon.readData(value);
+                        // icon.setGameState(GameState.UPDATE);//用于调试动画位置
+                        tox = Math.floor(len / 2) * (iconWidth + gapX);
+                        icon.x = startX;
+                        icon.y = (len % 2) * (iconHeight + gapY);
+                        icon.alpha = 0;
+                        iconGroup.addChild(icon);
+                        _this.iconList.push(icon);
+                        if (tox < tweenMax) {
+                            Laya.Tween.to(icon, { x: tox, alpha: 1 }, 350, Laya.Ease.cubicOut, null, len * 60);
+                            startX += iconWidth + gapX;
+                            if (len > 0)
+                                delayDrag += 60;
+                        }
+                        else {
+                            icon.alpha = 1;
+                            icon.x = tox;
+                        }
+                        //添加需要默认下载的游戏
+                        if (DefDownLoadGame[icon.alias]) {
+                            _this.defDownLoads.push(icon);
+                        }
+                        len++;
                     }
                 });
                 if (len > 0) {
@@ -116,8 +139,11 @@ var view;
                     this.dragBox.setClickCallback(this, this.clickHandler);
                     this.dragBox.addContent(iconGroup, contentWidth);
                     this.addChild(this.dragBox);
-                    this.dragBox.x = Laya.stage.width;
-                    Laya.Tween.to(this.dragBox, { x: ix }, 350, Laya.Ease.cubicOut);
+                    this.dragBox.mouseEnabled = false;
+                    Laya.timer.once(delayDrag, this, function () {
+                        if (_this.dragBox)
+                            _this.dragBox.mouseEnabled = true;
+                    });
                 }
                 Laya.timer.once(500, this, this.onUpdateMsgInit);
             };
@@ -162,10 +188,46 @@ var view;
             };
             //轮播图跳转到游戏
             GameIconListPanel.prototype.jumpGame = function (alias) {
+                var _this = this;
                 var icon = this.getGameIconByAlias(alias);
-                if (icon) {
+                if (icon) { //如果在当前列表
                     icon.doClick();
-                    this.dragBox.scrollToItem(icon);
+                    this.dragBox.scrollToItem(icon, this.gapx);
+                }
+                else { //如果需要跳转的游戏没在当前列表就去热门和电子类中查找数据
+                    var list = LobbyModel.classifyPool[GameMenuType.hotGame]; //热门类
+                    var mid = GameMenuType.hotGame.toString();
+                    if (list) {
+                        var arr = list.filter(function (value) { return value.alias == alias; });
+                        var gvo = arr[0];
+                        if (!gvo) {
+                            list = LobbyModel.classifyPool[GameMenuType.electron]; //电子类
+                            arr = list.filter(function (value) { return value.alias == alias; });
+                            gvo = arr[0];
+                            mid = GameMenuType.electron.toString();
+                        }
+                        if (gvo) { //触发热门菜单按钮点击
+                            LayaMain.getInstance().showCircleLoading();
+                            this.menu.gotoMenu(mid);
+                            Laya.timer.once(600, this, function () {
+                                LayaMain.getInstance().showCircleLoading(false);
+                                var icon = _this.getGameIconByAlias(alias);
+                                if (icon) {
+                                    icon.doClick();
+                                    _this.dragBox.scrollToItem(icon, _this.gapx);
+                                }
+                                else {
+                                    console.error("没有找到游戏icon:", alias);
+                                }
+                            });
+                        }
+                        else {
+                            console.error("没有找到跳转数据2:", alias);
+                        }
+                    }
+                    else {
+                        console.error("没有找到跳转数据1:", alias);
+                    }
                 }
             };
             //游戏下载进度
@@ -186,8 +248,17 @@ var view;
                     return arr[0];
                 return null;
             };
+            //----------------------public---------------
+            GameIconListPanel.prototype.playEntryAnim = function (flush) {
+                this.menu.x = -this.menu.width - this.gapx;
+                this.menu.alpha = 0.5;
+                Laya.Tween.to(this.menu, { x: 0, alpha: 1 }, 500, Laya.Ease.cubicOut, null, 100);
+                if (flush && this.dragBox) {
+                    this.clearIcons();
+                    this.menu.reqMenuData();
+                }
+            };
             Object.defineProperty(GameIconListPanel.prototype, "gapx", {
-                //----------------------public---------------
                 /**
                  * 获取左间距
                  */

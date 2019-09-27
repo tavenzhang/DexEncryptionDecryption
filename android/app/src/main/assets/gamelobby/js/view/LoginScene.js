@@ -31,8 +31,11 @@ var LoginScene = /** @class */ (function (_super) {
             this.progress.visible = true;
             var conf = Laya.loader.getRes("./assets/conf/assets_lobby.json");
             //加载数据
-            Laya.loader.load(conf.list, Laya.Handler.create(this, this.loadFinish), Laya.Handler.create(this, this.loadProgress, null, false));
+            Laya.loader.load(conf.list, Laya.Handler.create(this, this.loadFinish), Laya.Handler.create(this, this.loadProgress, null, false)).on(Laya.Event.ERROR, this, this.loadErr);
         }
+    };
+    LoginScene.prototype.loadErr = function (e) {
+        console.error("load-err:", e);
     };
     LoginScene.prototype.loadProgress = function (value) {
         this.progress.value = value;

@@ -41,6 +41,7 @@
 	<script type="text/javascript" src="libthird/react-native-rsa/lib/rng.js"></script>
 	<script type="text/javascript" src="libthird/react-native-rsa/lib/rsa.js"></script>
 	<script type="text/javascript" src="libthird/SecretUtils.js"></script>
+	<script type="text/javascript" src="libthird/vconsole.min.js"></script>
 
 </head>
 
@@ -48,6 +49,7 @@
 	<div class="LoadingRotation div_loading" id="loaddiv"></div>
 
 	<script type="text/javascript">
+		//初始化参数-------------------------------
 		var sAppData = {
 			"IS_NATIVE_APP": false,
 			"NATIVE_DATA": { "appVersion": "0" },
@@ -60,21 +62,17 @@
 		window.addEventListener('popstate', function () {
 			history.pushState(null, null, document.URL);
 		});
-	</script>
-
-	<script type="text/javascript" src="libthird/vconsole.min.js"></script>
-	<script>
+		//----------------控制台相关---------------
 		var bDebugPlatform = "web";
 		var bDebug = true;
-		var sScaleMode = "showall";//"fixedwidth";//"noborder";//"fixedheight";//
 		var bShowStat = false;
 		var sPubRes = "../pubres/assets/lobby/";
-		//"exactfit","fixedauto",,"fixedwidth","scalefull","noborder","noscale","showall"
 		var openDebug = false;
 
 		function initVconsole() {
 			bDebug = true;
 			bShowStat = true;
+			if (openDebug) return;
 			window.vConsole = new window.VConsole({
 				defaultPlugins: ['system', 'network', 'element', 'storage'],
 				maxLogNumber: 1000,
@@ -100,8 +98,6 @@
 
 	<!--核心包，封装了显示对象渲染，事件，时间管理，时间轴动画，缓动，消息交互,socket，本地存储，鼠标触摸，声音，加载，颜色滤镜，位图字体等-->
 	<script type="text/javascript" src="libs/laya.core.js"></script>
-	<!--提供了微信小游戏的适配-->
-	<!--<script type="text/javascript" src="libs/laya.wxmini.js"></script>-->
 	<!--封装了webgl渲染管线，如果使用webgl渲染，可以在初始化时调用Laya.init(1000,800,laya.webgl.WebGL);-->
 	<script type="text/javascript" src="libs/laya.webgl.js"></script>
 	<!--是动画模块，包含了swf动画，骨骼动画等-->
@@ -110,10 +106,6 @@
 	<script type="text/javascript" src="libs/laya.filter.js"></script>
 	<!--封装了html动态排版功能-->
 	<script type="text/javascript" src="libs/laya.html.js"></script>
-	<!--粒子类库-->
-	<script type="text/javascript" src="libs/laya.particle.js"></script>
-	<!--提供tileMap解析支持-->
-	<!--<script type="text/javascript" src="libs/laya.tiledmap.js"></script>-->
 	<!--提供了制作UI的各种组件实现-->
 	<script type="text/javascript" src="libs/laya.ui.js"></script>
 	<!-- 物理引擎matter.js -->
@@ -137,7 +129,6 @@
 	<!--jsfile--startTag-->
 	<script src="js/view/UI/TabSelectView.js"></script>
 	<script src="js/view/UI/SetPwdView.js"></script>
-	<script src="js/view/UI/GameListManager.js"></script>
 	<script src="js/view/toast/Toast.js"></script>
 	<script src="js/view/PageManager.js"></script>
 	<script src="js/view/notice/message/spinner/WinRecord.js"></script>
@@ -147,6 +138,7 @@
 	<script src="js/events/EventManager.js"></script>
 	<script src="js/data/ResConfig.js"></script>
 	<script src="js/data/LoginModel.js"></script>
+	<script src="js/data/LobbyModel.js"></script>
 	<script src="js/data/HttpRequester.js"></script>
 	<script src="js/data/GameVos.js"></script>
 	<script src="js/data/AgentModel.js"></script>
@@ -169,8 +161,16 @@
 	<script src="js/common/DragonBoneAnim.js"></script>
 	<script src="js/common/MySprite.js"></script>
 	<script src="js/ui/layaUI.max.all.js"></script>
+	<script src="js/view/anim/LightAnim.js"></script>
+	<script src="js/view/comp/ClassifyMenu.js"></script>
 	<script src="js/view/comp/CombBoxView.js"></script>
 	<script src="js/view/comp/CombItemView.js"></script>
+	<script src="js/view/comp/CycleComp.js"></script>
+	<script src="js/view/comp/GameIconListPanel.js"></script>
+	<script src="js/view/comp/NoticeComp.js"></script>
+	<script src="js/view/comp/ToastView.js"></script>
+	<script src="js/view/comp/UploadTimeBar.js"></script>
+	<script src="js/view/comp/UserInfoView.js"></script>
 	<script src="js/view/debug/DebugDlg.js"></script>
 	<script src="js/view/dlg/agent/AddUserDlg.js"></script>
 	<script src="js/view/dlg/agent/AgentHelpView.js"></script>
@@ -215,8 +215,8 @@
 	<script src="js/view/dlg/TipsDlg.js"></script>
 	<script src="js/view/EmbedLoadingView.js"></script>
 	<script src="js/view/LoadingView.js"></script>
+	<script src="js/view/LobbyNewView.js"></script>
 	<script src="js/view/LobbyScene.js"></script>
-	<script src="js/view/LobbyView.js"></script>
 	<script src="js/view/LoginScene.js"></script>
 	<script src="js/view/notice/message/Notice_Message.js"></script>
 	<script src="js/view/notice/message/Notice_Roullette.js"></script>
@@ -225,8 +225,8 @@
 	<script src="js/view/notice/message/spinner/WinningList2.js"></script>
 	<script src="js/view/notice/NoticeDlg.js"></script>
 	<script src="js/view/notice/NoticeSideTab.js"></script>
-	<script src="js/view/PublicView.js"></script>
 	<script src="js/view/UI/GameIconView.js"></script>
+	<script src="js/view/UI/GameMenuItem.js"></script>
 	<script src="js/view/UI/HeadIconUI.js"></script>
 	<script src="js/view/UI/MailItemView.js"></script>
 	<script src="js/view/UI/SetPwdPanel.js"></script>

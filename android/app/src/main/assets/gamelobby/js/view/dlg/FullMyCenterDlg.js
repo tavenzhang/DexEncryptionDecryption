@@ -38,12 +38,14 @@ var view;
                 var _this = this;
                 this.titleGroup.left = GameUtils.getScreencOffset(-48, 0);
                 this.backBtn.right = GameUtils.getScreencOffset(-55, 0);
+                this.verTxt.x = GameUtils.getScreencOffset(28, 78);
                 var info = Common.userInfo;
                 var current = Common.userInfo_current;
                 this.accTxt.text = info.username;
-                this.setNickBtn.visible = false; //todo:暂未开放
-                var value = info.userBalance.balance;
-                this.moneyTxt.text = value.toFixed(2);
+                this.showNickName();
+                //版本号
+                this.verTxt.text = GameUtils.appVer + "\n" + ResConfig.versions;
+                this.flushMoney();
                 this.bindPhoneBtn.visible = !Boolean(current.certifiedPhone);
                 this.phoneTxt.text = this.bindPhoneBtn.visible ? "未绑定" : current.phoneNumber;
                 this.visitorMark.visible = Boolean(LoginModel.loginType != LoginMethod.account);
@@ -95,7 +97,7 @@ var view;
                 //修改昵称
                 EventManager.addTouchScaleListener(this.setNickBtn, this, function () {
                     SoundPlayer.enterPanelSound();
-                    //todo:暂未开放
+                    view.dlg.center.SetNickNameDlg.show();
                 });
                 //绑定微信
                 EventManager.addTouchScaleListener(this.bindWeChat, this, function () {
@@ -124,18 +126,22 @@ var view;
                 EventManager.register(EventType.FLUSH_MONEY, this, this.flushMoney);
                 EventManager.pushEvent(this.soundBtn, Laya.Event.CHANGE, this, this.selectSound);
                 EventManager.pushEvent(this.musicBtn, Laya.Event.CHANGE, this, this.selectMusic);
+                EventManager.register(EventType.GETUSERS_INFO, this, this.showNickName);
             };
+            FullMyCenterDlg.prototype.showNickName = function () {
+                var data = Common.userInfo;
+                if (data) {
+                    var nameStr = data.nickname || "";
+                    this.nickTxt.text = nameStr;
+                }
+            };
+            //提示玩家升级账号
             FullMyCenterDlg.prototype.openAccountUpgrade = function () {
                 PageManager.showDlg(DlgCmd.bindPhone);
             };
+            //刷新或显示余额
             FullMyCenterDlg.prototype.flushMoney = function () {
-                var data = Common.userInfo;
-                if (!data)
-                    return;
-                if (data.userBalance) {
-                    var value = data.userBalance.balance;
-                    this.moneyTxt.text = value.toFixed(2);
-                }
+                this.moneyTxt.text = Tools.FormatMoney(Common.userBalance, 2);
             };
             FullMyCenterDlg.prototype.bindPhoneSuc = function (num) {
                 if (!num)

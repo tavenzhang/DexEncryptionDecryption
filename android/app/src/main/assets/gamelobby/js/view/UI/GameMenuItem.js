@@ -16,6 +16,7 @@ var view;
 (function (view) {
     var UI;
     (function (UI) {
+        var _a;
         /**
          * 游戏分类菜单item
          */
@@ -23,14 +24,19 @@ var view;
             __extends(GameMenuItem, _super);
             function GameMenuItem() {
                 var _this = _super.call(this) || this;
+                _this.canUse = true;
                 _this.selectBg.alpha = 0;
                 return _this;
             }
             GameMenuItem.prototype.readData = function (vo) {
                 this.vo = vo;
-                this.sid = GameMenuItem.config[vo.gameId];
+                this.sid = GameMenuItem.menuMap[vo.gameId];
                 this.icon.skin = "ui/lobby/micon" + this.sid + ".png";
                 this.selected = false;
+                if (GameState[vo.state] != GameState.NORMAL) { //非正常状态
+                    this.gray = true;
+                    this.canUse = false;
+                }
             };
             Object.defineProperty(GameMenuItem.prototype, "selected", {
                 get: function () {
@@ -40,24 +46,33 @@ var view;
                     if (bl) {
                         this.title.skin = "ui/lobby/smenu" + this.sid + ".png";
                         Laya.Tween.to(this.selectBg, { alpha: 1 }, 300);
+                        if (this.selectBg.player)
+                            this.selectBg.resume();
                     }
                     else {
                         this.title.skin = "ui/lobby/dmenu" + this.sid + ".png";
                         Laya.Tween.to(this.selectBg, { alpha: 0 }, 300);
+                        if (this.selectBg.player)
+                            this.selectBg.paused();
                     }
                     this._selected = bl;
                 },
                 enumerable: true,
                 configurable: true
             });
-            GameMenuItem.config = {
-                "197": 1,
-                "200": 2,
-                "198": 3,
-                "199": 4,
-                "todo": 5,
-                "": 6,
+            GameMenuItem.prototype.destroy = function () {
+                this.selectBg.destroy(true);
+                _super.prototype.destroy.call(this, true);
             };
+            //分类菜单对应的素材id配置
+            GameMenuItem.menuMap = (_a = {},
+                _a[GameMenuType.hotGame] = 1,
+                _a[GameMenuType.fishGame] = 2,
+                _a[GameMenuType.FGCard] = 3,
+                _a[GameMenuType.kaiyuan] = 4,
+                _a[GameMenuType.lottery] = 5,
+                _a[GameMenuType.electron] = 6,
+                _a);
             return GameMenuItem;
         }(ui.UI.GameMenuItemUI));
         UI.GameMenuItem = GameMenuItem;

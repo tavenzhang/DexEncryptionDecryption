@@ -38,7 +38,7 @@ var view;
                     this.pwdTxt.prompt = Common.cardInfo.hasBankCard ? "请输入提现密码(4位数字)" : "请设置提现密码(4位数字)";
                     EventManager.addTouchScaleListener(this.closeBtn, this, function () {
                         SoundPlayer.closeSound();
-                        _this.close(null, true);
+                        _this.close(null, false);
                     });
                     //绑定
                     EventManager.addTouchScaleListener(this.bindBtn, this, function () {
@@ -110,7 +110,7 @@ var view;
                     LayaMain.getInstance().showCircleLoading(false);
                     if (suc) {
                         Toast.showToast("支付宝绑定成功");
-                        LobbyDataManager.getCardInfo();
+                        LobbyModel.getCardInfo();
                         this.close(null, true);
                     }
                 };

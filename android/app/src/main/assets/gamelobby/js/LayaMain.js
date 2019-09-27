@@ -14,14 +14,14 @@ var LayaMain = /** @class */ (function () {
         this.sceneLobby = null;
         LayaMain.obj = this;
         Laya.init(0, Common.GM_SCREEN_H, Laya.WebGL);
-        // Laya.URL.rootPath = Laya.URL.basePath + window["sPubRes"];
-        if (Debug.openDebug || !GameUtils.isNativeApp) {
+        if (!GameUtils.isNativeApp) {
             // Laya.Stat.show(0, 0);
         }
         /**
          * 设置点击弹框背景后不关闭弹窗
          */
         UIConfig.closeDialogOnSide = false;
+        Laya.Dialog.manager.closeEffectHandler = new Laya.Handler(null, PageManager.closeDlg);
         Laya.stage.scaleMode = Laya.Stage.SCALE_FIXED_HEIGHT;
         Laya.stage.screenMode = Laya.Stage.SCREEN_HORIZONTAL;
         Laya.stage.bgColor = "#000000";
@@ -30,12 +30,14 @@ var LayaMain = /** @class */ (function () {
         window.addEventListener("message", this.handleIFrameAction, false);
         this.root_node = new Laya.Sprite();
         Laya.stage.addChild(this.root_node);
-        //设置Laya提供的worker.js路径
-        // Laya.WorkerLoader.workerPath = "libs/worker.js";
-        //开启worker线程
-        // Laya.WorkerLoader.enable = true;
         //Sound
         SoundPlayer.initSoundSetting();
+        //用于清理缓存
+        var flag = SaveManager.getObj().get("clearFlag", null);
+        if (!flag) {
+            SaveManager.getObj().clearAll();
+            SaveManager.getObj().save("clearFlag", "926");
+        }
         //UI
         PageManager.showPage([
             "res/atlas/ui/login.atlas",
@@ -50,6 +52,10 @@ var LayaMain = /** @class */ (function () {
     LayaMain.prototype.onResize = function () {
         ToolsApp.initAppData();
         if (AppData.IS_NATIVE_APP) {
+            //设置Laya提供的worker.js路径
+            Laya.WorkerLoader.workerPath = "libs/worker.js";
+            //开启worker线程
+            Laya.WorkerLoader.enable = true;
             if (AppData.NATIVE_DATA && AppData.NATIVE_DATA.isNewApp) {
                 window.document.removeEventListener("message", this.handleIFrameAction, false);
             }
@@ -57,7 +63,6 @@ var LayaMain = /** @class */ (function () {
                 window.removeEventListener("message", this.handleIFrameAction, false);
             }
         }
-        EventManager.dispath(EventType.RESIZE);
         PostMHelp.game_common({ name: "onGameInit" });
     };
     LayaMain.prototype.getRootNode = function () {
@@ -84,7 +89,6 @@ var LayaMain = /** @class */ (function () {
         PostMHelp.game_common({ name: "loginout" });
         SaveManager.getObj().save(SaveManager.KEY_TOKEN, "");
         Common.resetData();
-        Dialog.manager.closeAll();
         this.clearChild();
         PageManager.showPage(null, LoginScene);
     };
@@ -162,10 +166,10 @@ var LayaMain = /** @class */ (function () {
                     }
                     break;
                 case "flushMoney":
-                    LobbyDataManager.refreshMoney();
+                    LobbyModel.refreshMoney();
                     break;
                 case "openDebug":
-                    window["initVconsole"]();
+                    Debug.showVconsole();
                     break;
                 case "gamesinfo": //游戏状态信息
                     UpdateMsgHandle.onInitMsg(message.data);
@@ -268,16 +272,12 @@ var LayaMain = /** @class */ (function () {
         }
     };
     LayaMain.prototype.clearChild = function () {
+        Dialog.manager.closeAll();
         if (this.sceneLobby) {
             this.sceneLobby.destroy(true);
             this.sceneLobby = null;
         }
-        var clen = this.root_node.numChildren;
-        for (var k = 0; k < clen; k++) {
-            var obj = this.root_node.getChildAt(k);
-            Laya.timer.clearAll(obj);
-        }
-        this.root_node.removeChildren();
+        this.root_node.destroyChildren();
         PageManager.destoryCurrentView();
     };
     LayaMain.prototype.initLogin = function () {
@@ -287,7 +287,7 @@ var LayaMain = /** @class */ (function () {
         this.clearChild();
         if (this.sceneLobby == null) {
             this.sceneLobby = new LobbyScene();
-            this.sceneLobby.onLoaded(null);
+            this.sceneLobby.onLoaded();
             LayaMain.getInstance().getRootNode().addChild(this.sceneLobby);
         }
     };
@@ -314,7 +314,7 @@ var LayaMain = /** @class */ (function () {
                 }
                 //未跳出执行后续逻辑
                 EventManager.dispath(EventType.INIT_LOGINVIEW);
-            }, "get");
+            }, "get", true);
             return; //跳出
         }
         //未跳出执行后续逻辑

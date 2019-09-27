@@ -29,6 +29,7 @@ var HeadIconUI = /** @class */ (function (_super) {
         this.addChild(this.iconbg);
         this.iconbg.width = 120;
         this.iconbg.height = 120;
+        this.iconbg.visible = false;
         this.iconHead = new Laya.Image();
         this.iconHead.skin = ResConfig.getHeadSkinByID(this.iconID);
         this.addChildAt(this.iconHead, 0);
