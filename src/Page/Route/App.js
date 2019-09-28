@@ -115,7 +115,7 @@ export default class App extends Component {
     }
 
 
-    
+
     render() {
         //TW_Log("onBackAndroid--TW_Store.gameUpateStore.isNeedUpdate--"+TW_Store.gameUpateStore.isNeedUpdate);
         return (
