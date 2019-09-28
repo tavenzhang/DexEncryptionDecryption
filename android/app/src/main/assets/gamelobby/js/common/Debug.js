@@ -2,39 +2,26 @@ var Debug = /** @class */ (function () {
     function Debug() {
     }
     Object.defineProperty(Debug, "httpDebug", {
+        //日志开关(通过http获取的)
         get: function () {
             return this._httDebug;
         },
         set: function (value) {
             this._httDebug = value;
-            if (value && !window["openDebug"]) {
-                window["initVconsole"]();
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Debug, "openDebug", {
-        /**是否开启了日志功能 */
-        get: function () {
-            return window["openDebug"] || this._httDebug;
+            if (value)
+                this.showVconsole();
         },
         enumerable: true,
         configurable: true
     });
     /**
-     * 用于调试一些容易出错的信息
-     * @param mess
-     * @param parms
+     * 显示打印器统一入口
      */
-    Debug.output = function (mess) {
-        var parms = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            parms[_i - 1] = arguments[_i];
+    Debug.showVconsole = function () {
+        if (!this.inited) {
+            window["initVconsole"]();
+            this.inited = true;
         }
-        if (!this.openDebug)
-            return;
-        console.error(mess, parms);
     };
     /**
      * 普通输出
@@ -46,10 +33,9 @@ var Debug = /** @class */ (function () {
         for (var _i = 1; _i < arguments.length; _i++) {
             parms[_i - 1] = arguments[_i];
         }
-        if (!this.openDebug && GameUtils.isNativeApp) {
+        if (!this.inited)
             return;
-        }
-        console.log(mess, parms);
+        console.log.apply(console, [mess].concat(parms));
     };
     /**
      * 异常打印
@@ -61,14 +47,14 @@ var Debug = /** @class */ (function () {
         for (var _i = 1; _i < arguments.length; _i++) {
             parms[_i - 1] = arguments[_i];
         }
-        if (!this.openDebug && GameUtils.isNativeApp) {
+        if (!this.inited)
             return;
-        }
-        console.error(mess, parms);
+        console.error.apply(console, [mess].concat(parms));
     };
-    Debug.bDebug = window["bDebug"];
+    Debug.bDebug = window["bDebug"]; //app控制的开关
     Debug.bDebugPlatform = window["bDebugPlatform"];
     Debug._httDebug = false;
+    Debug.inited = false;
     return Debug;
 }());
 //# sourceMappingURL=Debug.js.map

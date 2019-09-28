@@ -455,7 +455,6 @@ NSURL *baseURL = [RCTConvert NSURL:allowingReadAccessToURL];
 [_webView loadFileURL:newFile allowingReadAccessToURL:baseURL];
 }
 }
-
 -(void)setKeyboardDisplayRequiresUserAction:(BOOL)keyboardDisplayRequiresUserAction
 {
   if (_webView == nil) {

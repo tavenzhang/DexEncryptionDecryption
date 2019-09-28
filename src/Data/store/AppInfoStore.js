@@ -430,7 +430,7 @@ export default class AppInfoStore {
           this.deviceToken = this.getGUIDd();
       }
       //刷新游戏appNativeData 数据
-      TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appNativeData, { data: TW_Store.bblStore.getAppData()}));
+      TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appNativeData, { data: TW_Store.bblStore.getAppNativeData()}));
        this.saveDeviceTokenToLocalStore();
     }
   }

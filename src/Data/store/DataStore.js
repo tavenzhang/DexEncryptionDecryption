@@ -220,7 +220,7 @@ export default class DataStore {
         const options = {
             fromUrl: formUrl,
             toFile: downloadDest,
-            background: true,
+            background: false,
             begin: (res) => {
                 TW_Log('versionBBL--begin', res);
                // this.log+="==>downloadFile--begin="+res;
@@ -501,6 +501,13 @@ export default class DataStore {
     @action
     getHomeWebHome() {
         return (this.isAppInited  ? this.targetAppDir:this.originAppDir)
+    }
+
+    @action
+    onFlushMoney(){
+        if(TW_OnValueJSHome){
+            TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.flushMoney, {}));
+        }
     }
 }
 

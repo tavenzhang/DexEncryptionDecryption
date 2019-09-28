@@ -40,6 +40,9 @@ export default class GameMoneyOutView extends Component {
             }
         })
     }
+    componentWillUnmount(): void {
+        TW_Store.dataStore.onFlushMoney();
+    }
 
     showBank=()=> {
         this.setState({
@@ -98,7 +101,9 @@ export default class GameMoneyOutView extends Component {
                      resizeMode={'stretch'}/>
             <TCButtonImg imgSource={ASSET_Images.gameUI.payBack}
                          soundName={TW_Store.bblStore.SOUND_ENUM.returnLobbyClick}
-                         onClick={() => TW_Store.gameUIStroe.isShowWithDraw = false}
+                         onClick={() =>
+                             TW_Store.gameUIStroe.isShowWithDraw = false
+                         }
                          btnStyle={{
                              position: "absolute",
                              right: -15,

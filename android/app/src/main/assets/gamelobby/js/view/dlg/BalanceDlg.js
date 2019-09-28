@@ -37,6 +37,7 @@ var view;
                 var _this = this;
                 this.TLgroup.left = GameUtils.getScreencOffset(-40, 0);
                 this.TRgroup.right = GameUtils.getScreencOffset(-55, 0);
+                this.weihuMask.visible = false;
                 this.reqInfo();
                 EventManager.addTouchScaleListener(this.backBtn, this, function () {
                     SoundPlayer.returnLobbySound();

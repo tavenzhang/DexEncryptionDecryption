@@ -28,6 +28,7 @@ var view;
                 _this.progressValue = 0;
                 _this.index = 0;
                 _this.lowMark.visible = false;
+                _this.debugTxt.text = "";
                 _this.resetView();
                 return _this;
             }
@@ -71,8 +72,10 @@ var view;
                 this.expectIcon.visible = false;
                 this.pauseIcon.visible = false;
                 this.normIcon.visible = false;
-                if (this.anim)
+                if (this.anim) {
                     this.anim.pause();
+                    this.animbox.gray = false;
+                }
                 if (this.upload)
                     this.upload.visible = false;
             };
@@ -82,12 +85,25 @@ var view;
              */
             GameIconView.prototype.readData = function (vo) {
                 this.gameVo = vo;
+                //电子类用黄色底
+                if (LobbyModel.menuVo && LobbyModel.menuVo.gameId == GameMenuType.electron.toString()) {
+                    //todo:有变动，后续再调整
+                }
                 if (vo.classify == GameType.other) { //三方游戏直接读取网络图标
                     this.normIcon.visible = true;
+                    this.bgIcon.visible = false; //三方游戏不加背景
                     LoadTool.loadImage(this.normIcon, vo.icon, 200, 200);
+                    if (GameState[vo.state] == GameState.PAUSE) {
+                        this.pauseIcon.visible = true;
+                        this.normIcon.gray = true;
+                    }
+                    else if (GameState[vo.state] == GameState.EXPECTATION) {
+                        this.expectIcon.visible = true;
+                        this.normIcon.gray = true;
+                    }
+                    this.noSkfile = true;
                     return;
                 }
-                //todo:电子类游戏背景用黄色
                 //读取本地配置
                 this.config = ResConfig.getGameIconConfig(vo.alias);
                 var skArr = this.config.anim_sk.split(".sk");
@@ -116,8 +132,11 @@ var view;
                 Laya.timer.once(this.gapTime, this, function () { return _this.isclick = true; });
                 //如果是三方游戏
                 if (this.classify == GameType.other) {
-                    SoundPlayer.enterGameSound();
-                    LobbyModel.checkValidBalance(this.gameVo, false);
+                    var state = GameState[this.gameVo.state];
+                    if (state == GameState.NORMAL) {
+                        SoundPlayer.enterGameSound();
+                        LobbyModel.checkValidBalance(this.gameVo, false);
+                    }
                     return;
                 }
                 switch (this.gameState) {
@@ -159,6 +178,8 @@ var view;
              * @param state
              */
             GameIconView.prototype.setGameState = function (state) {
+                if (this.gameVo.classify == GameType.other)
+                    return; //三方游戏不执行这里(防止app推update状态)
                 if (this.gameState == GameState.PAUSE)
                     return; //维护状态不接受其他状态
                 this.gameState = state;
@@ -214,22 +235,40 @@ var view;
                     this.anim = new DragonBoneAnim();
                     this.anim.scale(0.95, 0.95);
                     this.animbox.addChild(this.anim);
-                    this.anim.loadInit({ skUrl: this.config.anim_sk, autoPlay: autoPlay });
+                    this.anim.loadInit({ skUrl: this.config.anim_sk, autoPlay: autoPlay }, this, this.animLoaded);
                 }
                 else {
                     if (autoPlay)
                         this.anim.resume();
                 }
             };
+            //动画加载完毕
+            GameIconView.prototype.animLoaded = function () {
+                var state = GameState[this.gameVo.state];
+                //维护中和尽请期待状态处理成灰度图
+                if (state == GameState.PAUSE || state == GameState.EXPECTATION) {
+                    var htmlC = this.anim.drawToCanvas(this.width, this.height, this.width >> 1, this.height >> 1);
+                    var txt = new Laya.Texture(htmlC);
+                    this.normIcon.visible = true;
+                    this.normIcon.graphics.drawTexture(txt, -this.width >> 1, -this.height >> 1);
+                    this.normIcon.gray = true;
+                    this.bgIcon.gray = true;
+                    if (this.lowMark.visible)
+                        this.lowMark.gray = true;
+                    this.anim.visible = false;
+                }
+            };
             //维护中
             GameIconView.prototype.showPause = function () {
                 this.pauseIcon.visible = true;
                 this.showNorm(false);
+                this.animbox.gray = true;
             };
             //敬请期待
             GameIconView.prototype.showExpectation = function () {
                 this.expectIcon.visible = true;
                 this.showNorm(false);
+                this.animbox.gray = true;
             };
             //待更新
             GameIconView.prototype.showUpdate = function () {

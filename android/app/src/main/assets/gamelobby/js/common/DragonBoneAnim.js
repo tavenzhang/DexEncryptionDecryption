@@ -28,7 +28,9 @@ var DragonBoneAnim = /** @class */ (function (_super) {
      * 动态加载模式初始化(如果动画的显示不需要那么及时，建议使用这种方式)
      * @param vo
      */
-    DragonBoneAnim.prototype.loadInit = function (vo) {
+    DragonBoneAnim.prototype.loadInit = function (vo, caller, callback) {
+        this.caller = caller;
+        this.callback = callback;
         if (vo.playRate == undefined)
             vo.playRate = 1;
         if (vo.autoPlay == undefined)
@@ -106,6 +108,8 @@ var DragonBoneAnim = /** @class */ (function (_super) {
         this.play();
         if (!this._vo.autoPlay)
             this.pause();
+        if (this.caller && this.callback)
+            this.callback.call(this.caller);
     };
     DragonBoneAnim.prototype.playEnd = function () {
         if (this._vo.loop) {

@@ -26,12 +26,12 @@ var view;
             return _this;
         }
         LobbyNewView.prototype.initView = function () {
+            this.initEvents();
+            this.readData();
             this.layoutBottomLeftBtn();
             this.layoutTopRightBtn();
             this.dpiLayout();
             this.animArr.push(this.userInfo.goldAnim, this.bindAnim, this.agentAnim, this.tixianAnim, this.payAnim);
-            this.readData();
-            this.initEvents();
             this.playEntryAnim();
             Debug.log("----->>>api:" + ConfObjRead.getConfUrl().url.apihome);
         };
@@ -45,7 +45,10 @@ var view;
             this.bindBtn.visible = false;
             this.mailHot.visible = false;
             this.actHot.visible = false;
+            this.noticeHot.visible = false;
+            this.cirBtn.visible = false;
             this.checkUnreadNotice();
+            LobbyModel.getUnreadMail();
             this.leftLight.initPlay();
             this.rightLight.initPlay(500);
         };
@@ -61,9 +64,14 @@ var view;
                 PageManager.showDlg(DlgCmd.activityCenter, DlgCmd.activityCenter);
             });
             //公告
-            EventManager.addTouchScaleListener(this.noticeBtn, this, function () {
+            EventManager.addTouchScaleListener(this.btn_notice, this, function () {
                 SoundPlayer.enterPanelSound();
                 PageManager.showDlg(DlgCmd.noticeCenter, DlgCmd.noticeCenter);
+            });
+            //转盘
+            EventManager.addTouchScaleListener(this.cirBtn, this, function () {
+                SoundPlayer.enterPanelSound();
+                PageManager.showDlg(DlgCmd.noticeCenter, DlgCmd.activityCenter, -1, ActiveType[ActiveType.ROULETTE_DRAW]);
             });
             //余额宝
             EventManager.addTouchScaleListener(this.btn_yeb, this, function () {
@@ -81,7 +89,7 @@ var view;
                 PageManager.showDlg(DlgCmd.email);
             });
             //客服
-            EventManager.addTouchScaleListener(this.btn_service, this, function () {
+            EventManager.addTouchScaleListener(this.serviceBtn, this, function () {
                 SoundPlayer.enterPanelSound();
                 InnerJumpUtil.doJump(DlgCmd.service);
             });
@@ -108,13 +116,16 @@ var view;
             EventManager.register(EventType.CHECK_UNREADMAIL, this, this.checkUnreadMail);
             EventManager.register("closeNotice", this, this.checkUnreadNotice);
         };
-        //活动红点显示逻辑
+        //活动公告红点显示逻辑
         LobbyNewView.prototype.checkUnreadNotice = function () {
             var _this = this;
-            LobbyModel.checkUnreadNotice(this, function (bl) {
+            LobbyModel.checkUnreadNotice(this, function (obj) {
                 if (_this.destroyed)
                     return;
-                _this.actHot.visible = bl;
+                _this.actHot.visible = obj.type1;
+                _this.noticeHot.visible = obj.type0;
+                _this.cirBtn.visible = obj.dial;
+                _this.layoutTopRightBtn();
             });
         };
         //邮件红点显示逻辑
@@ -131,8 +142,9 @@ var view;
         //升级成功后的逻辑
         LobbyNewView.prototype.hideBindBtn = function () {
             this.bindBtn.visible = false;
+            this.layoutTopRightBtn();
             this.userInfo.checkVisitorMark();
-            LobbyModel.refreshMoney();
+            this.userInfo.flushMoney();
             LobbyModel.reqUserCurrentInfo();
         };
         //绑定升级送金显示逻辑
@@ -142,6 +154,7 @@ var view;
             this.userInfo.checkVisitorMark();
             if (LoginModel.isVisitor) { //只要不是正式账号
                 this.bindBtn.visible = true;
+                this.layoutTopRightBtn();
                 QueueTask.addQueue(QueueType.bindPhoneActiv);
                 //显示逻辑已经放到活动公告关闭后,如果没有活动公告则直接显示
             }
@@ -150,20 +163,21 @@ var view;
         /**
          * 播放入场动画
          */
-        LobbyNewView.prototype.playEntryAnim = function (checkDlg) {
-            if (checkDlg === void 0) { checkDlg = true; }
+        LobbyNewView.prototype.playEntryAnim = function (first) {
+            if (first === void 0) { first = true; }
             this.userInfo.y = -this.userInfo.height * 1.5;
             this.trLayout.y = -this.trLayout.height * 1.5;
             this.bottomGroup.y = Laya.stage.height + this.bottomGroup.height;
-            this.gameList.x = Laya.stage.width;
+            this.brLayout.y = Laya.stage.height;
             var easeing = Laya.Ease.cubicOut;
             var time = 350;
             Laya.Tween.to(this.userInfo, { y: 0 }, time, easeing, null, 100);
             Laya.Tween.to(this.trLayout, { y: 20 }, time, easeing, null, 100);
             Laya.Tween.to(this.bottomGroup, { y: Laya.stage.height - this.bottomGroup.height }, time, easeing, null, 100);
-            Laya.Tween.to(this.gameList, { x: this.gameList.gapx }, 600, Laya.Ease.backOut, null, 200);
-            if (checkDlg)
-                Laya.timer.once(1000, this, function () {
+            Laya.Tween.to(this.brLayout, { y: 633 }, time, easeing, null, 100);
+            this.gameList.playEntryAnim(!first);
+            if (first)
+                Laya.timer.once(1500, this, function () {
                     //检查显示默认弹框
                     LobbyModel.checkActivity();
                 });
@@ -174,9 +188,11 @@ var view;
         LobbyNewView.prototype.gameToHall = function () {
             Debug.log("返回大厅--->恢复动画播放");
             //刷新玩家信息
-            LobbyModel.reqUserInfo();
+            LobbyModel.reqUserInfo(false);
             LobbyModel.reqUserCurrentInfo();
-            this.checkUnreadNotice();
+            this.userInfo.flushMoney();
+            this.checkUnreadNotice(); //
+            LobbyModel.getUnreadMail(); //
             //恢复动画播放
             this.animArr.forEach(function (anim) { return anim.resume(); });
             this.playEntryAnim(false);
@@ -196,16 +212,18 @@ var view;
             this.cirbox.pause();
             this.leftLight.stopAnim();
             this.rightLight.stopAnim();
+            LobbyModel.classifyPool = {}; //重置缓存池
         };
         //------------------------布局相关---------------------------------------------
         //按钮布局
         LobbyNewView.prototype.layoutBottomLeftBtn = function () {
             var gap = 46;
             var start = this.btn_yeb.x + this.btn_yeb.width / 2;
+            this.btn_rank.visible = false;
             var arr = [
                 this.btn_rank,
                 this.btn_mail,
-                this.btn_service
+                this.btn_notice
             ];
             var prev;
             arr.forEach(function (btn, index) {
@@ -221,8 +239,7 @@ var view;
         //按钮布局
         LobbyNewView.prototype.layoutTopRightBtn = function () {
             var gap = 26;
-            var start = this.noticeBtn.x - this.noticeBtn.width / 2;
-            this.cirBtn.visible = false;
+            var start = this.serviceBtn.x - this.serviceBtn.width / 2;
             var arr = [
                 this.actBtn,
                 this.cirBtn,
@@ -246,6 +263,7 @@ var view;
             this.userInfo.x = GameUtils.getScreencOffset(-40, 0);
             this.bottomGroup.x = GameUtils.getScreencOffset(-58, 0);
             this.brLayout.right = this.trLayout.right = GameUtils.getScreencOffset(20, 78);
+            this.gameList.x = this.gameList.gapx;
         };
         /**
          * 释放销毁

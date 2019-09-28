@@ -10,7 +10,7 @@
         "res/atlas/ui/common.atlas",
         "res/atlas/ui/lobby/menu.atlas",
         "res/atlas/ui/panel_common.atlas",
-        "./res/atlas/ui/bitFont/goldFont.atlas",
+        "res/atlas/ui/bitFont/goldFont.atlas",
         "res/atlas/ui/headList.atlas"
     ]
 }

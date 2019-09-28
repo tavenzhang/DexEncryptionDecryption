@@ -205,11 +205,11 @@ var GameUtils = /** @class */ (function () {
         var base64 = cv.toDataURL("image/" + type);
         PostMHelp.game_common({ do: "saveImage", param: base64 });
     };
-    GameUtils.addTimeOut = function (url) {
-        var tween = Laya.Tween.to(this.timeObj, { abc: 1 }, 5000, Laya.Ease.linearNone, Laya.Handler.create(this, this.timeOut, [url]));
+    GameUtils.addTimeOut = function (url, caller, callback, outTimeCallback) {
+        var tween = Laya.Tween.to(this.timeObj, { abc: 1 }, 8000, Laya.Ease.linearNone, Laya.Handler.create(this, this.timeOut, [url, caller, callback, outTimeCallback]));
         this.timeObj[url] = tween;
     };
-    GameUtils.timeOut = function (url) {
+    GameUtils.timeOut = function (url, caller, callback, outTimeCallback) {
         delete this.timeObj[url];
         for (var _i = 0, _a = HttpRequester.httpRequestList; _i < _a.length; _i++) {
             var item = _a[_i];
@@ -220,6 +220,8 @@ var GameUtils = /** @class */ (function () {
                     LayaMain.getInstance().showCircleLoading(false);
                     Toast.showToast("网络请求超时,请稍后再试");
                     Debug.error("timeOut:", url);
+                    if (caller && callback && outTimeCallback)
+                        callback.call(caller, false, { timeOut: 1 });
                 }
                 return;
             }
@@ -312,10 +314,16 @@ var LoadTool = /** @class */ (function () {
         }
         else {
             Laya.loader.load(url, Laya.Handler.create(this, function () {
+                if (!img || img.destroyed)
+                    return;
                 img.skin = url;
-                texture = img.source;
                 if (ratioScale) {
-                    scl = Math.min(width / texture.width, height / texture.height);
+                    texture = Laya.loader.getRes(url);
+                    if (texture)
+                        scl = Math.min(width / texture.width, height / texture.height);
+                    else {
+                        console.error("texture异常:", url);
+                    }
                     if (scl < 1)
                         img.scale(scl, scl);
                 }

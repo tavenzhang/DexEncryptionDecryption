@@ -108,7 +108,7 @@ var LoginModel = /** @class */ (function () {
                     _this.loginType = LoginMethod.unknown;
                 SaveManager.getObj().save(SaveManager.KEY_TOKEN, temp_token);
                 if (!Common.clientId) {
-                    Common.clientId = Common.userInfo.userBalance.clientId;
+                    Common.clientId = jobj.userBalance.clientId;
                 }
             }
             if (caller && callback)
@@ -373,7 +373,9 @@ var LoginModel = /** @class */ (function () {
         Debug.log("登录成功:", vo);
         SaveManager.getObj().set(SaveManager.KEY_TOKEN, Common.access_token);
         SaveManager.getObj().set(SaveManager.KEY_FLUSHTOKEN, flushToken);
-        SaveManager.getObj().set(SaveManager.KEY_LASTLOGININFO, vo);
+        if (vo.pwd) { //因为微信登录只有第一次才返回密码,所以这里要判断(不过这种情况登录界面记录的上一次登录就不是微信了)
+            SaveManager.getObj().set(SaveManager.KEY_LASTLOGININFO, vo);
+        }
         if (vo.type == LoginMethod.visitor) { //游客账号单独缓存
             SaveManager.getObj().set(SaveManager.KEY_VISTORINFO, vo);
         }

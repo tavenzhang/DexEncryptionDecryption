@@ -6,16 +6,6 @@ var Common = /** @class */ (function () {
             "strongPwd": true
         };
     };
-    //根据游戏id找出游戏数据
-    Common.getGameDataById = function (id) {
-        for (var k = 0; k < Common.gameInfo.length; k++) {
-            var o = Common.gameInfo[k]; //.datas[k];
-            if (o.id == id) {
-                return o;
-            }
-        }
-        return null;
-    };
     //记录当前已经加载的模块
     Common.pushModule = function (src, conf) {
         var mod = {
@@ -36,28 +26,16 @@ var Common = /** @class */ (function () {
         }
         return null;
     };
-    //获取当前游戏的别名
+    /**
+     * 根据id获取当前游戏数据
+     * @param id
+     */
     Common.getCurGameInfo = function (id) {
         if (id === void 0) { id = null; }
-        // Common.getAliasFromRoomPanel();
-        if (id == null) {
+        if (id == null)
             id = Common.gameId;
-        }
-        try {
-            var glen = Common.gameInfo.length;
-            for (var k = 0; k < glen; k++) {
-                var g = Common.gameInfo[k];
-                if (g.id == id) //Common.gameId )
-                 {
-                    //这个就是当前的游戏
-                    return g; //.alias;
-                }
-            }
-            return null;
-        }
-        catch (e) {
-            return null;
-        }
+        var arr = this.gameList.filter(function (value) { return value.id == id; });
+        return arr[0];
     };
     //读取当前默认字体
     Common.getNormalFontByDevice = function () {
@@ -111,6 +89,8 @@ var Common = /** @class */ (function () {
         this.cardInfo = null;
         this.bankInfo = null;
         this.alipayInfo = null;
+        this.balanceInfo = null;
+        this.userBalance = 0;
         GameData.bindAward = 0;
         GameData.isGetBindAward = true;
         GameData.bindOpen = false;
@@ -124,8 +104,6 @@ var Common = /** @class */ (function () {
     Common.bNewlogin = true;
     //当前选中的游戏id
     Common.gameId = 0;
-    //游戏名字
-    // public static alias:string = "";
     //当前游戏的websocket连接地址
     Common.wsUrl = "";
     //当前选中的房间id

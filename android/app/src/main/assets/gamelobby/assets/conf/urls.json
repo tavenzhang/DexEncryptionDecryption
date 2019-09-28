@@ -110,8 +110,8 @@
         "otherGameURI": "/gamecenter/player/game/startGameURI/",
         "gameMenu": "/gamecenter/player/game/classifyMenu",
         "logapi": "/app/log/",
-        "validBalance": "/balance/me/balance",
-        "realBalance": "/balance/me/totalRecoverBalance",
-        "checkOtherGameErr": "/gamecenter/player/game/userClassifyGameExists"
+        "balanceInfo": "/balance/me/recoverTotalBalance",
+        "checkOtherGameErr": "/gamecenter/player/game/userClassifyGameExists",
+        "setnickname": "/gamecenter/player/user/updateUserNiceName/"
     }
 }

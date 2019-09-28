@@ -17,13 +17,30 @@ var GameState;
     GameState[GameState["PAUSE"] = 1] = "PAUSE";
     GameState[GameState["EXPECTATION"] = 2] = "EXPECTATION";
     GameState[GameState["UPDATE"] = 3] = "UPDATE";
+    GameState[GameState["CLOSE"] = 4] = "CLOSE";
+    GameState[GameState["TESTING"] = 5] = "TESTING";
 })(GameState || (GameState = {}));
+/**
+ * 游戏分类
+ */
 var GameType;
 (function (GameType) {
     GameType[GameType["classify"] = 1] = "classify";
     GameType[GameType["selfGame"] = 2] = "selfGame";
     GameType[GameType["other"] = 3] = "other";
 })(GameType || (GameType = {}));
+/**
+ * 游戏菜单分类
+ */
+var GameMenuType;
+(function (GameMenuType) {
+    GameMenuType[GameMenuType["hotGame"] = 197] = "hotGame";
+    GameMenuType[GameMenuType["fishGame"] = 200] = "fishGame";
+    GameMenuType[GameMenuType["FGCard"] = 198] = "FGCard";
+    GameMenuType[GameMenuType["kaiyuan"] = 199] = "kaiyuan";
+    GameMenuType[GameMenuType["electron"] = 195] = "electron";
+    GameMenuType[GameMenuType["lottery"] = 0] = "lottery";
+})(GameMenuType || (GameMenuType = {}));
 /**
  * 验证码类型
  */
@@ -72,4 +89,11 @@ var DlgCmd;
     DlgCmd[DlgCmd["accountInfo"] = 11] = "accountInfo";
     DlgCmd[DlgCmd["alipayBind"] = 12] = "alipayBind";
 })(DlgCmd || (DlgCmd = {}));
+/**
+ * 活动相关类型
+ */
+var ActiveType;
+(function (ActiveType) {
+    ActiveType[ActiveType["ROULETTE_DRAW"] = 0] = "ROULETTE_DRAW";
+})(ActiveType || (ActiveType = {}));
 //# sourceMappingURL=GameVos.js.map

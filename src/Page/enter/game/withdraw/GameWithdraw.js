@@ -282,6 +282,7 @@ export default class GameWithdraw extends Component {
                 itemData.initDefaultBank()
                 // this.tipMsg = '您的提款申请已提交，请耐心等待!'
                 {TW_Store.gameUIStroe.showTiXianDetail()}
+                TW_Store.dataStore.onFlushMoney();
             }
         })
     }

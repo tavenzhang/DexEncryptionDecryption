@@ -198,7 +198,7 @@ var HttpRequester = /** @class */ (function () {
      * @param callback
      * @param method
      */
-    HttpRequester.doRequest = function (url, header, jsonStr, caller, callback, method) {
+    HttpRequester.doRequest = function (url, header, jsonStr, caller, callback, method, outTimeCallback) {
         if (method === void 0) { method = "post"; }
         this.httpConnect(url, this, function (s, stat, hr) {
             var suc = false;
@@ -250,8 +250,9 @@ var HttpRequester = /** @class */ (function () {
      * @param data
      * @param metod
      * @param restype
+     * @param outTimeCallback 请求超时后是否执行回调通知
      */
-    HttpRequester.httpConnect = function (urls, caller, callback, header, data, metod, restype) {
+    HttpRequester.httpConnect = function (urls, caller, callback, header, data, metod, restype, outTimeCallback) {
         if (header === void 0) { header = null; }
         if (data === void 0) { data = null; }
         if (metod === void 0) { metod = "get"; }
@@ -270,7 +271,7 @@ var HttpRequester = /** @class */ (function () {
             this.httpRequestList.push(httpData);
             PostMHelp.game_Http({ url: url, header: header, data: data, metod: metod, restype: restype, hashUrl: hashUrl });
             if (view.LoadingView.isLoading) {
-                GameUtils.addTimeOut(hashUrl);
+                GameUtils.addTimeOut(hashUrl, caller, callback, outTimeCallback);
             }
         }
         else {

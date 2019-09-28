@@ -11,8 +11,8 @@ var ToolsApp = /** @class */ (function () {
             AppData.NATIVE_DATA = appData;
             AppData.isAndroidHack = appData.isAndroidHack;
             Debug.bDebug = appData.isDebug;
-            if ("" + appData.clientId == "214" || "" + appData.clientId == "1209" || appData.isShowLog) {
-                window["initVconsole"]();
+            if ("" + appData.clientId == "214" || "" + appData.clientId == "1209" || Debug.bDebug) {
+                Debug.showVconsole();
             }
         }
     };

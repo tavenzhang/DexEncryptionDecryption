@@ -44,7 +44,7 @@ var LobbyScene = /** @class */ (function (_super) {
         this.addChild(this.view);
         //请求相关接口
         LobbyModel.reqBindInfo();
-        LobbyModel.reqUserInfo();
+        LobbyModel.reqUserInfo(false);
         LobbyModel.reqUserCurrentInfo();
         LobbyModel.reqAvatarInfo();
         LobbyModel.getCardInfo();
