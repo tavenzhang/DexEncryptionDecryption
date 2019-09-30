@@ -95,9 +95,15 @@ var view;
                 glist.forEach(function (value, i) {
                     //如果游戏没有关闭和下线
                     if (GameState[value.state] != GameState.CLOSE && value.classifyOnlineFlag) {
-                        icon = new view.UI.GameIconView();
+                        icon = Laya.Pool.getItem(LobbyModel.cacheIconMark); //读取缓存
+                        if (!icon) {
+                            icon = new view.UI.GameIconView();
+                            icon.mouseEnabled = true;
+                        }
+                        else {
+                            icon.resetFlush(); //重置刷新
+                        }
                         icon.index = len;
-                        icon.mouseEnabled = true;
                         icon.readData(value);
                         // icon.setGameState(GameState.UPDATE);//用于调试动画位置
                         tox = Math.floor(len / 2) * (iconWidth + gapX);
@@ -177,10 +183,7 @@ var view;
             };
             GameIconListPanel.prototype.clearIcons = function () {
                 this.defDownLoads.length = 0;
-                if (this.iconList.length > 0) {
-                    this.iconList.forEach(function (value) { return value.destroy(); });
-                    this.iconList.length = 0;
-                }
+                this.iconList.length = 0;
                 if (this.dragBox) {
                     this.dragBox.destroy();
                     this.dragBox = null;

@@ -201,6 +201,7 @@ P AB504783 icon11.png
 P 4447C9A5 icon12.png
 D ui/lobby
 R 70029D20 bg_dating.jpg
+P 0D8A79A5 def_icon.png
 P 499CF866 dmenu1.png
 P 18EEB019 dmenu2.png
 P C8BB19C9 dmenu3.png
@@ -283,7 +284,7 @@ P 55B6FE0A img_yx_xtyj-kuang.png
 P 44F13DC7 img_yx_xtyj-lw.png
 P 23600B01 img_yx_yj-kuang-d-9x9.png
 D ui/panel_common
-P B155926D img_com_quanping_ce_biaotou.png
+P 75A344CE img_com_quanping_ce_biaotou.png
 P F5D58D4E img_com_quanping_ce_di.png
 P C498D219 img_com_quanping_ce_xuanzhong.png
 P 8B2D6009 img_com_quanping_cedi.png
