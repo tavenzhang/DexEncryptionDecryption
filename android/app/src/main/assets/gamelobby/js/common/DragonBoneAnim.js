@@ -127,17 +127,17 @@ var DragonBoneAnim = /** @class */ (function (_super) {
      * @param dc
      */
     DragonBoneAnim.prototype.destroy = function (dc) {
-        if (dc === void 0) { dc = true; }
         this.stop();
         if (this.mFactory) {
             this.mFactory.off(Laya.Event.COMPLETE, this, this.parseComplete);
             this.mFactory.off(Laya.Event.ERROR, this, this.onError);
-            this.mFactory.destroy();
+            if (dc)
+                this.mFactory.destroy();
             this.mFactory = null;
         }
         if (this.mArmature) {
             this.mArmature.off(Laya.Event.STOPPED, this, this.playEnd);
-            this.mArmature.destroy(true);
+            this.mArmature.destroy(dc);
             this.mArmature = null;
         }
         _super.prototype.destroy.call(this, dc);

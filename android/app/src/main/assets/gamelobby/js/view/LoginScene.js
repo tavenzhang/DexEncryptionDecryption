@@ -58,22 +58,26 @@ var LoginScene = /** @class */ (function (_super) {
         EventManager.register(EventType.INIT_LOGINVIEW, this, this.useTokenLogin);
         //检查维护公告
         LayaMain.getInstance().checkGameMaintenance();
+        this.resetLayoutX();
     };
     //------------------token登录流程-------------------------
     //使用token登录
     LoginScene.prototype.useTokenLogin = function () {
         LoginModel.gatewayCount = 0;
+        LayaMain.getInstance().showCircleLoading(true);
         LoginModel.loginByToken(this, this.tokenLoginResult);
     };
     //token登录结果
     LoginScene.prototype.tokenLoginResult = function (suc, curToken) {
         if (suc) {
+            LayaMain.getInstance().showCircleLoading(false);
             LayaMain.getInstance().initLobby();
         }
         else {
             if (curToken)
                 LoginModel.flushToken(this, this.flushTokenResult);
             else { //没有缓存token,说明是主动退出到登录界面的
+                LayaMain.getInstance().showCircleLoading(false);
                 this.checkLoginType();
             }
         }
@@ -84,11 +88,13 @@ var LoginScene = /** @class */ (function (_super) {
             LoginModel.loginByToken(this, this.useNewTokenLoginResult);
         }
         else {
+            LayaMain.getInstance().showCircleLoading(false);
             this.checkLoginType();
         }
     };
     //使用刷新后的token登录情况
     LoginScene.prototype.useNewTokenLoginResult = function (suc) {
+        LayaMain.getInstance().showCircleLoading(false);
         if (suc) {
             LayaMain.getInstance().initLobby();
         }
@@ -227,6 +233,7 @@ var LoginScene = /** @class */ (function (_super) {
         this.serviceBtn.right = offset;
         this.otherBtn.right = offset;
         this.logoClip.x = this.width >> 1;
+        this.resetLayoutX();
     };
     //初始化显示
     LoginScene.prototype.initDisplay = function () {
