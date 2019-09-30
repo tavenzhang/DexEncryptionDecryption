@@ -260,10 +260,10 @@ var DragingBox = /** @class */ (function (_super) {
     /**
      * 销毁
      */
-    DragingBox.prototype.destroy = function () {
+    DragingBox.prototype.destroy = function (bl) {
         this.off(Laya.Event.MOUSE_DOWN, this, this.eventHandler);
         Laya.timer.clear(this, this.timerHandler);
-        _super.prototype.destroy.call(this, true);
+        _super.prototype.destroy.call(this, bl);
     };
     DragingBox.prototype.eventHandler = function (evt) {
         switch (evt.type) {

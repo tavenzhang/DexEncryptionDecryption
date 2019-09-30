@@ -285,6 +285,8 @@ var LobbyModel = /** @class */ (function () {
      * 用于缓存游戏分类列表数据
      */
     LobbyModel.classifyPool = {};
+    //缓存游戏图标标记
+    LobbyModel.cacheIconMark = "gameIcon";
     return LobbyModel;
 }());
 //# sourceMappingURL=LobbyModel.js.map
