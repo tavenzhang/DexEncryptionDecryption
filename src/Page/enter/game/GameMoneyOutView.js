@@ -41,7 +41,9 @@ export default class GameMoneyOutView extends Component {
         })
     }
     componentWillUnmount(): void {
-        TW_Store.dataStore.onFlushMoney();
+        if(!TW_Store.gameUpateStore.isInSubGame){
+            TW_Store.dataStore.onFlushMoney();
+        }
     }
 
     showBank=()=> {
