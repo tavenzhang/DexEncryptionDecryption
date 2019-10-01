@@ -140,6 +140,14 @@ var AgentModel = /** @class */ (function () {
     AgentModel.reqCode = function () {
         AgentModel.searchAgentInvatCode(this, this.readCode, false);
     };
+    /**
+     * 退出登录时需要清理缓存
+     */
+    AgentModel.clear = function () {
+        this.agentInfo = null;
+        this.invationVo = null;
+        this.shareBase64 = null;
+    };
     //代理信息
     AgentModel.agentInfo = null;
     //邀请码

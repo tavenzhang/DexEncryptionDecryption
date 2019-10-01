@@ -80,6 +80,28 @@ var view;
                     this.upload.visible = false;
             };
             /**
+             * 用于缓存刷新
+             */
+            GameIconView.prototype.resetFlush = function () {
+                Laya.Tween.clearTween(this);
+                this.isupdating = false;
+                this.isclick = true;
+                this.progressValue = 0;
+                this.lowMark.visible = false;
+                this.debugTxt.text = "";
+                this.noSkfile = false;
+                this.bgIcon.visible = true;
+                this.normIcon.gray = false;
+                this.bgIcon.gray = false;
+                this.lowMark.gray = false;
+                if (this.anim) {
+                    this.anim.destroy(false);
+                    this.anim = null;
+                }
+                this.normIcon.skin = "ui/lobby/def_icon.png";
+                this.normIcon.scale(1, 1);
+            };
+            /**
              * 读取数据
              * @param vo
              */
@@ -89,9 +111,11 @@ var view;
                 if (LobbyModel.menuVo && LobbyModel.menuVo.gameId == GameMenuType.electron.toString()) {
                     //todo:有变动，后续再调整
                 }
+                this.normIcon.visible = true;
+                this.bgIcon.visible = false;
                 if (vo.classify == GameType.other) { //三方游戏直接读取网络图标
+                    this.resetView();
                     this.normIcon.visible = true;
-                    this.bgIcon.visible = false; //三方游戏不加背景
                     LoadTool.loadImage(this.normIcon, vo.icon, 200, 200);
                     if (GameState[vo.state] == GameState.PAUSE) {
                         this.pauseIcon.visible = true;
@@ -112,6 +136,7 @@ var view;
                 if (this.config.alias != this.gameVo.alias) {
                     this.debugTxt.text = this.gameVo.name;
                     this.noSkfile = true;
+                    this.bgIcon.visible = true;
                 }
                 this.setGameState(GameState[vo.state]);
                 //显示体验房标记(目前本地配死)
@@ -245,6 +270,8 @@ var view;
             //动画加载完毕
             GameIconView.prototype.animLoaded = function () {
                 var state = GameState[this.gameVo.state];
+                this.normIcon.visible = false;
+                this.bgIcon.visible = true;
                 //维护中和尽请期待状态处理成灰度图
                 if (state == GameState.PAUSE || state == GameState.EXPECTATION) {
                     var htmlC = this.anim.drawToCanvas(this.width, this.height, this.width >> 1, this.height >> 1);
@@ -291,6 +318,7 @@ var view;
                     this.upload.centerX = this.upload.centerY = 0;
                     this.addChild(this.upload);
                 }
+                this.upload.visible = true;
             };
             GameIconView.prototype.pause = function () {
                 if (this.anim)
@@ -303,10 +331,11 @@ var view;
             /**
              * 销毁
              */
-            GameIconView.prototype.destroy = function () {
-                if (this.anim)
-                    this.anim.destroy(true);
-                _super.prototype.destroy.call(this, true);
+            GameIconView.prototype.destroy = function (bl) {
+                this.pause();
+                //使用缓存机制
+                Laya.Pool.recover(LobbyModel.cacheIconMark, this);
+                this.removeSelf();
             };
             return GameIconView;
         }(ui.UI.GameIconViewUI));
