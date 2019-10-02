@@ -94,6 +94,7 @@ var Common = /** @class */ (function () {
         GameData.bindAward = 0;
         GameData.isGetBindAward = true;
         GameData.bindOpen = false;
+        AgentModel.clear();
     };
     Common.GM_SCREEN_H = 750;
     Common.GM_SCREEN_W = 1334;
