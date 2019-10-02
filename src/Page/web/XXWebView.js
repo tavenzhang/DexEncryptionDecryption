@@ -116,10 +116,15 @@ export default class XXWebView extends Component {
                         if (dataKey.indexOf("app_") > -1) {
                             temKey = dataKey.replace("app_", "");
                         }
-                        if (item.url.indexOf(temKey) > -1) {
+                        let tempUrl=item.url;
+                        var index = tempUrl.lastIndexOf("/");
+                        tempUrl =tempUrl.substr(0,index);
+                        index=tempUrl.indexOf("/");
+                        tempUrl = tempUrl.substr(index+1);
+                        if (tempUrl == temKey) {
                             TW_Store.dataStore.appGameListM[dataKey].alias = TW_Store.dataStore.appGameListM[dataKey].id = item.alias;
                             TW_Store.dataStore.appGameListM[dataKey].gameName = item.name
-                            //TW_Log("( _keyboard---onFinishGameList==dataKey--"+dataKey, TW_Store.dataStore.appGameListM[dataKey]);
+                            TW_Log("( _keyboard---onFinishGameList==dataKey--index=="+tempUrl, TW_Store.dataStore.appGameListM[dataKey]);
                         } else {
                             // TW_Log("( _keyboard---onFinishGameList=note=dataKey--"+dataKey, TW_Store.dataStore.appGameListM[dataKey]);
                         }
