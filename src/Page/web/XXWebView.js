@@ -105,27 +105,29 @@ export default class XXWebView extends Component {
 
     onFinishGameList = (gameList) => {
         // TW_Log("( _keyboard---onFinishGameList==TW_Store.dataStore.appGameListM=" ,gameM);
-         let gameItem= gameList[0];
-         //排除第三方平台数据的影响
-         if(gameItem&&gameItem.classify==2) {
-             for (let item of gameList) {
-                 for(let dataKey in TW_Store.dataStore.appGameListM) {
-                     TW_Log("( _keyboard---onFinishGameList==item--"+item , TW_Store.dataStore.appGameListM);
-                     let temKey = dataKey;
-                     if (dataKey.indexOf("app_") > -1) {
-                         temKey = dataKey.replace("app_", "");
-                     }
-                     if (item.url.indexOf(temKey) > -1) {
-                         TW_Store.dataStore.appGameListM[dataKey].alias = TW_Store.dataStore.appGameListM[dataKey].id = item.alias;
-                         TW_Store.dataStore.appGameListM[dataKey].gameName = item.name
-                         //TW_Log("( _keyboard---onFinishGameList==dataKey--"+dataKey, TW_Store.dataStore.appGameListM[dataKey]);
-                     } else {
-                         // TW_Log("( _keyboard---onFinishGameList=note=dataKey--"+dataKey, TW_Store.dataStore.appGameListM[dataKey]);
-                     }
-                 }
-             }
-             this.onFlushGameData();
-         }
+        let gameItem= gameList[gameList.length-1];
+        //排除第三方平台数据的影响
+        if(gameItem&&gameItem.classify==2) {
+            TW_Log("( _keyboard---onFinishGameList==item--"+gameItem , gameList);
+            for (let item of gameList) {
+                if(item.classify==2){
+                    for(let dataKey in TW_Store.dataStore.appGameListM) {
+                        let temKey = dataKey;
+                        if (dataKey.indexOf("app_") > -1) {
+                            temKey = dataKey.replace("app_", "");
+                        }
+                        if (item.url.indexOf(temKey) > -1) {
+                            TW_Store.dataStore.appGameListM[dataKey].alias = TW_Store.dataStore.appGameListM[dataKey].id = item.alias;
+                            TW_Store.dataStore.appGameListM[dataKey].gameName = item.name
+                            //TW_Log("( _keyboard---onFinishGameList==dataKey--"+dataKey, TW_Store.dataStore.appGameListM[dataKey]);
+                        } else {
+                            // TW_Log("( _keyboard---onFinishGameList=note=dataKey--"+dataKey, TW_Store.dataStore.appGameListM[dataKey]);
+                        }
+                    }
+                }
+            }
+            this.onFlushGameData();
+        }
 
     }
 
