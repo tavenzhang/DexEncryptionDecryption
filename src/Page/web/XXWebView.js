@@ -16,6 +16,7 @@ import {G_LayoutAnimaton} from "../../Common/Global/G_LayoutAnimaton";
 import Tools from "../../Common/View/Tools";
 import TCUserOpenPayApp from "../UserCenter/UserPay/TCUserOpenPayApp";
 import {SoundHelper} from "../../Common/JXHelper/SoundHelper";
+import {platInfo} from "../../config/appConfig";
 const HTTP_GAME_LIST = "/gamecenter/player/game/list";
 const HTTP_ACCOUNT = "/webapi/account/users/current";
 
@@ -312,6 +313,7 @@ export default class XXWebView extends Component {
         let injectJs = `window.appData=${JSON.stringify({
             isApp: true,
             taven: "isOk",
+            brandID:platInfo.brand,
             brandUrl:TW_Store.bblStore.getBrandUrl(),
             clientId: TW_Store.appStore.clindId,
             urlJSON: TW_Store.bblStore.getUriConfig(),
