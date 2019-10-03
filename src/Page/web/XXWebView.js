@@ -118,8 +118,8 @@ export default class XXWebView extends Component {
                         }
                         let tempUrl=item.url;
                         tempUrl = item.url.replace("../", "");
-                        let tempStr= tempUrl.substr(tempUrl.length-1);
-                        if(tempStr=="/"){
+                        let sunStr= tempUrl.substr(tempUrl.length-1);
+                        if(sunStr=="/"){
                             tempUrl =tempUrl.substring(0,tempUrl.length-1);
                         }
                         var index = tempUrl.lastIndexOf("/");
