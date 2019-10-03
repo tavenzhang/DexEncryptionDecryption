@@ -109,7 +109,6 @@ export default class XXWebView extends Component {
         let gameItem= gameList[gameList.length-1];
         //排除第三方平台数据的影响
         if(gameItem&&gameItem.classify==2) {
-            TW_Log("( _keyboard---onFinishGameList==item--"+gameItem , gameList);
             for (let item of gameList) {
                 if(item.classify==2){
                     for(let dataKey in TW_Store.dataStore.appGameListM) {
@@ -118,14 +117,19 @@ export default class XXWebView extends Component {
                             temKey = dataKey.replace("app_", "");
                         }
                         let tempUrl=item.url;
+                        tempUrl = item.url.replace("../", "");
+                        let tempStr= tempUrl.substr(tempUrl.length-1);
+                        if(tempStr=="/"){
+                            tempUrl =tempUrl.substring(0,tempUrl.length-1);
+                        }
                         var index = tempUrl.lastIndexOf("/");
-                        tempUrl =tempUrl.substr(0,index);
-                        index=tempUrl.indexOf("/");
-                        tempUrl = tempUrl.substr(index+1);
+                        if(index>-1){
+                            tempUrl =tempUrl.substr(index+1);
+                        }
+                        TW_Log("( _keyboard---onFinishGameList==dataKey--index=="+index+"---tempUr=="+tempUrl);
                         if (tempUrl == temKey) {
                             TW_Store.dataStore.appGameListM[dataKey].alias = TW_Store.dataStore.appGameListM[dataKey].id = item.alias;
                             TW_Store.dataStore.appGameListM[dataKey].gameName = item.name
-                            TW_Log("( _keyboard---onFinishGameList==dataKey--index=="+tempUrl, TW_Store.dataStore.appGameListM[dataKey]);
                         } else {
                             // TW_Log("( _keyboard---onFinishGameList=note=dataKey--"+dataKey, TW_Store.dataStore.appGameListM[dataKey]);
                         }
@@ -134,8 +138,8 @@ export default class XXWebView extends Component {
             }
             this.onFlushGameData();
         }
-
     }
+
 
     onFlushGameData = () => {
         TW_Store.dataStore.onFlushGameData();
