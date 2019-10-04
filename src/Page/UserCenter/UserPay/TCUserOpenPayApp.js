@@ -14,6 +14,16 @@ export default class TCUserOpenPayApp {
     QQ_PACKAGE = "com.tencent.mobileqq"
     ALIPAY_PACKAGE = "com.eg.android.AlipayGphone"
     JD_PACKAGE = "com.jingdong.app.mall"
+    static  instance:TCUserOpenPayApp;
+
+    static getInstance():TCUserOpenPayApp
+    {
+        if(!TCUserOpenPayApp.instance)
+        {
+            TCUserOpenPayApp.instance = new TCUserOpenPayApp();
+        }
+        return this.instance;
+    }
 
 
     static isCanOpen(url,callBack){
@@ -61,7 +71,6 @@ export default class TCUserOpenPayApp {
         }else{
             this.linkingApp('weixin://', '微信');
         }
-
     }
 
     /**
@@ -101,6 +110,31 @@ export default class TCUserOpenPayApp {
         Linking.openURL(url).catch(err => {
             Toast.showShortCenter('请您先安装' + payType + '应用！')
         })
+    }
+
+
+
+    /**
+     * 打开app
+     * @param topUpType
+     * @returns {appName}
+     */
+    openAppByType=(topUpType)=> {
+        switch (topUpType) {
+            case 'ALIPAY':
+                this.openAlipay()
+                break
+            case 'WECHAT':
+                this.openWeChat()
+                break
+            case 'QQ':
+                this.openQQ()
+                break
+            case "JD":
+                this.openJD();
+            default:
+                return
+        }
     }
 
     static linkingApp(url, payType) {

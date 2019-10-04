@@ -4,17 +4,17 @@ import React, {
 
 
 export const appDomainBase = {
-    base1: "https://oo5ucdchyqp.wxzbk.com",
-    base2: "https://aukg0dchyqp.wxzbk.com",
-    base3: "https://9rsviwchyqp.wxzbk.com",
-    base4: "https://wriq9wchyqp.wxzbk.com",
-    base5: "https://oo5ucdchyqp.qingfengzdh.com",
-    base6: "https://aukg0dchyqp.qingfengzdh.com",
-    base7: "https://hosobw29.gybye.cn",
+    base1: 'http://sqp01game.sit01.com',
+    base2: 'http://sqp01game.sit01.com',
+    base3: 'http://sqp01game.sit01.com',
+    base4: 'http://sqp01game.sit01.com',
+    base5: 'http://sqp01game.sit01.com',
+    base6: 'http://sqp01game.sit01.com',
+    base7: 'http://sqp01game.sit01.com',
 }
 
 
-export let configAppId = "1147"
+export let configAppId = "1209"
 
 
 export const AppConfig = {
@@ -37,14 +37,18 @@ export const AppConfig = {
 }
 
 
-export const MyAppName = '超会赢棋牌';
-export const MyOwnerPlatName= '超会赢棋牌';
+export const MyAppName = '博博乐sit';
 
-export const versionHotFix = 'v7.22';
+export const versionHotFix = 'v9.7';
 
+export const MyOwnerPlatName= 'sit';
 
+// export const safeguardDomain = [
+//     'https://987645ba00a9b0416b254f33d918ed64.oss-cn-shenzhen.aliyuncs.com',
+//     'https://c40b6e3d664556ab423d3eebc01ab2fd.oss-cn-shenzhen.aliyuncs.com']
 //第三方安全域名base64 key
 export const safeguardKey = 'ewoJImQiOiBbImh0dHBzOi8vY2VhNGVjYTY1MGQ3MWJkOWQ1NTJiNGNmMzhlMDU3MDIub3NzLWNuLXNoZW56aGVuLmFsaXl1bmNzLmNvbSIsCgkJImh0dHBzOi8vY2VhNGVjYTY1MGQ3MWJkOWQ1NTJiNGNmMzhlMDU3MDIuczMtYWNjZWxlcmF0ZS5hbWF6b25hd3MuY29tIiwKCQkiaHR0cHM6Ly9jZWE0ZWNhNjUwZDcxYmQ5ZDU1MmI0Y2YzOGUwNTcwMi5henVyZWVkZ2UubmV0IgoJXQp9'
+
 
 
 export const platInfo = {
@@ -53,11 +57,13 @@ export const platInfo = {
 
     zipCheckServer: {
         debug_server: "http://192.168.14.70:8888",
-        release_server: "/game/release/chyqp",
+        release_server: "/game/release/sit"
     },
     latestNativeVersion:{ios:"6.0",android:"7.0"},//用于强制更新 匹配，与info.plist 还有 gradle.properties. 需要严格一致。否则 会弹窗 强制下载
     platId: configAppId,
-    brand: "chyqp",
+    brand: "sqp01",
+    latestNativeVersion:{ios:"10",android:"10"},//用于强制更新 匹配，与info.plist 还有 gradle.properties. 需要严格一致。否则 会弹窗 强制下载
+
 }
 
 

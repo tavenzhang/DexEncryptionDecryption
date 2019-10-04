@@ -38,7 +38,8 @@ export default class TWWebGameView extends Component {
         this.state = {
             isHide: false,
             isHttpFail: false,
-            isShowExitAlertView: false
+            isShowExitAlertView: false,
+            isOpenAddPay:false
         }
         this.bblStore = TW_Store.bblStore;
     }
@@ -131,9 +132,13 @@ export default class TWWebGameView extends Component {
                                                 onPressExit={this.onClickMenu}/>}
 
                 {this.state.isShowExitAlertView && <ExitGameAlertView
+                    isOpenAddPay={this.state.isOpenAddPay}
                     onPressConfirm={()=>{
                         this.onBackHomeJs()
                         this.setState({isShowExitAlertView: false})
+                        if(this.state.isOpenAddPay){
+                            TW_Store.gameUIStroe.isShowAddPayView = true;
+                        }
                     }}
                     onPressCancel={() => this.setState({isShowExitAlertView: false})}
                 />
@@ -142,9 +147,15 @@ export default class TWWebGameView extends Component {
         );
     }
 
-    onClickMenu=()=>{
-        TW_Log("onClickMenu---")
-        this.setState({isShowExitAlertView: true})
+    onClickMenu=(btnId)=>{
+        switch (btnId) {
+            case 2:
+                this.setState({isShowExitAlertView: true,isOpenAddPay:true})
+                 break;
+            case 3:
+                this.setState({isShowExitAlertView: true,isOpenAddPay:false})
+                break;
+        }
     }
 
     onLoadEnd = (event) => {
