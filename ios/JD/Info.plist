@@ -2,56 +2,35 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>openinstall</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>evna9i</string>
-			</array>
-		</dict>
-		<dict>
-                			<key>CFBundleTypeRole</key>
-                			<string>Editor</string>
-                			<key>CFBundleURLName</key>
-                			<string>weixin</string>
-                			<key>CFBundleURLSchemes</key>
-                			<array>
-                				<string>wx26019a5a7de8db15</string>
-                			</array>
-                		</dict>
-	</array>
-	<key>AppSecret</key>
-        	<dict>
-        		<key>weixin</key>
-        		<string>62ef8d30f3c4e244bde8831dd2f4ec84</string>
-        	</dict>
 	<key>com.openinstall.APP_KEY</key>
-	<string>evna9i</string>
+	<string>yv9ho8</string>
 	<key>PLAT_ID</key>
-	<string>1209</string>
+	<string>1147</string>
 	<key>PLAT_CH</key>
 	<string>1</string>
 	<key>APP_DOWNLOAD_VERSION</key>
-	<string>10</string>
+	<string>6.0</string>
 	<key>Affcode</key>
 	<string></string>
 	<key>JPushKey</key>
-	<string>e9f6454032a3f4936d80a82f</string>
+	<string>bacd6421e8f922f0d9653e1a</string>
 	<key>UmengKey</key>
 	<string>5b9f7642f43e486308000111</string>
+	<key>CFBundleVersion</key>
+	<string>6</string>
+	<key>AppSecret</key>
+	<dict>
+		<key>weixin</key>
+		<string>c05ff4e9cb83b964dd7e1c46b7f3f080</string>
+	</dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>SIT-NEW</string>
+	<string>超会盈棋牌</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.bbl.cgsit</string>
+	<string>com.qp.chyqp</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -62,8 +41,19 @@
 	<string>2.2.2</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>6</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>weixin</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>wx1d27425f84c15ba7</string>
+			</array>
+		</dict>
+	</array>
 	<key>CodePushDeploymentKey</key>
 	<string>test</string>
 	<key>Fabric</key>
@@ -157,10 +147,10 @@
 		<string>armv7</string>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-	</array>
+    	<array>
+    		<string>UIInterfaceOrientationLandscapeRight</string>
+    		<string>UIInterfaceOrientationLandscapeLeft</string>
+    	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>
