@@ -335,7 +335,6 @@ export default class XXWebView extends Component {
             window.ReactNativeWebView.postMessage(data);
           };
         })()`;
-        // TW_Log("targetAppDir-33---isWechatEnabled-his.state--"+(sharedUrl&&isShowSharebox)+"--sharedUrl=="+sharedUrl+"-isShowSharebox-"+isShowSharebox,this.state);
         return (
             <View style={[styles.container, {width: TW_Store.appStore.screenW}]}>
                 <View style={[styles.webView, {width: TW_Store.appStore.screenW}]} ref="myView" collapsable={false}>
@@ -464,11 +463,13 @@ export default class XXWebView extends Component {
                         case  "closeApp":
                             TN_ExitApp();
                             break;
+                        case "goToPay"://打开相关app
+                            TCUserOpenPayApp.getInstance().openAppByType(message.param);
+                            break;
                     }
                     break;
                 case "startUpdate":
                     //{action: "startUpdate", gameId: 28, alias: "xywz"}
-
                     gameData=this.getStoreGameDataByAlias(message.alias)
                     TW_Log(`startUpdate-----`,gameData);
                     if (gameData&&gameData.bupdate) {
@@ -488,7 +489,6 @@ export default class XXWebView extends Component {
                         isNeedLoad = gameData ? gameData.bupdate : isNeedLoad;
                         url = this.handleUrl(message.payload, gameData);
                     }
-
                     TW_Log("FileTools---------data--isNeedLoad==-url==" + url + "----isNeedLoad===--" + isNeedLoad + "-----------gameData==", data);
                     if (!isNeedLoad && TW_Store.bblStore.lastGameUrl != url) {
                         TW_Store.bblStore.lastGameUrl = url;
@@ -541,7 +541,6 @@ export default class XXWebView extends Component {
                 case "game_redraw":
                     TW_Log("onMessage----custom---exitAppToLoginPage--SystemSetting.setVolume-")
                     TW_Store.gameUIStroe.isShowWithDraw = !TW_Store.gameUIStroe.isShowWithDraw;
-                  //  SoundHelper.soundleMusic.setVolume(1);
                     break;
                 case "game_back":
                     TW_Log("custom---exitAppToLoginPage")

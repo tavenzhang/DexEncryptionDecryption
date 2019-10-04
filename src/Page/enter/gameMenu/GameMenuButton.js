@@ -81,17 +81,23 @@ export default class GameMenuButton extends Component {
     onPressIcon=(type)=> {
         TW_Log("onPressIcon---type==",type)
         this.setCollapsibility();
+        const { onPressExit } = this.props;
         switch (type) {
             case TYPE.transfer:
                // JX_NavHelp.pushView(JX_Compones.UserTransfer);
+                if (onPressExit) {
+                    onPressExit(type);
+                }
                 break;
             case TYPE.reload:
-                TW_Store.gameUIStroe.isShowAddPayView = true;
+                if (onPressExit) {
+                    onPressExit(type);
+                }
+                //TW_Store.gameUIStroe.isShowAddPayView = true;
                 break;
             case TYPE.exit:
-                const { onPressExit } = this.props;
                 if (onPressExit) {
-                    onPressExit();
+                    onPressExit(type);
                 } else {
                     this.setExitAlertViewVisibility(true);
                 }
