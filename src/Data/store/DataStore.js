@@ -544,7 +544,7 @@ export default class DataStore {
                 let gameData=this.getStoreGameDataByAlias(downData.id);//检测一下游戏是否已经下载 防止重复下载
                 TW_Log(`startUpdate---startLoadGame--`,gameData);
                 if(gameData&&gameData.bupdate){
-                    this.isLoading = true;
+                    TW_SubGameDownLoaderData.isLoading = true;
                     // JXToast.showShortCenter(`${downData.name} 开始下载！`)
                     let loadUrl = downData.source;
                     if (loadUrl && loadUrl.indexOf("http") > -1) {
