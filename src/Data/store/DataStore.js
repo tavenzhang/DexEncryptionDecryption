@@ -337,7 +337,9 @@ export default class DataStore {
             }).finally(()=>{
                      TW_Store.gameUpateStore.isLoading=false;
                      TW_Store.gameUpateStore.isTempExist=true;
-                     TW_LoaderOnValueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.game_loading,{data:{do:"loadFinish"}}));
+                     setTimeout(()=>{
+                             TW_LoaderOnValueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.game_loading,{data:{do:"loadFinish"}}));
+                         },G_IS_IOS ? 500:2000)
                     if(TW_Store.gameUpateStore.isOldHome){
                         TW_Store.commonBoxStore.isShow=true;
                     }
