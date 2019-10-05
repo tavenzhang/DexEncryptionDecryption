@@ -21,8 +21,12 @@ var LoginScene = /** @class */ (function (_super) {
         _this.initLayout();
         _this.initDisplay();
         _this.startLoading();
+        Laya.stage.on(Laya.Event.RESIZE, _this, _this.onResize);
         return _this;
     }
+    LoginScene.prototype.onResize = function () {
+        this.initLayout();
+    };
     LoginScene.prototype.startLoading = function () {
         if (LoginModel.isLoaded) { //说明是从大厅退出到登录界面
             this.checkLoginType();
@@ -49,16 +53,12 @@ var LoginScene = /** @class */ (function (_super) {
         ResConfig.addTween = Common.confObj.addTween;
         GameData.joinLobbyType = JoinLobbyType.loginJoin;
         LoginModel.isLoaded = true;
-        if (!GameUtils.isNativeApp) {
-            // ConfObjRead.getConfUrl().url = ConfObjRead.getConfUrl().urldev;//dev环境(debugxxx)
-        }
         ToolsApp.copyNativeAdress();
         LoginModel.readGatewayInfo();
         LobbyScene.initBgMusic();
         EventManager.register(EventType.INIT_LOGINVIEW, this, this.useTokenLogin);
         //检查维护公告
         LayaMain.getInstance().checkGameMaintenance();
-        this.resetLayoutX();
     };
     //------------------token登录流程-------------------------
     //使用token登录
@@ -233,7 +233,6 @@ var LoginScene = /** @class */ (function (_super) {
         this.serviceBtn.right = offset;
         this.otherBtn.right = offset;
         this.logoClip.x = this.width >> 1;
-        this.resetLayoutX();
     };
     //初始化显示
     LoginScene.prototype.initDisplay = function () {
@@ -280,6 +279,7 @@ var LoginScene = /** @class */ (function (_super) {
         });
     };
     LoginScene.prototype.destroy = function () {
+        Laya.stage.off(Laya.Event.RESIZE, this, this.onResize);
         EventManager.removeAllEvents(this);
         if (this.logoClip)
             this.logoClip.destroy();

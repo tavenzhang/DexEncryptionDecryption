@@ -57,6 +57,7 @@ var LoginModel = /** @class */ (function () {
                     callback.call(caller, param);
             }
             else {
+                Toast.showToast("init5数据异常");
                 LayaMain.getInstance().showCircleLoading(false);
                 if (jobj.http.status == 428) {
                     _this.gatewayCount++;
@@ -88,6 +89,7 @@ var LoginModel = /** @class */ (function () {
             Common.clientId = Tools.getQueryVariable("clientId");
             if (!Common.clientId)
                 Common.clientId = ConfObjRead.getConfCommon().testClientId;
+            Common.brandId = ConfObjRead.getConfCommon().testBrandId;
         }
         //没有缓存token
         if (temp_token.length <= 0 || status == '1') {
@@ -140,6 +142,9 @@ var LoginModel = /** @class */ (function () {
             else {
                 //刷新失败,说明后端flushToken已经到期，需要重新登录更新
             }
+            //回调通知结果
+            if (caller && callback)
+                callback.call(caller, suc);
         }, "get");
     };
     /**
