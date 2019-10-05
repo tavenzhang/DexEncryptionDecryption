@@ -75,7 +75,13 @@ var view;
             ClassifyMenu.prototype.addCallback = function (caller, callback) {
                 this.caller = caller;
                 this.callback = callback;
-                this.reqMenuData();
+                //
+                if (!LobbyModel.cdnUrl) {
+                    LobbyModel.reqCdnUrl(this, this.reqMenuData);
+                }
+                else {
+                    this.reqMenuData();
+                }
             };
             ClassifyMenu.prototype.reqMenuData = function () {
                 var _this = this;

@@ -38,7 +38,7 @@ var CommisionRecord = /** @class */ (function (_super) {
     }
     CommisionRecord.prototype.setData = function ($data) {
         this.order.text = $data.id;
-        this.amount.text = $data.brokerage.toFixed(2);
+        this.amount.text = Tools.FormatMoney($data.brokerage, 4);
         this.time.text = $data.createTime;
         switch ($data.state) {
             case "PENDING":

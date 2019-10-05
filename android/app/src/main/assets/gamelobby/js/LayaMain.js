@@ -22,22 +22,17 @@ var LayaMain = /** @class */ (function () {
          */
         UIConfig.closeDialogOnSide = false;
         Laya.Dialog.manager.closeEffectHandler = new Laya.Handler(null, PageManager.closeDlg);
+        Laya.Dialog.manager.popupEffectHandler = new Laya.Handler(null, PageManager.openDlg);
         Laya.stage.scaleMode = Laya.Stage.SCALE_FIXED_HEIGHT;
         Laya.stage.screenMode = Laya.Stage.SCREEN_HORIZONTAL;
         Laya.stage.bgColor = "#000000";
-        Laya.stage.on(Laya.Event.RESIZE, this, this.onResize);
+        Laya.stage.on(Laya.Event.RESIZE, this, this.onResize, ["laya-resize"]);
         window.document.addEventListener("message", this.handleIFrameAction, false);
         window.addEventListener("message", this.handleIFrameAction, false);
         this.root_node = new Laya.Sprite();
         Laya.stage.addChild(this.root_node);
         //Sound
         SoundPlayer.initSoundSetting();
-        //用于清理缓存
-        var flag = SaveManager.getObj().get("clearFlag", null);
-        if (!flag) {
-            SaveManager.getObj().clearAll();
-            SaveManager.getObj().save("clearFlag", "926");
-        }
         //UI
         PageManager.showPage([
             "res/atlas/ui/login.atlas",
@@ -49,7 +44,7 @@ var LayaMain = /** @class */ (function () {
     LayaMain.getInstance = function () {
         return LayaMain.obj;
     };
-    LayaMain.prototype.onResize = function () {
+    LayaMain.prototype.onResize = function (e) {
         ToolsApp.initAppData();
         if (AppData.IS_NATIVE_APP) {
             //设置Laya提供的worker.js路径
@@ -135,7 +130,7 @@ var LayaMain = /** @class */ (function () {
                     Laya.SoundManager.stopAll();
                     break;
                 case "windowResize":
-                    this.onResize();
+                    this.onResize("window-resize");
                     break;
                 case "appData":
                     for (var key in message) {

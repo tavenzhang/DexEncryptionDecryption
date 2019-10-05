@@ -6,6 +6,7 @@ import NetUitls from "../../Common/Network/TCRequestUitls";
 import rootStore from "./RootStore";
 import CodePush from 'react-native-code-push'
 import {SoundHelper} from "../../Common/JXHelper/SoundHelper";
+import FileTools from "../../Common/Global/FileTools";
 
 export default class DataStore {
 
@@ -491,6 +492,154 @@ export default class DataStore {
             }
         })
     }
+
+    @action
+    onUpdateGameData(gameList){
+        // TW_Log("( _keyboard---onFinishGameList==TW_Store.dataStore.appGameListM=" ,gameM);
+        let gameItem= gameList[gameList.length-1];
+        //排除第三方平台数据的影响
+        if(gameItem&&gameItem.classify==2) {
+            for (let item of gameList) {
+                if(item.classify==2){
+                    for(let dataKey in TW_Store.dataStore.appGameListM) {
+                        let temKey = dataKey;
+                        if (dataKey.indexOf("app_") > -1) {
+                            temKey = dataKey.replace("app_", "");
+                        }
+                        let tempUrl=item.url;
+                        tempUrl = item.url.replace("../", "");
+                        let sunStr= tempUrl.substr(tempUrl.length-1);
+                        if(sunStr=="/"){
+                            tempUrl =tempUrl.substring(0,tempUrl.length-1);
+                        }
+                        var index = tempUrl.lastIndexOf("/");
+                        if(index>-1){
+                            tempUrl =tempUrl.substr(index+1);
+                        }
+                        TW_Log("( _keyboard---onFinishGameList==dataKey--index=="+index+"---tempUr=="+tempUrl);
+                        if (tempUrl == temKey) {
+                            TW_Store.dataStore.appGameListM[dataKey].alias = TW_Store.dataStore.appGameListM[dataKey].id = item.alias;
+                            TW_Store.dataStore.appGameListM[dataKey].gameName = item.name
+                        } else {
+                            // TW_Log("( _keyboard---onFinishGameList=note=dataKey--"+dataKey, TW_Store.dataStore.appGameListM[dataKey]);
+                        }
+                    }
+                }
+            }
+            this.onFlushGameData();
+        }
+    }
+
+
+    startLoadGame = (gamedata = null) => {
+        if (gamedata) {
+            TW_SubGameDownLoaderData.downList.push(gamedata)
+        }
+        if (!TW_SubGameDownLoaderData.isLoading) {
+            if (TW_SubGameDownLoaderData.downList.length > 0) {
+                TW_SubGameDownLoaderData.currentDownData =  TW_SubGameDownLoaderData.downList.shift();
+            }
+            let downData = TW_SubGameDownLoaderData.currentDownData;
+            if (downData) {
+                let gameData=this.getStoreGameDataByAlias(downData.id);//检测一下游戏是否已经下载 防止重复下载
+                TW_Log(`startUpdate---startLoadGame--`,gameData);
+                if(gameData&&gameData.bupdate){
+                    TW_SubGameDownLoaderData.isLoading = true;
+                    // JXToast.showShortCenter(`${downData.name} 开始下载！`)
+                    let loadUrl = downData.source;
+                    if (loadUrl && loadUrl.indexOf("http") > -1) {
+                        loadUrl = loadUrl;
+                    } else {
+                        loadUrl = TW_Store.bblStore.gameDomain + "/" + downData.name + "/" + downData.name;
+                    }
+                    TW_Log("(FileTools--startLoadGame--==this.state.updateList==item--this.loadQueue.length--loadUrl=" + loadUrl, downData);
+                    FileTools.downloadFile(loadUrl, TW_Store.bblStore.tempGameZip, downData, this.onLoadZipFish, this.onLoadProgress);
+                }
+            }
+        }
+    }
+
+
+    onLoadProgress = (ret) => {
+        //{//             "gameId":30,        //游戏id-----可选//             "alias":"hhdz",     //游戏别名--------唯一标识，必填//             "percent":0.7       //当前下载进度
+        //         }
+        let data = TW_Store.dataStore.appGameListM[ret.param.name];
+        let dataList = []
+        if (data) {
+            if (ret.percent < 1) {
+                dataList.push({"alias": ret.param.id, percent: ret.percent})
+            }
+        }
+        if(TW_SubGameDownLoaderData.downList.length>0)
+        {
+            for (let item of TW_SubGameDownLoaderData.downList){
+                if(item){
+                    dataList.push({"alias": item.id, percent: 0.00})
+                }
+            }
+            TW_Log("TW_SubGameDownLoaderData-----dataList-",dataList)
+        }
+        TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.updateProgress, {data: dataList}));
+    }
+
+
+    onLoadZipFish = (ret) => {
+
+        TW_Log("FileTools------ret===this.loadQueue.length==" +TW_SubGameDownLoaderData.downList.length, ret);
+        if (ret.rs) {
+            TW_Store.commonBoxStore.isShow = false;
+            let data = TW_Store.dataStore.appGameListM[ret.param.name];
+            data.current_version = data.newVersion;
+            data.bupdate = false;
+            TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.updateProgress, {
+                data: [{
+                    "alias": ret.param.id,
+                    percent: 1
+                }]
+            }));
+            this.onSaveGameData();
+        } else {
+            TW_Store.commonBoxStore.isShow = false;
+        }
+        TW_SubGameDownLoaderData.isLoading=false;
+        TW_SubGameDownLoaderData.currentDownData=null;
+        FileTools.currentDownFileId=0;
+        this.startLoadGame();
+    }
+
+    onSaveGameData = () => {
+        TW_Log("FileTools------onSaveGameData===", TW_Store.dataStore.appGameListM);
+        TW_Data_Store.setItem(TW_DATA_KEY.gameList, JSON.stringify(TW_Store.dataStore.appGameListM))
+    }
+
+    getStoreGameDataByAlias=(gameId)=>{
+        let gameData = null
+        let gameM = TW_Store.dataStore.appGameListM;
+        let retList = [];
+
+        for (let dataKey in gameM) {
+            if (gameM[dataKey].id == gameId) {
+                retList.push(gameM[dataKey]);
+            }
+        }
+        if (retList.length > 1) {
+            for (let item of retList) {
+                if (item.name && item.name.indexOf("app") > -1) {
+                    gameData = item;
+                    break;
+                }
+            }
+        } else {
+            gameData = retList[0]
+        }
+        if(gameData){
+            return gameData;
+        }else{
+            return null;
+        }
+    }
+
+
 
     @action
     getHomeWebUri() {

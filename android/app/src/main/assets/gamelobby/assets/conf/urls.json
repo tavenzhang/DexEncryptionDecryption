@@ -3,7 +3,7 @@
         "home": "http://sqp01game.sit01.com/gamelobby/home.html",
         "backlobby": "http://sqp01game.sit01.com/gamelobby/index.html",
         "apihome": "http://sqp01game.sit01.com/api/v1",
-        "apihomeX": "http://192.168.11.192:8010/api/v1",
+        "apihomeX": "http://192.168.11.77:8084/api/v1",
         "g_account": "http://sqp01game.sit01.com/g_recharge/?module=account",
         "g_recharge": "http://sqp01game.sit01.com/g_recharge/?module=recharge",
         "g_redraw": "http://sqp01game.sit01.com/g_recharge/?module=redraw",
@@ -112,6 +112,7 @@
         "logapi": "/app/log/",
         "balanceInfo": "/balance/me/recoverTotalBalance",
         "checkOtherGameErr": "/gamecenter/player/game/userClassifyGameExists",
-        "setnickname": "/gamecenter/player/user/updateUserNiceName/"
+        "setnickname": "/gamecenter/player/user/updateUserNiceName/",
+        "cdnUrlByBrandID": "/cms/internal/getCdnUrl/byBrand/"
     }
 }
