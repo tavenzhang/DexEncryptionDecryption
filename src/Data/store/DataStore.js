@@ -570,6 +570,15 @@ export default class DataStore {
                 dataList.push({"alias": ret.param.id, percent: ret.percent})
             }
         }
+        if(TW_SubGameDownLoaderData.downList.length>0)
+        {
+            for (let item of TW_SubGameDownLoaderData.downList){
+                if(item){
+                    dataList.push({"alias": item.id, percent: 0.00})
+                }
+            }
+            TW_Log("TW_SubGameDownLoaderData-----dataList-",dataList)
+        }
         TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.updateProgress, {data: dataList}));
     }
 

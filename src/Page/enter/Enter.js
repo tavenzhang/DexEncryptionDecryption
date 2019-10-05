@@ -105,9 +105,9 @@ export default class Enter extends Component {
               }
             }
             if(TW_SubGameDownLoaderData.downList.length>0){
-                TW_Store("TW_SubGameDownLoaderData-----Active-",TW_SubGameDownLoaderData)
+                TW_Log("TW_SubGameDownLoaderData-----Active-",TW_SubGameDownLoaderData)
                 TW_Store.dataStore.startLoadGame();
-            }
+             }
             this.flage = false ;
         }else if(nextAppState != null && nextAppState === 'background'){
             TW_Store.dataStore.log += "\nAppStateChange-background\n" ;
@@ -128,7 +128,7 @@ export default class Enter extends Component {
                 TW_SubGameDownLoaderData.downList.unshift(TW_SubGameDownLoaderData.currentDownData);
                 TW_SubGameDownLoaderData.currentDownData=null;
                 TW_SubGameDownLoaderData.isLoading = false
-                TW_Store("TW_SubGameDownLoaderData-----unActive-",TW_SubGameDownLoaderData)
+                TW_Log("TW_SubGameDownLoaderData-----unActive-",TW_SubGameDownLoaderData)
             }
         }
     }
