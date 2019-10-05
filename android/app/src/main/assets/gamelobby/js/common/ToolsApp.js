@@ -34,6 +34,8 @@ var ToolsApp = /** @class */ (function () {
             var urlJson = AppData.NATIVE_DATA.urlJSON;
             var localUrlJson = ConfObjRead.getConfUrl();
             Common.clientId = AppData.NATIVE_DATA.clientId;
+            Common.brandId = AppData.NATIVE_DATA.brandID;
+            Debug.log("initID>>>", Common.clientId, Common.brandId);
             if (urlJson) {
                 for (var key in urlJson) {
                     if (localUrlJson[key]) {
@@ -45,6 +47,10 @@ var ToolsApp = /** @class */ (function () {
                     }
                 }
             }
+        }
+        //
+        if (!GameUtils.isNativeApp) {
+            // ConfObjRead.getConfUrl().url = ConfObjRead.getConfUrl().urldev;//dev环境(debugxxx)
         }
     };
     return ToolsApp;

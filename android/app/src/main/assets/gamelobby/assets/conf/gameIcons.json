@@ -126,6 +126,11 @@
             "desc": "航海宝藏",
             "alias": "HHBZ",
             "anim_sk": "./assets/animation/icons/hanghaibaozang/hhbz.sk"
+        },
+        {
+            "desc": "奔驰宝马",
+            "alias": "bcbm",
+            "anim_sk": "./assets/animation/icons/bcbm/bcbm.sk"
         }
     ],
     "defaultIcon": "ddz"

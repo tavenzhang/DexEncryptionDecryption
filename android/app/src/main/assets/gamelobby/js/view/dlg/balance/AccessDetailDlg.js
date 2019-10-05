@@ -39,6 +39,7 @@ var view;
                     this.itemList.itemRender = view.dlg.balance.DetailItemView;
                     this.itemList.spaceY = 6;
                     this.itemList.renderHandler = Laya.Handler.create(this, this.renderItems, null, false);
+                    this.itemList.array = null;
                     this.descGroup.visible = false;
                     this.descBg.mouseEnabled = true;
                     this.mkmc.size(Laya.stage.width, Laya.stage.height);

@@ -130,6 +130,21 @@ var PageManager = /** @class */ (function () {
         // }));
     };
     /**
+     * 自定义弹窗打开效果
+     * @param dlg
+     */
+    PageManager.openDlg = function (dlg) {
+        var scl = 0.8;
+        var ix = Laya.stage.width - dlg.width * scl >> 1;
+        var iy = Laya.stage.height - dlg.height * scl >> 1;
+        var tox = Laya.stage.width - dlg.width >> 1;
+        var toy = Laya.stage.height - dlg.height >> 1;
+        dlg.scale(scl, scl);
+        dlg.alpha = 0.5;
+        dlg.pos(ix, iy);
+        Laya.Tween.to(dlg, { x: tox, y: toy, scaleX: 1, scaleY: 1, alpha: 1 }, 150, Laya.Ease.cubicOut);
+    };
+    /**
      * @param assets 依赖资源列表
      * @param dlgClass 弹窗类
      * @param params 参数

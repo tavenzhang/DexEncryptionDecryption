@@ -22,17 +22,21 @@ var view;
             return _this;
         }
         UpdateView.prototype.initView = function () {
-            this.width = Laya.stage.width;
-            var offset = this.getScreencOffset(28, 78);
-            this.logo.x = offset;
-            this.serviceBtn.right = offset;
-            this.logoClip.x = this.width >> 1;
+            this.setLayout();
             this.logoClip.mouseEnabled = false;
             this.progressTxt.text = "正在检查游戏是否有更新...";
             this.progress.value = 0;
             this.serviceBtn.on(Laya.Event.CLICK, this, this.serviceClick);
             //
             this.logo.skin = "../brand/login_icon.png";
+        };
+        UpdateView.prototype.setLayout = function () {
+            this.width = Laya.stage.width;
+            this.infoBar.width = this.width;
+            var offset = this.getScreencOffset(28, 78);
+            this.logo.x = offset;
+            this.serviceBtn.right = offset;
+            this.logoClip.x = this.width >> 1;
         };
         UpdateView.prototype.serviceClick = function () {
             window.top.postMessage(JSON.stringify({ action: "game_custom" }), "*");

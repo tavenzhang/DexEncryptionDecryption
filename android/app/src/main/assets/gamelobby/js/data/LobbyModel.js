@@ -44,6 +44,28 @@ var LobbyModel = /** @class */ (function () {
         });
     };
     /**
+     * 获取cdnUrl,用于三方平台icon加载
+     * @param caller
+     * @param callback
+     */
+    LobbyModel.reqCdnUrl = function (caller, callback) {
+        var _this = this;
+        LayaMain.getInstance().showCircleLoading();
+        if (!Common.brandId) {
+            console.error("brandId异常");
+        }
+        var url = ConfObjRead.httpCmd.cdnUrlByBrandID + Common.brandId;
+        HttpRequester.getHttpData(url, this, function (suc, jobj) {
+            if (caller && callback)
+                callback.call(caller, suc);
+            if (suc && jobj) {
+                if (jobj.http)
+                    _this.cdnUrl = jobj.http.response;
+                console.log("cdn:>>>", _this.cdnUrl);
+            }
+        });
+    };
+    /**
      * 跳转三方游戏
      * @param vo
      */
@@ -287,6 +309,8 @@ var LobbyModel = /** @class */ (function () {
     LobbyModel.classifyPool = {};
     //缓存游戏图标标记
     LobbyModel.cacheIconMark = "gameIcon";
+    //用于三方平台icon加载的cdnurl
+    LobbyModel.cdnUrl = null;
     return LobbyModel;
 }());
 //# sourceMappingURL=LobbyModel.js.map
