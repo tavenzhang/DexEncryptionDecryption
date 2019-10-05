@@ -32,6 +32,7 @@ import JXDomainsHelper from "../../Common/JXHelper/JXDomainsHelper";
 import {AppConfig} from "../../config/appConfig";
 import {JX_PLAT_INFO} from "../asset";
 import {SoundHelper} from "../../Common/JXHelper/SoundHelper";
+import FileTools from "../../Common/Global/FileTools";
 let domainsHelper = new JXDomainsHelper();
 let appInfoStore = TW_Store.appStore;
 @observer
@@ -95,7 +96,6 @@ export default class Enter extends Component {
                           SoundHelper.startBgMusic(true)
                           TW_Store.dataStore.onFlushGameData();
                       },1000)
-
                   }else{
                       SoundHelper.onCheckPalyMusic();
                       TW_Store.dataStore.onFlushGameData();
@@ -104,7 +104,10 @@ export default class Enter extends Component {
                   TW_OnValueJSSubGame(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle,{data:1}));
               }
             }
-
+            if(TW_SubGameDownLoaderData.downList.length>0){
+                TW_Store("TW_SubGameDownLoaderData-----Active-",TW_SubGameDownLoaderData)
+                TW_Store.dataStore.startLoadGame();
+            }
             this.flage = false ;
         }else if(nextAppState != null && nextAppState === 'background'){
             TW_Store.dataStore.log += "\nAppStateChange-background\n" ;
@@ -119,6 +122,13 @@ export default class Enter extends Component {
                 }
             }else{
                 TW_OnValueJSSubGame(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle,{data:0}));
+            }
+            if(TW_SubGameDownLoaderData.isLoading){
+                FileTools.clearCurrentDownJob();
+                TW_SubGameDownLoaderData.downList.unshift(TW_SubGameDownLoaderData.currentDownData);
+                TW_SubGameDownLoaderData.currentDownData=null;
+                TW_SubGameDownLoaderData.isLoading = false
+                TW_Store("TW_SubGameDownLoaderData-----unActive-",TW_SubGameDownLoaderData)
             }
         }
     }
