@@ -12,6 +12,7 @@ import {
 
 import Moment from 'moment'
 import CodePush from 'react-native-code-push'
+import DeviceInfo from 'react-native-device-info';
 import * as Progress from 'react-native-progress';
 import {observer} from 'mobx-react'
 import Storage from '../../Common/Global/TCStorage'
@@ -57,16 +58,18 @@ export default class Enter extends Component {
         //如果是android 在某些机器获取不到真实的SCREEN_H SCREEN_W 需要如下处理
         try {
             if (NativeModules.ExtraDimensions) {
-                TW_Log("ExtraDimensions--getRealWindowHeight--"  + ExtraDimensions.getRealWindowHeight(),SCREEN_H)
-                TW_Log("ExtraDimensions--getRealWindowWidth--"  + ExtraDimensions.getRealWindowWidth(),SCREEN_W)
-                TW_Log("ExtraDimensions--getSoftMenuBarHeight--"  + ExtraDimensions.getSoftMenuBarHeight())
-                TW_Log("ExtraDimensions--getSmartBarHeight--"  + ExtraDimensions.getSmartBarHeight())
-                TW_Log("ExtraDimensions--isSoftMenuBarEnabled--"  + ExtraDimensions.isSoftMenuBarEnabled())
-                 let rH = ExtraDimensions.getRealWindowHeight();
-                 let rW = ExtraDimensions.getRealWindowWidth();
-                 JX_PLAT_INFO.SCREEN_H= SCREEN_H = rH && rH > 0 ? rH : SCREEN_H;
-                 JX_PLAT_INFO.SCREEN_W= SCREEN_W = rW && rW > 0 ? rW : SCREEN_W;
-                 TW_Store.appStore.screenW=rW;
+                TW_Log("ExtraDimensions--getRealWindowHeight--" + ExtraDimensions.getRealWindowHeight(), SCREEN_H)
+                TW_Log("ExtraDimensions--getRealWindowWidth--" + ExtraDimensions.getRealWindowWidth(), SCREEN_W)
+                TW_Log("ExtraDimensions--getSoftMenuBarHeight--" + ExtraDimensions.getSoftMenuBarHeight())
+                TW_Log("ExtraDimensions--getSmartBarHeight--" + ExtraDimensions.getSmartBarHeight())
+                TW_Log("ExtraDimensions--isSoftMenuBarEnabled--" + ExtraDimensions.isSoftMenuBarEnabled())
+                let rH = ExtraDimensions.getRealWindowHeight();
+                let rW = ExtraDimensions.getRealWindowWidth();
+                const deviceModel = DeviceInfo.getModel();
+                TW_Log("Model--" + deviceModel)
+                JX_PLAT_INFO.SCREEN_H = SCREEN_H = rH && rH > 0 ? rH : SCREEN_H;
+                JX_PLAT_INFO.SCREEN_W = SCREEN_W = rW && rW > 0 ? rW : SCREEN_W;
+                TW_Store.appStore.screenW = this.validateAndroidModel(deviceModel) ? rW - ExtraDimensions.getStatusBarHeight() : rW;
             }
         } catch (e) {
             TW_Store.dataStore.log+="\nExtraDimensions--error"+e;
@@ -521,6 +524,15 @@ export default class Enter extends Component {
         )
     }
 
+    validateAndroidModel=(deviceModel)=> {
+        let modeList = ["Redmi 6 Pro"]
+        if (!G_IS_IOS) {
+            if (modeList.indexOf(deviceModel) > -1) {
+                return true
+            }
+        }
+        return false
+    }
 }
 
 

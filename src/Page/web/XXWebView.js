@@ -323,6 +323,7 @@ export default class XXWebView extends Component {
                         case  "closeApp":
                             TN_ExitApp();
                             break;
+                            break;
                         case "goToPay"://打开相关app
                             TCUserOpenPayApp.getInstance().openAppByType(message.param);
                             break;
