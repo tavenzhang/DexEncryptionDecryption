@@ -131,6 +131,8 @@
 			isa = PBXBuildRule;
 			compilerSpec = com.apple.compilers.proxy.script;
 			fileType = pattern.proxy;
+			inputFiles = (
+			);
 			isEditable = 1;
 			outputFiles = (
 			);
@@ -140,6 +142,8 @@
 			isa = PBXBuildRule;
 			compilerSpec = com.apple.compilers.proxy.script;
 			fileType = pattern.proxy;
+			inputFiles = (
+			);
 			isEditable = 1;
 			outputFiles = (
 			);
@@ -149,6 +153,8 @@
 			isa = PBXBuildRule;
 			compilerSpec = com.apple.compilers.proxy.script;
 			fileType = pattern.proxy;
+			inputFiles = (
+			);
 			isEditable = 1;
 			outputFiles = (
 			);
@@ -2592,6 +2598,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "card-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				VALID_ARCHS = "arm64 arm64e";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -2658,6 +2665,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "card-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
+				VALID_ARCHS = "arm64 arm64e";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

@@ -10,6 +10,7 @@ import Base64 from "../JXHelper/Base64";
 import CameraRoll from "@react-native-community/cameraroll";
 export default class FileTools {
 
+    static currentDownFileId=0;
 
     static downloadFile(formUrl, downloadDest, param, onSucFuc, onProgress) {
 
@@ -18,7 +19,7 @@ export default class FileTools {
         const options = {
             fromUrl: formUrl,
             toFile: downloadDest,
-            background: false,
+            background: G_IS_IOS ? false:true,
             begin: (res) => {
                 // this.log+="==>downloadFile--begin="+res;
                 //{statusCode: 404, headers: {…}, jobId: 1, contentLength: 153
@@ -56,6 +57,7 @@ export default class FileTools {
         };
         try {
             const ret = RNFS.downloadFile(options);
+            FileTools.currentDownFileId = ret ? ret.jobId:0;
             this.log += "==>downloadFile-=" + options;
             ret.promise.then(res => {
                 TW_Log('FileTools---downloadFile---sucess file://' + downloadDest, res);
@@ -74,6 +76,8 @@ export default class FileTools {
                 }
             }).catch(err => {
                 TW_Log('FileTools --downloadFile --fail err', err);
+            }).finally(()=>{
+                FileTools.currentDownFileId = 0;
             });
         } catch (e) {
             TW_Log("FileTools---downloadFile--error", error);
@@ -112,6 +116,9 @@ export default class FileTools {
             })
     }
 
+    static  clearCurrentDownJob(){
+        RNFS.stopDownload(FileTools.currentDownFileId);
+    }
 
     async exist(target_dir) {
         let target_dir_exist = await RNFS.exists(target_dir);

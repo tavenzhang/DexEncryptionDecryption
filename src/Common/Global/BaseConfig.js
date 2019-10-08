@@ -27,6 +27,7 @@ global.TW_SplashScreen_HIDE=()=>{
     //     Orientation.lockToLandscapeLeft();
     // }
 };
+global.TW_SubGameDownLoaderData={isLoading:false,downList:[],currentDownData:null}
 
 import G_Native from "./G_Native.js";
 import  * as animation  from "./G_LayoutAnimaton.js"

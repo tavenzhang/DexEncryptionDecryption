@@ -14,7 +14,12 @@ var GameMain = /** @class */ (function () {
         window.addEventListener("message", this.nativeMess, false);
         //
         Laya.loader.load("res/atlas/update.atlas", Laya.Handler.create(this, this.initView));
+        Laya.stage.on(Laya.Event.RESIZE, this, this.resizeView);
     }
+    GameMain.prototype.resizeView = function () {
+        if (this.view)
+            this.view.setLayout();
+    };
     GameMain.prototype.initView = function () {
         this.view = new view.UpdateView();
         Laya.stage.addChild(this.view);

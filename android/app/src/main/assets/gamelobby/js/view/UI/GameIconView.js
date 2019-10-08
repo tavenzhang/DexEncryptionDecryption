@@ -116,7 +116,7 @@ var view;
                 if (vo.classify == GameType.other) { //三方游戏直接读取网络图标
                     this.resetView();
                     this.normIcon.visible = true;
-                    LoadTool.loadImage(this.normIcon, vo.icon, 200, 200);
+                    LoadTool.loadImage(this.normIcon, LobbyModel.cdnUrl + vo.icon, 200, 200);
                     if (GameState[vo.state] == GameState.PAUSE) {
                         this.pauseIcon.visible = true;
                         this.normIcon.gray = true;

@@ -210,6 +210,8 @@ var HttpRequester = /** @class */ (function () {
                 catch (e) {
                     jobj = s;
                 }
+                if (!jobj)
+                    jobj = hr; //兼容数据不是json格式的情况
                 suc = true;
             }
             else {
@@ -265,8 +267,10 @@ var HttpRequester = /** @class */ (function () {
                 return;
             }
         }
+        //针对cdnurl接口特殊处理,因为这个接口的数据在response中,和app那边的json数据模式不兼容
+        var cndId = urls.indexOf("getCdnUrl");
         //app 使用本地app 代理请求 网页使用原来的
-        if (AppData.IS_NATIVE_APP) {
+        if (AppData.IS_NATIVE_APP && cndId == -1) {
             var httpData = { hashUrl: hashUrl, caller: caller, callback: callback };
             this.httpRequestList.push(httpData);
             PostMHelp.game_Http({ url: url, header: header, data: data, metod: metod, restype: restype, hashUrl: hashUrl });

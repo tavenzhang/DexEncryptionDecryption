@@ -12,14 +12,19 @@ const ALERT_VIEW_SIZE = {
 
 const propTypes = {
     onPressConfirm: PropTypes.func.isRequired,
-    onPressCancel: PropTypes.func.isRequired
+    onPressCancel: PropTypes.func.isRequired,
+    isOpenAddPay:PropTypes.func.isRequired,
 };
 
-const defaultProps = {};
+const defaultProps = {
+    isOpenAddPay:false
+};
 
 export default class ExitGameAlertView extends Component {
+
     render() {
-        const { onPressConfirm, onPressCancel } = this.props;
+        const { onPressConfirm, onPressCancel,isOpenAddPay } = this.props;
+        let hintStr =isOpenAddPay ? "退出当前游戏并前往充值页面吗？":"确定退出当前游戏?"
         return (
             <View style={styles.viewExit}>
                 <ImageBackground
@@ -27,7 +32,7 @@ export default class ExitGameAlertView extends Component {
                     style={styles.imgBg}
                     resizeMode={"contain"}>
                     <View style={styles.viewMsg}>
-                        <Text style={styles.txtMsg}>确定退出当前游戏</Text>
+                        <Text style={styles.txtMsg}>{hintStr}</Text>
                     </View>
                     <View style={styles.viewOptions}>
                         <TCButton onClick={() => onPressConfirm && onPressConfirm()}>

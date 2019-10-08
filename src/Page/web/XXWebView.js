@@ -16,6 +16,7 @@ import {G_LayoutAnimaton} from "../../Common/Global/G_LayoutAnimaton";
 import Tools from "../../Common/View/Tools";
 import TCUserOpenPayApp from "../UserCenter/UserPay/TCUserOpenPayApp";
 import {SoundHelper} from "../../Common/JXHelper/SoundHelper";
+import {platInfo} from "../../config/appConfig";
 const HTTP_GAME_LIST = "/gamecenter/player/game/list";
 const HTTP_ACCOUNT = "/webapi/account/users/current";
 
@@ -30,7 +31,6 @@ export default class XXWebView extends Component {
             isShowSharebox: false,
             flash: 1
         }
-        this.loadQueue = [];
         this.isLoading = false;
         this.isShow = false;
         this.isShowKeyBoard = false
@@ -100,30 +100,8 @@ export default class XXWebView extends Component {
             }
             TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.onBlur, {}));
         }
-
     }
 
-    onFinishGameList = (gameList) => {
-        // TW_Log("( _keyboard---onFinishGameList==" ,gameList);
-        // TW_Log("( _keyboard---onFinishGameList==TW_Store.dataStore.appGameListM=" ,gameM);
-        for (let item of gameList) {
-            for (let dataKey in TW_Store.dataStore.appGameListM) {
-                let temKey = dataKey;
-
-                if (dataKey.indexOf("app_") > -1) {
-                    temKey = dataKey.replace("app_", "");
-                }
-                if (item.url.indexOf(temKey) > -1) {
-                    TW_Store.dataStore.appGameListM[dataKey].alias = TW_Store.dataStore.appGameListM[dataKey].id = item.alias;
-                    TW_Store.dataStore.appGameListM[dataKey].gameName = item.name
-                    //TW_Log("( _keyboard---onFinishGameList==dataKey--"+dataKey, TW_Store.dataStore.appGameListM[dataKey]);
-                } else {
-                    // TW_Log("( _keyboard---onFinishGameList=note=dataKey--"+dataKey, TW_Store.dataStore.appGameListM[dataKey]);
-                }
-            }
-        }
-        this.onFlushGameData();
-    }
 
     onFlushGameData = () => {
         TW_Store.dataStore.onFlushGameData();
@@ -145,14 +123,10 @@ export default class XXWebView extends Component {
             let index = url.indexOf("?");
             url = url.substr(index);
             if (data.bupdate) {
-                this.loadQueue.push(data);
-                if (!this.isLoading) {
-                    this.startLoadGame()
-                }
+                    TW_Store.dataStore.startLoadGame(data);
             } else {
                 url = TW_Store.dataStore.getGameRootDir() + "/" + data.name + "/" + url
             }
-
         } else {
             if (url && url.indexOf("../") > -1) {
                 url = url.replace("../", "");
@@ -165,105 +139,6 @@ export default class XXWebView extends Component {
         }
 
         return `${url}&app=${G_IS_IOS ? "ios" : "android"}`;
-    }
-
-
-    startLoadGame = (gamedata = null) => {
-        if (gamedata) {
-            this.loadQueue.push(gamedata)
-        }
-        if (!this.isLoading) {
-            let downData = null;
-            if (this.loadQueue.length > 0) {
-                downData = this.loadQueue.shift();
-            }
-
-            if (downData) {
-
-               let gameData=this.getStoreGameDataByAlias(downData.id);//检测一下游戏是否已经下载 防止重复下载
-                TW_Log(`startUpdate---startLoadGame--`,gameData);
-                if(gameData&&gameData.bupdate){
-                    this.isLoading = true;
-                    // JXToast.showShortCenter(`${downData.name} 开始下载！`)
-                    let loadUrl = downData.source;
-                    if (loadUrl && loadUrl.indexOf("http") > -1) {
-                        loadUrl = loadUrl;
-                    } else {
-                        loadUrl = TW_Store.bblStore.gameDomain + "/" + downData.name + "/" + downData.name;
-                    }
-                    TW_Log("(FileTools--startLoadGame--==this.state.updateList==item--this.loadQueue.length--loadUrl=" + loadUrl, downData);
-                    FileTools.downloadFile(loadUrl, TW_Store.bblStore.tempGameZip, downData, this.onLoadZipFish, this.onLoadProgress);
-                }
-            }
-        }
-    }
-
-    getStoreGameDataByAlias=(gameId)=>{
-        let gameData = null
-        let gameM = TW_Store.dataStore.appGameListM;
-        let retList = [];
-
-        for (let dataKey in gameM) {
-            if (gameM[dataKey].id == gameId) {
-                retList.push(gameM[dataKey]);
-            }
-        }
-        if (retList.length > 1) {
-            for (let item of retList) {
-                if (item.name && item.name.indexOf("app") > -1) {
-                    gameData = item;
-                    break;
-                }
-            }
-        } else {
-            gameData = retList[0]
-        }
-        if(gameData){
-            return gameData;
-        }else{
-            return null;
-        }
-    }
-
-
-    onLoadProgress = (ret) => {
-        //{//             "gameId":30,        //游戏id-----可选//             "alias":"hhdz",     //游戏别名--------唯一标识，必填//             "percent":0.7       //当前下载进度
-        //         }
-        let data = TW_Store.dataStore.appGameListM[ret.param.name];
-        let dataList = []
-        if (data) {
-            if (ret.percent < 1) {
-                dataList.push({"alias": ret.param.id, percent: ret.percent})
-            }
-        }
-        this.onEvaleJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.updateProgress, {data: dataList}));
-    }
-
-
-    onLoadZipFish = (ret) => {
-        this.isLoading = false;
-        TW_Log("FileTools----onLoadZipFish--ret===this.loadQueue.length==" + this.loadQueue.length, ret)
-        if (ret.rs) {
-            TW_Store.commonBoxStore.isShow = false;
-            let data = TW_Store.dataStore.appGameListM[ret.param.name];
-            data.current_version = data.newVersion;
-            data.bupdate = false;
-            this.onEvaleJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.updateProgress, {
-                data: [{
-                    "alias": ret.param.id,
-                    percent: 1
-                }]
-            }));
-            this.onSaveGameData();
-        } else {
-            TW_Store.commonBoxStore.isShow = false;
-        }
-        this.startLoadGame();
-    }
-
-    onSaveGameData = () => {
-        TW_Log("FileTools------onSaveGameData===", TW_Store.dataStore.appGameListM);
-        TW_Data_Store.setItem(TW_DATA_KEY.gameList, JSON.stringify(TW_Store.dataStore.appGameListM))
     }
 
 
@@ -280,12 +155,12 @@ export default class XXWebView extends Component {
             file: TW_Store.dataStore.targetAppDir+ "/index.html",
             allowingReadAccessToURL: TW_Store.dataStore.targetAppDir,
             allowFileAccessFromFileURLs: TW_Store.dataStore.targetAppDir,
-            param:"?app=true"
+            param:`?app=true&&isDebug=${TW_Store.appStore.isSitApp||TW_Store.appStore.clindId==214}`
         };
 
         if (!G_IS_IOS) {
             source = {
-                uri: TW_Store.dataStore.targetAppDir+"/index.html"+"?app=true",
+                uri: TW_Store.dataStore.targetAppDir+"/index.html"+`?app=true&&isDebug=${TW_Store.appStore.isSitApp||TW_Store.appStore.clindId==214}`,
             };
         }
 
@@ -294,13 +169,14 @@ export default class XXWebView extends Component {
             let uri = "http://localhost:8081/android/app/src/main/assets/gamelobby/index.html?platform=ios&hash=7e5876ea5a240467db5670550b53411b&rm-" + this.rom
             source = {uri}
         }
-        TW_Log("targetAppDir----MainBundlePath-TW_Store.dataStore.isAppInited-----" + TW_Store.dataStore.isAppInited+"---TW_Store.appStore.deviceToken="+TW_Store.appStore.deviceToken, source);
+        TW_Log("targetAppDir----MainBundlePath-TW_Store.dataStore.isAppInited-----" + TW_Store.dataStore.isAppInited+"---TW_Store.appStore.deviceToken="+TW_Store.appStore.deviceToken, TW_Store.bblStore.getBrandUrl());
         if (!TW_Store.dataStore.isAppInited) {
             return null
         }
         let injectJs = `window.appData=${JSON.stringify({
             isApp: true,
             taven: "isOk",
+            brandID:platInfo.brand,
             brandUrl:TW_Store.bblStore.getBrandUrl(),
             clientId: TW_Store.appStore.clindId,
             urlJSON: TW_Store.bblStore.getUriConfig(),
@@ -447,20 +323,23 @@ export default class XXWebView extends Component {
                         case  "closeApp":
                             TN_ExitApp();
                             break;
+                            break;
+                        case "goToPay"://打开相关app
+                            TCUserOpenPayApp.getInstance().openAppByType(message.param);
+                            break;
                     }
                     break;
                 case "startUpdate":
                     //{action: "startUpdate", gameId: 28, alias: "xywz"}
-
-                    gameData=this.getStoreGameDataByAlias(message.alias)
+                    gameData=TW_Store.dataStore.getStoreGameDataByAlias(message.alias)
                     TW_Log(`startUpdate-----`,gameData);
                     if (gameData&&gameData.bupdate) {
-                            this.startLoadGame(gameData);
+                        TW_Store.dataStore.startLoadGame(gameData);
                     }
                     break;
                 case "JumpGame":
                     let data = JSON.parse(TW_Base64.decode(this.getJumpData(message.payload)));
-                    gameData=this.getStoreGameDataByAlias(data.alias)
+                    gameData=TW_Store.dataStore.getStoreGameDataByAlias(data.alias)
                     let isNeedLoad = false;
                     let isOrigan = false;
                     if (!gameData) {
@@ -566,7 +445,7 @@ export default class XXWebView extends Component {
                                 }
                                 if (message.url.indexOf(HTTP_GAME_LIST) > -1) {
                                     if (ret.rs) {
-                                        this.onFinishGameList(ret.content.datas)
+                                        TW_Store.dataStore.onUpdateGameData(ret.content.datas);
                                     }
                                 }
                                 if (message.url.indexOf(HTTP_ACCOUNT) > -1) {
@@ -650,9 +529,7 @@ export default class XXWebView extends Component {
             backButtonEnabled: navState.canGoBack,
             // title: navState.title,
             scalesPageToFit: false
-
         });
-
     };
 }
 

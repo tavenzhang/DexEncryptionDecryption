@@ -53,5 +53,6 @@
     "languageY": "en",
     "unknow_err": "txt_unknowerr",
     "addTween": true,
-    "testClientId": 31
+    "testClientId": 31,
+    "testBrandId": "sqp01"
 }
