@@ -221,7 +221,7 @@ var HttpRequester = /** @class */ (function () {
                     suc = true;
                 }
                 else {
-                    Debug.error("request-err:", url, header, jsonStr, hr.http);
+                    Debug.error("--->>>request-err:", "\n url:>>>" + url, "\n header:>>>" + header, "\n params:>>>" + jsonStr, "\n http:>>>" + hr.http);
                     if (status_1 == 401) {
                         LayaMain.onQuit();
                         Toast.showToast("登录过期,请重新登录");
@@ -303,27 +303,7 @@ var HttpRequester = /** @class */ (function () {
     };
     //获取加密相关的头部信息
     HttpRequester.getEncryHeader = function () {
-        var tsValue = Laya.Browser.now() + Common.gatewayInfo.tsDiff;
-        //按字典排序拼接数据
-        var value = "device_token=" + GameUtils.deviceToken;
-        value += "rid=" + MyUid.getUid();
-        value += "s=" + "WAP";
-        value += "ts=" + tsValue;
-        var sign = value + Common.gatewayInfo.sid;
-        if (window["_0x78550"]) {
-            sign += window["_0x78550"]();
-        }
-        else {
-            Toast.showToast("sec失效,请杀掉进程重启游戏");
-        }
-        var header = ["Content-Type", "application/json; charset=utf-8", "Accept", "*/*",
-            "device_token", GameUtils.deviceToken,
-            "rid", MyUid.getUid(),
-            "ts", tsValue,
-            "s", "WAP",
-            "sign", sign
-        ];
-        return header;
+        return window['SecretUtils'].getEncryHeader(Common.gatewayInfo.tsDiff, MyUid.getUid(), Common.gatewayInfo.sid, GameUtils.deviceToken);
     };
     HttpRequester.httpRequestList = [];
     return HttpRequester;
