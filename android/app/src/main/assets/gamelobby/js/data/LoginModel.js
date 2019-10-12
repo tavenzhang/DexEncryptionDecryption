@@ -336,6 +336,7 @@ var LoginModel = /** @class */ (function () {
         var url = ConfObjRead.getConfUrl().url.apihome + cmd;
         var jsonStr = JSON.stringify(data);
         var header = ["Content-Type", "application/json; charset=utf-8", "Accept", "*/*"];
+        header = HttpRequester.getEncryHeader();
         HttpRequester.doRequest(url, header, jsonStr, caller, callback, "post");
     };
     Object.defineProperty(LoginModel, "askCode", {
