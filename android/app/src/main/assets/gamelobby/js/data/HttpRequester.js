@@ -42,6 +42,7 @@ var HttpRequester = /** @class */ (function () {
         };
         var jd = JSON.stringify(data);
         var header = ["Content-Type", "application/json; charset=utf-8", "Accept", "*/*"];
+        header = this.getEncryHeader();
         this.doRequest(url, header, jd, caller, callback);
     };
     /**
@@ -57,6 +58,7 @@ var HttpRequester = /** @class */ (function () {
         url += ConfObjRead.getConfUrl().cmd.changePassword;
         url += "?access_token=" + Common.access_token;
         var header = ["Content-Type", "application/json; charset=utf-8", "Accept", "*/*"];
+        header = this.getEncryHeader();
         var ePwd = window['SecretUtils'].rsaEncodePWD(pwd);
         var eNpwd = window['SecretUtils'].rsaEncodePWD(newpwd);
         var data = {
@@ -82,6 +84,7 @@ var HttpRequester = /** @class */ (function () {
         url += ConfObjRead.getConfUrl().cmd.changePwdWithPhone;
         url += "?access_token=" + Common.access_token;
         var header = ["Content-Type", "application/json; charset=utf-8", "Accept", "*/*"];
+        header = this.getEncryHeader();
         var eNpwd = window['SecretUtils'].rsaEncodePWD(newpwd);
         var data = {
             isWep: !GameUtils.isNativeApp,
