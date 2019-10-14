@@ -41,9 +41,12 @@
 	<key>Affcode</key>
 	<string></string>
 	<key>JPushKey</key>
-	<string>e9f6454032a3f4936d80a82f</string>
-	<key>UmengKey</key>
-	<string>5b9f7642f43e486308000111</string>
+	<string>a09286d3570274effabdab10</string>
+	<key>AppSecret</key>
+	<dict>
+		<key>weixin</key>
+		<string>06f5151830e538583897772e402ae142</string>
+	</dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
