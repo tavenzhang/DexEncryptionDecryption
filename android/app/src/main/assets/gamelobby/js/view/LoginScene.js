@@ -54,7 +54,6 @@ var LoginScene = /** @class */ (function (_super) {
         GameData.joinLobbyType = JoinLobbyType.loginJoin;
         LoginModel.isLoaded = true;
         ToolsApp.copyNativeAdress();
-        LoginModel.readGatewayInfo();
         LobbyScene.initBgMusic();
         EventManager.register(EventType.INIT_LOGINVIEW, this, this.useTokenLogin);
         //检查维护公告
@@ -63,9 +62,11 @@ var LoginScene = /** @class */ (function (_super) {
     //------------------token登录流程-------------------------
     //使用token登录
     LoginScene.prototype.useTokenLogin = function () {
-        LoginModel.gatewayCount = 0;
-        LayaMain.getInstance().showCircleLoading(true);
-        LoginModel.loginByToken(this, this.tokenLoginResult);
+        var _this = this;
+        LoginModel.readGatewayInfo(false, this, function () {
+            LoginModel.gatewayCount = 0;
+            LoginModel.loginByToken(_this, _this.tokenLoginResult);
+        });
     };
     //token登录结果
     LoginScene.prototype.tokenLoginResult = function (suc, curToken) {
@@ -104,15 +105,18 @@ var LoginScene = /** @class */ (function (_super) {
     }; //end-----------------------------------------------------
     //检查使用哪种登录方式
     LoginScene.prototype.checkLoginType = function () {
-        this.progress.visible = false;
-        this.cacheInfo = SaveManager.getObj().get(SaveManager.KEY_LASTLOGININFO, null);
-        if (this.cacheInfo) { //如果有缓存账号
-            this.showFastStartView();
-        }
-        else {
-            this.showOtherLoginView();
-        }
-        this.initEvents();
+        var _this = this;
+        LoginModel.readGatewayInfo(false, this, function () {
+            _this.progress.visible = false;
+            _this.cacheInfo = SaveManager.getObj().get(SaveManager.KEY_LASTLOGININFO, null);
+            if (_this.cacheInfo) { //如果有缓存账号
+                _this.showFastStartView();
+            }
+            else {
+                _this.showOtherLoginView();
+            }
+            _this.initEvents();
+        });
     };
     //显示快速开始界面
     LoginScene.prototype.showFastStartView = function () {

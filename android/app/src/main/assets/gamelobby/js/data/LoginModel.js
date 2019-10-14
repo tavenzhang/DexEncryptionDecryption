@@ -32,11 +32,17 @@ var LoginModel = /** @class */ (function () {
     LoginModel.readGatewayInfo = function (isError, caller, callback, param) {
         var _this = this;
         if (isError === void 0) { isError = false; }
+        var args = [];
+        for (var _i = 4; _i < arguments.length; _i++) {
+            args[_i - 4] = arguments[_i];
+        }
         var info = SaveManager.getObj().get(SaveManager.KEY_GATEWAYINFO, "");
         if (!isError && info) {
             if (!Common.gatewayInfo)
                 Common.gatewayInfo = JSON.parse(info);
             eval(Common.gatewayInfo.sec); //将字符串转换为js代码
+            if (caller && callback)
+                callback.call.apply(callback, [caller, param].concat(args));
             return;
         }
         var header = ["Content-Type", "application/json; charset=utf-8", "Accept", "*/*",
@@ -54,10 +60,11 @@ var LoginModel = /** @class */ (function () {
                 eval(Common.gatewayInfo.sec);
                 SaveManager.getObj().save(SaveManager.KEY_GATEWAYINFO, JSON.stringify(Common.gatewayInfo));
                 if (caller && callback)
-                    callback.call(caller, param);
+                    callback.call.apply(callback, [caller, param].concat(args));
             }
             else {
                 Toast.showToast("init5数据异常");
+                console.error("init-err");
                 LayaMain.getInstance().showCircleLoading(false);
                 if (jobj.http.status == 428) {
                     _this.gatewayCount++;
@@ -155,6 +162,7 @@ var LoginModel = /** @class */ (function () {
     LoginModel.creatVisitorAccount = function (caller, callback) {
         LayaMain.getInstance().showCircleLoading(true);
         var header = ["Content-Type", "application/json; charset=utf-8", "Accept", "*/*", "device_token", GameUtils.deviceToken];
+        header = HttpRequester.getEncryHeader();
         var url = ConfObjRead.apihome + ConfObjRead.httpCmd.prequicklogin;
         HttpRequester.doRequest(url, header, null, this, function (suc, jobj) {
             var vo = null;
@@ -208,7 +216,8 @@ var LoginModel = /** @class */ (function () {
             }
             else {
                 if (jobj.http.status == 428) {
-                    _this.readGatewayInfo(true);
+                    console.error("游客登录失败,重新请求init5");
+                    _this.readGatewayInfo(true, _this, _this.visitorLogin, vo);
                 }
             }
         });
@@ -240,7 +249,8 @@ var LoginModel = /** @class */ (function () {
             }
             else {
                 if (jobj.http.status == 428) {
-                    _this.readGatewayInfo(true);
+                    console.error("登录登录失败,重新请求init5");
+                    _this.readGatewayInfo(true, _this, _this.wechatLogin, wxid);
                 }
             }
         });
@@ -276,7 +286,8 @@ var LoginModel = /** @class */ (function () {
             }
             else {
                 if (jobj.http.status == 428) {
-                    _this.readGatewayInfo(true);
+                    console.error("登录登录失败,重新请求init5");
+                    _this.readGatewayInfo(true, _this, _this.accountLogin, vo, caller, callback);
                 }
             }
         });
@@ -306,7 +317,8 @@ var LoginModel = /** @class */ (function () {
             }
             else {
                 if (jobj.http.status == 428) {
-                    _this.readGatewayInfo(true);
+                    console.error("账号vc登录失败,重新请求init5");
+                    _this.readGatewayInfo(true, _this, _this.accountLoginWithVC, vo, code, caller, callback);
                 }
             }
             if (caller && callback)
@@ -324,6 +336,7 @@ var LoginModel = /** @class */ (function () {
         var url = ConfObjRead.getConfUrl().url.apihome + cmd;
         var jsonStr = JSON.stringify(data);
         var header = ["Content-Type", "application/json; charset=utf-8", "Accept", "*/*"];
+        header = HttpRequester.getEncryHeader();
         HttpRequester.doRequest(url, header, jsonStr, caller, callback, "post");
     };
     Object.defineProperty(LoginModel, "askCode", {
