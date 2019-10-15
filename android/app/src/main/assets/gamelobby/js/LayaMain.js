@@ -13,26 +13,36 @@ var LayaMain = /** @class */ (function () {
     function LayaMain() {
         this.sceneLobby = null;
         LayaMain.obj = this;
+        //提前获取app给的急需参数
+        Debug.isapp = Tools.getQueryVariable("app") == "true";
+        var isDebug = Tools.getQueryVariable("isDebug") == "true";
+        if (isDebug)
+            Debug.showVconsole();
         Laya.init(0, Common.GM_SCREEN_H, Laya.WebGL);
         if (!GameUtils.isNativeApp) {
             // Laya.Stat.show(0, 0);
         }
-        /**
-         * 设置点击弹框背景后不关闭弹窗
-         */
+        //设置点击弹框背景后不关闭弹窗
         UIConfig.closeDialogOnSide = false;
+        //自定义弹出关闭效果
         Laya.Dialog.manager.closeEffectHandler = new Laya.Handler(null, PageManager.closeDlg);
         Laya.Dialog.manager.popupEffectHandler = new Laya.Handler(null, PageManager.openDlg);
         Laya.stage.scaleMode = Laya.Stage.SCALE_FIXED_HEIGHT;
         Laya.stage.screenMode = Laya.Stage.SCREEN_HORIZONTAL;
         Laya.stage.bgColor = "#000000";
-        Laya.stage.on(Laya.Event.RESIZE, this, this.onResize, ["laya-resize"]);
+        Laya.stage.on(Laya.Event.RESIZE, this, this.onResize);
         window.document.addEventListener("message", this.handleIFrameAction, false);
         window.addEventListener("message", this.handleIFrameAction, false);
         this.root_node = new Laya.Sprite();
         Laya.stage.addChild(this.root_node);
         //Sound
         SoundPlayer.initSoundSetting();
+        //用于清理缓存
+        var flag = SaveManager.getObj().get("clearFlag", null);
+        if (!flag) {
+            SaveManager.getObj().clearAll();
+            SaveManager.getObj().save("clearFlag", "926");
+        }
         //UI
         PageManager.showPage([
             "res/atlas/ui/login.atlas",
@@ -161,7 +171,9 @@ var LayaMain = /** @class */ (function () {
                     }
                     break;
                 case "flushMoney":
-                    LobbyModel.refreshMoney();
+                    if (LobbyModel.inLobby) {
+                        LobbyModel.refreshMoney();
+                    }
                     break;
                 case "openDebug":
                     Debug.showVconsole();
@@ -193,10 +205,12 @@ var LayaMain = /** @class */ (function () {
                     break;
                 case "lobbyResume": //从游戏返回到大厅
                     GameData.joinLobbyType = JoinLobbyType.gameBank;
+                    LobbyModel.inLobby = true;
                     lamain.onGameResume();
                     EventManager.dispath(EventType.GAMETOHALL);
                     break;
                 case "enterGame": { //进入游戏
+                    LobbyModel.inLobby = false;
                     EventManager.dispath(EventType.HALLTOGAME);
                     break;
                 }
@@ -285,35 +299,6 @@ var LayaMain = /** @class */ (function () {
             this.sceneLobby.onLoaded();
             LayaMain.getInstance().getRootNode().addChild(this.sceneLobby);
         }
-    };
-    /**
-     * 检查维护公告
-     * @param caller
-     * @param callBack 检查完毕后的后续逻辑函数回调
-     */
-    LayaMain.prototype.checkGameMaintenance = function (caller, callBack) {
-        //检查有无全局维护数据请求路径
-        if (AppData && AppData.NATIVE_DATA && AppData.NATIVE_DATA.brandUrl) {
-            //打开遮罩
-            LayaMain.getInstance().showCircleLoading(true);
-            //请求全局维护数据
-            HttpRequester.doRequest(AppData.NATIVE_DATA.brandUrl, null, null, this, function (suc, severdata) {
-                //关闭遮罩
-                LayaMain.getInstance().showCircleLoading(false);
-                //
-                if (suc && severdata.maintenanceState) {
-                    Debug.log("checkGameMaintenance", severdata);
-                    //显示维护公告
-                    view.dlg.GameUpdateNotice.show(severdata.maintenanceDto || {});
-                    return; //跳出
-                }
-                //未跳出执行后续逻辑
-                EventManager.dispath(EventType.INIT_LOGINVIEW);
-            }, "get", true);
-            return; //跳出
-        }
-        //未跳出执行后续逻辑
-        EventManager.dispath(EventType.INIT_LOGINVIEW);
     };
     /**
      * 显示loading

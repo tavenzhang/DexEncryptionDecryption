@@ -43,33 +43,36 @@ var LoginScene = /** @class */ (function (_super) {
     };
     LoginScene.prototype.loadProgress = function (value) {
         this.progress.value = value;
-        this.progressTxt.text = "正在加载资源" + Math.floor((value * 100)) + "%";
+        var jd = Math.floor(value * 100);
+        if (jd > 99)
+            jd = 99;
+        this.progressTxt.text = "正在加载资源" + jd + "%";
     };
     //资源加载完毕
     LoginScene.prototype.loadFinish = function () {
+        Debug.log("loadFinish");
         PostMHelp.initGame();
         PageManager.initDlgMap();
         Common.confObj = ConfObjRead.getConfCommon();
-        ResConfig.addTween = Common.confObj.addTween;
         GameData.joinLobbyType = JoinLobbyType.loginJoin;
         LoginModel.isLoaded = true;
         ToolsApp.copyNativeAdress();
         LobbyScene.initBgMusic();
-        EventManager.register(EventType.INIT_LOGINVIEW, this, this.useTokenLogin);
-        //检查维护公告
-        LayaMain.getInstance().checkGameMaintenance();
+        this.useTokenLogin();
     };
     //------------------token登录流程-------------------------
     //使用token登录
     LoginScene.prototype.useTokenLogin = function () {
         var _this = this;
-        LoginModel.readGatewayInfo(false, this, function () {
+        Debug.log("useTokenLogin");
+        LoginModel.readGatewayInfo(false, this, function (jobj) {
             LoginModel.gatewayCount = 0;
             LoginModel.loginByToken(_this, _this.tokenLoginResult);
         });
     };
     //token登录结果
     LoginScene.prototype.tokenLoginResult = function (suc, curToken) {
+        Debug.log("tokenLoginResult:", suc);
         if (suc) {
             LayaMain.getInstance().showCircleLoading(false);
             LayaMain.getInstance().initLobby();
@@ -85,6 +88,7 @@ var LoginScene = /** @class */ (function (_super) {
     };
     //刷新token的结果
     LoginScene.prototype.flushTokenResult = function (suc) {
+        console.error("刷新token结果:", suc);
         if (suc) {
             LoginModel.loginByToken(this, this.useNewTokenLoginResult);
         }
@@ -106,17 +110,17 @@ var LoginScene = /** @class */ (function (_super) {
     //检查使用哪种登录方式
     LoginScene.prototype.checkLoginType = function () {
         var _this = this;
-        LoginModel.readGatewayInfo(false, this, function () {
+        LoginModel.readGatewayInfo(false, this, function (jobj) {
+            if (jobj && jobj == false)
+                console.error("init5-err");
             _this.progress.visible = false;
             _this.cacheInfo = SaveManager.getObj().get(SaveManager.KEY_LASTLOGININFO, null);
-            if (_this.cacheInfo) { //如果有缓存账号
+            if (_this.cacheInfo)
                 _this.showFastStartView();
-            }
-            else {
+            else
                 _this.showOtherLoginView();
-            }
-            _this.initEvents();
         });
+        this.initEvents();
     };
     //显示快速开始界面
     LoginScene.prototype.showFastStartView = function () {
@@ -206,6 +210,7 @@ var LoginScene = /** @class */ (function (_super) {
         else { //创建游客账号失败
             Debug.error("创建游客账号失败1");
             LayaMain.getInstance().showCircleLoading(false);
+            Toast.showToast("游客创建失败");
         }
     };
     //游客登录

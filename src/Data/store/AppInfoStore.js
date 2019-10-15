@@ -286,8 +286,8 @@ export default class AppInfoStore {
       // TN_START_SHARE("111","222");
       TN_StartUMeng(this.appInfo.UmengKey, this.appInfo.Affcode);
     }
-    this.isSitApp =this.clindId=="31"||this.clindId=="4"
-  };
+    this.isSitApp =this.clindId=="1209"||this.clindId=="4"
+  }
 
   checkAndroidsubType(initDomain) {
     // 如果是android 需要判断是否为特殊subType 聚道包 例子 subAppType 21,  21 特殊类型包

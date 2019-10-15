@@ -151,7 +151,7 @@ var view;
                             _this.dragBox.mouseEnabled = true;
                     });
                 }
-                Laya.timer.once(500, this, this.onUpdateMsgInit, [false]);
+                Laya.timer.once(500, this, this.onUpdateMsgInit);
             };
             //游戏图标点击
             GameIconListPanel.prototype.clickHandler = function (evt) {
@@ -160,9 +160,8 @@ var view;
                     item.doClick();
                 }
             };
-            GameIconListPanel.prototype.onUpdateMsgInit = function (isEvent) {
+            GameIconListPanel.prototype.onUpdateMsgInit = function () {
                 var _this = this;
-                if (isEvent === void 0) { isEvent = true; }
                 var msgArr = UpdateMsgHandle.updateInitMsg;
                 if (msgArr) {
                     msgArr.forEach(function (value) {

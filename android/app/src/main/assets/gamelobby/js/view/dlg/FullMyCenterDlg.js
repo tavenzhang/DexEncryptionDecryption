@@ -42,6 +42,7 @@ var view;
                 var info = Common.userInfo;
                 var current = Common.userInfo_current;
                 this.accTxt.text = info.username;
+                this.setNickBtn.visible = false;
                 this.showNickName();
                 //版本号
                 this.verTxt.text = GameUtils.appVer + "\n" + ResConfig.versions;
@@ -107,6 +108,7 @@ var view;
                 //绑定手机号
                 EventManager.addTouchScaleListener(this.bindPhoneBtn, this, function () {
                     SoundPlayer.enterPanelSound();
+                    PageManager.showDlg(DlgCmd.bindPhoneAct);
                     if (GameData.bindOpen) {
                         PageManager.showDlg(DlgCmd.bindPhoneAct);
                     }
@@ -126,14 +128,24 @@ var view;
                 EventManager.register(EventType.FLUSH_MONEY, this, this.flushMoney);
                 EventManager.pushEvent(this.soundBtn, Laya.Event.CHANGE, this, this.selectSound);
                 EventManager.pushEvent(this.musicBtn, Laya.Event.CHANGE, this, this.selectMusic);
-                EventManager.register(EventType.GETUSERS_INFO, this, this.showNickName);
+                EventManager.register(EventType.SHOW_NICK_NAME, this, this.showNickName);
             };
             FullMyCenterDlg.prototype.showNickName = function () {
-                var data = Common.userInfo;
+                var _this = this;
+                var data = Common.userInfo_current;
                 if (data) {
                     var nameStr = data.nickname || "";
                     this.nickTxt.text = nameStr;
                 }
+                //按钮显示逻辑
+                LobbyModel.checkSetNickCount(this, function (num) {
+                    if (_this.destroyed)
+                        return;
+                    if (num <= 1)
+                        _this.setNickBtn.visible = true;
+                    else
+                        _this.setNickBtn.visible = false;
+                });
             };
             //提示玩家升级账号
             FullMyCenterDlg.prototype.openAccountUpgrade = function () {

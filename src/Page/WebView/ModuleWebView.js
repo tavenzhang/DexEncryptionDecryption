@@ -21,11 +21,10 @@ export default class ModuleWebView extends Component {
 
     render() {
         let newUrl = TW_Store.dataStore.targetAppDir + "/plugView/index.html";
-        let visible = TW_Store.dataStore.isAppInited;
+        let visible = TW_Store.dataStore.isAppInited&&TW_Store.gameUpateStore.isEnteredGame;
         if(!visible){
             return null;
         }
-
         // let home = GameUtils.getQueryVariable("apihome");
         // let token = GameUtils.getQueryVariable("token");
         // let cid = GameUtils.getQueryVariable("clientId");

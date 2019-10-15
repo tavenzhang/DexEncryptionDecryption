@@ -30,6 +30,7 @@ var view;
                 var _this = this;
                 this.checkVisitorMark();
                 this.flushMoney();
+                this.showNickName();
                 //点击头像打开个人中心
                 EventManager.addTouchScaleListener(this.headIcon, this, function () {
                     SoundPlayer.enterPanelSound();
@@ -41,7 +42,7 @@ var view;
                     _this.flushMoney();
                 });
                 //全局事件监听
-                EventManager.register(EventType.GETUSERS_INFO, this, this.showUserInfo);
+                EventManager.register(EventType.SHOW_NICK_NAME, this, this.showNickName);
                 EventManager.register(EventType.FLUSH_MONEY, this, this.showMoney);
                 EventManager.register(EventType.GETAVATOR_INFO, this, this.showHeadIcon);
                 EventManager.register(EventType.FLUSH_HEADICON, this, this.flushHeadIcon);
@@ -75,12 +76,10 @@ var view;
                 this.headIcon.skin = ResConfig.getHeadSkinByID(id);
             };
             //显示玩家名
-            UserInfoView.prototype.showUserInfo = function () {
-                this.showMoney();
-                var data = Common.userInfo;
+            UserInfoView.prototype.showNickName = function () {
+                var data = Common.userInfo_current;
                 if (data) {
-                    var nameStr = data.nickname || data.username;
-                    this.nameTxt.text = nameStr;
+                    this.nameTxt.text = data.nickname || "";
                 }
             };
             //显示金币

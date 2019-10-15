@@ -64,6 +64,14 @@ var view;
                         SoundPlayer.closeSound();
                         _this.close(null, true);
                     });
+                    //
+                    KeyboardView.bindKeyboard(this.pwdView.pwdTxt1, { hint: "请输入旧密码", maxLen: 6 });
+                    KeyboardView.bindKeyboard(this.pwdView.pwdTxt2, { hint: "请输入6位新密码", maxLen: 6 });
+                    KeyboardView.bindKeyboard(this.pwdView.pwdTxt3, { hint: "请再次输入密码", maxLen: 6 });
+                    KeyboardView.bindKeyboard(this.pwdView.pwdTxt4, { hint: "请输入6位新密码", maxLen: 6 });
+                    KeyboardView.bindKeyboard(this.pwdView.pwdTxt5, { hint: "请再次输入密码", maxLen: 6 });
+                    KeyboardView.bindKeyboard(this.pwdView.phoneTxt, { hint: "请输入手机号", maxLen: 11 });
+                    KeyboardView.bindKeyboard(this.pwdView.codeTxt, { hint: "请输入验证码", maxLen: 6 });
                 };
                 BalanceChangePwdDlg.prototype.reqChangePwd = function () {
                     var _this = this;
