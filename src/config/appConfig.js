@@ -3,17 +3,17 @@ import React, {
 } from 'react-native';
 
 export const appDomainBase = {
-    base1: 'https://qp01-game.513xyz.com',
-    base2: 'https://qp01-game.513xyz.com,',
-    base3: 'https://qp01-game.513xyz.com',
-    base4: 'https://qp01-game.513xyz.com',
-    base5: 'https://qp01-game.513xyz.com',
-    base6: 'https://qp01-game.513xyz.com',
-    base7: 'https://qp01-game.513xyz.com',
+    base1: 'http://sqp01game.sit03.com',
+    base2: 'http://sqp01game.sit03.com',
+    base3: 'http://sqp01game.sit03.com',
+    base4: 'http://sqp01game.sit03.com',
+    base5: 'http://sqp01game.sit03.com',
+    base6: 'http://sqp01game.sit03.com',
+    base7: 'http://sqp01game.sit03.com',
 }
 
 
-export let configAppId = "214"
+export let configAppId = "1209"
 
 
 export const AppConfig = {
@@ -36,22 +36,18 @@ export const AppConfig = {
 }
 
 
-export const MyAppName = '博博乐';
+export const MyAppName = '博博乐sit';
 
-export const versionHotFix = 'v8.27';
+export const versionHotFix = 'v9.7';
 
-export const MyOwnerPlatName= '博博乐';
+export const MyOwnerPlatName= 'sit';
 
 // export const safeguardDomain = [
 //     'https://987645ba00a9b0416b254f33d918ed64.oss-cn-shenzhen.aliyuncs.com',
 //     'https://c40b6e3d664556ab423d3eebc01ab2fd.oss-cn-shenzhen.aliyuncs.com']
-
-
-//base64key 格式示例
-// {"d":["https://987645ba00a9b0416b254f33d918ed64.oss-cn-shenzhen.aliyuncs.com","https://c40b6e3d664556ab423d3eebc01ab2fd.oss-cn-shenzhen.aliyuncs.com"]}
-
 //第三方安全域名base64 key
 export const safeguardKey = 'eyJkIjogWyJodHRwczovLzk4NzY0NWJhMDBhOWIwNDE2YjI1NGYzM2Q5MThlZDY0Lm9zcy1jbi1zaGVuemhlbi5hbGl5dW5jcy5jb20iLCAiaHR0cHM6Ly9jNDBiNmUzZDY2NDU1NmFiNDIzZDNlZWJjMDFhYjJmZC5vc3MtY24tc2hlbnpoZW4uYWxpeXVuY3MuY29tIl19'
+
 
 export const platInfo = {
 
@@ -59,11 +55,12 @@ export const platInfo = {
 
     zipCheckServer: {
         debug_server: "http://192.168.14.70:8888",
-        release_server: "/game/release/uat"
+        release_server: "/game/release/sit"
     },
     platId: configAppId,
-    brand: "qp01",
+    brand: "sqp01",
     latestNativeVersion:{ios:"10",android:"10"},//用于强制更新 匹配，与info.plist 还有 gradle.properties. 需要严格一致。否则 会弹窗 强制下载
+
 }
 
 
