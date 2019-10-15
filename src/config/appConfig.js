@@ -3,13 +3,13 @@ import React, {
 } from 'react-native';
 
 export const appDomainBase = {
-    base1: 'http://sqp01game.sit01.com',
-    base2: 'http://sqp01game.sit01.com',
-    base3: 'http://sqp01game.sit01.com',
-    base4: 'http://sqp01game.sit01.com',
-    base5: 'http://sqp01game.sit01.com',
-    base6: 'http://sqp01game.sit01.com',
-    base7: 'http://sqp01game.sit01.com',
+    base1: 'http://sqp01game.sit03.com',
+    base2: 'http://sqp01game.sit03.com',
+    base3: 'http://sqp01game.sit03.com',
+    base4: 'http://sqp01game.sit03.com',
+    base5: 'http://sqp01game.sit03.com',
+    base6: 'http://sqp01game.sit03.com',
+    base7: 'http://sqp01game.sit03.com',
 }
 
 
