@@ -30,7 +30,7 @@ export default class ModuleWebView extends Component {
         // let cid = GameUtils.getQueryVariable("clientId");
         // let surl = GameUtils.getQueryVariable("service");
         let myParam = `?apihome=${TW_Store.bblStore.gameDomain}&token=${TW_Store.userStore.access_token}&clientId=${TW_Store.appStore.clindId}&service=${TW_Store.gameUIStroe.gustWebUrl}&debug=${TW_Store.appStore.isSitApp}`;
-        let isShowUi=TW_Store.gameUIStroe.isShowWithDraw||TW_Store.gameUIStroe.isShowAddPayView
+        let isShowUi=TW_Store.gameUIStroe.isShowAddPayView
         if (this.refs.myView) {
             this.refs.myView.setNativeProps({style: {zIndex: isShowUi ?  10001:-888}});
             if(isShowUi){
@@ -38,11 +38,12 @@ export default class ModuleWebView extends Component {
                     if(this.currentView!=TW_Store.bblStore.ACT_ENUM.showRecharge){
                         this.onLoadEvalueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.showRecharge));
                     }
-                }else if(TW_Store.gameUIStroe.isShowWithDraw){
-                    if(this.currentView!=TW_Store.bblStore.ACT_ENUM.showRecharge){
-                        this.onLoadEvalueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.showWithdraw));
-                    }
                 }
+                // else if(TW_Store.gameUIStroe.isShowWithDraw){
+                //     if(this.currentView!=TW_Store.bblStore.ACT_ENUM.showRecharge){
+                //         this.onLoadEvalueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.showWithdraw));
+                //     }
+                // }
             }
         }
         let source = {
