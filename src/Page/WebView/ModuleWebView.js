@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-
 import {
     StyleSheet,
     View,
@@ -8,29 +7,45 @@ import {WebView} from 'react-native-webview';
 import {observer} from "mobx-react";
 
 @observer
-export default class LoadingWebView extends Component {
-
-    constructor(state) {
-        super(state)
-        let {url} = this.props;
-        this.state = {
-            isHide: false,
-            uri: url,
-        }
-        TW_LoaderOnValueJS = this.onLoadEvalueJS;
-    }
+export default class ModuleWebView extends Component {
 
     static defaultProps = {
         title: ''
     };
 
-
-
+    constructor(state) {
+        super(state)
+        TW_OnValueModuleJS = this.onLoadEvalueJS;
+        this.currentView="";
+    }
 
     render() {
-        let newUrl = TW_Store.dataStore.targetAppDir + "/loading/loading.html";
-        let myParam = "";
+        let newUrl = TW_Store.dataStore.targetAppDir + "/plugView/index.html";
+        let visible = TW_Store.dataStore.isAppInited;
+        if(!visible){
+            return null;
+        }
 
+        // let home = GameUtils.getQueryVariable("apihome");
+        // let token = GameUtils.getQueryVariable("token");
+        // let cid = GameUtils.getQueryVariable("clientId");
+        // let surl = GameUtils.getQueryVariable("service");
+        let myParam = `?apihome=${TW_Store.bblStore.gameDomain}&token=${TW_Store.userStore.access_token}&clientId=${TW_Store.appStore.clindId}&service=${TW_Store.gameUIStroe.gustWebUrl}&debug=${TW_Store.appStore.isSitApp}`;
+        let isShowUi=TW_Store.gameUIStroe.isShowWithDraw||TW_Store.gameUIStroe.isShowAddPayView
+        if (this.refs.myView) {
+            this.refs.myView.setNativeProps({style: {zIndex: isShowUi ?  10001:-888}});
+            if(isShowUi){
+                if(TW_Store.gameUIStroe.isShowAddPayView){
+                    if(this.currentView!=TW_Store.bblStore.ACT_ENUM.showRecharge){
+                        this.onLoadEvalueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.showRecharge));
+                    }
+                }else if(TW_Store.gameUIStroe.isShowWithDraw){
+                    if(this.currentView!=TW_Store.bblStore.ACT_ENUM.showRecharge){
+                        this.onLoadEvalueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.showWithdraw));
+                    }
+                }
+            }
+        }
         let source = {
             file: newUrl,
             allowingReadAccessToURL: TW_Store.dataStore.targetAppDir,
@@ -43,11 +58,6 @@ export default class LoadingWebView extends Component {
             };
         }
 
-       /// let visible = TW_Store.gameUpateStore.isNeedUpdate||TW_Store.gameUpateStore.isAppDownIng
-        let visible = TW_Store.gameUpateStore.isNeedUpdate
-        if(!visible){
-            return null;
-        }
         let injectJs = `window.appData=${JSON.stringify({
             isApp: true,
         })},(function() {
@@ -55,9 +65,15 @@ export default class LoadingWebView extends Component {
             window.ReactNativeWebView.postMessage(data);
           };
         })()`
-        TW_Log("targetAppDir----ModuleWebView-source=="+source);
+
+        TW_Log("targetAppDir----ModuleWebView-source==isShowUi-"+isShowUi,source);
         return (
-            <View style={[styles.container,{width: TW_Store.appStore.screenW}]}>
+            <View  style={{
+                position: "absolute",
+                width: SCREEN_W,
+                height: SCREEN_H,
+                backgroundColor: "rgba(10,10,10,0.3)",
+                zIndex: -88}} ref="myView">
                 <WebView
                     ref="myWebView"
                     useWebKit={true}
@@ -68,7 +84,6 @@ export default class LoadingWebView extends Component {
                     javaScriptEnabled={true}
                     domStorageEnabled={true}
                     decelerationRate="normal"
-                    // renderLoading={this.onRenderLoadingView}
                     startInLoadingState={false}
                     onShouldStartLoadWithRequest={this.onShouldStartLoadWithRequest}
                     onNavigationStateChange={this.onNavigationStateChange}
@@ -84,7 +99,6 @@ export default class LoadingWebView extends Component {
 
 
     onMessage = (event) => {
-
         let message = null;
         try {
             message = JSON.parse(event.nativeEvent.data);
@@ -92,47 +106,41 @@ export default class LoadingWebView extends Component {
                 this.onMsgHandle(message);
             }
         } catch (err) {
-            TW_Log("onMessage==========6=erro==" + err, event.nativeEvent);
+            TW_Log("onMessage==========ModuleWebView==" + err, event.nativeEvent);
         }
     }
 
     onMsgHandle = (message) => {
         TW_Log("onMessage====ModuleWebView=======" + this.constructor.name, message);
-        let url = "";
         if (message && message.action) {
             switch (message.action) {
                 case "Log":
                     // TW_Log("game---ct=="+message.ct,message.data);
                     break;
                 case  "game_custom":
-                    TW_Log("onMessage====ModuleWebView======TW_Store.gameUIStroe.showGusetView=", message);
                     TW_Store.gameUIStroe.showGusetView();
                     // TW_Store.gameUIStroe.isShowShare=!TW_Store.gameUIStroe.isShowShare
                     break;
+                case "closeUI":
+                    this.currentView ="";
+                    switch (message.data) {
+                        case TW_Store.bblStore.ACT_ENUM.showRecharge: //充值界面
+                            TW_Store.gameUIStroe.isShowAddPayView =false;
+                            break;
+                        case TW_Store.bblStore.ACT_ENUM.showService://客服界面
+                             TW_Store.gameUIStroe.isShowGuest=false
+                            break;
+                    }
             }
         }
     }
 
-    handleUrl = (url) => {
-        if (url && url.indexOf("../") > -1) {
-            url = url.replace("../", "");
-        }
-        //  url = TW_Store.bblStore.homeDomain + "/" + url;
-        return url
-    }
-
     onLoadEnd=()=>{
-        if(G_IS_IOS) {
-            TW_SplashScreen_HIDE();
-        }else{
-            setTimeout(()=>{TW_SplashScreen_HIDE()},800);
-        }
+
     }
 
     onError = (error) => {
-        if (TW_Store.gameUpateStore.isNeedUpdate) {
-            TW_Store.gameUpateStore.isNeedUpdate=false;
-        }
+
     }
 
     onShouldStartLoadWithRequest = (event) => {
@@ -144,7 +152,7 @@ export default class LoadingWebView extends Component {
         dataStr = dataStr ? dataStr : "";
 
         if(this.refs.myWebView){
-            TW_Log("downloadFile---onLoadEvalueJS--versionBBL---progress-TW_Store.gameUpateStore.isNeedUpdate=-",data);
+            TW_Log("downloadFile---ModuleWebView--versionBBL---progress-onLoadEvalueJS=-",data);
             this.refs.myWebView.postMessage(dataStr, "*");
         }
 
@@ -152,23 +160,14 @@ export default class LoadingWebView extends Component {
     }
 
     onNavigationStateChange = (navState) => {
-
+        TW_Log("downloadFile---ModuleWebView--versionBBL---progress-onNavigationStateChange=-",navState);
 
     };
-
 
 }
 
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        position: "absolute",
-         zIndex:10002,
-        height: SCREEN_H,
-        width: SCREEN_W,
-        backgroundColor: "black",
-    },
     webView: {
         marginTop: 0,
         flex: 1,
