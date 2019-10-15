@@ -111,6 +111,12 @@ export default class Enter extends Component {
                 TW_Log("TW_SubGameDownLoaderData-----Active-",TW_SubGameDownLoaderData)
                 TW_Store.dataStore.startLoadGame();
              }
+            if(TW_Store.gameUIStroe.wxShareHandle.isShareIng){
+                if(TW_Store.gameUIStroe.wxShareHandle.callback){
+                    TW_Store.gameUIStroe.wxShareHandle.callback();
+                    TW_Store.gameUIStroe.wxShareHandle.isShareIng=false;
+                }
+            }
             this.flage = false ;
         }else if(nextAppState != null && nextAppState === 'background'){
             TW_Store.dataStore.log += "\nAppStateChange-background\n" ;

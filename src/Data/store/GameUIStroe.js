@@ -33,6 +33,9 @@ export default class GameUIStroe {
     gustWebUrl = "";
 
     @observable
+    wxShareHandle = {isShareIng:false,callback:null};
+
+    @observable
     gameAlertData = {
         title: "",
         component: null,
