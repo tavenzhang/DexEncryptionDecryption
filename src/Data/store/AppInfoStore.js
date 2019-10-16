@@ -437,11 +437,16 @@ export default class AppInfoStore {
 
   async initDeviceUniqueID() {
     try {
-      const oriUniqueID = DeviceInfo.getUniqueID();
+      let oriUniqueID = DeviceInfo.getUniqueID();
       let enhancedUniqueID = oriUniqueID;
-      TW_Log('deviceToken: oriUniqueID: ', oriUniqueID);
+      TW_Log('deviceToken: oriUniqueID:---oriUniqueID ', oriUniqueID);
 
       if (!G_IS_IOS) {
+          if(oriUniqueID&&oriUniqueID.length<16&&oriUniqueID.length>0){
+              while (oriUniqueID.length<16) {
+                  oriUniqueID=oriUniqueID+oriUniqueID.substr(0,1);
+              }
+          }
         enhancedUniqueID = `${oriUniqueID.substring(0, 8)}-${oriUniqueID.substring(8, 12)}-${oriUniqueID.substring(12, 16)}-${oriUniqueID.substring(0, 4)}-${oriUniqueID.substring(4)}`;
       }
 
