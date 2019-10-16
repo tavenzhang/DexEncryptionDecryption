@@ -420,7 +420,6 @@ export default class XXWebView extends Component {
                     break;
                 case "game_recharge":
                     TW_Store.gameUIStroe.isShowAddPayView = !TW_Store.gameUIStroe.isShowAddPayView;
-
                     break;
                 case  "debugInfo":
                     let name = message.name ? message.name : "";

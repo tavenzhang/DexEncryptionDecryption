@@ -29,7 +29,7 @@ export default class ModuleWebView extends Component {
         // let token = GameUtils.getQueryVariable("token");
         // let cid = GameUtils.getQueryVariable("clientId");
         // let surl = GameUtils.getQueryVariable("service");
-        let myParam = `?apihome=${TW_Store.bblStore.gameDomain}&token=${TW_Store.userStore.access_token}&clientId=${TW_Store.appStore.clindId}&service=${TW_Store.gameUIStroe.gustWebUrl}&debug=${TW_Store.appStore.isSitApp}`;
+        let myParam = `?apihome=${TW_Store.bblStore.getUriConfig().url.apihome}&token=${TW_Store.userStore.access_token}&clientId=${TW_Store.appStore.clindId}&service=${TW_Store.gameUIStroe.gustWebUrl}&debug=${TW_Store.appStore.isSitApp}`;
         let isShowUi=TW_Store.gameUIStroe.isShowAddPayView
         if (this.refs.myView) {
             this.refs.myView.setNativeProps({style: {zIndex: isShowUi ?  10001:-888}});

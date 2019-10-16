@@ -480,21 +480,28 @@ export default class AppInfoStore {
     function S4() {
       return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
     }
-
-    return (
-      S4() +
-      S4() +
-      "-" +
-      S4() +
-      "-" +
-      S4() +
-      "-" +
-      S4() +
-      "-" +
-      S4() +
-      S4() +
-      S4()
-    );
+    let oriUniqueID = S4() + S4() + S4()+ S4();
+    if(oriUniqueID&&oriUniqueID.length<16&&oriUniqueID.length>0){
+          while (oriUniqueID.length<16) {
+              oriUniqueID=oriUniqueID+oriUniqueID.substr(0,1);
+          }
+      }
+     oriUniqueID = `${oriUniqueID.substring(0, 8)}-${oriUniqueID.substring(8, 12)}-${oriUniqueID.substring(12, 16)}-${oriUniqueID.substring(0, 4)}-${oriUniqueID.substring(4)}`;
+    return oriUniqueID;
+     // return (
+    //   S4() +
+    //   S4() +
+    //   "-" +
+    //   S4() +
+    //   "-" +
+    //   S4() +
+    //   "-" +
+    //   S4() +
+    //   "-" +
+    //   S4() +
+    //   S4() +
+    //   S4()
+    // );
   }
 
   saveDeviceTokenToLocalStore() {
