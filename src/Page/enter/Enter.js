@@ -494,7 +494,7 @@ export default class Enter extends Component {
     noticeAppUpdate=()=>{
         if(TW_Store.gameUpateStore.isEnteredGame){
             clearInterval(this.appUpdateTimeid);
-            TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appUpate, {data:1}));
+            TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appUpate, {data:true}));
         }
     }
 
