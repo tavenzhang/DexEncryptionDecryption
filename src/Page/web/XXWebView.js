@@ -327,6 +327,9 @@ export default class XXWebView extends Component {
                         case "goToPay"://打开相关app
                             TCUserOpenPayApp.getInstance().openAppByType(message.param);
                             break;
+                        case "appUpate":
+                            TW_Store.dataStore.onRetartApp();
+                            break;
                     }
                     break;
                 case "startUpdate":

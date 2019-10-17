@@ -483,10 +483,19 @@ export default class Enter extends Component {
                 }
             })
             TW_Store.hotFixStore.isInstalledFinish=true;
+            this.appUpdateTimeid= setInterval(this.noticeAppUpdate,1000);
+
         }).catch((ms) => {
             this.storeLog({updateStatus: false, message: '安装失败,请重试...'})
             this.updateFail('安装失败,请重试...')
         })
+    }
+
+    noticeAppUpdate=()=>{
+        if(TW_Store.gameUpateStore.isEnteredGame){
+            clearInterval(this.appUpdateTimeid);
+            TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appUpate, {data:1}));
+        }
     }
 
     updateFail=(message)=> {

@@ -185,7 +185,8 @@ export  default  class BBLStore {
         appNativeData:"appNativeData",
         showRecharge:"showRecharge",
         showService:"showService",
-        showWithdraw:"showWithdraw"
+        showWithdraw:"showWithdraw",
+        appUpate:"appUpate"
     }
 
     //bgm.mp3 click.mp3 close.mp3 flopleft.mp3 flopright.mp3 recharge.mp3 rightbottomclose.mp3 showlogo.mp3
