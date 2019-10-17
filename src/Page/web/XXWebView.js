@@ -404,11 +404,12 @@ export default class XXWebView extends Component {
                     this.countDebug++;
                     setTimeout(()=>{
                         if(this.countDebug>=3){
-                            TW_Store.bblStore.changeShowDebug(true);
-                            this.countDebug =0;
+                            if(TW_Store.appStore.isSitApp){
+                                TW_Store.bblStore.changeShowDebug(true);
+                                this.countDebug =0;
+                            }
                         }
                     },1000)
-
                     // TW_Store.gameUIStroe.isShowShare=!TW_Store.gameUIStroe.isShowShare
                     break;
                 case "game_redraw":
