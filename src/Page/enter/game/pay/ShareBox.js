@@ -39,29 +39,38 @@ export default class ShareBox extends Component {
 
     componentWillMount(): void {
         let shareData=TW_Store.gameUIStroe.shareData;
-        TW_Store.gameUIStroe.checkWXInstall(ret=>{
-            if(ret){
-                TN_IsWechatEnabled((isWechatEnabled) => {
-                    //TW_Log("targetAppDir-33---isWechatEnabled-"+isWechatEnabled);
-                    if(shareData.isfast =="1"||shareData.type){
-                        switch (shareData.type) {
-                            case "friend":
-                                this.onClickWechatShare();
-                                break;
-                            case "circle":
-                                this.onClickWechatPyqShare();
-                                break;
-                        }
-                        TW_Store.gameUIStroe.isShowShare=false;
-                    }else {
-                        this.setState({ isWechatEnabled });
-                    }
-                    this.openPayApp(isWechatEnabled);
-                });
-            }else {
+        let isFast = shareData.isfast =="1"||shareData.type;
+        if(isFast){
+            try {
+                switch (shareData.type) {
+                    case "friend":
+                        this.onClickWechatShare();
+                        break;
+                    case "circle":
+                        this.onClickWechatPyqShare();
+                        break;
+                }
                 TW_Store.gameUIStroe.isShowShare=false;
+            }catch (e) {
+                isFast = false;
             }
-        })
+        }
+        if(!isFast){
+            TW_Store.gameUIStroe.checkWXInstall(ret=>{
+                if(ret){
+                    TN_IsWechatEnabled((isWechatEnabled) => {
+                        //TW_Log("targetAppDir-33---isWechatEnabled-"+isWechatEnabled);
+                        this.setState({ isWechatEnabled });
+                        this.openPayApp(isWechatEnabled);
+                    });
+                }else {
+                    TW_Store.gameUIStroe.isShowShare=false;
+                }
+            })
+        }
+
+
+
 
 
 
