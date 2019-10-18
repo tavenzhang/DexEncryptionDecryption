@@ -24,7 +24,6 @@ var ResConfig = /** @class */ (function () {
         arr = list.filter(function (value) { return value.alias == alias; });
         return arr[0];
     };
-    ResConfig.addTween = true; //大厅元素初始化是否添加淡入动画
     //转移至version.json
     ResConfig.platform_font = [
         {

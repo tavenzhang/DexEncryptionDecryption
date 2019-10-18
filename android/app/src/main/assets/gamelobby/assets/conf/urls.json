@@ -105,14 +105,26 @@
         "yuebaoChangePwdBycode": "/yuebao/me/password/change/bycode",
         "yuebaoDetail": "/yuebao/me/events/recent",
         "vconsole": "/gamecenter/gcenter/vconsole/game/switch",
+        "payList": "/cashmgt/me/payments/name",
+        "payment": "/cashmgt/me/transfer/topups/payment/listV2",
+        "banktransfers": "/cashmgt/me/transfer/topups/banktransfers/banklist/v2",
+        "payByBankList": "/cashmgt/me/transfer/topups/banktransfers/v4",
+        "payByListV2": "/cashmgt/me/transfer/topups",
+        "payHistory": "/cashmgt/me/transfer/orderhistory",
+        "onlineBankList": "/cashmgt/me/paymentbanklist",
         "flushToken": "/account/account/system/refreshToken/",
         "findPassword": "/account/webapi/account/users/secure/resetUserPassword",
         "otherGameURI": "/gamecenter/player/game/startGameURI/",
         "gameMenu": "/gamecenter/player/game/classifyMenu",
         "logapi": "/app/log/",
-        "balanceInfo": "/balance/me/recoverTotalBalance",
+        "recoverBalanceInfo": "/balance/me/recoverTotalBalance",
+        "balanceInfo": "/balance/me/totalBalance",
         "checkOtherGameErr": "/gamecenter/player/game/userClassifyGameExists",
         "setnickname": "/gamecenter/player/user/updateUserNiceName/",
-        "cdnUrlByBrandID": "/cms/internal/getCdnUrl/byBrand/"
+        "cdnUrlByBrandID": "/cms/internal/getCdnUrl/byBrand/",
+        "vindicateNotice": "/gamecenter/player/brand/material/infoByUser",
+        "getNickName": "/gamecenter/player/user/generateName",
+        "initNickName": "/gamecenter/player/user/defaultNickName",
+        "setNickCount": "/gamecenter/player/user/getModifyCount"
     }
 }

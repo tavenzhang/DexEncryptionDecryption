@@ -321,15 +321,6 @@ export default class DataStore {
                 this.log+="==>onSaveVersionM--=start";
                 this.onSaveVersionM(this.content,false,()=>{
                     this.log+="==>onSaveVersionM--=end";
-                    if(TW_Store.gameUpateStore.isOldHome){
-                        if(G_IS_IOS){
-                            this.onRetartApp();
-                        }else{
-                            setTimeout(()=>{
-                                this.onRetartApp(); //android 的文件解压读写延迟比较大，延迟5秒
-                            },8000)
-                        }
-                    }
                 });
             })
             .catch((error) => {
@@ -340,9 +331,7 @@ export default class DataStore {
                      setTimeout(()=>{
                              TW_LoaderOnValueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.game_loading,{data:{do:"loadFinish"}}));
                          },G_IS_IOS ? 500:2000)
-                    if(TW_Store.gameUpateStore.isOldHome){
-                        TW_Store.commonBoxStore.isShow=true;
-                    }
+
             })
     }
 

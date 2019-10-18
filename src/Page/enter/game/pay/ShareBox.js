@@ -61,10 +61,17 @@ export default class ShareBox extends Component {
             Clipboard.setString(shareData.param);
             TCUserOpenPayApp.isCanOpen('weixin://',(result)=>{
                 if(result){
-                    TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.shareSucess,{data:"friend"}));
+                    TCUserOpenPayApp.openWX();
+                    TW_Store.gameUIStroe.wxShareHandle={isShareIng:true,callback:()=>{
+                            TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.shareSucess,{data:"friend"}));
+                            TW_Store.gameUIStroe.isShowShare=false;
+                        }}
+                   // TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.shareSucess,{data:"friend"}));
+                }else{
+                    TCUserOpenPayApp.openWX();
                 }
             })
-            TCUserOpenPayApp.openWX();
+
             TW_Store.gameUIStroe.isShowShare=false;
         }
     }
@@ -76,13 +83,17 @@ export default class ShareBox extends Component {
             url=url+"&pic="+shareData.image
         }
         TN_WechatShare(WECHAT.SHARE_TITLE, shareData.image, url, WECHAT.SHARE_MSG, false,()=>{
-
+            if(TW_Store.gameUIStroe.wxShareHandle.isShareIng){
+                if(TW_Store.gameUIStroe.wxShareHandle.callback){
+                    TW_Store.gameUIStroe.wxShareHandle.callback();
+                    TW_Store.gameUIStroe.wxShareHandle.isShareIng=false;
+                }
+            }
         });
-        setTimeout(()=>{
-            TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.shareSucess,{data:"friend"}));
-            TW_Store.gameUIStroe.isShowShare=false;
-        },2000);
-
+        TW_Store.gameUIStroe.wxShareHandle={isShareIng:true,callback:()=>{
+                TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.shareSucess,{data:"friend"}));
+                TW_Store.gameUIStroe.isShowShare=false;
+            }}
     }
 
     onClickWechatPyqShare() {
@@ -91,15 +102,20 @@ export default class ShareBox extends Component {
         if(shareData.image){
             url=url+"&pic="+shareData.image
         }
+
         TN_WechatShare(WECHAT.SHARE_TITLE, shareData.image, url, WECHAT.SHARE_MSG, true,()=>{
-
+            if(TW_Store.gameUIStroe.wxShareHandle.isShareIng){
+                if(TW_Store.gameUIStroe.wxShareHandle.callback){
+                    TW_Store.gameUIStroe.wxShareHandle.callback();
+                    TW_Store.gameUIStroe.wxShareHandle.isShareIng=false;
+                }
+            }
         });
-        setTimeout(()=>{
-            TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.shareSucess,{data:"circle"}));
-            TW_Store.gameUIStroe.isShowShare=false;
-        },2000);
 
-
+        TW_Store.gameUIStroe.wxShareHandle={isShareIng:true,callback:()=>{
+                TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.shareSucess,{data:"circle"}));
+                TW_Store.gameUIStroe.isShowShare=false;
+            }}
     }
 
     render() {

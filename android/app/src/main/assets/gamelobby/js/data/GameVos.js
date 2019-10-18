@@ -5,7 +5,6 @@ var GameData = /** @class */ (function () {
     //转移至version.json
     GameData.channel = "channel20181016";
     GameData.bindAward = 0; //绑定送金额度
-    GameData.isGetBindAward = true; //是否领取过绑定送金奖励
     return GameData;
 }());
 /**

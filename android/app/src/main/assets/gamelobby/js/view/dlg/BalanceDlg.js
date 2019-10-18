@@ -101,6 +101,8 @@ var view;
                 //
                 EventManager.register(EventType.FLUSH_YUEBAOINFO, this, this.reqInfo);
                 EventManager.register(EventType.BALANCE_PADSETING, this, this.flushPwdState);
+                //输入金额
+                KeyboardView.bindKeyboard(this.inputTxt, {});
             };
             BalanceDlg.prototype.flushPwdState = function () {
                 if (this.yuebaoInfo) {

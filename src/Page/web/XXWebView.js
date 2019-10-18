@@ -34,7 +34,8 @@ export default class XXWebView extends Component {
         this.isLoading = false;
         this.isShow = false;
         this.isShowKeyBoard = false
-        this.rom = Math.random() * 100000
+        this.rom = Math.random() * 100000;
+        this.countDebug=1;
     }
 
     componentWillMount() {
@@ -326,6 +327,9 @@ export default class XXWebView extends Component {
                         case "goToPay"://打开相关app
                             TCUserOpenPayApp.getInstance().openAppByType(message.param);
                             break;
+                        case "appUpate":
+                            TW_Store.dataStore.onRetartApp();
+                            break;
                     }
                     break;
                 case "startUpdate":
@@ -396,7 +400,16 @@ export default class XXWebView extends Component {
 
                     break;
                 case  "game_custom":
-                    TW_Store.gameUIStroe.showGusetView(!TW_Store.gameUIStroe.isShowGuest)
+                    TW_Store.gameUIStroe.showGusetView(!TW_Store.gameUIStroe.isShowGuest);
+                    this.countDebug++;
+                    setTimeout(()=>{
+                        if(this.countDebug>=3){
+                            if(TW_Store.appStore.isSitApp){
+                                TW_Store.bblStore.changeShowDebug(true);
+                                this.countDebug =0;
+                            }
+                        }
+                    },1000)
                     // TW_Store.gameUIStroe.isShowShare=!TW_Store.gameUIStroe.isShowShare
                     break;
                 case "game_redraw":
@@ -411,7 +424,6 @@ export default class XXWebView extends Component {
                     break;
                 case "game_recharge":
                     TW_Store.gameUIStroe.isShowAddPayView = !TW_Store.gameUIStroe.isShowAddPayView;
-
                     break;
                 case  "debugInfo":
                     let name = message.name ? message.name : "";

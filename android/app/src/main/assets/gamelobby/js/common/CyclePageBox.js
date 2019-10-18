@@ -82,11 +82,8 @@ var CyclePageBox = /** @class */ (function (_super) {
                 else
                     InnerJumpUtil.doJump(DlgCmd[vo.carouselHref]);
             }
-            else {
-                if (GameUtils.isNativeApp)
-                    PostMHelp.game_common({ name: "openWeb", param: vo.carouselHref });
-                else
-                    window.open(vo.carouselHref);
+            else { //跳转网页
+                GameUtils.openWeb(vo.carouselHref);
             }
         }
     };

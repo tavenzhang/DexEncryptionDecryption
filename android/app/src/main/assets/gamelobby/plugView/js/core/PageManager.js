@@ -1,0 +1,1 @@
+var PageManager=function(){function a(){}return a.closeDlg=function(a){a&&Laya.Dialog.manager.doClose(a)},a.openDlg=function(a){var e=Laya.stage.width-.8*a.width>>1,t=Laya.stage.height-.8*a.height>>1,g=Laya.stage.width-a.width>>1,h=Laya.stage.height-a.height>>1;a.scale(.8,.8),a.alpha=.5,a.pos(e,t),Laya.Tween.to(a,{x:g,y:h,scaleX:1,scaleY:1,alpha:1},150,Laya.Ease.cubicOut)},a}();

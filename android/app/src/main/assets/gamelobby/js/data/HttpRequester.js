@@ -41,8 +41,7 @@ var HttpRequester = /** @class */ (function () {
             smsMsgType: VerCodeType[type]
         };
         var jd = JSON.stringify(data);
-        var header = ["Content-Type", "application/json; charset=utf-8", "Accept", "*/*"];
-        header = this.getEncryHeader();
+        var header = this.getEncryHeader();
         this.doRequest(url, header, jd, caller, callback);
     };
     /**
@@ -57,8 +56,7 @@ var HttpRequester = /** @class */ (function () {
         var url = ConfObjRead.getConfUrl().url.apihome;
         url += ConfObjRead.getConfUrl().cmd.changePassword;
         url += "?access_token=" + Common.access_token;
-        var header = ["Content-Type", "application/json; charset=utf-8", "Accept", "*/*"];
-        header = this.getEncryHeader();
+        var header = this.getEncryHeader();
         var ePwd = window['SecretUtils'].rsaEncodePWD(pwd);
         var eNpwd = window['SecretUtils'].rsaEncodePWD(newpwd);
         var data = {
@@ -83,8 +81,7 @@ var HttpRequester = /** @class */ (function () {
         var url = ConfObjRead.getConfUrl().url.apihome;
         url += ConfObjRead.getConfUrl().cmd.changePwdWithPhone;
         url += "?access_token=" + Common.access_token;
-        var header = ["Content-Type", "application/json; charset=utf-8", "Accept", "*/*"];
-        header = this.getEncryHeader();
+        var header = this.getEncryHeader();
         var eNpwd = window['SecretUtils'].rsaEncodePWD(newpwd);
         var data = {
             isWep: !GameUtils.isNativeApp,
@@ -224,7 +221,7 @@ var HttpRequester = /** @class */ (function () {
                     suc = true;
                 }
                 else {
-                    Debug.error("--->>>request-err:", "\n url:>>>" + url, "\n header:>>>" + header, "\n params:>>>" + jsonStr, "\n http:>>>" + hr.http);
+                    Debug.error("request-err:", "\n--->url:" + url, "\n--->header:", header, "\n--->params:", jsonStr, "\n--->http:", hr.http);
                     if (status_1 == 401) {
                         LayaMain.onQuit();
                         Toast.showToast("登录过期,请重新登录");
@@ -232,13 +229,12 @@ var HttpRequester = /** @class */ (function () {
                         return;
                     }
                     var err = hr.http.response;
-                    if (err) {
+                    try {
                         var obj = JSON.parse(err);
-                        Toast.showToast(obj.message || "");
+                        Toast.showToast(obj.message || ("未知错误:" + status_1));
                     }
-                    else {
-                        var info = Tools.getStringByKey("txt_unknowerr");
-                        Toast.showToast(info || "未知错误");
+                    catch (e) {
+                        Toast.showToast("未知错误:" + status_1);
                     }
                 }
             }
@@ -306,7 +302,7 @@ var HttpRequester = /** @class */ (function () {
     };
     //获取加密相关的头部信息
     HttpRequester.getEncryHeader = function () {
-        return window['SecretUtils'].getEncryHeader(Common.gatewayInfo.tsDiff, MyUid.getUid(), Common.gatewayInfo.sid, GameUtils.deviceToken);
+        return window['SecretUtils'].getEncryHeader(Common.gatewayInfo.tsDiff, MyUid.newUid(), Common.gatewayInfo.sid, GameUtils.deviceToken);
     };
     HttpRequester.httpRequestList = [];
     return HttpRequester;

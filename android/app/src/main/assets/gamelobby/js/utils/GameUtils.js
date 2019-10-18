@@ -90,8 +90,8 @@ var GameUtils = /** @class */ (function () {
             else
                 device = MyUid.getUid();
             if ((!device || device.length < 5) && this.isNativeApp) {
-                console.error("deviceToken异常", this.isNativeApp, device);
-                HttpRequester.addLog("deviceToken异常:" + device);
+                console.error("deviceToken获取异常,data=", AppData.NATIVE_DATA);
+                HttpRequester.addLog("deviceToken获取异常,data=" + AppData.NATIVE_DATA);
             }
             return device;
         },
@@ -162,6 +162,10 @@ var GameUtils = /** @class */ (function () {
                 break;
         }
         pwd.focus = true;
+        //为了兼容自定义键盘(如果不这样，密码和明文切换后在没失去焦点前没法弹出自定义键盘)
+        Laya.timer.once(100, this, function () {
+            pwd.focus = false;
+        });
     };
     //添加长按事件(用于调试)
     GameUtils.addLongPress = function (obj, caller, callback) {
@@ -206,7 +210,7 @@ var GameUtils = /** @class */ (function () {
         PostMHelp.game_common({ do: "saveImage", param: base64 });
     };
     GameUtils.addTimeOut = function (url, caller, callback, outTimeCallback) {
-        var tween = Laya.Tween.to(this.timeObj, { abc: 1 }, 8000, Laya.Ease.linearNone, Laya.Handler.create(this, this.timeOut, [url, caller, callback, outTimeCallback]));
+        var tween = Laya.Tween.to(this.timeObj, { abc: 1 }, this.outTime, Laya.Ease.linearNone, Laya.Handler.create(this, this.timeOut, [url, caller, callback, outTimeCallback]));
         this.timeObj[url] = tween;
     };
     GameUtils.timeOut = function (url, caller, callback, outTimeCallback) {
@@ -234,6 +238,17 @@ var GameUtils = /** @class */ (function () {
             delete this.timeObj[url];
         }
     };
+    /**
+     * 跳转网页
+     * @param url
+     */
+    GameUtils.openWeb = function (url) {
+        if (GameUtils.isNativeApp)
+            PostMHelp.game_common({ name: "openWeb", param: url });
+        else
+            window.open(url);
+    };
+    GameUtils.outTime = 8000; //请求超时时间
     //最小和最大间隔(用于需要全屏适配的ui)
     GameUtils.minGap = 28;
     GameUtils.maxGap = 78; //安全边距

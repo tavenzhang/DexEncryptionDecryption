@@ -67,14 +67,14 @@ var UpdateMsgHandle = /** @class */ (function () {
     };
     UpdateMsgHandle.playMusic = function (src) {
         Debug.log("UpdateMsgHandle.playMusic");
+        //2019.10.7-去掉以下功能(debugxxx)
         //刷新本地缓存音频设置
-        SaveManager.getObj().refreshSaveObj();
-        var b_music_switch = SaveManager.getObj().get(SaveManager.KEY_MUSIC_SWITCH, 1);
-        var f_music_value = SaveManager.getObj().get(SaveManager.KEY_MUSIC_VL, 1);
-        //引擎
-        Laya.SoundManager.musicVolume = f_music_value;
-        if (b_music_switch == 1)
-            Laya.SoundManager.playMusic(UpdateMsgHandle.raw_root + src);
+        // SaveManager.getObj().refreshSaveObj();
+        // var b_music_switch = SaveManager.getObj().get(SaveManager.KEY_MUSIC_SWITCH, 1);
+        // var f_music_value = SaveManager.getObj().get(SaveManager.KEY_MUSIC_VL, 1);
+        // //引擎
+        // Laya.SoundManager.musicVolume = f_music_value;
+        // if (b_music_switch == 1) Laya.SoundManager.playMusic(UpdateMsgHandle.raw_root + src);
     };
     UpdateMsgHandle.updateInitMsg = null;
     UpdateMsgHandle.raw_root = "./assets/raw/";

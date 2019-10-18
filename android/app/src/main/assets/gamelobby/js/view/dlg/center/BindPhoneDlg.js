@@ -89,7 +89,6 @@ var view;
                         var phoneNum = _this.phoneTxt.text;
                         if (suc) {
                             LoginModel.visitorToAccount(phoneNum, pwd1);
-                            GameData.isGetBindAward = true;
                             Toast.showToast("账号已升级为正式账号，请放心使用");
                             EventManager.dispath(EventType.GETBINDAWARD_SUCC, phoneNum);
                             _this.close(null, true);
@@ -102,7 +101,6 @@ var view;
                             //设备号限制(绑定成功,但是不能在此设备领取)(备注：由于后端没法区分错误code，临时通过文字判断解决)
                             if (str.indexOf("绑定成功") != -1) {
                                 LoginModel.visitorToAccount(phoneNum, pwd1);
-                                GameData.isGetBindAward = true;
                                 EventManager.dispath(EventType.GETBINDAWARD_SUCC, phoneNum);
                                 _this.close(null, true);
                                 Debug.error("绑定超限,绑定成功,但无送金");
