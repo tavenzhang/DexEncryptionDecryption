@@ -326,10 +326,10 @@ export default class XXWebView extends Component {
                                 try {
                                     switch (shareData.type) {
                                         case "friend":
-                                            this.onClickWechatShare();
+                                            TCUserOpenPayApp.onWXShare();
                                             break;
                                         case "circle":
-                                            this.onClickWechatPyqShare();
+                                            TCUserOpenPayApp.onWX_PYQ_SHARE();
                                             break;
                                     }
                                 }catch (e) {
