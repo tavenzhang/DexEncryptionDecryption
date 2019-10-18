@@ -72,20 +72,13 @@ export default class ShareBox extends Component {
         let shareData=TW_Store.gameUIStroe.shareData;
         if (!isWechatEnabled) {
             Clipboard.setString(shareData.param);
-            TCUserOpenPayApp.isCanOpen('weixin://',(result)=>{
-                if(result){
-                    TCUserOpenPayApp.openWX();
-                    TW_Store.gameUIStroe.wxShareHandle={isShareIng:true,callback:()=>{
+           TCUserOpenPayApp.openWX();
+           TW_Store.gameUIStroe.wxShareHandle={isShareIng:true,callback:()=>{
                             TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.shareSucess,{data:"friend"}));
                             TW_Store.gameUIStroe.isShowShare=false;
                         }}
-
-                }else{
-                    TCUserOpenPayApp.openWX();
-                }
-            })
+            }
             TW_Store.gameUIStroe.isShowShare=false;
-        }
     }
 
     onClickWechatShare() {
