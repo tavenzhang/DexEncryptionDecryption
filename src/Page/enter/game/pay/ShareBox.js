@@ -38,39 +38,17 @@ export default class ShareBox extends Component {
     };
 
     componentWillMount(): void {
-        let shareData=TW_Store.gameUIStroe.shareData;
-        let isFast = shareData.isfast =="1"||shareData.type;
-        if(isFast){
-            try {
-                switch (shareData.type) {
-                    case "friend":
-                        this.onClickWechatShare();
-                        break;
-                    case "circle":
-                        this.onClickWechatPyqShare();
-                        break;
-                }
+        TW_Store.gameUIStroe.checkWXInstall(ret=>{
+            if(ret){
+                TN_IsWechatEnabled((isWechatEnabled) => {
+                    TW_Log("targetAppDir-33---isWechatEnabled-"+isWechatEnabled);
+                    this.setState({ isWechatEnabled });
+                    this.openPayApp(isWechatEnabled);
+                });
+            }else {
                 TW_Store.gameUIStroe.isShowShare=false;
-            }catch (e) {
-                isFast = false;
             }
-        }
-        if(!isFast){
-            TW_Store.gameUIStroe.checkWXInstall(ret=>{
-                if(ret){
-                    TN_IsWechatEnabled((isWechatEnabled) => {
-                        //TW_Log("targetAppDir-33---isWechatEnabled-"+isWechatEnabled);
-                        this.setState({ isWechatEnabled });
-                        this.openPayApp(isWechatEnabled);
-                    });
-                }else {
-                    TW_Store.gameUIStroe.isShowShare=false;
-                }
-            })
-        }
-
-
-
+        })
 
 
 
@@ -81,15 +59,13 @@ export default class ShareBox extends Component {
         let shareData=TW_Store.gameUIStroe.shareData;
         if (!isWechatEnabled) {
             Clipboard.setString(shareData.param);
-            TCUserOpenPayApp.openWX();
-            TW_Store.gameUIStroe.wxShareHandle = {
-                isShareIng: true, callback: () => {
-                    TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.shareSucess, {data: "friend"}));
-                    TW_Store.gameUIStroe.isShowShare = false;
+            TCUserOpenPayApp.isCanOpen('weixin://',(result)=>{
+                if(result){
+                    TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.shareSucess,{data:"friend"}));
                 }
-            }
-
-            TW_Store.gameUIStroe.isShowShare = false;
+            })
+            TCUserOpenPayApp.openWX();
+            TW_Store.gameUIStroe.isShowShare=false;
         }
     }
 
@@ -100,17 +76,13 @@ export default class ShareBox extends Component {
             url=url+"&pic="+shareData.image
         }
         TN_WechatShare(WECHAT.SHARE_TITLE, shareData.image, url, WECHAT.SHARE_MSG, false,()=>{
-            if(TW_Store.gameUIStroe.wxShareHandle.isShareIng){
-                if(TW_Store.gameUIStroe.wxShareHandle.callback){
-                    TW_Store.gameUIStroe.wxShareHandle.callback();
-                    TW_Store.gameUIStroe.wxShareHandle.isShareIng=false;
-                }
-            }
+
         });
-        TW_Store.gameUIStroe.wxShareHandle={isShareIng:true,callback:()=>{
-                TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.shareSucess,{data:"friend"}));
-                TW_Store.gameUIStroe.isShowShare=false;
-            }}
+        setTimeout(()=>{
+            TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.shareSucess,{data:"friend"}));
+            TW_Store.gameUIStroe.isShowShare=false;
+        },2000);
+
     }
 
     onClickWechatPyqShare() {
@@ -119,20 +91,15 @@ export default class ShareBox extends Component {
         if(shareData.image){
             url=url+"&pic="+shareData.image
         }
-
         TN_WechatShare(WECHAT.SHARE_TITLE, shareData.image, url, WECHAT.SHARE_MSG, true,()=>{
-            if(TW_Store.gameUIStroe.wxShareHandle.isShareIng){
-                if(TW_Store.gameUIStroe.wxShareHandle.callback){
-                    TW_Store.gameUIStroe.wxShareHandle.callback();
-                    TW_Store.gameUIStroe.wxShareHandle.isShareIng=false;
-                }
-            }
-        });
 
-        TW_Store.gameUIStroe.wxShareHandle={isShareIng:true,callback:()=>{
-                TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.shareSucess,{data:"circle"}));
-                TW_Store.gameUIStroe.isShowShare=false;
-            }}
+        });
+        setTimeout(()=>{
+            TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.shareSucess,{data:"circle"}));
+            TW_Store.gameUIStroe.isShowShare=false;
+        },2000);
+
+
     }
 
     render() {

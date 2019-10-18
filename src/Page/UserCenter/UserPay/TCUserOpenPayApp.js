@@ -5,9 +5,15 @@ import {
 } from 'react-native'
 
 import Toast from '../../../Common/JXHelper/JXToast';
+import {MyAppName} from "../../../config/appConfig";
 /**
  * 打开用户支付App
  */
+
+const WECHAT = {
+    SHARE_TITLE: MyAppName,
+    SHARE_MSG: '快乐一起分享，大家一起来'
+};
 export default class TCUserOpenPayApp {
 
     WEICHAT_PACKAGE = "com.tencent.mm"
@@ -141,5 +147,47 @@ export default class TCUserOpenPayApp {
         Linking.openURL(url).catch(err => {
             Toast.showShortCenter('请您先安装' + payType + '应用！')
         })
+    }
+
+    static onWXShare() {
+        let shareData=TW_Store.gameUIStroe.shareData;
+        let url = shareData.param;
+        if(shareData.image){
+            url=url+"&pic="+shareData.image
+        }
+        TN_WechatShare(WECHAT.SHARE_TITLE, shareData.image, url, WECHAT.SHARE_MSG, false,()=>{
+            if(TW_Store.gameUIStroe.wxShareHandle.isShareIng){
+                if(TW_Store.gameUIStroe.wxShareHandle.callback){
+                    TW_Store.gameUIStroe.wxShareHandle.callback();
+                    TW_Store.gameUIStroe.wxShareHandle.isShareIng=false;
+                }
+            }
+        });
+        TW_Store.gameUIStroe.wxShareHandle={isShareIng:true,callback:()=>{
+                TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.shareSucess,{data:"friend"}));
+                TW_Store.gameUIStroe.isShowShare=false;
+            }}
+    }
+
+    static onWX_PYQ_SHARE() {
+        let shareData=TW_Store.gameUIStroe.shareData;
+        let url = shareData.param;
+        if(shareData.image){
+            url=url+"&pic="+shareData.image
+        }
+
+        TN_WechatShare(WECHAT.SHARE_TITLE, shareData.image, url, WECHAT.SHARE_MSG, true,()=>{
+            if(TW_Store.gameUIStroe.wxShareHandle.isShareIng){
+                if(TW_Store.gameUIStroe.wxShareHandle.callback){
+                    TW_Store.gameUIStroe.wxShareHandle.callback();
+                    TW_Store.gameUIStroe.wxShareHandle.isShareIng=false;
+                }
+            }
+        });
+
+        TW_Store.gameUIStroe.wxShareHandle={isShareIng:true,callback:()=>{
+                TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.shareSucess,{data:"circle"}));
+                TW_Store.gameUIStroe.isShowShare=false;
+            }}
     }
 }
