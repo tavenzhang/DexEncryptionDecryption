@@ -319,7 +319,25 @@ export default class XXWebView extends Component {
                                 message.param = TW_Store.bblStore.appShareUrl+"&affCode="+message.affcode;
                             }
                             TW_Store.gameUIStroe.shareData = message;
-                            TW_Store.gameUIStroe.isShowShare = true;
+
+                            let shareData = message;
+                            let isFast = shareData.isfast =="1"||shareData.type;
+                            if(isFast){
+                                try {
+                                    switch (shareData.type) {
+                                        case "friend":
+                                            TCUserOpenPayApp.onWXShare();
+                                            break;
+                                        case "circle":
+                                            TCUserOpenPayApp.onWX_PYQ_SHARE();
+                                            break;
+                                    }
+                                }catch (e) {
+                                    TW_Store.gameUIStroe.checkWXInstall();
+                                }
+                            }else{
+                                TW_Store.gameUIStroe.isShowShare = true;
+                            }
                             break;
                         case  "closeApp":
                             TN_ExitApp();

@@ -326,11 +326,11 @@ export default class DataStore {
             .catch((error) => {
                 TW_Log("versionBBL  解压失败11",error);
             }).finally(()=>{
-                     TW_Store.gameUpateStore.isLoading=false;
-                     TW_Store.gameUpateStore.isTempExist=true;
                      setTimeout(()=>{
                              TW_LoaderOnValueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.game_loading,{data:{do:"loadFinish"}}));
-                         },G_IS_IOS ? 500:2000)
+                             TW_Store.gameUpateStore.isLoading=false;
+                             TW_Store.gameUpateStore.isTempExist=true;
+                             },G_IS_IOS ? 500:2000)
 
             })
     }
