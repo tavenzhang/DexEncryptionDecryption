@@ -65,6 +65,7 @@
         "attention_new": "/gamecenter/player/notice/list/new",
         "attention_pop": "/gamecenter/player/notice/pop",
         "attention_read": "/gamecenter/player/notice/read/",
+        "getNoticeActivity": "/gamecenter/player/notice/getNoticeActivity",
         "attention_lottery": "/gamecenter/player/activity/lottery",
         "attention_lottery_record": "/gamecenter/player/activity/getLotteryRecord",
         "user_bet_info": "/gamecenter/player/activity/userBetInfo",
