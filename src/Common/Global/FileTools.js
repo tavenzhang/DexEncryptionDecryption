@@ -14,8 +14,8 @@ export default class FileTools {
 
     static downloadFile(formUrl, downloadDest, param, onSucFuc, onProgress) {
 
-        formUrl = formUrl + "?rodom=" + Math.random();
-        TW_Log("FileTools---downloadFile==" + formUrl);
+        formUrl = formUrl + "?v=" + (param&&param.newVersion ? param.newVersion :Math.random());
+        TW_Log("FileTools---downloadFile==" + formUrl,param);
         const options = {
             fromUrl: formUrl,
             toFile: downloadDest,
