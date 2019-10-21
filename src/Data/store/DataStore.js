@@ -170,7 +170,7 @@ export default class DataStore {
                     if (this.homeVersionM.versionNum != content.versionNum) {
                         TW_Store.gameUpateStore.isNeedUpdate=true;
                         if(!TW_Store.gameUpateStore.isAppDownIng) {
-                            this.downloadFile(zipSrc, rootStore.bblStore.tempZipDir);
+                            this.downloadFile(zipSrc, rootStore.bblStore.tempZipDir,content.versionNum);
                         }
                     }else{
                         TW_Store.gameUpateStore.isNeedUpdate=false;
@@ -213,10 +213,10 @@ export default class DataStore {
         CodePush.restartApp();
     }
 
-    downloadFile=(formUrl,downloadDest)=> {
+    downloadFile=(formUrl,downloadDest,newVersion)=> {
         this.clearCurrentDownJob();
         this.downloadDest= downloadDest;
-        formUrl=formUrl+"?rodom="+Math.random();
+        formUrl=formUrl+"?verson="+(newVersion ? newVersion :Math.random());
         TW_Log("versionBBL---downloadFile=="+formUrl);
         const options = {
             fromUrl: formUrl,
