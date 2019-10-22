@@ -4,13 +4,13 @@ import React, {
 
 
 export const appDomainBase = {
-    base1: "https://oo5ucdchyqp.wxzbk.com",
-    base2: "https://aukg0dchyqp.wxzbk.com",
-    base3: "https://9rsviwchyqp.wxzbk.com",
-    base4: "https://wriq9wchyqp.wxzbk.com",
-    base5: "https://oo5ucdchyqp.qingfengzdh.com",
-    base6: "https://aukg0dchyqp.qingfengzdh.com",
-    base7: "https://hosobw29.gybye.cn",
+    base1: "https://ml9kmychyqp.wxzbk.com",
+    base2: "https://xw3yzuchyqp.wxzbk.com",
+    base3: "https://cfvp4uchyqp.wxzbk.com",
+    base4: "https://0lfzqvchyqp.wxzbk.com",
+    base5: "https://ml9kmychyqp.qingfengzdh.com",
+    base6: "https://xw3yzuchyqp.qingfengzdh.com",
+    base7: "https://xw3yzuchyqp.qingfengzdh.com",
 }
 
 
