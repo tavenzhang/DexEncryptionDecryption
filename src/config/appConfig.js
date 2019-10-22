@@ -49,7 +49,7 @@ export const safeguardKey = 'ewoJImQiOiBbImh0dHBzOi8vY2VhNGVjYTY1MGQ3MWJkOWQ1NTJ
 
 export const platInfo = {
 
-    downDomain:"https://download.jinkuangjia.com",
+    downDomain:"https://download1.jinkuangjia.com",
 
     zipCheckServer: {
         debug_server: "http://192.168.14.70:8888",
