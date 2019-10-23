@@ -25,12 +25,14 @@ export default class ModuleWebView extends Component {
         if(!visible){
             return null;
         }
+
+
         // let home = GameUtils.getQueryVariable("apihome");
         // let token = GameUtils.getQueryVariable("token");
         // let cid = GameUtils.getQueryVariable("clientId");
         // let surl = GameUtils.getQueryVariable("service");
         let myParam = `?apihome=${TW_Store.bblStore.getUriConfig().url.apihome}&token=${TW_Store.userStore.access_token}&clientId=${TW_Store.appStore.clindId}&service=${TW_Store.gameUIStroe.gustWebUrl}&debug=${TW_Store.appStore.isSitApp}`;
-        let isShowUi=TW_Store.gameUIStroe.isShowAddPayView
+        let isShowUi=TW_Store.gameUIStroe.isShowAddPayView||TW_Store.gameUIStroe.isShowGuest
         if (this.refs.myView) {
             this.refs.myView.setNativeProps({style: {zIndex: isShowUi ?  10001:-888}});
             if(isShowUi){
@@ -38,6 +40,9 @@ export default class ModuleWebView extends Component {
                     if(this.currentView!=TW_Store.bblStore.ACT_ENUM.showRecharge){
                         this.onLoadEvalueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.showRecharge));
                     }
+                }
+                if(TW_Store.gameUIStroe.isShowGuest){
+                    this.onLoadEvalueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.showService));
                 }
                 // else if(TW_Store.gameUIStroe.isShowWithDraw){
                 //     if(this.currentView!=TW_Store.bblStore.ACT_ENUM.showRecharge){
@@ -56,6 +61,11 @@ export default class ModuleWebView extends Component {
             source = {
                 uri: newUrl + `${myParam}`,
             };
+        }
+        if (TW_IS_DEBIG) {
+            // source =  require('./../../../android/app/src/main/assets/gamelobby/index.html');
+            let uri = "http://localhost:8081/android/app/src/main/assets/gamelobby/plugView/index.html?platform=ios&hash=7e5876ea5a240467db5670550b53411b&rm-" + this.rom
+            source = {uri}
         }
 
         let injectJs = `window.appData=${JSON.stringify({
@@ -118,7 +128,7 @@ export default class ModuleWebView extends Component {
                     // TW_Log("game---ct=="+message.ct,message.data);
                     break;
                 case  "game_custom":
-                    TW_Store.gameUIStroe.showGusetView();
+                    TW_Store.gameUIStroe.isShowGuest=false;
                     // TW_Store.gameUIStroe.isShowShare=!TW_Store.gameUIStroe.isShowShare
                     break;
                 case "closeUI":
@@ -150,13 +160,11 @@ export default class ModuleWebView extends Component {
     onLoadEvalueJS = (data) => {
         let dataStr = JSON.stringify(data);
         dataStr = dataStr ? dataStr : "";
-
         if(this.refs.myWebView){
             TW_Log("downloadFile---ModuleWebView--versionBBL---progress-onLoadEvalueJS=-",data);
             this.refs.myWebView.postMessage(dataStr, "*");
         }
 
-        //this.refs.myWebView.evaluateJavaScript(`receivedMessageFromRN(${dataStr})`);
     }
 
     onNavigationStateChange = (navState) => {
