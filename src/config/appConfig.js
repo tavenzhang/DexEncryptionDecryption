@@ -3,13 +3,9 @@ import React, {
 } from 'react-native';
 
 export const appDomainBase = {
-    base1: 'https://qp01-game.513xyz.com',
-    base2: 'https://qp01-game.513xyz.com,',
-    base3: 'https://qp01-game.513xyz.com',
-    base4: 'https://qp01-game.513xyz.com',
-    base5: 'https://qp01-game.513xyz.com',
-    base6: 'https://qp01-game.513xyz.com',
-    base7: 'https://qp01-game.513xyz.com',
+    base1: 'https://*.shenhecm.com',
+    base2: 'https://*.shenhecm.com',
+    // base2: 'https://qp01-game.513xyz.com,',
 }
 
 
@@ -20,13 +16,10 @@ export const AppConfig = {
     allowFontScaling: true,
     domains: [
         appDomainBase.base1,
-        appDomainBase.base2,
-        appDomainBase.base3
+
     ],
     backupDomains: [
-        appDomainBase.base4,
-        appDomainBase.base5,
-        appDomainBase.base6
+        appDomainBase.base2,
     ],
     checkUpdateDomains:[
         "https://www.ba2d16.com",

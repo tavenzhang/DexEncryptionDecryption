@@ -53,7 +53,7 @@ export default class AppInfoStore {
   @observable
   versionHotFix = versionHotFix;
   @observable
-  currentDomain = '';
+  currentDomain = AppConfig.domains[0];
   @observable
   appInfo = {
     PLAT_ID: "",

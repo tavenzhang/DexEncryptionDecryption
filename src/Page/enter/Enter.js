@@ -144,14 +144,8 @@ export default class Enter extends Component {
 
 
     onInitAllData=()=>{
-        this.initData();
+        this.isReloadAppDomain=false;
         this.uploadLog();
-        // this.timer2 = setTimeout(() => {
-        //     if (this.hotFixStore.syncMessage === '检测更新中...' || this.hotFixStore.syncMessage === '初始化配置中...') {
-        //         this.hotFixStore.skipUpdate();
-        //       //  this.reloadAppDomain();
-        //     }
-        // }, 7 * 1000)
 
         if(G_IS_IOS){
             if(Orientation&&Orientation.lockToLandscapeRight){
@@ -168,24 +162,27 @@ export default class Enter extends Component {
     //域名异常启动介入
     reloadAppDomain(){
         TW_Log('reloadAppDomain--reloadAppDomain-',)
-        domainsHelper.getSafeguardName((ok)=>{
-            if(ok){
-                //拿到d.json域名初始化
-                this.initDomain();
-                this.timer2 = setTimeout(() => {
-                    if (this.state.syncMessage === '检测更新中...' || this.state.syncMessage === '初始化配置中...') {
-                        this.hotFixStore.skipUpdate();
-                    }
-                },2 * 1000)
-                this.setState({
-                    updateFinished: false,
-                    syncMessage: "初始化配置中...",
-                    updateStatus: 0,
-                })
-            }else {
-                TW_SplashScreen_HIDE();
-            }
-        })
+        if(!this.isReloadAppDomain){
+            this.isReloadAppDomain=true;
+            domainsHelper.getSafeguardName((ok)=>{
+                if(ok){
+                    //拿到d.json域名初始化
+                    this.initDomain();
+                    this.timer2 = setTimeout(() => {
+                        if (this.state.syncMessage === '检测更新中...' || this.state.syncMessage === '初始化配置中...') {
+                            this.hotFixStore.skipUpdate();
+                        }
+                    },2 * 1000)
+                    this.setState({
+                        updateFinished: false,
+                        syncMessage: "初始化配置中...",
+                        updateStatus: 0,
+                    })
+                }else {
+                    TW_SplashScreen_HIDE();
+                }
+            })
+        }
     }
 
 
@@ -213,17 +210,12 @@ export default class Enter extends Component {
             //checkView =this.updateFailView()
             checkView = null
         }
-
-        // else {
-        //     return (<App/>);
-        // }
         return (<View style={{flex:1}}>
                       <App/>
                      {checkView}
               </View>)
     }
-
-
+    
 
     initDomain() {
         TW_Store.dataStore.initAppHomeCheck();
@@ -244,10 +236,6 @@ export default class Enter extends Component {
         }).catch((error) => {
             StartUpHelper.getAvailableDomain(AppConfig.domains, this.cacheAttempt)
         })
-    }
-
-    initData() {
-        TW_Store.appStore.currentDomain = AppConfig.domains[0];
     }
 
     //使用默认地址
