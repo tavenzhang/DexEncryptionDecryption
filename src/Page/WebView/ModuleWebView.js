@@ -38,22 +38,21 @@ export default class ModuleWebView extends Component {
             if(isShowUi){
                 if(TW_Store.gameUIStroe.isShowAddPayView){
                     if(this.currentView!=TW_Store.bblStore.ACT_ENUM.showRecharge){
+                        this.currentView=TW_Store.bblStore.ACT_ENUM.showRecharge;
                         this.onLoadEvalueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.showRecharge));
                     }
                 }
                 if(TW_Store.gameUIStroe.isShowGuest){
-                    this.onLoadEvalueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.showService));
+                    if(this.currentView!=TW_Store.bblStore.ACT_ENUM.isShowGuest){
+                        this.currentView=TW_Store.bblStore.ACT_ENUM.isShowGuest;
+                        this.onLoadEvalueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.showService));
+                    }
+
                 }
-                // else if(TW_Store.gameUIStroe.isShowWithDraw){
-                //     if(this.currentView!=TW_Store.bblStore.ACT_ENUM.showRecharge){
-                //         this.onLoadEvalueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.showWithdraw));
-                //     }
-                // }
             }
             if(this.isFirstShow){
-                setTimeout(()=>{
-                    this.refs.myView.setNativeProps({style: {zIndex: isShowUi ?  10001:-888}});
-                },G_IS_IOS? 500:800)
+                this.isFirstShow=false;
+                setTimeout(this.onShowUI, G_IS_IOS ? 500:800)
             }else{
                 this.onShowUI()
             }
