@@ -17,6 +17,7 @@ export default class ModuleWebView extends Component {
         super(state)
         TW_OnValueModuleJS = this.onLoadEvalueJS;
         this.currentView="";
+        this.isFirstShow=true
     }
 
     render() {
@@ -26,7 +27,6 @@ export default class ModuleWebView extends Component {
             return null;
         }
 
-
         // let home = GameUtils.getQueryVariable("apihome");
         // let token = GameUtils.getQueryVariable("token");
         // let cid = GameUtils.getQueryVariable("clientId");
@@ -34,7 +34,7 @@ export default class ModuleWebView extends Component {
         let myParam = `?apihome=${TW_Store.bblStore.getUriConfig().url.apihome}&token=${TW_Store.userStore.access_token}&clientId=${TW_Store.appStore.clindId}&service=${TW_Store.gameUIStroe.gustWebUrl}&debug=${TW_Store.appStore.isSitApp}`;
         let isShowUi=TW_Store.gameUIStroe.isShowAddPayView||TW_Store.gameUIStroe.isShowGuest
         if (this.refs.myView) {
-            this.refs.myView.setNativeProps({style: {zIndex: isShowUi ?  10001:-888}});
+
             if(isShowUi){
                 if(TW_Store.gameUIStroe.isShowAddPayView){
                     if(this.currentView!=TW_Store.bblStore.ACT_ENUM.showRecharge){
@@ -49,6 +49,13 @@ export default class ModuleWebView extends Component {
                 //         this.onLoadEvalueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.showWithdraw));
                 //     }
                 // }
+            }
+            if(this.isFirstShow){
+                setTimeout(()=>{
+                    this.refs.myView.setNativeProps({style: {zIndex: isShowUi ?  10001:-888}});
+                },G_IS_IOS? 500:800)
+            }else{
+                this.onShowUI()
             }
         }
         let source = {
@@ -107,7 +114,10 @@ export default class ModuleWebView extends Component {
         );
     }
 
-
+    onShowUI=()=>{
+        let isShowUi=TW_Store.gameUIStroe.isShowAddPayView||TW_Store.gameUIStroe.isShowGuest
+        this.refs.myView.setNativeProps({style: {zIndex: isShowUi ?  10001:-888}});
+    }
     onMessage = (event) => {
         let message = null;
         try {
