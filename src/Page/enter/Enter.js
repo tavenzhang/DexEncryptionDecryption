@@ -167,8 +167,8 @@ export default class Enter extends Component {
 
     //域名异常启动介入
     reloadAppDomain(){
+        TW_Log('reloadAppDomain--reloadAppDomain-',)
         domainsHelper.getSafeguardName((ok)=>{
-
             if(ok){
                 //拿到d.json域名初始化
                 this.initDomain();
@@ -287,7 +287,7 @@ export default class Enter extends Component {
             }
             this.storeLog({faileMessage: customerMessage});
             this.hotFixStore.updateFailMsg(customerMessage);
-            this.reloadAppDomain()
+             this.reloadAppDomain()
         } else {
             // TODO 审核通过之后 放开如下，告知ip不在更新范围内的用户11
             // TODO 审核通过之后 放开如下，告知ip不在更新范围内的用户11
