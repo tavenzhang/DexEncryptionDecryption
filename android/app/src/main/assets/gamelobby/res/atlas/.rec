@@ -246,6 +246,8 @@ P 77F8F1FD uiyue.png
 P 24498986 updatebar.png
 P 81503784 updatebg.png
 P 27232D7A weihuzhong.png
+P 2E79E788 white_cz.png
+P B10AA9D9 white_dh.png
 D ui/login
 P A7EA188C bg_denglu_dabeijing.jpg
 P 84DFCA82 btn_denglu_qiehuan.png
@@ -255,7 +257,7 @@ P 64FCA083 denglu_hqyzm02.png
 P 81180ACC denglu_weixin.png
 P BC4E2C16 denglu_youke.png
 P 3D65094C denglu_zhanbhao.png
-P 110D9821 icon_denglu_kefu.png
+P CB259ACB icon_denglu_kefu.png
 P A0D9747C icon_denglu_youke.png
 P DCA4C7B2 img_denglu_banbenhao.png
 P F4C379C0 img_denglu_qita.png
@@ -385,6 +387,41 @@ P 95AD9006 wxMax.png
 P 177D90CC wxMin.png
 P 930C310C zfbMax.png
 P 2DED6450 zfbMin.png
+D ui/withdraw
+P 822DB8FB btn_czmx_bt02.png
+P B4B605ED btn_tx_01.png
+P C0837921 btn_tx_02.png
+P BEAB940E btn_tx_03.png
+P ABBB754B btn_tx_xz01.png
+P 12F89484 check_czmx1.png
+P B385182A check_czmx2.png
+P 85462F7F check_czmx3.png
+P 35DC42B3 cz_lxkf.png
+P 06A943B3 drawviewbg.png
+P 71E5935E img_cz_kuang.png
+P 99077AFB img_czmx_ts02.png
+P 5B9E3F07 img_tx_bt01.png
+P 5A0C1116 img_tx_cy02.png
+P 4BF322E8 img_tx_dk-tb.png
+P F4AAF8FF img_tx_f-hxtz.png
+P 687AA588 img_tx_f-skyh.png
+P 1EF8F052 img_tx_f-skzfb.png
+P 6FBC28EC img_tx_f-tqdyhk-0.png
+P 2088B71E img_tx_f-tqdyhk-1.png
+P 72AFB717 img_tx_f-tqdzfb-0.png
+P 1F2EF979 img_tx_f-tqdzfb-1.png
+P 94BCE5E3 img_tx_f-tqje.png
+P 7CAAE9E1 img_tx_f-tx.png
+P F1DB5B66 img_tx_f-y.png
+P 8D55CCAB img_tx_f-yxtz.png
+P 514912BE img_tx_jb01.png
+P DD730F6D img_tx_wz01.png
+P 2A47CC74 img_tx_yl.png
+P 49B9BA94 img_tx_zfb.png
+P 78BB30B5 img_tx_zwkf.png
+P 215C07BA img_yeb-sfyz_sfyz.png
+P DE248B2C onlinekf.png
+P 9B9E93FA tixianbg.png
 D ui/agent/qrposter
 P F82229E6 bsbg.png
 P 3F39B550 btn_dlewm_yjbc.png
@@ -524,3 +561,10 @@ P 7BA83306 img_zhuanpan_zuanshi.png
 D ui/panel_notice/roullette/activityRoullette/select_light
 P BCCB1DF6 fzjp.png
 R 612A04A1 fzjp.sk
+P DE4C598A sl_dthd_068.png
+P 682B62E7 sl_dthd_069.png
+P C63538AC sl_dthd_070.png
+P 3B81369B sl_dthd_071.png
+P 1373C5AB sl_dthd_072.png
+P F4B1BE28 sl_dthd_073.png
+P CFB49D9D sl_dthd_074.png
