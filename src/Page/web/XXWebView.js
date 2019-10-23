@@ -182,6 +182,7 @@ export default class XXWebView extends Component {
             clientId: TW_Store.appStore.clindId,
             urlJSON: TW_Store.bblStore.getUriConfig(),
             isAndroidHack: TW_Store.appStore.isInAnroidHack,
+            hackData:{filterGameList:["zjh","lhd","bjl","pg","jlbsh"]},
             deviceToken: TW_Store.appStore.deviceToken,
             loginDomain: TW_Store.bblStore.loginDomain + "/api/v1/account",
             gameDomain: TW_Store.bblStore.gameDomain + "/api/v1/gamecenter",
@@ -419,15 +420,18 @@ export default class XXWebView extends Component {
                     break;
                 case  "game_custom":
                     TW_Store.gameUIStroe.showGusetView(!TW_Store.gameUIStroe.isShowGuest);
-                    this.countDebug++;
-                    setTimeout(()=>{
-                        if(this.countDebug>=3){
-                            if(TW_Store.appStore.isSitApp){
-                                TW_Store.bblStore.changeShowDebug(true);
-                                this.countDebug =0;
+                    if(this.countDebug==1){
+                        this.countDebug++;
+                        setTimeout(()=>{
+                            if(this.countDebug>3){
+                                if(TW_Store.appStore.isSitApp){
+                                    TW_Store.bblStore.changeShowDebug(true);
+                                    this.countDebug =1;
+                                }
                             }
-                        }
-                    },1000)
+                        },1000)
+                    }
+
                     // TW_Store.gameUIStroe.isShowShare=!TW_Store.gameUIStroe.isShowShare
                     break;
                 case "game_redraw":

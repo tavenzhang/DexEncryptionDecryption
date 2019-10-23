@@ -131,6 +131,16 @@
             "desc": "奔驰宝马",
             "alias": "bcbm",
             "anim_sk": "./assets/animation/icons/bcbm/bcbm.sk"
+        },
+        {
+            "desc": "幸运樱桃",
+            "alias": "XYYT",
+            "anim_sk": "./assets/animation/icons/xinyunyingtao/xyyt.sk"
+        },
+        {
+            "desc": "水浒传",
+            "alias": "SHZ",
+            "anim_sk": "./assets/animation/icons/shz/shz.sk"
         }
     ],
     "defaultIcon": "ddz"

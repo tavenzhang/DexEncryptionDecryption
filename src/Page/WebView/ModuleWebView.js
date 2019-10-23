@@ -17,6 +17,7 @@ export default class ModuleWebView extends Component {
         super(state)
         TW_OnValueModuleJS = this.onLoadEvalueJS;
         this.currentView="";
+        this.isFirstShow=true
     }
 
     render() {
@@ -26,29 +27,33 @@ export default class ModuleWebView extends Component {
             return null;
         }
 
-
         // let home = GameUtils.getQueryVariable("apihome");
         // let token = GameUtils.getQueryVariable("token");
         // let cid = GameUtils.getQueryVariable("clientId");
         // let surl = GameUtils.getQueryVariable("service");
         let myParam = `?apihome=${TW_Store.bblStore.getUriConfig().url.apihome}&token=${TW_Store.userStore.access_token}&clientId=${TW_Store.appStore.clindId}&service=${TW_Store.gameUIStroe.gustWebUrl}&debug=${TW_Store.appStore.isSitApp}`;
-        let isShowUi=TW_Store.gameUIStroe.isShowAddPayView||TW_Store.gameUIStroe.isShowGuest
+      //  let isShowUi=TW_Store.gameUIStroe.isShowAddPayView||TW_Store.gameUIStroe.isShowGuest
+        let isShowUi=TW_Store.gameUIStroe.isShowAddPayView;
         if (this.refs.myView) {
-            this.refs.myView.setNativeProps({style: {zIndex: isShowUi ?  10001:-888}});
             if(isShowUi){
                 if(TW_Store.gameUIStroe.isShowAddPayView){
                     if(this.currentView!=TW_Store.bblStore.ACT_ENUM.showRecharge){
+                        this.currentView=TW_Store.bblStore.ACT_ENUM.showRecharge;
                         this.onLoadEvalueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.showRecharge));
                     }
                 }
-                if(TW_Store.gameUIStroe.isShowGuest){
-                    this.onLoadEvalueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.showService));
-                }
-                // else if(TW_Store.gameUIStroe.isShowWithDraw){
-                //     if(this.currentView!=TW_Store.bblStore.ACT_ENUM.showRecharge){
-                //         this.onLoadEvalueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.showWithdraw));
+                // if(TW_Store.gameUIStroe.isShowGuest){
+                //     if(this.currentView!=TW_Store.bblStore.ACT_ENUM.isShowGuest){
+                //         this.currentView=TW_Store.bblStore.ACT_ENUM.isShowGuest;
+                //         this.onLoadEvalueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.showService));
                 //     }
                 // }
+            }
+            if(this.isFirstShow){
+                this.isFirstShow=false;
+                setTimeout(this.onShowUI, G_IS_IOS ? 700:1000)
+            }else{
+                this.onShowUI()
             }
         }
         let source = {
@@ -107,7 +112,11 @@ export default class ModuleWebView extends Component {
         );
     }
 
-
+    onShowUI=()=>{
+        let isShowUi=TW_Store.gameUIStroe.isShowAddPayView||TW_Store.gameUIStroe.isShowGuest;
+        TW_Log("ModuleWebView---onShowUI=="+isShowUi,isShowUi)
+        this.refs.myView.setNativeProps({style: {zIndex: isShowUi ?  10001:-888}});
+    }
     onMessage = (event) => {
         let message = null;
         try {
