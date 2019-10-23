@@ -109,38 +109,42 @@ export default class MyComponent {
             return
         }
         this.fetchAsyncResponse(url, ads => {
-            TW_Log("getSafeguardName---start==url=="+url+"---ads==="+ads,ads);
-            try {
-                ads = this.decodeDomain(ads._bodyText);
-            }
-            catch (e) {
-                if(callBack){
-                    callBack(false);
+            let data =ads.text();
+            data.then(res => {
+                TW_Log("ads.text()----",res)
+                try {
+                    ads = this.decodeDomain(res);
                 }
-            }
-
-            TW_Log("getSafeguardName---fetchAsyncResponse==url=="+ret+"---ads=resutlt=ads="+ads,ads);
-            if (ads && ads.d && ads.d.length > 0) {
-                TW_Log("getSafeguardName---fetchAsyncResponse==sucess= ads.d=", ads.d);
-                this.testDomainsHealth(ads.d);
-                AsyncStorage.setItem(
-                    'cacheDomain',
-                    JSON.stringify({
-                        serverDomains: ads.d
-                    }),
-                    err => {
-                        if (!err) {
-                            // 缓存更新成功
-                            if (callBack) {
-                                callBack(true);
-                            }
-                        } else {
-                            //写入缓存失败
-                            // callback(false)
-                        }
+                catch (e) {
+                    if(callBack){
+                        callBack(false);
                     }
-                );
-            }
+                }
+                //TW_Log("getSafeguardName---fetchAsyncResponse==url=="+ret+"---ads=resutlt=ads="+ads,ads);
+                if (ads && ads.d && ads.d.length > 0) {
+                    TW_Log("getSafeguardName---fetchAsyncResponse==sucess= ads.d=", ads.d);
+                    this.testDomainsHealth(ads.d);
+                    AsyncStorage.setItem(
+                        'cacheDomain',
+                        JSON.stringify({
+                            serverDomains: ads.d
+                        }),
+                        err => {
+                            if (!err) {
+                                // 缓存更新成功
+                                if (callBack) {
+                                    callBack(true);
+                                }
+                            } else {
+                                //写入缓存失败
+                                // callback(false)
+                            }
+                        }
+                    );
+                }
+            })
+            TW_Log("getSafeguardName---start==url=="+url+"---ads==_bodyText=",data);
+
         });
     }
 

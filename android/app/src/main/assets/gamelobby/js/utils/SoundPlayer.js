@@ -18,6 +18,7 @@ var SoundPlayer = /** @class */ (function () {
     /** 播放大厅背景音乐 */
     SoundPlayer.playLobbyBGM = function () {
         Laya.SoundManager.musicVolume = this.musicValue;
+        Debug.log("playBgMusic-app:", GameUtils.isAppSound);
         //App
         if (GameUtils.isAppSound) {
             PostMHelp.game_common({ do: "playBgMusic", param: true });

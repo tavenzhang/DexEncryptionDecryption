@@ -32,7 +32,7 @@ var view;
                  * 显示入口
                  */
                 BindPhoneActiveDlg.show = function () {
-                    if (BindPhoneActiveDlg.opened)
+                    if (BindPhoneActiveDlg.opened || LobbyModel.maintenance)
                         return;
                     var dlg = new BindPhoneActiveDlg();
                     dlg.popup(false, true);

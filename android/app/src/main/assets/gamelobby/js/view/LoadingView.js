@@ -60,8 +60,17 @@ var view;
             this.anim = new DragonBoneAnim();
             this.anim.parseInit({ skUrl: "./assets/animation/loading/xiaoLoding.sk", pngUrl: "./assets/animation/loading/xiaoLoding.png" });
             this.abox.addChild(this.anim);
+            this.anim.alpha = 0; //用于优化loading显示
+            Laya.Tween.to(this.anim, { alpha: 1 }, 300, null, null, 1200);
+            Laya.timer.once(GameUtils.outTime + 2000, this, this.timeOut);
+        };
+        LoadingView.prototype.timeOut = function () {
+            console.error("超时异常,关闭loading");
+            LoadingView.hide();
         };
         LoadingView.prototype.destroy = function (dc) {
+            Laya.Tween.clearTween(this.anim);
+            Laya.timer.clear(this, this.timeOut);
             if (this.anim) {
                 this.anim.destroy();
                 this.anim = null;

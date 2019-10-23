@@ -34,7 +34,8 @@ export default class XXWebView extends Component {
         this.isLoading = false;
         this.isShow = false;
         this.isShowKeyBoard = false
-        this.rom = Math.random() * 100000
+        this.rom = Math.random() * 100000;
+        this.countDebug=1;
     }
 
     componentWillMount() {
@@ -318,13 +319,34 @@ export default class XXWebView extends Component {
                                 message.param = TW_Store.bblStore.appShareUrl+"&affCode="+message.affcode;
                             }
                             TW_Store.gameUIStroe.shareData = message;
-                            TW_Store.gameUIStroe.isShowShare = true;
+
+                            let shareData = message;
+                            let isFast = shareData.isfast =="1"||shareData.type;
+                            if(isFast){
+                                try {
+                                    switch (shareData.type) {
+                                        case "friend":
+                                            TCUserOpenPayApp.onWXShare();
+                                            break;
+                                        case "circle":
+                                            TCUserOpenPayApp.onWX_PYQ_SHARE();
+                                            break;
+                                    }
+                                }catch (e) {
+                                    TW_Store.gameUIStroe.checkWXInstall();
+                                }
+                            }else{
+                                TW_Store.gameUIStroe.isShowShare = true;
+                            }
                             break;
                         case  "closeApp":
                             TN_ExitApp();
                             break;
                         case "goToPay"://打开相关app
                             TCUserOpenPayApp.getInstance().openAppByType(message.param);
+                            break;
+                        case "appUpate":
+                            TW_Store.dataStore.onRetartApp();
                             break;
                     }
                     break;
@@ -396,7 +418,16 @@ export default class XXWebView extends Component {
 
                     break;
                 case  "game_custom":
-                    TW_Store.gameUIStroe.showGusetView(!TW_Store.gameUIStroe.isShowGuest)
+                    TW_Store.gameUIStroe.showGusetView(!TW_Store.gameUIStroe.isShowGuest);
+                    this.countDebug++;
+                    setTimeout(()=>{
+                        if(this.countDebug>=3){
+                            if(TW_Store.appStore.isSitApp){
+                                TW_Store.bblStore.changeShowDebug(true);
+                                this.countDebug =0;
+                            }
+                        }
+                    },1000)
                     // TW_Store.gameUIStroe.isShowShare=!TW_Store.gameUIStroe.isShowShare
                     break;
                 case "game_redraw":
@@ -411,7 +442,6 @@ export default class XXWebView extends Component {
                     break;
                 case "game_recharge":
                     TW_Store.gameUIStroe.isShowAddPayView = !TW_Store.gameUIStroe.isShowAddPayView;
-
                     break;
                 case  "debugInfo":
                     let name = message.name ? message.name : "";

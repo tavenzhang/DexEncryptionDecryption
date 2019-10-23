@@ -111,6 +111,12 @@ export default class Enter extends Component {
                 TW_Log("TW_SubGameDownLoaderData-----Active-",TW_SubGameDownLoaderData)
                 TW_Store.dataStore.startLoadGame();
              }
+            if(TW_Store.gameUIStroe.wxShareHandle.isShareIng){
+                if(TW_Store.gameUIStroe.wxShareHandle.callback){
+                    TW_Store.gameUIStroe.wxShareHandle.callback();
+                    TW_Store.gameUIStroe.wxShareHandle.isShareIng=false;
+                }
+            }
             this.flage = false ;
         }else if(nextAppState != null && nextAppState === 'background'){
             TW_Store.dataStore.log += "\nAppStateChange-background\n" ;
@@ -161,8 +167,8 @@ export default class Enter extends Component {
 
     //域名异常启动介入
     reloadAppDomain(){
+        TW_Log('reloadAppDomain--reloadAppDomain-',)
         domainsHelper.getSafeguardName((ok)=>{
-
             if(ok){
                 //拿到d.json域名初始化
                 this.initDomain();
@@ -281,7 +287,7 @@ export default class Enter extends Component {
             }
             this.storeLog({faileMessage: customerMessage});
             this.hotFixStore.updateFailMsg(customerMessage);
-            this.reloadAppDomain()
+             this.reloadAppDomain()
         } else {
             // TODO 审核通过之后 放开如下，告知ip不在更新范围内的用户11
             // TODO 审核通过之后 放开如下，告知ip不在更新范围内的用户11
@@ -477,10 +483,19 @@ export default class Enter extends Component {
                 }
             })
             TW_Store.hotFixStore.isInstalledFinish=true;
+            this.appUpdateTimeid= setInterval(this.noticeAppUpdate,1000);
+
         }).catch((ms) => {
             this.storeLog({updateStatus: false, message: '安装失败,请重试...'})
             this.updateFail('安装失败,请重试...')
         })
+    }
+
+    noticeAppUpdate=()=>{
+        if(TW_Store.gameUpateStore.isEnteredGame){
+            clearInterval(this.appUpdateTimeid);
+            TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appUpate, {data:true}));
+        }
     }
 
     updateFail=(message)=> {

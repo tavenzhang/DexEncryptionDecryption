@@ -64,7 +64,6 @@ var LoginModel = /** @class */ (function () {
             }
             else {
                 Toast.showToast("init5数据异常");
-                console.error("init-err");
                 LayaMain.getInstance().showCircleLoading(false);
                 if (jobj.http.status == 428) {
                     _this.gatewayCount++;
@@ -75,6 +74,8 @@ var LoginModel = /** @class */ (function () {
                         Toast.showToast("服务异常,请稍后再试!");
                     }
                 }
+                if (!isError && caller && callback)
+                    callback.call(caller, false);
             }
         }, "get");
     };
@@ -161,8 +162,7 @@ var LoginModel = /** @class */ (function () {
      */
     LoginModel.creatVisitorAccount = function (caller, callback) {
         LayaMain.getInstance().showCircleLoading(true);
-        var header = ["Content-Type", "application/json; charset=utf-8", "Accept", "*/*", "device_token", GameUtils.deviceToken];
-        header = HttpRequester.getEncryHeader();
+        var header = HttpRequester.getEncryHeader();
         var url = ConfObjRead.apihome + ConfObjRead.httpCmd.prequicklogin;
         HttpRequester.doRequest(url, header, null, this, function (suc, jobj) {
             var vo = null;
@@ -286,7 +286,7 @@ var LoginModel = /** @class */ (function () {
             }
             else {
                 if (jobj.http.status == 428) {
-                    console.error("登录登录失败,重新请求init5");
+                    console.error("账号登录失败,重新请求init5");
                     _this.readGatewayInfo(true, _this, _this.accountLogin, vo, caller, callback);
                 }
             }
@@ -335,8 +335,7 @@ var LoginModel = /** @class */ (function () {
     LoginModel.findPassword = function (cmd, data, caller, callback) {
         var url = ConfObjRead.getConfUrl().url.apihome + cmd;
         var jsonStr = JSON.stringify(data);
-        var header = ["Content-Type", "application/json; charset=utf-8", "Accept", "*/*"];
-        header = HttpRequester.getEncryHeader();
+        var header = HttpRequester.getEncryHeader();
         HttpRequester.doRequest(url, header, jsonStr, caller, callback, "post");
     };
     Object.defineProperty(LoginModel, "askCode", {

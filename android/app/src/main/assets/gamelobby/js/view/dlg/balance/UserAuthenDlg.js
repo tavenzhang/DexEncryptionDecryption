@@ -34,8 +34,8 @@ var view;
                     dlg.popup(false, true);
                 };
                 UserAuthenDlg.prototype.initView = function () {
+                    // this.pwdExtend = InputExtend.getInput(this.pwdTxt);
                     var _this = this;
-                    this.pwdExtend = InputExtend.getInput(this.pwdTxt);
                     EventManager.addTouchScaleListener(this.closeBtn, this, function () {
                         SoundPlayer.closeSound();
                         _this.close(null, true);
@@ -53,6 +53,12 @@ var view;
                         SoundPlayer.enterPanelSound();
                         view.dlg.balance.BalanceChangePwdDlg.show();
                     });
+                    EventManager.pushEvent(this.lookBtn, Laya.Event.CHANGE, this, this.togglePwdInput, [this.pwdTxt]);
+                    //密码设置
+                    KeyboardView.bindKeyboard(this.pwdTxt, { maxLen: 6, hint: "请输入6位密码" });
+                };
+                UserAuthenDlg.prototype.togglePwdInput = function (txt) {
+                    GameUtils.onShowPwd(txt);
                 };
                 UserAuthenDlg.prototype.withdrawCallback = function (suc, jobj) {
                     LayaMain.getInstance().showCircleLoading(false);

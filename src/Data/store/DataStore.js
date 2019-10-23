@@ -170,7 +170,7 @@ export default class DataStore {
                     if (this.homeVersionM.versionNum != content.versionNum) {
                         TW_Store.gameUpateStore.isNeedUpdate=true;
                         if(!TW_Store.gameUpateStore.isAppDownIng) {
-                            this.downloadFile(zipSrc, rootStore.bblStore.tempZipDir);
+                            this.downloadFile(zipSrc, rootStore.bblStore.tempZipDir,content.versionNum);
                         }
                     }else{
                         TW_Store.gameUpateStore.isNeedUpdate=false;
@@ -213,10 +213,10 @@ export default class DataStore {
         CodePush.restartApp();
     }
 
-    downloadFile=(formUrl,downloadDest)=> {
+    downloadFile=(formUrl,downloadDest,newVersion)=> {
         this.clearCurrentDownJob();
         this.downloadDest= downloadDest;
-        formUrl=formUrl+"?rodom="+Math.random();
+        formUrl=formUrl+"?verson="+(newVersion ? newVersion :Math.random());
         TW_Log("versionBBL---downloadFile=="+formUrl);
         const options = {
             fromUrl: formUrl,
@@ -321,28 +321,17 @@ export default class DataStore {
                 this.log+="==>onSaveVersionM--=start";
                 this.onSaveVersionM(this.content,false,()=>{
                     this.log+="==>onSaveVersionM--=end";
-                    if(TW_Store.gameUpateStore.isOldHome){
-                        if(G_IS_IOS){
-                            this.onRetartApp();
-                        }else{
-                            setTimeout(()=>{
-                                this.onRetartApp(); //android 的文件解压读写延迟比较大，延迟5秒
-                            },8000)
-                        }
-                    }
                 });
             })
             .catch((error) => {
                 TW_Log("versionBBL  解压失败11",error);
             }).finally(()=>{
-                     TW_Store.gameUpateStore.isLoading=false;
-                     TW_Store.gameUpateStore.isTempExist=true;
                      setTimeout(()=>{
                              TW_LoaderOnValueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.game_loading,{data:{do:"loadFinish"}}));
-                         },G_IS_IOS ? 500:2000)
-                    if(TW_Store.gameUpateStore.isOldHome){
-                        TW_Store.commonBoxStore.isShow=true;
-                    }
+                             TW_Store.gameUpateStore.isLoading=false;
+                             TW_Store.gameUpateStore.isTempExist=true;
+                             },G_IS_IOS ? 500:2000)
+
             })
     }
 

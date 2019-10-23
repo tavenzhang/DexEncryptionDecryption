@@ -19,7 +19,8 @@ var Debug = /** @class */ (function () {
      */
     Debug.showVconsole = function () {
         if (!this.inited) {
-            window["initVconsole"]();
+            if (this.isapp)
+                window["initVconsole"]();
             this.inited = true;
         }
     };
@@ -33,7 +34,7 @@ var Debug = /** @class */ (function () {
         for (var _i = 1; _i < arguments.length; _i++) {
             parms[_i - 1] = arguments[_i];
         }
-        if (!this.inited)
+        if (!this.inited && this.isapp)
             return;
         console.log.apply(console, [mess].concat(parms));
     };
@@ -47,10 +48,11 @@ var Debug = /** @class */ (function () {
         for (var _i = 1; _i < arguments.length; _i++) {
             parms[_i - 1] = arguments[_i];
         }
-        if (!this.inited)
+        if (!this.inited && this.isapp)
             return;
         console.error.apply(console, [mess].concat(parms));
     };
+    Debug.isapp = false; //vconsole专用
     Debug.bDebug = window["bDebug"]; //app控制的开关
     Debug.bDebugPlatform = window["bDebugPlatform"];
     Debug._httDebug = false;

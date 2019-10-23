@@ -84,6 +84,7 @@ import {JX_PLAT_INFO} from "../asset";
 import LoadingWebView from "../WebView/LoadingWebView";
 import SubGameView from "./SubGameView";
 import GameLogView from "./GameLogView";
+import ModuleWebView from "../WebView/ModuleWebView";
 
 
 
@@ -115,7 +116,6 @@ export default class App extends Component {
     }
 
 
-
     render() {
         //TW_Log("onBackAndroid--TW_Store.gameUpateStore.isNeedUpdate--"+TW_Store.gameUpateStore.isNeedUpdate);
         return (
@@ -130,6 +130,7 @@ export default class App extends Component {
                     />
                     <SubGameView/>
                     {TW_Store.dataStore.isAppInited &&(!TW_Store.gameUpateStore.isOldHome||TW_Store.gameUpateStore.isAppDownIng) ? <LoadingWebView/>:null}
+                     <ModuleWebView/>
                      <GameUIView/>
                      <GameLogView/>
                 </View>

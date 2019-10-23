@@ -81,10 +81,9 @@ var view;
              */
             GameUpdateNotice.show = function (data) {
                 var self = new GameUpdateNotice();
-                self.width = Laya.stage.width;
-                self.height = Laya.stage.height;
                 self.SetData(data);
                 self.popup(false, true);
+                LobbyModel.maintenance = true;
             };
             return GameUpdateNotice;
         }(ui.dlg.GameUpdateNoticeUI));

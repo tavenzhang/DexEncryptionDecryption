@@ -84,6 +84,7 @@ var view;
              */
             GameIconView.prototype.resetFlush = function () {
                 Laya.Tween.clearTween(this);
+                this.gameState = null;
                 this.isupdating = false;
                 this.isclick = true;
                 this.progressValue = 0;
@@ -276,10 +277,13 @@ var view;
                 if (state == GameState.PAUSE || state == GameState.EXPECTATION) {
                     var htmlC = this.anim.drawToCanvas(this.width, this.height, this.width >> 1, this.height >> 1);
                     var txt = new Laya.Texture(htmlC);
+                    this.normIcon.skin = null;
                     this.normIcon.visible = true;
                     this.normIcon.graphics.drawTexture(txt, -this.width >> 1, -this.height >> 1);
                     this.normIcon.gray = true;
                     this.bgIcon.gray = true;
+                    this.normIcon.x = this.width >> 1;
+                    this.normIcon.y = this.height >> 1;
                     if (this.lowMark.visible)
                         this.lowMark.gray = true;
                     this.anim.visible = false;

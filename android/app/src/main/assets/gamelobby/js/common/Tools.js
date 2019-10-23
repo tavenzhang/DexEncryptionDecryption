@@ -149,49 +149,6 @@ var Tools = /** @class */ (function () {
         img.size(conf.size.w, conf.size.h);
         return img;
     };
-    Tools.addSprite = function (node, conf) {
-        if (!conf) {
-            return null;
-        }
-        var sp = Tools.newSprite(conf);
-        node.addChild(sp);
-        return sp;
-    };
-    Tools.newSprite = function (conf) {
-        var sp = new MySprite();
-        if (conf.src) {
-            sp.loadImage(conf.src);
-            // Tools.addSpriteLoadListener(sp,conf,this,this.spriteLoaded);
-        }
-        sp.pos(conf.pos.x, conf.pos.y);
-        if (conf.size) {
-            //如果有设定尺寸，则拉伸一下
-            if (!Tools.resizeSprite(sp, conf.size.w, conf.size.h)) {
-                Debug.log("newSprite false conf:");
-                Debug.log(conf);
-            }
-        }
-        if (conf.pivot) {
-            sp.pivot(conf.pivot.x, conf.pivot.y);
-        }
-        return sp;
-    };
-    //重设sp宽度高度
-    Tools.resizeSprite = function (sp, w, h) {
-        var nw = sp.width;
-        var nh = sp.height;
-        if (nw <= 0 || nh <= 0) {
-            // Debug.log("Tools.resizeSprite sprite not loaded width and height == 0 sp=");
-            // Debug.log(sp);
-            return false;
-        }
-        var pw = w;
-        var ph = h;
-        var sx = pw / nw;
-        var sy = ph / nh;
-        sp.scale(sx, sy);
-        return true;
-    };
     //检测当前平台
     Tools.platformInfo = function () {
         var u = navigator.userAgent;
@@ -367,10 +324,11 @@ var Tools = /** @class */ (function () {
                 case "custom":
                     PostMHelp.game_custom(jobj);
                     break;
-                case "recharge":
-                    PostMHelp.game_recharge(jobj);
+                case "recharge": //充值
+                    // PostMHelp.game_recharge(jobj);
+                    PageManager.showDlg(DlgCmd.recharge);
                     break;
-                case "redraw":
+                case "redraw": //提现
                     PostMHelp.game_redraw(jobj);
                     break;
                 case "share":
@@ -384,187 +342,6 @@ var Tools = /** @class */ (function () {
     };
     Tools.loadJavaScript = function (src) {
         document.write("<scr" + "ipt src='" + src + "' loader='laya'></scr" + 'ipt>');
-    };
-    Tools.scaleSprite = function (sp, src, conf, wid) {
-        if (wid === void 0) { wid = 0; }
-        var lw = conf.lw;
-        var cw = conf.cw;
-        var rw = conf.rw;
-        var midw = conf.cwid;
-        if (wid != 0) {
-            midw = Math.floor(wid) - lw - rw;
-        }
-        var texture = Laya.loader.getRes(Tools.getSrc(src));
-        if (!texture) {
-            return;
-        }
-        var tw = texture.width;
-        var th = texture.height;
-        var x1, y1, w1, h1;
-        x1 = 0;
-        y1 = 0;
-        w1 = lw;
-        h1 = th;
-        var texLeft = Laya.Texture.createFromTexture(texture, x1, y1, w1, h1);
-        sp.graphics.drawTexture(texLeft, x1, y1, texLeft.width, texLeft.height);
-        var x2, y2, w2, h2;
-        x2 = tw - rw;
-        y2 = 0;
-        w2 = rw;
-        h2 = th;
-        var texRight = Laya.Texture.createFromTexture(texture, x2, y2, w2, h2);
-        var drawX, drawY, drawW, drawH;
-        drawX = x1 + w1 + midw;
-        drawY = y2;
-        drawW = texRight.width;
-        drawH = texRight.height;
-        sp.graphics.drawTexture(texRight, drawX, drawY, drawW, drawH);
-        var x_c, y_c, w_c, h_c;
-        x_c = lw;
-        y_c = 0;
-        w_c = tw - lw - rw;
-        h_c = th;
-        var texCenter = Laya.Texture.createFromTexture(texture, x_c, y_c, w_c, h_c);
-        drawX = w1;
-        drawY = y_c;
-        drawW = midw;
-        drawH = texRight.height;
-        sp.graphics.drawTexture(texCenter, drawX, drawY, drawW, drawH);
-    };
-    Tools.scaleSpriteV = function (sp, src, conf, hei) {
-        if (hei === void 0) { hei = 0; }
-        var th = conf.th;
-        var mh = conf.mh;
-        var bh = conf.bh;
-        var midh = conf.mhei;
-        if (hei != 0) {
-            midh = Math.floor(hei) - th - bh;
-        }
-        var texture = Laya.loader.getRes(Tools.getSrc(src));
-        if (!texture) {
-            return;
-        }
-        var txw = texture.width;
-        var txh = texture.height;
-        var x1, y1, w1, h1;
-        x1 = 0;
-        y1 = 0;
-        w1 = txw;
-        h1 = th;
-        var tex1 = Laya.Texture.createFromTexture(texture, x1, y1, w1, h1);
-        sp.graphics.drawTexture(tex1, x1, y1, tex1.width, tex1.height);
-        var x2, y2, w2, h2;
-        x2 = 0;
-        y2 = txh - bh;
-        w2 = txw;
-        h2 = bh;
-        var tex2 = Laya.Texture.createFromTexture(texture, x2, y2, w2, h2);
-        var drawX, drawY, drawW, drawH;
-        drawX = x1;
-        drawY = y1 + h1 + midh;
-        drawW = tex2.width;
-        drawH = tex2.height;
-        sp.graphics.drawTexture(tex2, drawX, drawY, drawW, drawH);
-        var x_c, y_c, w_c, h_c;
-        x_c = 0;
-        y_c = th;
-        w_c = txw;
-        h_c = mh;
-        var texCenter = Laya.Texture.createFromTexture(texture, x_c, y_c, w_c, h_c);
-        drawX = x_c;
-        drawY = y_c;
-        drawW = txw;
-        drawH = midh;
-        sp.graphics.drawTexture(texCenter, drawX, drawY, drawW, drawH);
-    };
-    Tools.scaleSpriteHV = function (sp, src, confHV, wid, hei) {
-        if (wid === void 0) { wid = 0; }
-        if (hei === void 0) { hei = 0; }
-        var texture = Laya.loader.getRes(Tools.getSrc(src));
-        if (!texture) {
-            return;
-        }
-        var txw = texture.width;
-        var txh = texture.height;
-        var x0, y0, w0, h0;
-        x0 = 0;
-        y0 = 0;
-        w0 = confHV.lw;
-        h0 = confHV.th;
-        var tex0 = Laya.Texture.createFromTexture(texture, x0, y0, w0, h0);
-        var drawX0, drawY0, drawW0, drawH0;
-        drawX0 = 0;
-        drawY0 = 0;
-        drawW0 = w0;
-        drawH0 = h0;
-        sp.graphics.drawTexture(tex0, drawX0, drawY0, drawW0, drawH0);
-        var x1, y1, w1, h1;
-        x1 = confHV.lw + confHV.cw;
-        y1 = 0;
-        w1 = confHV.rw;
-        h1 = confHV.th;
-        var tex1 = Laya.Texture.createFromTexture(texture, x1, y1, w1, h1);
-        var drawX1, drawY1, drawW1, drawH1;
-        drawX1 = confHV.lw + confHV.cwid;
-        drawY1 = 0;
-        drawW1 = w1;
-        drawH1 = h1;
-        sp.graphics.drawTexture(tex1, drawX1, drawY1, drawW1, drawH1);
-        var x2, y2, w2, h2;
-        x2 = 0;
-        y2 = confHV.th + confHV.mh;
-        w2 = confHV.lw;
-        h2 = confHV.bh;
-        var tex2 = Laya.Texture.createFromTexture(texture, x2, y2, w2, h2);
-        var drawX2, drawY2, drawW2, drawH2;
-        drawX2 = 0;
-        drawY2 = confHV.th + confHV.mhei;
-        drawW2 = confHV.lw;
-        drawH2 = confHV.bh;
-        sp.graphics.drawTexture(tex2, drawX2, drawY2, drawW2, drawH2);
-        var x3, y3, w3, h3;
-        x3 = confHV.lw + confHV.cw;
-        y3 = confHV.th + confHV.mh;
-        w3 = confHV.rw;
-        h3 = confHV.bh;
-        var tex3 = Laya.Texture.createFromTexture(texture, x3, y3, w3, h3);
-        var drawX3, drawY3, drawW3, drawH3;
-        drawX3 = confHV.lw + confHV.cwid;
-        drawY3 = confHV.th + confHV.mhei;
-        drawW3 = confHV.rw;
-        drawH3 = confHV.bh;
-        sp.graphics.drawTexture(tex3, drawX3, drawY3, drawW3, drawH3);
-        var x4, y4, w4, h4;
-        x4 = confHV.lw;
-        y4 = 0;
-        w4 = confHV.cw;
-        h4 = confHV.th;
-        var tex4 = Laya.Texture.createFromTexture(texture, x4, y4, w4, h4);
-        var drawX4, drawY4, drawW4, drawH4;
-        drawX4 = confHV.lw;
-        drawY4 = 0;
-        drawW4 = confHV.cwid;
-        drawH4 = confHV.th;
-        sp.graphics.drawTexture(tex4, drawX4, drawY4, drawW4, drawH4);
-        var x5, y5, w5, h5;
-        x5 = confHV.lw;
-        y5 = confHV.th + confHV.mh;
-        w5 = confHV.cw;
-        h5 = confHV.bh;
-        var tex5 = Laya.Texture.createFromTexture(texture, x5, y5, w5, h5);
-        var drawX5, drawY5, drawW5, drawH5;
-        drawX5 = confHV.lw;
-        drawY5 = confHV.th + confHV.mhei;
-        drawW5 = confHV.cwid;
-        drawH5 = confHV.th;
-        sp.graphics.drawTexture(tex5, drawX5, drawY5, drawW5, drawH5);
-        this.drawMyTexture(sp, texture, 0, confHV.th, confHV.lw, confHV.mh, 0, confHV.th, confHV.lw, confHV.mhei);
-        this.drawMyTexture(sp, texture, confHV.lw + confHV.cw, confHV.th, confHV.rw, confHV.mh, confHV.lw + confHV.cwid, confHV.th, confHV.rw, confHV.mhei);
-        this.drawMyTexture(sp, texture, confHV.lw, confHV.th, confHV.cw, confHV.mh, confHV.lw, confHV.th, confHV.cwid, confHV.mhei);
-    };
-    Tools.drawMyTexture = function (sp, texture, x, y, w, h, dx, dy, dw, dh) {
-        var tex = Laya.Texture.createFromTexture(texture, x, y, w, h);
-        sp.graphics.drawTexture(tex, dx, dy, dw, dh);
     };
     Tools.getHttpName = function (url) {
         var idx = url.indexOf("://");
@@ -679,45 +456,6 @@ var Tools = /** @class */ (function () {
         }
         return str;
     };
-    Tools.setSpriteBlurFilter = function (sp, conf) {
-        var filter = new Laya.BlurFilter();
-        filter.strength = conf.strength;
-        sp.filters = [filter];
-    };
-    Tools.setSpriteGlowFilter = function (sp, conf) {
-        var filter = new Laya.GlowFilter(conf.color, conf.blur, conf.offx, conf.offy);
-        sp.filters = [filter];
-        // Tools.setSpriteWhiteFilter(sp,conf);
-    };
-    Tools.setSpriteWhiteFilter = function (sp, conf) {
-        var grayscaleMat = [
-            1, 0, 0, 0, 0,
-            1, 0, 0, 0, 0,
-            1, 0, 0, 0, 0,
-            0, 0, 0, 0, 1
-        ];
-        var filter = new Laya.ColorFilter(grayscaleMat);
-        sp.filters = [filter];
-    };
-    Tools.setSpriteGrayFilter = function (sp) {
-        var grayscaleMat = [
-            0.3086, 0.6094, 0.0820, 0, 0,
-            0.3086, 0.6094, 0.0820, 0, 0,
-            0.3086, 0.6094, 0.0820, 0, 0,
-            0, 0, 0, 1, 0
-        ];
-        var filter = new Laya.ColorFilter(grayscaleMat);
-        sp.filters = [filter];
-    };
-    Tools.clearSpriteFilter = function (sp) {
-        sp.filters = null;
-    };
-    Tools.isNumber = function (v) {
-        if (typeof (v) === "number" && v !== Infinity && !isNaN(v)) {
-            return true;
-        }
-        return false;
-    };
     /**
      * 变量是否为空
      * @param variable
@@ -742,7 +480,6 @@ var Tools = /** @class */ (function () {
                 return decodeURIComponent(pair[1]);
             }
         }
-        // Debug.log('query variable %s not found', variable);
         return undefined;
     };
     /**
@@ -760,178 +497,20 @@ var Tools = /** @class */ (function () {
         }
         return hash;
     };
-    //根据昵称转换头像id
-    Tools.transNickname2id = function (str) {
-        var hashCode = Tools.hash(str);
-        var headerIndex = hashCode % 8; //12;
-        if (headerIndex < 0) {
-            headerIndex = -headerIndex;
-        }
-        headerIndex += 1;
-        var strHeaderIndex = Tools.FormatNumber(headerIndex, 2);
-        // this.setIcon("head/header" + headerIndex + ".png");
-        // this.data.headerIndex = headerIndex;
-        return strHeaderIndex;
-    };
-    //是否发生点击判断
-    Tools.isClick = function (posDown, posUp) {
-        var dis = Tools.distanceBy2Point(posDown.x, posDown.y, posUp.x, posUp.y);
-        if (dis >= 20) {
-            return false;
-        }
-        return true;
-    };
     //是否发生碰撞
     Tools.isCollision = function (sp, pos) {
         return (pos.x >= sp.x && pos.y <= sp.x + sp.width) && (pos.y >= sp.y && pos.y <= sp.y + sp.height);
-    };
-    //分析资源类型
-    Tools.getLoadingType = function (typename) {
-        switch (typename) {
-            case "ATLAS":
-                return Laya.Loader.ATLAS;
-            case "BUFFER":
-                return Laya.Loader.BUFFER;
-            case "FONT": //位图字体
-                return Laya.Loader.FONT;
-            case "IMAGE":
-                return Laya.Loader.IMAGE;
-            case "JSON":
-                return Laya.Loader.JSON;
-            case "SOUND":
-                return Laya.Loader.SOUND;
-            case "TEXT":
-                return Laya.Loader.TEXT;
-            case "XML":
-                return Laya.Loader.XML;
-            case "TTF": //字体
-                return Laya.Loader.TTF;
-        }
-        return Laya.Loader.IMAGE;
     };
     //计算两点间距离
     Tools.distanceBy2Point = function (x1, y1, x2, y2) {
         return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
         // return 0;
     };
-    //绘制方块
-    Tools.drawRect = function (sp, x, y, w, h, color) {
-        sp.graphics.drawRect(x, y, w, h, color); //,"#ff0000",2);
-    };
-    Tools.drawRectWithAlpha = function (sp, x, y, w, h, color, alpha) {
-        if (alpha === void 0) { alpha = 1; }
-        if (alpha != 1) {
-            // sp.graphics.alpha(alpha);
-            sp.graphics.setAlpha(alpha);
-        }
-        sp.graphics.drawRect(x, y, w, h, color);
-        // sp.graphics.drawRect(x,y,w,h,color,"#ff0000",2);
-        if (alpha != 1) {
-            // sp.graphics.alpha(1);
-            sp.graphics.setAlpha(1);
-        }
-    };
-    /**
-     * 创建弹窗背景
-     * 用于替代drawRectWithAlpha方法
-     * @param alp
-     */
-    Tools.creatDlgBg = function (alp) {
-        if (alp === void 0) { alp = 0.6; }
-        var sp = new MySprite();
-        sp.autoSize = true;
-        sp.graphics.drawRect(0, 0, Laya.stage.width, Laya.stage.height, "#000000");
-        sp.alpha = alp;
-        return sp;
-    };
-    //绘制圆角矩形，自定义路径
-    Tools.RoundRect = function (sp, x, y, w, h, r, fillcolor, alpha) {
-        // sp.graphics.drawPath(400, 310, [
-        //     ["moveTo", 5, 0],
-        //     ["lineTo", 105, 0],
-        //     ["arcTo", 110, 0, 110, 5, 5],
-        //     ["lineTo", 110, 55],
-        //     ["arcTo", 110, 60, 105, 60, 5],
-        //     ["lineTo", 5, 60],
-        //     ["arcTo", 0, 60, 0, 55, 5],
-        //     ["lineTo", 0, 5],
-        //     ["arcTo", 0, 0, 5, 0, 5],
-        //     ["closePath"]
-        // ],
-        // {
-        //     fillStyle: "#00ffff"
-        // });
-        if (alpha === void 0) { alpha = 1; }
-        // sp.graphics.drawPath(
-        // 		x, y, 
-        // [
-        //     ["moveTo", arc, 0],
-        //     ["lineTo", w-arc, 0],
-        //     ["arcTo", w, 0, w, arc, arc],
-        //     ["lineTo", w, h-arc],
-        //     ["arcTo", w, h, w-arc, h, arc],
-        //     ["lineTo", arc, h],
-        //     ["arcTo", 0, h, 0, h-arc, arc],
-        //     ["lineTo", 0, arc],
-        //     ["arcTo", 0, 0, arc, 0, arc],
-        //     ["closePath"]
-        // ],
-        // {
-        //     fillStyle: color//"#00ffff"
-        // });
-        if (alpha != 1) {
-            sp.graphics.setAlpha(alpha);
-        }
-        sp.graphics.drawPath(x, y, [
-            ["moveTo", r, 0],
-            ["lineTo", w - r, 0],
-            ["arcTo", w + r, 0, w + r, r, r],
-            ["lineTo", w + r, h - r],
-            ["arcTo", w + r, h + r, w - r, h + r, r],
-            ["lineTo", r, h + r],
-            ["arcTo", 0, h + r, 0, h - r, r],
-            ["lineTo", 0, r],
-            ["arcTo", 0, 0, r, 0, r],
-            ["closePath"]
-        ], {
-            fillStyle: fillcolor
-        });
-        if (alpha != 1) {
-            sp.graphics.setAlpha(1);
-        }
-        sp.size(w, h);
-    };
     //当前时间戳
     Tools.getTime = function () {
         var myDate = new Date();
         var MS = myDate.getTime();
         return MS;
-    };
-    //当前时间
-    Tools.nowTime = function () {
-        var myDate = new Date();
-        // var sY = myDate.getYear();        //获取当前年份(2位)
-        var Y = myDate.getFullYear(); //获取完整的年份(4位,1970-????)
-        var M = myDate.getMonth(); //获取当前月份(0-11,0代表1月)
-        var D = myDate.getDate(); //获取当前日(1-31)
-        // var DD = myDate.getDay();         //获取当前星期X(0-6,0代表星期天)
-        // var MS = myDate.getTime();        //获取当前时间(从1970.1.1开始的毫秒数)
-        var H = myDate.getHours(); //获取当前小时数(0-23)
-        var I = myDate.getMinutes(); //获取当前分钟数(0-59)
-        var S = myDate.getSeconds(); //获取当前秒数(0-59)
-        var MS = myDate.getMilliseconds(); //获取当前毫秒数(0-999)
-        // myDate.toLocaleDateString();     //获取当前日期
-        // var mytime=myDate.toLocaleTimeString();     //获取当前时间
-        // myDate.toLocaleString( );        //获取日期与时间
-        return {
-            "Y": Y,
-            "M": M,
-            "D": D,
-            "H": H,
-            "I": I,
-            "S": S,
-            "MS": MS
-        };
     };
     //将时间转换为可读字符串
     Tools.getTimeStr = function (times) {
@@ -1155,50 +734,6 @@ var Tools = /** @class */ (function () {
         }
         return key;
     };
-    //添加一个文本框
-    Tools.addText = function (node, conf, caller, callback) {
-        var txt = Tools.newText(conf.value, conf.size.w, conf.size.h, conf.font.size, conf.font.color, conf.font.align, conf.font.valign, conf.font.wordWrap, conf.font.leading, conf.font.overflow, caller, callback);
-        node.addChild(txt);
-        if (conf.pos) {
-            txt.pos(conf.pos.x, conf.pos.y);
-        }
-        if (conf.font.borderColor) {
-            txt.borderColor = conf.font.borderColor;
-        }
-        return txt;
-    };
-    //新建一个多行文本框
-    Tools.newText = function (str, width, height, //x:number,y:number,
-    fontsize, color, align, valign, wordWrap, leading, overflow, scrollCaller, scrollCallback) {
-        if (color === void 0) { color = "#ffffff"; }
-        if (align === void 0) { align = "center"; }
-        if (valign === void 0) { valign = "middle"; }
-        if (wordWrap === void 0) { wordWrap = true; }
-        if (leading === void 0) { leading = 2; }
-        if (overflow === void 0) { overflow = Laya.Text.SCROLL; }
-        if (scrollCaller === void 0) { scrollCaller = null; }
-        if (scrollCallback === void 0) { scrollCallback = null; }
-        var txt = new Laya.Text();
-        txt.text = Tools.getStringByKey(str);
-        // txt.width = width;
-        txt.size(width, height);
-        txt.fontSize = fontsize;
-        txt.font = Common.normalFont; //
-        txt.color = color;
-        txt.overflow = overflow;
-        //设置文本为多行文本
-        txt.wordWrap = wordWrap; //true;
-        txt.leading = leading;
-        txt.align = align;
-        txt.valign = valign;
-        if (scrollCaller && scrollCallback) {
-            txt.on(Laya.Event.MOUSE_DOWN, scrollCaller, scrollCallback);
-            txt.on(Laya.Event.MOUSE_UP, scrollCaller, scrollCallback);
-            txt.on(Laya.Event.MOUSE_MOVE, scrollCaller, scrollCallback);
-            txt.on(Laya.Event.MOUSE_OUT, scrollCaller, scrollCallback);
-        }
-        return txt;
-    };
     //对字符串进行格式化 0% 表示第一个参数 n% 表示第n个参数
     Tools.FormatString = function (format) {
         var args = [];
@@ -1291,11 +826,6 @@ var Tools = /** @class */ (function () {
     };
     //弧度转角度
     Tools.transl2Angle = function (l) {
-        //180 -- pi
-        //x ---- l
-        // l = ( x * pi )/180;
-        // x = ( 180 * l )/pi
-        // return ( angle * Math.PI )/180;	//角度转弧度
         return (180 * l) / Math.PI; //弧度转角度
     };
     //检查角度是否为负，如果为负，则转换为正
@@ -1346,100 +876,6 @@ var Tools = /** @class */ (function () {
             }
         }
         return angle;
-    };
-    //生成一个Sprite的剪影
-    Tools.newSketch = function (sp, x, y, w, h) {
-        var sp_mask = new MySprite();
-        Tools.drawRect(sp_mask, x, y, w, h, "#000000");
-        sp_mask.mask = sp;
-        return sp_mask;
-    };
-    //检测当前平台信息--不能正确获取，废弃
-    Tools.platformInfo_0 = function () {
-        var platformInfo = {};
-        var agent = navigator.userAgent.toLowerCase();
-        var sUserAgent = navigator.userAgent;
-        var regStr_ie = /msie [\d.]+;/gi;
-        var regStr_ff = /firefox\/[\d.]+/gi;
-        var regStr_chrome = /chrome\/[\d.]+/gi;
-        var regStr_saf = /safari\/[\d.]+/gi;
-        //IE
-        if (agent.indexOf("msie") > 0) {
-            platformInfo.browser = agent.match(regStr_ie);
-        }
-        //firefox
-        if (agent.indexOf("firefox") > 0) {
-            platformInfo.browser = agent.match(regStr_ff);
-        }
-        //Chrome
-        if (agent.indexOf("chrome") > 0) {
-            platformInfo.browser = agent.match(regStr_chrome);
-        }
-        //Safari
-        if (agent.indexOf("safari") > 0 && agent.indexOf("chrome") < 0) {
-            platformInfo.browser = agent.match(regStr_saf);
-        }
-        var sUserAgent = navigator.userAgent;
-        var isWin = (navigator.platform == "Win32") || (navigator.platform == "Windows");
-        var isMac = (navigator.platform == "Mac68K") || (navigator.platform == "MacPPC") || (navigator.platform == "Macintosh") || (navigator.platform == "MacIntel");
-        if (isMac)
-            platformInfo.os = "Mac";
-        var isUnix = (navigator.platform == "X11") && !isWin && !isMac;
-        if (isUnix)
-            platformInfo.os = "Unix";
-        var isLinux = (String(navigator.platform).indexOf("Linux") > -1);
-        // var bIsAndroid = sUserAgent.toLowerCase().match(/android/i) == "android";
-        var bIsAndroid = sUserAgent.indexOf('Android') > -1 || sUserAgent.indexOf('Adr') > -1;
-        if (isLinux) {
-            if (bIsAndroid)
-                platformInfo.os = "Android";
-            else
-                platformInfo.os = "Linux";
-        }
-        if (isWin) {
-            var isWin2K = sUserAgent.indexOf("Windows NT 5.0") > -1 || sUserAgent.indexOf("Windows 2000") > -1;
-            if (isWin2K)
-                platformInfo.os = "Win2000";
-            var isWinXP = sUserAgent.indexOf("Windows NT 5.1") > -1 || sUserAgent.indexOf("Windows XP") > -1;
-            sUserAgent.indexOf("Windows XP") > -1;
-            if (isWinXP)
-                platformInfo.os = "WinXP";
-            var isWin2003 = sUserAgent.indexOf("Windows NT 5.2") > -1 || sUserAgent.indexOf("Windows 2003") > -1;
-            if (isWin2003)
-                platformInfo.os = "Win2003";
-            var isWinVista = sUserAgent.indexOf("Windows NT 6.0") > -1 || sUserAgent.indexOf("Windows Vista") > -1;
-            if (isWinVista)
-                platformInfo.os = "WinVista";
-            var isWin7 = sUserAgent.indexOf("Windows NT 6.1") > -1 || sUserAgent.indexOf("Windows 7") > -1;
-            if (isWin7)
-                platformInfo.os = "Win7";
-            var isWin8 = sUserAgent.indexOf("windows nt6.2") > -1 || sUserAgent.indexOf("Windows 8") > -1;
-            if (isWin8)
-                platformInfo.os = "Win8";
-        }
-        platformInfo.os = "其他";
-        var agent = navigator.userAgent.toLowerCase();
-        var sUserAgent = navigator.userAgent;
-        var sUserAgent = navigator.userAgent;
-        var is64 = sUserAgent.indexOf("WOW64") > -1;
-        if (is64) {
-            platformInfo.digits = "64";
-        }
-        else {
-            platformInfo.digits = "32";
-        }
-        return platformInfo;
-    };
-    //全屏
-    Tools.addFullScreenListener = function () {
-        var c = document.getElementsByTagName("canvas")[0];
-        var pf = MyUid.getPlatform();
-        if (pf == MyUid.KEY_P_PC || pf == MyUid.KEY_P_MAC) {
-            c.addEventListener("click", Tools.screenFull);
-        }
-        else {
-            c.addEventListener("touchend", Tools.screenFull);
-        }
     };
     Tools.screenFull = function (e) {
         // Debug.log('screenFull e:');

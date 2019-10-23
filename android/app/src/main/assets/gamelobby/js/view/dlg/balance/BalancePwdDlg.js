@@ -34,9 +34,9 @@ var view;
                     dlg.popup(false, true);
                 };
                 BalancePwdDlg.prototype.initView = function () {
+                    // this.pwdExtend1 = InputExtend.getInput(this.pwdTxt1);
+                    // this.pwdExtend2 = InputExtend.getInput(this.pwdTxt2);
                     var _this = this;
-                    this.pwdExtend1 = InputExtend.getInput(this.pwdTxt1);
-                    this.pwdExtend2 = InputExtend.getInput(this.pwdTxt2);
                     EventManager.addTouchScaleListener(this.closeBtn, this, function () {
                         SoundPlayer.closeSound();
                         _this.close(null, true);
@@ -62,6 +62,9 @@ var view;
                         EventManager.pushEvent(this.lookBtn1, Laya.Event.CHANGE, this, this.togglePwdInput, [this.pwdTxt1]);
                         EventManager.pushEvent(this.lookBtn2, Laya.Event.CHANGE, this, this.togglePwdInput, [this.pwdTxt2]);
                     }
+                    //密码设置
+                    KeyboardView.bindKeyboard(this.pwdTxt1, { hint: "请输入6位密码", maxLen: 6 });
+                    KeyboardView.bindKeyboard(this.pwdTxt2, { hint: "请再次输入密码", maxLen: 6 });
                 };
                 //比较前后密码输入是否一致
                 BalancePwdDlg.prototype.checkPwd = function (id1, id2) {

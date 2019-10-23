@@ -10,7 +10,7 @@ var PageManager = /** @class */ (function () {
         if (this.dlgMap)
             return;
         /**
-         * 弹窗配置：类+依赖资源(不包括公共资源)
+         * 弹窗配置：类+依赖资源(不包括公共资源，公共资源已通过assets_lobby.json配置文件预加载了)
          * 注意：通过配置的弹窗类都要设置show静态方法入口，调用方式统一走PageManager.showDlg
          */
         this.dlgMap = (_a = {},
@@ -63,6 +63,7 @@ var PageManager = /** @class */ (function () {
                     "./res/atlas/ui/balance/subres.atlas"
                 ]
             ],
+            _a[DlgCmd.recharge] = [view.dlg.RechargeDlg, ["./res/atlas/ui/pay.atlas"]],
             _a);
     };
     /**
