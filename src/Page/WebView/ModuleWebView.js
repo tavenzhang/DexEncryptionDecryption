@@ -34,7 +34,6 @@ export default class ModuleWebView extends Component {
         let myParam = `?apihome=${TW_Store.bblStore.getUriConfig().url.apihome}&token=${TW_Store.userStore.access_token}&clientId=${TW_Store.appStore.clindId}&service=${TW_Store.gameUIStroe.gustWebUrl}&debug=${TW_Store.appStore.isSitApp}`;
         let isShowUi=TW_Store.gameUIStroe.isShowAddPayView||TW_Store.gameUIStroe.isShowGuest
         if (this.refs.myView) {
-
             if(isShowUi){
                 if(TW_Store.gameUIStroe.isShowAddPayView){
                     if(this.currentView!=TW_Store.bblStore.ACT_ENUM.showRecharge){
@@ -52,7 +51,7 @@ export default class ModuleWebView extends Component {
             }
             if(this.isFirstShow){
                 this.isFirstShow=false;
-                setTimeout(this.onShowUI, G_IS_IOS ? 500:800)
+                setTimeout(this.onShowUI, G_IS_IOS ? 700:1000)
             }else{
                 this.onShowUI()
             }
@@ -114,7 +113,8 @@ export default class ModuleWebView extends Component {
     }
 
     onShowUI=()=>{
-        let isShowUi=TW_Store.gameUIStroe.isShowAddPayView||TW_Store.gameUIStroe.isShowGuest
+        let isShowUi=TW_Store.gameUIStroe.isShowAddPayView||TW_Store.gameUIStroe.isShowGuest;
+        TW_Log("ModuleWebView---onShowUI=="+isShowUi,isShowUi)
         this.refs.myView.setNativeProps({style: {zIndex: isShowUi ?  10001:-888}});
     }
     onMessage = (event) => {
