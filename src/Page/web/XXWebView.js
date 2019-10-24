@@ -35,7 +35,7 @@ export default class XXWebView extends Component {
         this.isShow = false;
         this.isShowKeyBoard = false
         this.rom = Math.random() * 100000;
-        this.countDebug=1;
+        this.countDebug=0;
     }
 
     componentWillMount() {
@@ -420,19 +420,6 @@ export default class XXWebView extends Component {
                     break;
                 case  "game_custom":
                     TW_Store.gameUIStroe.showGusetView(!TW_Store.gameUIStroe.isShowGuest);
-                    if(this.countDebug==1){
-                        this.countDebug++;
-                        setTimeout(()=>{
-                            if(this.countDebug>3){
-                                if(TW_Store.appStore.isSitApp){
-                                    TW_Store.bblStore.changeShowDebug(true);
-                                    this.countDebug =1;
-                                }
-                            }
-                        },1000)
-                    }
-
-                    // TW_Store.gameUIStroe.isShowShare=!TW_Store.gameUIStroe.isShowShare
                     break;
                 case "game_redraw":
                     TW_Log("onMessage----custom---exitAppToLoginPage--SystemSetting.setVolume-")

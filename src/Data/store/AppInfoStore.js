@@ -289,6 +289,7 @@ export default class AppInfoStore {
     this.isSitApp =this.clindId=="1209"||this.clindId=="4";
 
      let isEmulator =  DeviceInfo.isEmulator();
+      TW_Store.dataStore.log+="\n---isEmulator--"+isEmulator+"---\n";
      if(isEmulator){
               if(!this.isSitApp&&!TW_IS_DEBIG){
                   Alert.alert(
@@ -306,6 +307,7 @@ export default class AppInfoStore {
                   );
               }
      }
+      
   }
 
   checkAndroidsubType(initDomain) {
