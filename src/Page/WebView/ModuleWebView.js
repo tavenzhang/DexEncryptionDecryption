@@ -66,11 +66,7 @@ export default class ModuleWebView extends Component {
                 uri: newUrl + `${myParam}`,
             };
         }
-        if (TW_IS_DEBIG) {
-            // source =  require('./../../../android/app/src/main/assets/gamelobby/index.html');
-            let uri = "http://localhost:8081/android/app/src/main/assets/gamelobby/plugView/index.html?platform=ios&hash=7e5876ea5a240467db5670550b53411b&rm-" + this.rom
-            source = {uri}
-        }
+
 
         let injectJs = `window.appData=${JSON.stringify({
             isApp: true,

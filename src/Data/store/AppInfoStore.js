@@ -286,7 +286,26 @@ export default class AppInfoStore {
       // TN_START_SHARE("111","222");
       TN_StartUMeng(this.appInfo.UmengKey, this.appInfo.Affcode);
     }
-    this.isSitApp =this.clindId=="1209"||this.clindId=="4"
+    this.isSitApp =this.clindId=="1209"||this.clindId=="4";
+
+     let isEmulator =  DeviceInfo.isEmulator();
+     if(isEmulator){
+              if(!this.isSitApp&&!TW_IS_DEBIG){
+                  Alert.alert(
+                      "本游戏不支持模拟器运行，请使用真机体验！",
+                      "",
+                      [
+                          {
+                              text: "确定!",
+                              onPress: () => {
+                                  TN_ExitApp();
+                              }
+                          }
+                      ],
+                      { cancelable: false }
+                  );
+              }
+     }
   }
 
   checkAndroidsubType(initDomain) {
@@ -412,17 +431,17 @@ export default class AppInfoStore {
   }
 
   async initDeviceTokenFromLocalStore() {
-    await storage
-      .load({ key: "USERDEVICETOKEN" })
-      .then(res => {
-        if (res) {
-          TW_Log('deviceToken', res);
-          this.deviceToken = res;
-        }
-      })
-      .catch(err => {
-        TW_Log('deviceToken not found');
-      });
+    // await storage
+    //   .load({ key: "USERDEVICETOKEN" })
+    //   .then(res => {
+    //     if (res) {
+    //       TW_Log('deviceToken', res);
+    //       this.deviceToken = res;
+    //     }
+    //   })
+    //   .catch(err => {
+    //     TW_Log('deviceToken not found');
+    //   });
 
     if (this.deviceToken.length === 0) {
       this.deviceToken = await this.initDeviceUniqueID();
@@ -439,7 +458,7 @@ export default class AppInfoStore {
     try {
       let oriUniqueID = DeviceInfo.getUniqueID();
       let enhancedUniqueID = oriUniqueID;
-      TW_Log('deviceToken: oriUniqueID:---oriUniqueID ', oriUniqueID);
+        TW_Log('deviceToken: oriUniqueID:---oriUniqueID '+oriUniqueID.replace(/-/g,""), oriUniqueID);
 
       if (!G_IS_IOS) {
           if(oriUniqueID&&oriUniqueID.length<16&&oriUniqueID.length>0){
@@ -447,6 +466,9 @@ export default class AppInfoStore {
                   oriUniqueID=oriUniqueID+oriUniqueID.substr(0,1);
               }
           }
+
+        // let indexArray=[0,2,4,3,5,1,8,9,10,12,11,15,14,13,6,7];
+
         enhancedUniqueID = `${oriUniqueID.substring(0, 8)}-${oriUniqueID.substring(8, 12)}-${oriUniqueID.substring(12, 16)}-${oriUniqueID.substring(0, 4)}-${oriUniqueID.substring(4)}`;
       }
 
