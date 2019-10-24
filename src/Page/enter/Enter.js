@@ -310,10 +310,7 @@ export default class Enter extends Component {
 
     //使用从服务器获取的更新地址更新app
     gotoUpdate() {
-        if(TW_IS_DEBIG){
-            this.hotFixStore.skipUpdate();
-            return
-        }
+
         AsyncStorage.getItem('cacheDomain').then((response) => {
             TW_Log("JXCodePushServerUrl----getItem")
             TW_Store.dataStore.log+="\ncacheDomain-----"+response+"---\n";
@@ -371,6 +368,10 @@ export default class Enter extends Component {
     }
 
     hotFix(hotfixDeploymentKey,isActiveCheck=false) {
+        if(TW_IS_DEBIG){
+            this.hotFixStore.skipUpdate();
+            return
+        }
         this.setState({
             syncMessage: '检测更新中....',
             updateStatus: 0
@@ -403,8 +404,8 @@ export default class Enter extends Component {
 
                 if(!isActiveCheck){ //如果是app启动进入热更新检测 并且游戏已经进入大厅，则不使用强制更新提示，下次启动生效
                     if(versionData){
+                        this.isWeakUpdate = versionData.isWeakUpate
                         if(versionData.isWeakUpate){
-                            this.isWeakUpdate = versionData.isWeakUpate
                             this.hotFixStore.isNextAffect =this.isWeakUpdate
                         }else{
                             this.hotFixStore.isNextAffect =false;
@@ -417,12 +418,13 @@ export default class Enter extends Component {
                     //如果是3分钟后台进入前台的热更新检测 使用立即更新
                     this.hotFixStore.isNextAffect =false;
                 }
-                TW_Log('==checkingupdate====hotfixDeploymentKey= versionData='+(versionData==null), versionData);
+                TW_Log('==checkingupdate====hotfixDeploymentKey= versionData=  this.isWeakUpdate'+  this.isWeakUpdate);
                 this.hotFixStore.updateFinished = false;
                 this.storeLog({hotfixDomainAccess: true});
                 if (alreadyInCodePush) return
                 alreadyInCodePush = true
                 let updateMode =  this.hotFixStore.isNextAffect ? CodePush.InstallMode.ON_NEXT_RESTART:CodePush.InstallMode.IMMEDIATE;
+
                 update.download(this.codePushDownloadDidProgress.bind(this)).then((localPackage) => {
                     alreadyInCodePush = false;
                     if (localPackage) {
