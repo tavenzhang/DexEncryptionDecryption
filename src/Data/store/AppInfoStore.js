@@ -435,14 +435,16 @@ export default class AppInfoStore {
       .load({ key: "USERDEVICETOKEN" })
       .then(res => {
         if (res) {
-          TW_Log('deviceToken', res);
           this.deviceToken = res;
+          let newToken =this.uiidTools(this.deviceToken);
+            this.deviceToken= newToken == this.deviceToken ? this.deviceToken:"";
+            TW_Log('deviceToken--USERDEVICETOKEN 00deviceToken USERDEVICETOKEN is this.deviceToken=='+this.deviceToken);
         }
       })
       .catch(err => {
-        TW_Log('deviceToken not found');
+        TW_Log('USERDEVICETOKEN--deviceToken not found');
       });
-
+    
     if (this.deviceToken.length === 0) {
       this.deviceToken = await this.initDeviceUniqueID();
       //刷新游戏appNativeData 数据
@@ -482,17 +484,22 @@ export default class AppInfoStore {
     } catch (e) {
         enhancedUniqueID = this.getGUIDd()
     }
-    enhancedUniqueID=enhancedUniqueID.replace(/-/g,"");
-    enhancedUniqueID=enhancedUniqueID.substr(0,32)
-    TW_Log('deviceToken: enhancedUniqueID:---enhancedUniqueID--start '+enhancedUniqueID.length, enhancedUniqueID);
-    let uidList=enhancedUniqueID.split("")
-    let last4=((parseInt(uidList[2],16)+parseInt(uidList[3],16))%16).toString(16);
-    let temp1 =uidList[parseInt(uidList[2],16)];
-    let temp2 =uidList[parseInt(uidList[3],16)];
+
+      return this.uiidTools(enhancedUniqueID);
+  }
+
+  uiidTools=(enhancedUniqueID)=>{
+      enhancedUniqueID=enhancedUniqueID.replace(/-/g,"");
+      enhancedUniqueID=enhancedUniqueID.substr(0,32)
+      TW_Log('deviceToken: enhancedUniqueID:---enhancedUniqueID--start '+enhancedUniqueID.length, enhancedUniqueID);
+      let uidList=enhancedUniqueID.split("")
+      let last4=((parseInt(uidList[2],16)+parseInt(uidList[3],16))%16).toString(16);
+      let temp1 =uidList[parseInt(uidList[2],16)];
+      let temp2 =uidList[parseInt(uidList[3],16)];
       TW_Log('deviceToken: enhancedUniqueID:---enhancedUniqueID--temp1 '+temp1+"----temp2=="+temp2);
-    let last3=((temp1+temp2)%16).toString(16);
-    let last2=((15-parseInt(uidList[4],16))%16).toString(16);
-    let last1=((15-parseInt(uidList[9],16))%16).toString(16);
+      let last3=((temp1+temp2)%16).toString(16);
+      let last2=((15-parseInt(uidList[4],16))%16).toString(16);
+      let last1=((15-parseInt(uidList[9],16))%16).toString(16);
       uidList[uidList.length-1]=last1;
       uidList[uidList.length-2]=last2;
       uidList[uidList.length-3]=last3;
@@ -503,7 +510,6 @@ export default class AppInfoStore {
       TW_Log('deviceToken: enhancedUniqueID:---enhancedUniqueID--last=== '+enhancedUniqueID.length, enhancedUniqueID);
       return enhancedUniqueID;
   }
-
 
   // async initDeviceTokenFromNative() {
   //   return new Promise(resolve => {
@@ -534,7 +540,7 @@ export default class AppInfoStore {
     return oriUniqueID;
   }
 
-  saveDeviceTokenToLocalStore() {
+  saveDeviceTokenToLocalStore=()=> {
     storage.save({ key: "USERDEVICETOKEN", data: this.deviceToken });
   }
 
