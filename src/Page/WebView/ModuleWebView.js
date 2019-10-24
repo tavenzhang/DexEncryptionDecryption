@@ -136,8 +136,7 @@ export default class ModuleWebView extends Component {
                     // TW_Log("game---ct=="+message.ct,message.data);
                     break;
                 case  "game_custom":
-                    TW_Store.gameUIStroe.isShowGuest=false;
-                    // TW_Store.gameUIStroe.isShowShare=!TW_Store.gameUIStroe.isShowShare
+                     TW_Store.gameUIStroe.isShowShare=!TW_Store.gameUIStroe.isShowShare
                     break;
                 case "closeUI":
                     this.currentView ="";
