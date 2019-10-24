@@ -368,10 +368,7 @@ export default class Enter extends Component {
     }
 
     hotFix(hotfixDeploymentKey,isActiveCheck=false) {
-        if(TW_IS_DEBIG){
-            this.hotFixStore.skipUpdate();
-            return
-        }
+
         this.setState({
             syncMessage: '检测更新中....',
             updateStatus: 0
@@ -396,12 +393,12 @@ export default class Enter extends Component {
                 this.hotFixStore.syncMessage = 'app更新，正在疯狂加载...';
                 let versionData =null;
                 try {
-                    //{"jsVersion":5.23,"isWeakUpate":true}
+                    //{"jsVersion":5.23,"isWeakUpate":true}  "{"jsVersion":v10.24.1814,"isWeakUpate":false}"
                     versionData = JSON.parse(update.description);
                 }catch (e) {
                     versionData = null;
                 }
-
+                TW_Log("versionData--description==--"+ update.description,versionData)
                 if(!isActiveCheck){ //如果是app启动进入热更新检测 并且游戏已经进入大厅，则不使用强制更新提示，下次启动生效
                     if(versionData){
                         this.isWeakUpdate = versionData.isWeakUpate
@@ -424,7 +421,9 @@ export default class Enter extends Component {
                 if (alreadyInCodePush) return
                 alreadyInCodePush = true
                 let updateMode =  this.hotFixStore.isNextAffect ? CodePush.InstallMode.ON_NEXT_RESTART:CodePush.InstallMode.IMMEDIATE;
-
+                if(TW_IS_DEBIG){
+                    return
+                }
                 update.download(this.codePushDownloadDidProgress.bind(this)).then((localPackage) => {
                     alreadyInCodePush = false;
                     if (localPackage) {
