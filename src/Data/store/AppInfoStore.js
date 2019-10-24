@@ -289,7 +289,7 @@ export default class AppInfoStore {
     this.isSitApp =this.clindId=="1209"||this.clindId=="4";
 
      let isEmulator =  DeviceInfo.isEmulator();
-      TW_Store.dataStore.log+="\n---isEmulator--"+isEmulator+"---\n";
+      TW_Store.dataStore.log+="\n---isEmulator--"+isEmulator+"---TW_IS_DEBIG---"+TW_IS_DEBIG+"---\n";
      if(isEmulator){
               if(!this.isSitApp&&!TW_IS_DEBIG){
                   Alert.alert(

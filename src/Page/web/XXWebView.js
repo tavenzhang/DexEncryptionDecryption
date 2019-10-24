@@ -35,7 +35,6 @@ export default class XXWebView extends Component {
         this.isShow = false;
         this.isShowKeyBoard = false
         this.rom = Math.random() * 100000;
-        this.countDebug=0;
     }
 
     componentWillMount() {
