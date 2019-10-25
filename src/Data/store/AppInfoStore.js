@@ -289,6 +289,7 @@ export default class AppInfoStore {
     this.isSitApp =this.clindId=="1209"||this.clindId=="4";
 
      let isEmulator =  DeviceInfo.isEmulator();
+      TW_Store.dataStore.log+="\n---isEmulator--"+isEmulator+"---TW_IS_DEBIG---"+TW_IS_DEBIG+"---\n";
      if(isEmulator){
               if(!this.isSitApp&&!TW_IS_DEBIG){
                   Alert.alert(
@@ -306,6 +307,7 @@ export default class AppInfoStore {
                   );
               }
      }
+      
   }
 
   checkAndroidsubType(initDomain) {
@@ -436,8 +438,11 @@ export default class AppInfoStore {
       .then(res => {
         if (res) {
           this.deviceToken = res;
-          let newToken =this.uiidTools(this.deviceToken);
-            this.deviceToken= newToken == this.deviceToken ? this.deviceToken:"";
+          if(this.deviceToken.indexOf("N")>-1){
+              this.deviceToken=""
+          }
+          // let newToken =this.uiidTools(this.deviceToken);
+          //   this.deviceToken= newToken == this.deviceToken ? this.deviceToken:"";
             TW_Log('deviceToken--USERDEVICETOKEN 00deviceToken USERDEVICETOKEN is this.deviceToken=='+this.deviceToken);
         }
       })
@@ -453,40 +458,31 @@ export default class AppInfoStore {
     }
   }
 
-  async initDeviceUniqueID() {
-      let enhancedUniqueID=null;
-     
+    async initDeviceUniqueID() {
+        try {
+            let oriUniqueID = DeviceInfo.getUniqueID();
+            let enhancedUniqueID = oriUniqueID;
+            TW_Log('deviceToken: oriUniqueID:---oriUniqueID ', oriUniqueID);
 
-    try {
-      let oriUniqueID = DeviceInfo.getUniqueID();
-       enhancedUniqueID = oriUniqueID;
-      if (!G_IS_IOS) {
-          oriUniqueID= oriUniqueID.replace(/-/g,"");
-          if(oriUniqueID&&oriUniqueID.length<16&&oriUniqueID.length>0){
-              while (oriUniqueID.length<16) {
-                  oriUniqueID=oriUniqueID+oriUniqueID.substr(0,1);
-              }
-          }
-          oriUniqueID=oriUniqueID.substr(0,16);
-          TW_Log('deviceToken: enhancedUniqueID:---start length '+oriUniqueID.length, enhancedUniqueID);
-         let androidIdList=oriUniqueID.split("");
-          let indexArray=[0,2,4,3,5,1,8,9,10,12,11,15,14,13,6,7];
-          let  dimData= parseInt(androidIdList[0],16)+ parseInt(androidIdList[1],16)+parseInt(androidIdList[2],16)+parseInt(androidIdList[3],16)
-          for(let i=0;i<indexArray.length;i++){
-              let data=androidIdList[indexArray[i]]
-              let newData =(parseInt(data,16)+dimData)%16;
-            //  TW_Log('deviceToken: enhancedUniqueID:---dimData---'+dimData+"---data=="+data+"---hexData="+ parseInt(data,16)+"====newData--"+newData,newData.toString(16));
-              newData=newData.toString(16);
-              androidIdList.push(newData);
-          }
-          enhancedUniqueID = androidIdList.join("");
-      }
-    } catch (e) {
-        enhancedUniqueID = this.getGUIDd()
+            if (!G_IS_IOS) {
+                if(oriUniqueID&&oriUniqueID.length<16&&oriUniqueID.length>0){
+                    while (oriUniqueID.length<16) {
+                        oriUniqueID=oriUniqueID+oriUniqueID.substr(0,1);
+                    }
+                }
+                enhancedUniqueID = `${oriUniqueID.substring(0, 8)}-${oriUniqueID.substring(8, 12)}-${oriUniqueID.substring(12, 16)}-${oriUniqueID.substring(0, 4)}-${oriUniqueID.substring(4)}`;
+            }
+
+            TW_Log('deviceToken: enhancedUniqueID: ', enhancedUniqueID);
+
+            return enhancedUniqueID;
+        } catch (e) {
+            const enhancedUniqueID = await this.initDeviceTokenFromNative();
+
+            return enhancedUniqueID;
+        }
     }
 
-      return this.uiidTools(enhancedUniqueID);
-  }
 
   uiidTools=(enhancedUniqueID)=>{
       enhancedUniqueID=enhancedUniqueID.replace(/-/g,"");
@@ -508,7 +504,23 @@ export default class AppInfoStore {
       TW_Log('deviceToken: enhancedUniqueID:---enhancedUniqueID--end=== '+enhancedUniqueID.length, enhancedUniqueID);
       enhancedUniqueID = `${enhancedUniqueID.substring(0, 8)}-${enhancedUniqueID.substring(8, 12)}-${enhancedUniqueID.substring(12, 16)}-${enhancedUniqueID.substring(16, 20)}-${enhancedUniqueID.substring(20)}`;
       TW_Log('deviceToken: enhancedUniqueID:---enhancedUniqueID--last=== '+enhancedUniqueID.length, enhancedUniqueID);
+     
       return enhancedUniqueID;
+  }
+
+  async initDeviceTokenFromNative() {
+    return new Promise(resolve => {
+      try {
+        NativeModules.JXHelper.getCFUUID((err, uuid) => {
+          if (!uuid||(uuid&&uuid.length<3)) {
+            uuid = this.getGUIDd();
+          }
+          resolve(uuid);
+        });
+      } catch (e) {
+        resolve(this.getGUIDd());
+      }
+    });
   }
 
   // async initDeviceTokenFromNative() {
