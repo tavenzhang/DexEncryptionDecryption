@@ -130,7 +130,7 @@ export  default  class BBLStore {
     }
     @action
     quitSubGame() {
-        TW_Store.gameUpateStore.isInSubGame = false;
+
        this.subGameParams={
             url:"",
             isGame: true
@@ -139,6 +139,7 @@ export  default  class BBLStore {
             TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appData, {isAtHome: true}));
             TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lobbyResume));
         }
+        setTimeout(()=>{ TW_Store.gameUpateStore.isInSubGame = false;},500)
     }
 
     @action
