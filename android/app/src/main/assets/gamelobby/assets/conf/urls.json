@@ -124,12 +124,14 @@
         "setnickname": "/gamecenter/player/user/updateUserNiceName/",
         "cdnUrlByBrandID": "/cms/internal/getCdnUrl/byBrand/",
         "vindicateNotice": "/gamecenter/player/brand/material/infoByUser",
+        "isOpenShare": "/gamecenter/player/activity/openShare",
         "getNickName": "/gamecenter/player/user/generateName",
         "initNickName": "/gamecenter/player/user/defaultNickName",
         "setNickCount": "/gamecenter/player/user/getModifyCount",
         "withdrawBalance": "/balance/me/balance",
         "betInfo": "/cashmgt/me/cards/cardsAndWithdrawDetail",
         "withdraw": "/cashmgt/me/transfer/withdrawalsV2",
-        "gtest": "/account/webapi/account/userss/startCaptcha"
+        "gtest": "/account/webapi/account/userss/startCaptcha",
+        "gameAccess": "/gamecenter/player/game/topupEnterLimit/"
     }
 }
