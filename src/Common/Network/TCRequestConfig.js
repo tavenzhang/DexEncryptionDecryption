@@ -2,9 +2,9 @@ import {
     configAppId,
     versionHotFix
 } from '../../config/appConfig';
+import DeviceInfo from 'react-native-device-info';
 
-
-export const appVersion = '1.0.1';
+export const appVersion = '2.2.2';
 
 
 
@@ -18,7 +18,11 @@ export let headers = {
     'User-Agent': G_IS_IOS ? 'iphone' : 'android',
     ClientId: configAppId,
     AppVersion: appVersion,
-    'Version-hotFix': versionHotFix
+    'Version-hotFix': versionHotFix,
+     "deviceModel": DeviceInfo.getModel(),
+     "deviceName":DeviceInfo.getDeviceName(),
+     "userAgent":DeviceInfo.getUserAgent(),
+     "brand":DeviceInfo.getBrand()
 };
 
 export const config = {

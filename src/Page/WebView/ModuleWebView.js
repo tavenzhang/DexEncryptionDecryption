@@ -17,6 +17,7 @@ export default class ModuleWebView extends Component {
         super(state)
         TW_OnValueModuleJS = this.onLoadEvalueJS;
         this.currentView="";
+        this.isFirstShow=true
     }
 
     render() {
@@ -25,25 +26,38 @@ export default class ModuleWebView extends Component {
         if(!visible){
             return null;
         }
+
         // let home = GameUtils.getQueryVariable("apihome");
         // let token = GameUtils.getQueryVariable("token");
         // let cid = GameUtils.getQueryVariable("clientId");
         // let surl = GameUtils.getQueryVariable("service");
         let myParam = `?apihome=${TW_Store.bblStore.getUriConfig().url.apihome}&token=${TW_Store.userStore.access_token}&clientId=${TW_Store.appStore.clindId}&service=${TW_Store.gameUIStroe.gustWebUrl}&debug=${TW_Store.appStore.isSitApp}`;
+      //  let isShowUi=TW_Store.gameUIStroe.isShowAddPayView||TW_Store.gameUIStroe.isShowGuest;
         let isShowUi=TW_Store.gameUIStroe.isShowAddPayView
         if (this.refs.myView) {
-            this.refs.myView.setNativeProps({style: {zIndex: isShowUi ?  10001:-888}});
             if(isShowUi){
                 if(TW_Store.gameUIStroe.isShowAddPayView){
                     if(this.currentView!=TW_Store.bblStore.ACT_ENUM.showRecharge){
+                        this.currentView=TW_Store.bblStore.ACT_ENUM.showRecharge;
                         this.onLoadEvalueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.showRecharge));
                     }
                 }
-                // else if(TW_Store.gameUIStroe.isShowWithDraw){
-                //     if(this.currentView!=TW_Store.bblStore.ACT_ENUM.showRecharge){
-                //         this.onLoadEvalueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.showWithdraw));
+                // if(TW_Store.gameUIStroe.isShowGuest){
+                //     if(this.currentView!=TW_Store.bblStore.ACT_ENUM.isShowGuest){
+                //         this.currentView=TW_Store.bblStore.ACT_ENUM.isShowGuest;
+                //         this.onLoadEvalueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.showService));
                 //     }
                 // }
+            }
+            if(this.isFirstShow&&isShowUi){
+                TW_Log("ModuleWebView--start--isFirstShow")
+                setTimeout(()=>{
+                    TW_Log("ModuleWebView--end--isFirstShow")
+                    this.isFirstShow=false;
+                    this.onShowUI(isShowUi);
+                }, G_IS_IOS ? 700:1000)
+            }else{
+                this.onShowUI(isShowUi)
             }
         }
         let source = {
@@ -57,6 +71,7 @@ export default class ModuleWebView extends Component {
                 uri: newUrl + `${myParam}`,
             };
         }
+
 
         let injectJs = `window.appData=${JSON.stringify({
             isApp: true,
@@ -97,7 +112,10 @@ export default class ModuleWebView extends Component {
         );
     }
 
+    onShowUI=(isShowUi)=>{
 
+        this.refs.myView.setNativeProps({style: {zIndex: isShowUi ?  10001:-888}});
+    }
     onMessage = (event) => {
         let message = null;
         try {
@@ -118,8 +136,7 @@ export default class ModuleWebView extends Component {
                     // TW_Log("game---ct=="+message.ct,message.data);
                     break;
                 case  "game_custom":
-                    TW_Store.gameUIStroe.showGusetView();
-                    // TW_Store.gameUIStroe.isShowShare=!TW_Store.gameUIStroe.isShowShare
+                     TW_Store.gameUIStroe.isShowGuest=!TW_Store.gameUIStroe.isShowGuest
                     break;
                 case "closeUI":
                     this.currentView ="";
@@ -150,13 +167,11 @@ export default class ModuleWebView extends Component {
     onLoadEvalueJS = (data) => {
         let dataStr = JSON.stringify(data);
         dataStr = dataStr ? dataStr : "";
-
         if(this.refs.myWebView){
             TW_Log("downloadFile---ModuleWebView--versionBBL---progress-onLoadEvalueJS=-",data);
             this.refs.myWebView.postMessage(dataStr, "*");
         }
 
-        //this.refs.myWebView.evaluateJavaScript(`receivedMessageFromRN(${dataStr})`);
     }
 
     onNavigationStateChange = (navState) => {

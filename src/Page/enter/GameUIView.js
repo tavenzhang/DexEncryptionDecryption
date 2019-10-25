@@ -38,7 +38,7 @@ export default class GameUIView extends Component {
 
     render() {
         let gameAlertView = TW_Store.gameUIStroe.gameAlertData;
-        let isShowUi=TW_Store.gameUIStroe.isShowGuest ||gameAlertView.component||TW_Store.gameUIStroe.isShowShare||TW_Store.gameUIStroe.isShowWithDraw
+        let isShowUi=gameAlertView.component||TW_Store.gameUIStroe.isShowShare||TW_Store.gameUIStroe.isShowWithDraw||TW_Store.gameUIStroe.isShowGuest
 
 
         return (isShowUi ?  <View style={{position:"absolute",
@@ -79,7 +79,7 @@ class SubGameView extends Component {
                 <View style={styles.container}>
                     {TW_Store.gameUIStroe.isShowWithDraw ? <GameMoneyOutView /> : null}
                     {TW_Store.gameUIStroe.isShowAddPayView ? <GameMoneyInView pointerEvents={isHaveAletView}/> : null}
-                    {(gameAlertView&&gameAlertView.component)||TW_Store.gameUIStroe.isShowUserInfo||TW_Store.gameUIStroe.isShowGuest ?  <View style={{width:SCREEN_W, height:SCREEN_H,backgroundColor: "rgba(10,10,10,0.3)",position:"absolute"}}/>:null}
+                    {(gameAlertView&&gameAlertView.component) ?  <View style={{width:SCREEN_W, height:SCREEN_H,backgroundColor: "rgba(10,10,10,0.3)",position:"absolute"}}/>:null}
 
                     {TW_Store.gameUIStroe.isShowGuest ? <GameGuestView pointerEvents={isHaveAletView}/> : null}
                     {
