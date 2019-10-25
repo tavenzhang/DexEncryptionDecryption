@@ -54,7 +54,6 @@ function getAvailableDomain (domains,callback) {
                   if(!TW_Store.appStore.isSitApp){ //对于sit  环境做特殊处理 使用默认
                       TW_Store.appStore.currentDomain=TW_Store.bblStore.loginDomain =TW_Store.bblStore.gameDomain=gameDomain;
                   }
-
               }
               TW_Log('大王来巡山 content==domains[i] loginDomain--'+ TW_Store.bblStore.loginDomain,TW_Store.bblStore.gameDomain);
               AsyncStorage.setItem('cacheDomain', JSON.stringify({

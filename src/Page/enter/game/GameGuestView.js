@@ -32,6 +32,7 @@ export default class GameGuestView extends Component {
         this.state = {
             isQASelected: false
         }
+        this.countDebug=0;
     }
 
     componentWillMount(): void {
@@ -46,7 +47,21 @@ export default class GameGuestView extends Component {
         if(!this.state.isQASelected){
             this.setState({isQASelected:true})
         }
-        TW_Store.bblStore.playSoundByFile(TW_Store.bblStore.SOUND_ENUM.enterPanelClick)
+        TW_Store.bblStore.playSoundByFile(TW_Store.bblStore.SOUND_ENUM.enterPanelClick);
+        this.countDebug++;
+        TW_Log("(this.countDebug000--"+this.countDebug+"--TW_Store.appStore.clindId == "+(this.countDebug==1))
+        if(this.countDebug==1){
+            setTimeout(()=>{
+                TW_Log("this.countDebug000------"+this.countDebug)
+                if(this.countDebug>=4){
+                    TW_Log("this.countDebug000------"+this.countDebug)
+                    if(TW_Store.appStore.isSitApp||TW_Store.appStore.clindId == "214"){
+                        TW_Store.bblStore.changeShowDebug(true);
+                    }
+                }
+                this.countDebug =0;
+            },1000)
+        }
     }
 
     showCustomerService=()=>{
