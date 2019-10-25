@@ -88,9 +88,9 @@ P 3C71DC59 bit_font06.png
 P 724613D1 bit_font07.png
 P 2E5D5693 bit_font08.png
 P 639943ED bit_font09.png
-P CEA045B6 bit_font10.png
+P 21DA1709 bit_font10.png
 P 90DC13C7 img_bg.png
-P 78AAF92E img_jingbi.png
+P FA829FF9 img_jingbi.png
 P 6183D69C img_sjbtn.png
 P 7519EA7B img_star.png
 D ui/bitFont
@@ -98,6 +98,7 @@ D ui/common
 P F6AEEDDD bgcomb.png
 P 7F8D3324 check_see.png
 P 18D40619 check_see2.png
+P 8A2F75E6 clearinput.png
 P 5B880A0A closebig.png
 P 2AD2054B copyui.png
 P 4E551D50 icon_denglu_shouji.png
@@ -412,7 +413,6 @@ P 72AFB717 img_tx_f-tqdzfb-0.png
 P 1F2EF979 img_tx_f-tqdzfb-1.png
 P 94BCE5E3 img_tx_f-tqje.png
 P 7CAAE9E1 img_tx_f-tx.png
-P F1DB5B66 img_tx_f-y.png
 P 8D55CCAB img_tx_f-yxtz.png
 P 514912BE img_tx_jb01.png
 P DD730F6D img_tx_wz01.png
@@ -531,12 +531,12 @@ P C2149D9F img_zhuanpan_tiao.png
 P F1B77EF2 img_zhuanpan_zi1.png
 P 052F3BBC img_zhuanpan_zi2.png
 D ui/panel_notice/share
-P 1F50DC81 img_dt_fenxiang_di.png
+P 3F9983DB img_dt_fenxiang_di.png
 P F1C74EBE img_dt_fenxiang_fenxiangzi01.png
 P F709CFAA img_dt_fenxiang_fenxiangzi02.png
-P D180A35D img_dt_fenxiang_pyq1.png
+P B838199E img_dt_fenxiang_pyq1.png
 P 79B4BC7C img_dt_fenxiang_renwu.png
-P 2679BE46 img_dt_fenxiang_wx.png
+P D7768E5F img_dt_fenxiang_wx.png
 D ui/panel_notice/roullette/activityRoullette
 P 07744505 check_1.png
 P 75B440A4 check_2.png
