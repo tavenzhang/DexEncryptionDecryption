@@ -32,7 +32,8 @@ export default class ModuleWebView extends Component {
         // let cid = GameUtils.getQueryVariable("clientId");
         // let surl = GameUtils.getQueryVariable("service");
         let myParam = `?apihome=${TW_Store.bblStore.getUriConfig().url.apihome}&token=${TW_Store.userStore.access_token}&clientId=${TW_Store.appStore.clindId}&service=${TW_Store.gameUIStroe.gustWebUrl}&debug=${TW_Store.appStore.isSitApp}`;
-        let isShowUi=TW_Store.gameUIStroe.isShowAddPayView||TW_Store.gameUIStroe.isShowGuest
+      //  let isShowUi=TW_Store.gameUIStroe.isShowAddPayView||TW_Store.gameUIStroe.isShowGuest;
+        let isShowUi=TW_Store.gameUIStroe.isShowAddPayView
         if (this.refs.myView) {
             if(isShowUi){
                 if(TW_Store.gameUIStroe.isShowAddPayView){
@@ -41,19 +42,22 @@ export default class ModuleWebView extends Component {
                         this.onLoadEvalueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.showRecharge));
                     }
                 }
-                if(TW_Store.gameUIStroe.isShowGuest){
-                    if(this.currentView!=TW_Store.bblStore.ACT_ENUM.isShowGuest){
-                        this.currentView=TW_Store.bblStore.ACT_ENUM.isShowGuest;
-                        this.onLoadEvalueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.showService));
-                    }
-
-                }
+                // if(TW_Store.gameUIStroe.isShowGuest){
+                //     if(this.currentView!=TW_Store.bblStore.ACT_ENUM.isShowGuest){
+                //         this.currentView=TW_Store.bblStore.ACT_ENUM.isShowGuest;
+                //         this.onLoadEvalueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.showService));
+                //     }
+                // }
             }
-            if(this.isFirstShow){
-                this.isFirstShow=false;
-                setTimeout(this.onShowUI, G_IS_IOS ? 700:1000)
+            if(this.isFirstShow&&isShowUi){
+                TW_Log("ModuleWebView--start--isFirstShow")
+                setTimeout(()=>{
+                    TW_Log("ModuleWebView--end--isFirstShow")
+                    this.isFirstShow=false;
+                    this.onShowUI(isShowUi);
+                }, G_IS_IOS ? 700:1000)
             }else{
-                this.onShowUI()
+                this.onShowUI(isShowUi)
             }
         }
         let source = {
@@ -67,11 +71,7 @@ export default class ModuleWebView extends Component {
                 uri: newUrl + `${myParam}`,
             };
         }
-        if (TW_IS_DEBIG) {
-            // source =  require('./../../../android/app/src/main/assets/gamelobby/index.html');
-            let uri = "http://localhost:8081/android/app/src/main/assets/gamelobby/plugView/index.html?platform=ios&hash=7e5876ea5a240467db5670550b53411b&rm-" + this.rom
-            source = {uri}
-        }
+
 
         let injectJs = `window.appData=${JSON.stringify({
             isApp: true,
@@ -112,9 +112,8 @@ export default class ModuleWebView extends Component {
         );
     }
 
-    onShowUI=()=>{
-        let isShowUi=TW_Store.gameUIStroe.isShowAddPayView||TW_Store.gameUIStroe.isShowGuest;
-        TW_Log("ModuleWebView---onShowUI=="+isShowUi,isShowUi)
+    onShowUI=(isShowUi)=>{
+
         this.refs.myView.setNativeProps({style: {zIndex: isShowUi ?  10001:-888}});
     }
     onMessage = (event) => {
@@ -137,8 +136,7 @@ export default class ModuleWebView extends Component {
                     // TW_Log("game---ct=="+message.ct,message.data);
                     break;
                 case  "game_custom":
-                    TW_Store.gameUIStroe.isShowGuest=false;
-                    // TW_Store.gameUIStroe.isShowShare=!TW_Store.gameUIStroe.isShowShare
+                     TW_Store.gameUIStroe.isShowGuest=!TW_Store.gameUIStroe.isShowGuest
                     break;
                 case "closeUI":
                     this.currentView ="";

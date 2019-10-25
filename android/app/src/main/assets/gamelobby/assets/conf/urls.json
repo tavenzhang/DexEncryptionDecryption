@@ -126,6 +126,10 @@
         "vindicateNotice": "/gamecenter/player/brand/material/infoByUser",
         "getNickName": "/gamecenter/player/user/generateName",
         "initNickName": "/gamecenter/player/user/defaultNickName",
-        "setNickCount": "/gamecenter/player/user/getModifyCount"
+        "setNickCount": "/gamecenter/player/user/getModifyCount",
+        "withdrawBalance": "/balance/me/balance",
+        "betInfo": "/cashmgt/me/cards/cardsAndWithdrawDetail",
+        "withdraw": "/cashmgt/me/transfer/withdrawalsV2",
+        "gtest": "/account/webapi/account/userss/startCaptcha"
     }
 }
