@@ -141,6 +141,16 @@
             "desc": "水浒传",
             "alias": "SHZ",
             "anim_sk": "./assets/animation/icons/shz/shz.sk"
+        },
+        {
+            "desc": "新百人牛牛",
+            "alias": "xbrnn",
+            "anim_sk": "./assets/animation/icons/bairenniuniu/brnn.sk"
+        },
+        {
+            "desc": "血战麻将",
+            "alias": "xzmj",
+            "anim_sk": "./assets/animation/icons/xuzhanmajiang/xzmj.sk"
         }
     ],
     "defaultIcon": "ddz"
