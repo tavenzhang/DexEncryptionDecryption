@@ -395,6 +395,9 @@ export default class Enter extends Component {
                         }else{
                             this.hotFixStore.isNextAffect =false;
                         }
+                        if(TW_Store.appStore.specialVersionHot==`${versionData.sp}`){
+                            this.isWeakUpdate=true
+                        }
                     }
                     if(TW_Store.gameUpateStore.isEnteredGame&&this.isWeakUpdate){
                         this.hotFixStore.isNextAffect =true;
@@ -403,7 +406,7 @@ export default class Enter extends Component {
                     //如果是3分钟后台进入前台的热更新检测 使用立即更新
                     this.hotFixStore.isNextAffect =false;
                 }
-                TW_Log('==checkingupdate====hotfixDeploymentKey= versionData=  this.isWeakUpdate'+  this.isWeakUpdate);
+                TW_Log('==checkingupdate====hotfixDeploymentKey= versionData=  this.isWeakUpdate=='+  this.isWeakUpdate);
                 this.hotFixStore.updateFinished = false;
                 this.storeLog({hotfixDomainAccess: true});
                 if (alreadyInCodePush) return
