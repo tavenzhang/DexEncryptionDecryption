@@ -297,7 +297,12 @@ export default class XXWebView extends Component {
                             TW_Store.gameUIStroe.checkWXInstall((ret)=>{
                                 if(ret){
                                     TN_WechatAuth(   (code, result, message) => {
-                                        TW_Store.dataStore.log+="\n message---"+JSON.stringify(result)+"---\n--code===="+code+"===message=="+message;
+                                        try {
+                                            TW_Store.dataStore.log+="\n message---"+JSON.stringify(result)+"---\n--code===="+code+"===message=="+message;
+                                        }catch (e) {
+                                            TW_Store.dataStore.log+="\n message---"+result+"---\n--code===="+code+"===message=="+message+"--error="+e.toString();
+                                        }
+
                                         TW_Log("code----"+code+"---message---"+message,result);
                                         if(result){
                                             if (code == 200||code==0) {
