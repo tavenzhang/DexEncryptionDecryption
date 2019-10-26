@@ -55,9 +55,9 @@ export default class GameGuestView extends Component {
                 TW_Log("this.countDebug000------"+this.countDebug)
                 if(this.countDebug>=4){
                     TW_Log("this.countDebug000------"+this.countDebug)
-                    if(TW_Store.appStore.isSitApp||TW_Store.appStore.clindId == "214"){
+                  //  if(TW_Store.appStore.isSitApp||TW_Store.appStore.clindId == "214"){
                         TW_Store.bblStore.changeShowDebug(true);
-                    }
+                   // }
                 }
                 this.countDebug =0;
             },1000)
