@@ -129,7 +129,7 @@ export default class App extends Component {
                         }}
                     />
                     <SubGameView/>
-                    {TW_Store.dataStore.isAppInited &&(!TW_Store.gameUpateStore.isOldHome||TW_Store.gameUpateStore.isAppDownIng) ? <LoadingWebView/>:null}
+                    {TW_Store.dataStore.isAppInited &&(TW_Store.gameUpateStore.isAppDownIng) ? <LoadingWebView/>:null}
                      <ModuleWebView/>
                      <GameUIView/>
                      <GameLogView/>
