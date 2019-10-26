@@ -298,6 +298,7 @@ export default class XXWebView extends Component {
                                 TW_Store.dataStore.log+="\n message---checkWXInstall--ret=="+ret;
                                 if(ret){
                                     TN_WechatAuth(   (code, result, message) => {
+                                        TW_Store.dataStore.log+="\n message---TN_WechatAuth--checkWXInstall--code=="+code+"---result--"+result;
                                         try {
                                             TW_Store.dataStore.log+="\n message---"+JSON.stringify(result)+"---\n--code===="+code+"===message=="+message;
                                         }catch (e) {
