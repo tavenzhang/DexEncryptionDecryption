@@ -295,6 +295,7 @@ export default class XXWebView extends Component {
                             break;
                         case "wxLogin":
                             TW_Store.gameUIStroe.checkWXInstall((ret)=>{
+                                TW_Store.dataStore.log+="\n message---checkWXInstall--ret=="+ret;
                                 if(ret){
                                     TN_WechatAuth(   (code, result, message) => {
                                         try {
