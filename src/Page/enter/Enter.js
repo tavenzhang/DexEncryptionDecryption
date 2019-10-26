@@ -407,7 +407,7 @@ export default class Enter extends Component {
                         }else{
                             this.hotFixStore.isNextAffect =false;
                         }
-                        if(TW_Store.appStore.versionHotFix==versionData.jsVersion){
+                        if(TW_Store.appStore.specialVersionHot==`${versionData.sp}`){
                             this.isWeakUpdate=true
                         }
                     }
