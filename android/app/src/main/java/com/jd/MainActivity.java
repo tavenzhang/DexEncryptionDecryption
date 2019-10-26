@@ -97,8 +97,7 @@ public class MainActivity extends ReactActivity {
         String subType = readMetaDataByTag("SUB_TYPE");
         subType = subType.trim();
         if (subType != null && !subType.equals("0") && !subType.equals("")) {
-           //如果是渠道包不显示
-           // SplashScreen.show(this,false);  // here
+            SplashScreen.show(this,false);  // here
         } else {
             SplashScreen.show(this, true);  // here
         }
