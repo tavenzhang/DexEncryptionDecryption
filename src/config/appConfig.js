@@ -3,9 +3,13 @@ import React, {
 } from 'react-native';
 
 export const appDomainBase = {
-    base1: 'https://*.shenhecm.com',
-    base2: 'https://*.shenhecm.com',
-    // base2: 'https://qp01-game.513xyz.com,',
+    base1: 'http://sqp01game.sit03.com',
+    base2: 'http://sqp01game.sit03.com',
+    base3: 'http://sqp01game.sit03.com',
+    base4: 'http://sqp01game.sit03.com',
+    base5: 'http://sqp01game.sit03.com',
+    base6: 'http://sqp01game.sit03.com',
+    base7: 'http://sqp01game.sit03.com',
 }
 
 
@@ -16,10 +20,13 @@ export const AppConfig = {
     allowFontScaling: true,
     domains: [
         appDomainBase.base1,
-
+        appDomainBase.base2,
+        appDomainBase.base3
     ],
     backupDomains: [
-        appDomainBase.base2,
+        appDomainBase.base4,
+        appDomainBase.base5,
+        appDomainBase.base6
     ],
     checkUpdateDomains:[
         "https://www.ba2d16.com",
@@ -31,7 +38,7 @@ export const AppConfig = {
 
 export const MyAppName = '博博乐sit';
 
-export const versionHotFix ='v10.28.1037'
+export const versionHotFix ='v10.28.1419'
 
 export const MyOwnerPlatName= 'sit';
 
@@ -48,7 +55,7 @@ export const platInfo = {
 
     zipCheckServer: {
         debug_server: "http://192.168.14.70:8888",
-        release_server: "/bbl_lobby/game/release/uat"
+        release_server: "/game/release/sit"
     },
     platId: configAppId,
     brand: "sqp01",
