@@ -49,7 +49,7 @@ export default class XXWebView extends Component {
                     TW_Store.dataStore.appGameListM = res;
                 }
             }
-            this.onFlushGameData()
+           // this.onFlushGameData()
         });
         // TW_Log("(_keyboard-TW_DATA_KEY.gameList-FileTools--==G_IS_IOS== middle" + G_IS_IOS,Keyboard.addListener);
         if (G_IS_IOS) {
@@ -143,8 +143,8 @@ export default class XXWebView extends Component {
 
 
     render() {
-        // TW_Log("TW_DATA_KEY.gameList-FileTools--==err=flash=this.state.flash--isLoading="+TW_Store.gameUpateStore.isLoading+"---TW_Store.gameUpateStore.isOldHome"+TW_Store.gameUpateStore.isOldHome);
-        let news = (TW_Store.gameUpateStore.isLoading && !TW_Store.gameUpateStore.isOldHome) || !TW_Store.dataStore.isAppInited
+        // TW_Log("TW_DATA_KEY.gameList-FileTools--==err=flash=this.state.flash--isLoading="+TW_Store.gameUpateStore.isLoading+"---TW_Store.gameUpateStore.isIncludeLobby"+TW_Store.gameUpateStore.isIncludeLobby);
+        let news = TW_Store.gameUpateStore.isLoading || !TW_Store.dataStore.isAppInited
         if (news) {
             return null
         }
@@ -155,12 +155,12 @@ export default class XXWebView extends Component {
             file: TW_Store.dataStore.targetAppDir+ "/index.html",
             allowingReadAccessToURL: TW_Store.dataStore.targetAppDir,
             allowFileAccessFromFileURLs: TW_Store.dataStore.targetAppDir,
-            param:`?app=true&&isDebug=${TW_Store.appStore.isSitApp||TW_Store.appStore.clindId==214}`
+            param:`?app=true&&isDebug=${TW_Store.appStore.isSitApp||TW_Store.appStore.clindId==214}&&version=${TW_Store.dataStore.homeVersionM.versionNum}`
         };
 
         if (!G_IS_IOS) {
             source = {
-                uri: TW_Store.dataStore.targetAppDir+"/index.html"+`?app=true&&isDebug=${TW_Store.appStore.isSitApp||TW_Store.appStore.clindId==214}`,
+                uri: TW_Store.dataStore.targetAppDir+"/index.html"+`?app=true&&isDebug=${TW_Store.appStore.isSitApp||TW_Store.appStore.clindId==214}&&version=${TW_Store.dataStore.homeVersionM.versionNum}`,
             };
         }
 
@@ -264,7 +264,6 @@ export default class XXWebView extends Component {
                                 if (TW_Store.gameUpateStore.isNeedUpdate && TW_Store.gameUpateStore.isTempExist) {
                                     TW_Store.gameUpateStore.isNeedUpdate = false;
                                     TW_Store.gameUpateStore.isTempExist = false;
-                                    TW_Store.gameUpateStore.isOldHome = false;
                                 }
                             }, 1000)
 
@@ -407,7 +406,6 @@ export default class XXWebView extends Component {
                     if (TW_Store.gameUpateStore.isTempExist) {
                         TW_Store.gameUpateStore.isNeedUpdate = false;
                         TW_Store.gameUpateStore.isTempExist = false;
-                        TW_Store.gameUpateStore.isOldHome = false
                     }
                     TW_Store.gameUpateStore.isEnteredGame = true;
                     setTimeout(() => {

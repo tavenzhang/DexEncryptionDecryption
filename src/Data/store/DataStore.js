@@ -61,19 +61,31 @@ export default class DataStore {
     }
 
     @action
-    initAppHomeCheck () {
+    async initAppHomeCheck () {
+        const is_lobby_exist = await RNFS.exists(TW_Store.dataStore.originAppDir);
         TW_Data_Store.getItem(TW_DATA_KEY.isInitStore, (err, ret) => {
-            TW_Log("TW_Data_Store---versionBBL--W_DATA_KEY.isInitStore==err=3=" + err, ret);
-            if (err) {
-                this.copy_assets_to_dir();
-            } else {
-                if (`${ret}` == "1") {
-                    this.isAppInited = true;
-                    this.loadHomeVerson();
+            TW_Log("TW_Data_Store---versionBBL--W_DATA_KEY.isInitStore==err=3=" + err+"--is_lobby_exist==="+is_lobby_exist, ret);
+            let isInitedStore=`${ret}` == "1"
+            TW_Store.gameUpateStore.isIncludeLobby=is_lobby_exist;
+                if (err) {
+                    if(is_lobby_exist){
+                        this.copy_assets_to_dir();
+                    }else{
+                        this.loadHomeVerson();
+                    }
                 } else {
-                    this.copy_assets_to_dir();
+                    if (isInitedStore) {
+                        this.isAppInited = true;
+                        this.loadHomeVerson();
+                    } else {
+                        if(is_lobby_exist){
+                            this.copy_assets_to_dir();
+                        }else{
+                            this.loadHomeVerson();
+                        }
+                    }
                 }
-            }
+
         });
     }
 
@@ -86,7 +98,6 @@ export default class DataStore {
         this.log+="Url-----home---target_dir_exist="+target_dir_exist;
         this.log+="\nUrl-----home---target_dir_exist=Url-"+Url;
         if(target_dir_exist){
-            TW_Store.gameUpateStore.isOldHome=false;
             RNFS.readFile(Url).then(ret=>{
                 let data=ret
                 if(typeof ret === 'object'){
@@ -101,7 +112,6 @@ export default class DataStore {
                 this.startCheckZipUpdate(data);
             })
         }else{
-            TW_Store.gameUpateStore.isOldHome=true;
             this.startCheckZipUpdate(null)
         }
     }
@@ -228,15 +238,9 @@ export default class DataStore {
                //{statusCode: 404, headers: {…}, jobId: 1, contentLength: 153
                  if(res.statusCode != 404){
                      TW_Store.gameUpateStore.isLoading=true;
-                     if(TW_Store.gameUpateStore.isOldHome){
-                         TW_Store.commonBoxStore.isShow=true;
-                     }
                  }else{
                      TW_Store.gameUpateStore.isLoading=false;
                      TW_Store.gameUpateStore.isNeedUpdate=false;
-                     if(TW_Store.gameUpateStore.isOldHome){
-                         TW_Store.commonBoxStore.isShow=false;
-                     }
                  }
             },
             progress: (res) => {
@@ -255,10 +259,6 @@ export default class DataStore {
                // TW_Log("downloadFile--------progress-TW_Store.gameUpateStore.isNeedUpdate=-",percent);
                 if(!TW_Store.gameUpateStore.isAppDownIng){
                     TW_LoaderOnValueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.game_loading, {data: {do:"loading",percent}}));
-                }
-                if(TW_Store.gameUpateStore.isOldHome){
-                     TW_Store.commonBoxStore.curPecent=res.bytesWritten;
-                     TW_Store.commonBoxStore.totalPecent=res.contentLength;
                 }
 
             },
@@ -284,9 +284,6 @@ export default class DataStore {
                         TW_Store.gameUpateStore.isNeedUpdate=false;
                         TW_Store.gameUpateStore.isTempExist=true;
                         TW_LoaderOnValueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.game_loading,{data:{do:"loadFinish"}}));
-                    if(TW_Store.gameUpateStore.isOldHome){
-                        TW_Store.commonBoxStore.isShow=true;
-                    }
                 }
             })
         }
@@ -296,9 +293,6 @@ export default class DataStore {
                 TW_Store.gameUpateStore.isNeedUpdate=false;
                 TW_Store.gameUpateStore.isTempExist=true;
                 TW_LoaderOnValueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.game_loading,{data:{do:"loadFinish"}}));
-            }
-            if(TW_Store.gameUpateStore.isOldHome){
-                TW_Store.commonBoxStore.isShow=true;
             }
         }
     }
@@ -515,7 +509,7 @@ export default class DataStore {
                     }
                 }
             }
-            this.onFlushGameData();
+
         }
     }
 
