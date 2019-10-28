@@ -62,11 +62,11 @@ export default class DataStore {
 
     @action
     async initAppHomeCheck () {
+        const is_lobby_exist = await RNFS.exists(TW_Store.dataStore.originAppDir);
         TW_Data_Store.getItem(TW_DATA_KEY.isInitStore, (err, ret) => {
-            TW_Log("TW_Data_Store---versionBBL--W_DATA_KEY.isInitStore==err=3=" + err, ret);
-            const is_lobby_exist = await RNFS.exists(TW_Store.dataStore.originAppDir);
+            TW_Log("TW_Data_Store---versionBBL--W_DATA_KEY.isInitStore==err=3=" + err+"--is_lobby_exist==="+is_lobby_exist, ret);
             let isInitedStore=`${ret}` == "1"
-            TW_Store.gameUpateStore.isIncludeLobby=target_dir_exist;
+            TW_Store.gameUpateStore.isIncludeLobby=is_lobby_exist;
                 if (err) {
                     if(is_lobby_exist){
                         this.copy_assets_to_dir();
@@ -509,7 +509,7 @@ export default class DataStore {
                     }
                 }
             }
-            this.onFlushGameData();
+
         }
     }
 
