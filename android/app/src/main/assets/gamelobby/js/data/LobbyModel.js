@@ -163,10 +163,8 @@ var LobbyModel = /** @class */ (function () {
     LobbyModel.reqBindInfo = function () {
         HttpRequester.getHttpData(ConfObjRead.getConfUrl().cmd.getBindInfo, this, function (suc, jobj) {
             if (suc) {
-                GameData.isGetBindAward = !jobj.receive;
                 GameData.bindOpen = jobj.bind;
                 GameData.bindAward = jobj.reward;
-                Common.bindPhoneInfo = jobj;
                 EventManager.dispath(EventType.BINDPHONE_INFO);
             }
         });
@@ -195,6 +193,12 @@ var LobbyModel = /** @class */ (function () {
         HttpRequester.getHttpData(ConfObjRead.getConfUrl().cmd.userinfo, this, function (suc, jobj) {
             if (suc) {
                 Common.userInfo_current = jobj;
+                if (jobj.username == jobj.nickname) {
+                    LobbyModel.reqInitNickInfo();
+                }
+                else {
+                    EventManager.dispath(EventType.SHOW_NICK_NAME);
+                }
                 var vo = SaveManager.getObj().get(SaveManager.KEY_LASTLOGININFO, null);
                 if (jobj.certifiedPhone) { //如果玩家绑定过手机,则将缓存的用户名改为手机号
                     LoginModel.loginType = LoginMethod.account;
@@ -222,6 +226,50 @@ var LobbyModel = /** @class */ (function () {
         });
     };
     /**
+     * 请求一个随机昵称
+     * @param caller
+     * @param callback
+     * @param showloading
+     */
+    LobbyModel.reqNickName = function (caller, callback, showloading) {
+        if (showloading)
+            LayaMain.getInstance().showCircleLoading(true);
+        HttpRequester.getHttpData(ConfObjRead.httpCmd.getNickName, this, function (suc, jobj) {
+            if (showloading)
+                LayaMain.getInstance().showCircleLoading(false);
+            var str = "";
+            if (suc) {
+                str = jobj.data || "";
+            }
+            if (caller && callback)
+                callback.call(caller, str);
+        });
+    };
+    /**
+     * 初始化获取昵称
+     */
+    LobbyModel.reqInitNickInfo = function () {
+        HttpRequester.getHttpData(ConfObjRead.httpCmd.initNickName, this, function (suc, jobj) {
+            if (suc) {
+                Common.userInfo_current.nickname = jobj.data.nickName;
+                EventManager.dispath(EventType.SHOW_NICK_NAME);
+            }
+        });
+    };
+    /**
+     * 检测昵称修改次数
+     * @param caller
+     * @param callback
+     */
+    LobbyModel.checkSetNickCount = function (caller, callback) {
+        HttpRequester.getHttpData(ConfObjRead.httpCmd.setNickCount, this, function (suc, jobj) {
+            if (suc) {
+                if (caller && callback)
+                    callback.call(caller, jobj.data);
+            }
+        });
+    };
+    /**
      * 头像数据
      */
     LobbyModel.reqAvatarInfo = function () {
@@ -242,7 +290,7 @@ var LobbyModel = /** @class */ (function () {
      * 余额刷新(获取用户的余额信息包含免转金额的回收详情)
      */
     LobbyModel.refreshMoney = function (caller, callback) {
-        HttpRequester.getHttpData(ConfObjRead.httpCmd.balanceInfo, this, function (suc, jobj) {
+        HttpRequester.getHttpData(ConfObjRead.httpCmd.recoverBalanceInfo, this, function (suc, jobj) {
             if (suc) {
                 Common.userBalance = jobj.data.totalAmount;
                 Common.balanceInfo = jobj.data;
@@ -304,11 +352,24 @@ var LobbyModel = /** @class */ (function () {
         });
     };
     /**
+     * 检测维护公告
+     */
+    LobbyModel.checkMaintenanceNotice = function () {
+        HttpRequester.getHttpData(ConfObjRead.httpCmd.vindicateNotice, this, function (suc, jobj) {
+            if (suc) {
+                if (jobj.maintenanceState && jobj.maintenanceDto) {
+                    view.dlg.GameUpdateNotice.show(jobj.maintenanceDto || {});
+                }
+            }
+        });
+    };
+    /**
      * 用于缓存游戏分类列表数据
      */
     LobbyModel.classifyPool = {};
     //缓存游戏图标标记
     LobbyModel.cacheIconMark = "gameIcon";
+    LobbyModel.inLobby = true; //是否在大厅
     //用于三方平台icon加载的cdnurl
     LobbyModel.cdnUrl = null;
     return LobbyModel;

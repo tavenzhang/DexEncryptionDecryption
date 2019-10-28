@@ -86,6 +86,7 @@ export default class MyComponent {
         safeguardDomain = safeguardDomain.d;
         if (!_.isEmpty(safeguardDomain)) {
             let alreadyCallBack = false;
+            let failCount=0;
             for (let i = 0; i < safeguardDomain.length; i++) {
                 let url = safeguardDomain[i];
                 this.testSafeguarDomains(url, isSucceed => {
@@ -93,9 +94,13 @@ export default class MyComponent {
                     if (!alreadyCallBack&&isSucceed) {
                         alreadyCallBack = true;
                         callBack(isSucceed);
-                    }else
-                    {
-                        callBack(isSucceed);
+                    }else {
+                        failCount++;
+                        if(failCount==safeguardDomain.length&&!alreadyCallBack){
+                            alreadyCallBack = true;
+                            callBack(false);
+                        }
+
                     }
                 });
             }
@@ -106,41 +111,46 @@ export default class MyComponent {
         url = url + '/q.png?temp=' + JXHelper.getRandomChars(true, 5, 15);
         let ret =this.checkURL(url);
         if(!this.checkURL(url)){
+            callBack(false)
             return
         }
         this.fetchAsyncResponse(url, ads => {
-            TW_Log("getSafeguardName---start==url=="+url+"---ads==="+ads,ads);
-            try {
-                ads = this.decodeDomain(ads._bodyText);
-            }
-            catch (e) {
-                if(callBack){
-                    callBack(false);
+            let data =ads.text();
+            data.then(res => {
+                TW_Log("ads.text()----",res)
+                try {
+                    ads = this.decodeDomain(res);
                 }
-            }
-
-            TW_Log("getSafeguardName---fetchAsyncResponse==url=="+ret+"---ads=resutlt=ads="+ads,ads);
-            if (ads && ads.d && ads.d.length > 0) {
-                TW_Log("getSafeguardName---fetchAsyncResponse==sucess= ads.d=", ads.d);
-                this.testDomainsHealth(ads.d);
-                AsyncStorage.setItem(
-                    'cacheDomain',
-                    JSON.stringify({
-                        serverDomains: ads.d
-                    }),
-                    err => {
-                        if (!err) {
-                            // 缓存更新成功
-                            if (callBack) {
-                                callBack(true);
-                            }
-                        } else {
-                            //写入缓存失败
-                            // callback(false)
-                        }
+                catch (e) {
+                    if(callBack){
+                        callBack(false);
                     }
-                );
-            }
+                }
+                //TW_Log("getSafeguardName---fetchAsyncResponse==url=="+ret+"---ads=resutlt=ads="+ads,ads);
+                if (ads && ads.d && ads.d.length > 0) {
+                    TW_Log("getSafeguardName---fetchAsyncResponse==sucess= ads.d=", ads.d);
+                    this.testDomainsHealth(ads.d);
+                    AsyncStorage.setItem(
+                        'cacheDomain',
+                        JSON.stringify({
+                            serverDomains: ads.d
+                        }),
+                        err => {
+                            if (!err) {
+                                // 缓存更新成功
+                                if (callBack) {
+                                    callBack(true);
+                                }
+                            } else {
+                                //写入缓存失败
+                                 callback(false)
+                            }
+                        }
+                    );
+                }
+            })
+            TW_Log("getSafeguardName---start==url=="+url+"---ads==_bodyText=",data);
+
         });
     }
 

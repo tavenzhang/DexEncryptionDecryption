@@ -201,7 +201,7 @@ var view;
             //刷新轮播图数据
             this.cirbox.requestCycelData();
             //检查全局维护公告
-            LayaMain.getInstance().checkGameMaintenance();
+            LobbyModel.checkMaintenanceNotice();
         };
         /**
          * 从大厅进入游戏

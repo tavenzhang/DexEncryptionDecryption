@@ -24,21 +24,17 @@ var HeadIconUI = /** @class */ (function (_super) {
         return _this;
     }
     HeadIconUI.prototype.initView = function () {
-        this.iconbg = new Laya.Image();
-        this.iconbg.skin = "ui/common/avatorFrame.png";
-        this.addChild(this.iconbg);
-        this.iconbg.width = 120;
-        this.iconbg.height = 120;
-        this.iconbg.visible = false;
+        var iw = 100;
+        var ih = 100;
         this.iconHead = new Laya.Image();
         this.iconHead.skin = ResConfig.getHeadSkinByID(this.iconID);
         this.addChildAt(this.iconHead, 0);
-        this.iconHead.size(this.iconbg.width - 20, this.iconbg.height - 20);
-        this.iconHead.pos(this.iconbg.width - this.iconHead.width >> 1, this.iconbg.height - this.iconHead.height >> 1);
+        this.iconHead.size(iw, ih);
+        this.iconHead.pos(10, 10);
         this.iconSelecte = new Laya.Image();
         this.iconSelecte.skin = "ui/fullMyCenter/img_grzx_gx01.png";
         this.addChild(this.iconSelecte);
-        this.iconSelecte.pos(this.iconbg.width - this.iconSelecte.width, this.iconbg.height - this.iconSelecte.height);
+        this.iconSelecte.pos(iw - this.iconSelecte.width, ih - this.iconSelecte.height);
         this.iconSelecte.visible = false;
     };
     HeadIconUI.prototype.selecteIcon = function (bl) {

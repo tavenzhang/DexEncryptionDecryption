@@ -4,6 +4,7 @@ import { AsyncStorage} from 'react-native'
 import NetUitls from "../../Common/Network/TCRequestUitls";
 import Base64 from "../../Common/JXHelper/Base64";
 import CryptoJS from "crypto-js";
+import JXHelper from "../../Common/JXHelper/JXHelper";
 const pk64 = 'OXcwQkFRRUZBQU9lZGZxNQ=='
 let base64 = new Base64()
 function getAvailableDomain (domains,callback) {
@@ -22,14 +23,18 @@ function getAvailableDomain (domains,callback) {
   },10000)
   for (let i = 0; i < domains.length; i++) {
     TW_Log('cacheDomain check= '+domains[i]);
-      let tempDomain =domains[i]
+      let tempDomain =domains[i];
+
       if(tempDomain.indexOf("http")==-1){
           errorCount+=1;
           if (errorCount >= domains.length) {
               callback(false, false, "");
           }
       }
-      NetUitls.getUrlAndParamsAndCallback(`${domains[i]}/api/v1/ip/user/checkIpInfoDomainsEncrypte?clientId=${TW_Store.appStore.clindId}&platform=CG`,null,(rt)=>{
+      if (tempDomain.indexOf("https://*")>-1){
+          tempDomain =tempDomain.replace("https://*", "https://"+JXHelper.getRandomChars(true, 5, 15))
+      }
+      NetUitls.getUrlAndParamsAndCallback(`${tempDomain}/api/v1/ip/user/checkIpInfoDomainsEncrypte?clientId=${TW_Store.appStore.clindId}&platform=CG`,null,(rt)=>{
         if(rt.rs){
           if(!isFinish){
               isFinish = true;
@@ -45,16 +50,14 @@ function getAvailableDomain (domains,callback) {
               var decryptedResponseDataJson = JSON.parse(decryptedResponseData.toString(CryptoJS.enc.Utf8));
               let content=decryptedResponseDataJson;
               content.allowAppUpdate=true;
-              TW_Log('大王来巡山 content==domains[i]--'+domains[i],content);
+              TW_Log('大王来巡山 content==domains[i]--'+tempDomain,content);
              // TW_Log("callback-------content.trendChartDomains[0]-"+content.trendChartDomains[0],content.trendChartDomains);
              // let gameDomain = content.trendChartDomains&&content.trendChartDomains.length>0 ? content.trendChartDomains[0]:"";
-              let gameDomain = domains[i];
+              let gameDomain = tempDomain;
               if(gameDomain.indexOf("http")>-1){
-                 // TW_Log("callback-------content.trendChartDomains[0]-exist"+gameDomain);
                   if(!TW_Store.appStore.isSitApp){ //对于sit  环境做特殊处理 使用默认
                       TW_Store.appStore.currentDomain=TW_Store.bblStore.loginDomain =TW_Store.bblStore.gameDomain=gameDomain;
                   }
-
               }
               TW_Log('大王来巡山 content==domains[i] loginDomain--'+ TW_Store.bblStore.loginDomain,TW_Store.bblStore.gameDomain);
               AsyncStorage.setItem('cacheDomain', JSON.stringify({

@@ -241,6 +241,14 @@ export default class TWWebGameView extends Component {
                             break;
                     }
                     break;
+                case "logout":
+                       if(TW_Store.gameUpateStore.isInSubGame){
+                           this.onBackHomeJs()
+                       }
+                    TW_Store.userStore.exitAppToLoginPage();
+                    TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.logout));
+                    break;
+
             }
         }
     }

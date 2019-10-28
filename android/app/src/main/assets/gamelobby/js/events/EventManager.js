@@ -68,12 +68,15 @@ var EventManager = /** @class */ (function () {
      * @param target
      * @param thisObject
      * @param listener
-     * @param scale
+     * @param value 触摸时的改变值
+     * @param setAlpha 是否改变透明度，否则改变缩放
+     * @param useClickRestrict 是否使用点击约束(默认启用)
      */
-    EventManager.addTouchScaleListener = function (target, thisobj, listener, params, scale) {
+    EventManager.addTouchScaleListener = function (target, thisobj, listener, params, value, setAlpha, useClickRestrict) {
         if (params === void 0) { params = null; }
-        if (scale === void 0) { scale = 1.05; }
-        EventManager.inst.addScaleListener(target, thisobj, listener, params, scale);
+        if (value === void 0) { value = 1.05; }
+        if (useClickRestrict === void 0) { useClickRestrict = true; }
+        EventManager.inst.addScaleListener(target, thisobj, listener, params, value, setAlpha, useClickRestrict);
     };
     /**
      * 删除按钮事件(建议统一调用removeAllEvents)
@@ -89,9 +92,10 @@ var EventManager = /** @class */ (function () {
     EventManager.removeAllEvents = function (thisobj) {
         EventManager.inst.removeAllEvents(thisobj);
     };
-    EventManager.prototype.addScaleListener = function (target, thisobj, listener, params, scale) {
+    EventManager.prototype.addScaleListener = function (target, thisobj, listener, params, scale, setAlpha, useClickRestrict) {
         if (params === void 0) { params = null; }
         if (scale === void 0) { scale = 1.05; }
+        if (useClickRestrict === void 0) { useClickRestrict = true; }
         if (!target)
             return;
         if (scale == 1) {
@@ -107,7 +111,7 @@ var EventManager = /** @class */ (function () {
             arr = [];
         if (arr.indexOf(target) == -1)
             arr.push(target);
-        this.pool.set(target, new CustomObj(target, listener, thisobj, params, scale));
+        this.pool.set(target, new CustomObj(target, listener, thisobj, params, scale, setAlpha, useClickRestrict));
         this.pool.set(thisobj, arr);
     };
     EventManager.prototype.removeEvent = function (target) {
@@ -185,17 +189,26 @@ var EventManager = /** @class */ (function () {
             case Laya.Event.MOUSE_DOWN: {
                 obj.isTapBegin = true;
                 this.downPos.setTo(e.stageX, e.stageY);
-                var scl = obj.sclNum;
-                Laya.Tween.to(btn, { scaleX: scl, scaleY: scl }, 100);
+                var value = obj.sclNum;
+                if (obj.isSetAlpha)
+                    Laya.Tween.to(btn, { alpha: value }, 100);
+                else
+                    Laya.Tween.to(btn, { scaleX: value, scaleY: value }, 100);
                 break;
             }
             case Laya.Event.MOUSE_OUT: {
-                Laya.Tween.to(btn, { scaleX: 1, scaleY: 1 }, 100);
+                if (obj.isSetAlpha)
+                    Laya.Tween.to(btn, { alpha: 1 }, 100);
+                else
+                    Laya.Tween.to(btn, { scaleX: 1, scaleY: 1 }, 100);
                 obj.isTapBegin = false;
                 break;
             }
             case Laya.Event.MOUSE_UP: {
-                Laya.Tween.to(btn, { scaleX: 1, scaleY: 1 }, 100);
+                if (obj.isSetAlpha)
+                    Laya.Tween.to(btn, { alpha: 1 }, 100);
+                else
+                    Laya.Tween.to(btn, { scaleX: 1, scaleY: 1 }, 100);
                 var dist = this.downPos.distance(e.stageX, e.stageY);
                 if (dist < 20 && obj.isTapBegin) { //触发点击事件
                     obj.docallback(e);
@@ -216,7 +229,7 @@ var EventManager = /** @class */ (function () {
     return EventManager;
 }());
 var CustomObj = /** @class */ (function () {
-    function CustomObj(target, listener, thisobj, argObject, sclNum) {
+    function CustomObj(target, listener, thisobj, argObject, sclNum, setAlpha, useClickRestrict) {
         this.isTapBegin = false;
         this.target = null;
         this.listener = null;
@@ -227,16 +240,20 @@ var CustomObj = /** @class */ (function () {
         this.target = target;
         this.listener = listener;
         this.sclNum = sclNum;
+        this.isSetAlpha = setAlpha;
         this.thisobj = thisobj;
         this.argObject = argObject;
+        this.useClickRestrict = useClickRestrict;
     }
     CustomObj.prototype.docallback = function (evt) {
-        if (!this.isclick)
+        if (!this.isclick && this.useClickRestrict)
             return;
         if (this.thisobj && this.listener) {
             this.listener.call(this.thisobj, evt, this.argObject);
-            this.isclick = false;
-            Laya.timer.once(EventManager.delayClickTime, this, this.resetState);
+            if (this.useClickRestrict) {
+                this.isclick = false;
+                Laya.timer.once(EventManager.delayClickTime, this, this.resetState);
+            }
         }
     };
     CustomObj.prototype.resetState = function () {
@@ -287,9 +304,9 @@ var EventType = /** @class */ (function () {
     EventType.WeChatLogin = "WeChatLogin";
     //微信绑定
     EventType.WeChatBind = "WeChatBind";
-    EventType.INIT_LOGINVIEW = "initLoginView"; //初始化登录流程
     EventType.BALANCE_PADSETING = "balancePwdSeting"; //余额宝密码设置成功
     EventType.BALANCE_DETAILIITEM_DESE = "balanceDetailItemDese"; //余额宝存取明细界面点击查看描述信息
+    EventType.SHOW_NICK_NAME = "showNickName";
     return EventType;
 }());
 //# sourceMappingURL=EventManager.js.map

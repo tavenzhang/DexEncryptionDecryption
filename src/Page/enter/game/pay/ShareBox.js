@@ -70,34 +70,12 @@ export default class ShareBox extends Component {
     }
 
     onClickWechatShare() {
-        let shareData=TW_Store.gameUIStroe.shareData;
-        let url = shareData.param;
-        if(shareData.image){
-            url=url+"&pic="+shareData.image
-        }
-        TN_WechatShare(WECHAT.SHARE_TITLE, shareData.image, url, WECHAT.SHARE_MSG, false,()=>{
-
-        });
-        setTimeout(()=>{
-            TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.shareSucess,{data:"friend"}));
-            TW_Store.gameUIStroe.isShowShare=false;
-        },2000);
+        TCUserOpenPayApp.onWXShare();
 
     }
 
     onClickWechatPyqShare() {
-        let shareData=TW_Store.gameUIStroe.shareData;
-        let url = shareData.param;
-        if(shareData.image){
-            url=url+"&pic="+shareData.image
-        }
-        TN_WechatShare(WECHAT.SHARE_TITLE, shareData.image, url, WECHAT.SHARE_MSG, true,()=>{
-
-        });
-        setTimeout(()=>{
-            TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.shareSucess,{data:"circle"}));
-            TW_Store.gameUIStroe.isShowShare=false;
-        },2000);
+        TCUserOpenPayApp.onWX_PYQ_SHARE();
 
 
     }

@@ -13,7 +13,7 @@ var SetPwdView = /** @class */ (function () {
         for (var i = 1; i <= 5; i++) {
             var txt = this.view["pwdTxt" + i];
             var lookbtn = this.view["lookBtn" + i];
-            this["pwdExtend" + i] = InputExtend.getInput(txt);
+            // this["pwdExtend" + i] = InputExtend.getInput(txt);
             if (this["pwdExtend" + i]) {
                 lookbtn.visible = false;
             }

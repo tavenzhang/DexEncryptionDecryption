@@ -34,7 +34,7 @@ export default class XXWebView extends Component {
         this.isLoading = false;
         this.isShow = false;
         this.isShowKeyBoard = false
-        this.rom = Math.random() * 100000
+        this.rom = Math.random() * 100000;
     }
 
     componentWillMount() {
@@ -143,8 +143,8 @@ export default class XXWebView extends Component {
 
 
     render() {
-        // TW_Log("TW_DATA_KEY.gameList-FileTools--==err=flash=this.state.flash--isLoading="+TW_Store.gameUpateStore.isLoading+"---TW_Store.gameUpateStore.isOldHome"+TW_Store.gameUpateStore.isOldHome);
-        let news = (TW_Store.gameUpateStore.isLoading && !TW_Store.gameUpateStore.isOldHome) || !TW_Store.dataStore.isAppInited
+        // TW_Log("TW_DATA_KEY.gameList-FileTools--==err=flash=this.state.flash--isLoading="+TW_Store.gameUpateStore.isLoading+"---TW_Store.gameUpateStore.isIncludeLobby"+TW_Store.gameUpateStore.isIncludeLobby);
+        let news = TW_Store.gameUpateStore.isLoading || !TW_Store.dataStore.isAppInited
         if (news) {
             return null
         }
@@ -181,6 +181,7 @@ export default class XXWebView extends Component {
             clientId: TW_Store.appStore.clindId,
             urlJSON: TW_Store.bblStore.getUriConfig(),
             isAndroidHack: TW_Store.appStore.isInAnroidHack,
+            hackData:{filterGameList:["zjh","lhd","bjl","pg","jlbsh","tto","erbg"]},
             deviceToken: TW_Store.appStore.deviceToken,
             loginDomain: TW_Store.bblStore.loginDomain + "/api/v1/account",
             gameDomain: TW_Store.bblStore.gameDomain + "/api/v1/gamecenter",
@@ -263,7 +264,6 @@ export default class XXWebView extends Component {
                                 if (TW_Store.gameUpateStore.isNeedUpdate && TW_Store.gameUpateStore.isTempExist) {
                                     TW_Store.gameUpateStore.isNeedUpdate = false;
                                     TW_Store.gameUpateStore.isTempExist = false;
-                                    TW_Store.gameUpateStore.isOldHome = false;
                                 }
                             }, 1000)
 
@@ -318,14 +318,34 @@ export default class XXWebView extends Component {
                                 message.param = TW_Store.bblStore.appShareUrl+"&affCode="+message.affcode;
                             }
                             TW_Store.gameUIStroe.shareData = message;
-                            TW_Store.gameUIStroe.isShowShare = true;
+
+                            let shareData = message;
+                            let isFast = shareData.isfast =="1"||shareData.type;
+                            if(isFast){
+                                try {
+                                    switch (shareData.type) {
+                                        case "friend":
+                                            TCUserOpenPayApp.onWXShare();
+                                            break;
+                                        case "circle":
+                                            TCUserOpenPayApp.onWX_PYQ_SHARE();
+                                            break;
+                                    }
+                                }catch (e) {
+                                    TW_Store.gameUIStroe.checkWXInstall();
+                                }
+                            }else{
+                                TW_Store.gameUIStroe.isShowShare = true;
+                            }
                             break;
                         case  "closeApp":
                             TN_ExitApp();
                             break;
-                            break;
                         case "goToPay"://打开相关app
                             TCUserOpenPayApp.getInstance().openAppByType(message.param);
+                            break;
+                        case "appUpate":
+                            TW_Store.dataStore.onRetartApp();
                             break;
                     }
                     break;
@@ -386,7 +406,6 @@ export default class XXWebView extends Component {
                     if (TW_Store.gameUpateStore.isTempExist) {
                         TW_Store.gameUpateStore.isNeedUpdate = false;
                         TW_Store.gameUpateStore.isTempExist = false;
-                        TW_Store.gameUpateStore.isOldHome = false
                     }
                     TW_Store.gameUpateStore.isEnteredGame = true;
                     setTimeout(() => {
@@ -397,8 +416,7 @@ export default class XXWebView extends Component {
 
                     break;
                 case  "game_custom":
-                    TW_Store.gameUIStroe.showGusetView(!TW_Store.gameUIStroe.isShowGuest)
-                    // TW_Store.gameUIStroe.isShowShare=!TW_Store.gameUIStroe.isShowShare
+                    TW_Store.gameUIStroe.showGusetView(!TW_Store.gameUIStroe.isShowGuest);
                     break;
                 case "game_redraw":
                     TW_Log("onMessage----custom---exitAppToLoginPage--SystemSetting.setVolume-")
@@ -412,7 +430,6 @@ export default class XXWebView extends Component {
                     break;
                 case "game_recharge":
                     TW_Store.gameUIStroe.isShowAddPayView = !TW_Store.gameUIStroe.isShowAddPayView;
-
                     break;
                 case  "debugInfo":
                     let name = message.name ? message.name : "";

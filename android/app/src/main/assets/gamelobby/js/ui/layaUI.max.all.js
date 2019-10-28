@@ -126,6 +126,24 @@ var ui;
 (function (ui) {
     var comp;
     (function (comp) {
+        var KeyboardViewUI = /** @class */ (function (_super) {
+            __extends(KeyboardViewUI, _super);
+            function KeyboardViewUI() {
+                return _super.call(this) || this;
+            }
+            KeyboardViewUI.prototype.createChildren = function () {
+                _super.prototype.createChildren.call(this);
+                this.createView(ui.comp.KeyboardViewUI.uiView);
+            };
+            KeyboardViewUI.uiView = { "type": "View", "props": { "width": 1334, "height": 750 }, "child": [{ "type": "Image", "props": { "var": "bgmc", "top": 0, "skin": "ui/common/keyboard01.png", "right": 0, "left": 0, "bottom": 0, "alpha": 0, "sizeGrid": "20,12,20,12" } }, { "type": "Image", "props": { "y": 363, "x": 0, "width": 1334, "var": "numGroup", "skin": "ui/common/keyboard03.png", "sizeGrid": "0,4,0,2", "height": 389 }, "child": [{ "type": "Box", "props": { "y": 90, "centerX": 0 }, "child": [{ "type": "Button", "props": { "width": 342, "var": "btn1", "stateNum": 1, "skin": "ui/common/keyboard01.png", "labelSize": 48, "labelColors": "#000000", "label": "1", "height": 65, "sizeGrid": "20,12,20,12" } }, { "type": "Button", "props": { "x": 352, "width": 342, "var": "btn2", "stateNum": 1, "skin": "ui/common/keyboard01.png", "labelSize": 48, "labelColors": "#000000", "label": "2", "height": 65, "sizeGrid": "20,12,20,12" } }, { "type": "Button", "props": { "x": 704, "width": 342, "var": "btn3", "stateNum": 1, "skin": "ui/common/keyboard01.png", "labelSize": 48, "labelColors": "#000000", "label": "3", "height": 65, "sizeGrid": "20,12,20,12" } }, { "type": "Button", "props": { "y": 75, "width": 342, "var": "btn4", "stateNum": 1, "skin": "ui/common/keyboard01.png", "labelSize": 48, "labelColors": "#000000", "label": "4", "height": 65, "sizeGrid": "20,12,20,12" } }, { "type": "Button", "props": { "y": 75, "x": 352, "width": 342, "var": "btn5", "stateNum": 1, "skin": "ui/common/keyboard01.png", "labelSize": 48, "labelColors": "#000000", "label": "5", "height": 65, "sizeGrid": "20,12,20,12" } }, { "type": "Button", "props": { "y": 75, "x": 704, "width": 342, "var": "btn6", "stateNum": 1, "skin": "ui/common/keyboard01.png", "labelSize": 48, "labelColors": "#000000", "label": "6", "height": 65, "sizeGrid": "20,12,20,12" } }, { "type": "Button", "props": { "y": 149, "width": 342, "var": "btn7", "stateNum": 1, "skin": "ui/common/keyboard01.png", "labelSize": 48, "labelColors": "#000000", "label": "7", "height": 65, "sizeGrid": "20,12,20,12" } }, { "type": "Button", "props": { "y": 149, "x": 352, "width": 342, "var": "btn8", "stateNum": 1, "skin": "ui/common/keyboard01.png", "labelSize": 48, "labelColors": "#000000", "label": "8", "height": 65, "sizeGrid": "20,12,20,12" } }, { "type": "Button", "props": { "y": 149, "x": 704, "width": 342, "var": "btn9", "stateNum": 1, "skin": "ui/common/keyboard01.png", "labelSize": 48, "labelColors": "#000000", "label": "9", "height": 65, "sizeGrid": "20,12,20,12" } }, { "type": "Button", "props": { "y": 224, "width": 342, "var": "btn10", "stateNum": 1, "skin": "ui/common/keyboard02.png", "labelSize": 48, "labelColors": "#000000", "label": ".", "height": 65, "sizeGrid": "20,12,20,12" } }, { "type": "Button", "props": { "y": 224, "x": 352, "width": 342, "var": "btn0", "stateNum": 1, "skin": "ui/common/keyboard01.png", "labelSize": 48, "labelColors": "#000000", "label": "0", "height": 65, "sizeGrid": "20,12,20,12" } }, { "type": "Button", "props": { "y": 224, "x": 704, "width": 342, "var": "btn11", "stateNum": 1, "skin": "ui/common/keyboard02.png", "labelSize": 48, "labelColors": "#000000", "height": 65, "sizeGrid": "20,12,20,12" }, "child": [{ "type": "Image", "props": { "y": 17, "x": 150, "skin": "ui/common/keyboard04.png" } }] }] }, { "type": "TextInput", "props": { "y": 13, "width": 500, "var": "inputTxt", "restrict": "0-9.", "promptColor": "#999999", "prompt": "请输入金额", "overflow": "hidden", "height": 50, "fontSize": 44, "editable": false, "color": "#666666", "centerX": 0, "align": "center" } }, { "type": "Label", "props": { "y": 4, "width": 80, "var": "confirmBtn", "valign": "middle", "text": "完成", "right": 28, "height": 72, "fontSize": 30, "color": "#000000", "align": "center" } }] }] };
+            return KeyboardViewUI;
+        }(View));
+        comp.KeyboardViewUI = KeyboardViewUI;
+    })(comp = ui.comp || (ui.comp = {}));
+})(ui || (ui = {}));
+(function (ui) {
+    var comp;
+    (function (comp) {
         var NoticeCompUI = /** @class */ (function (_super) {
             __extends(NoticeCompUI, _super);
             function NoticeCompUI() {
@@ -404,7 +422,7 @@ var ui;
                     _super.prototype.createChildren.call(this);
                     this.createView(ui.dlg.agent.DirectlyItemUI.uiView);
                 };
-                DirectlyItemUI.uiView = { "type": "View", "props": { "width": 1014, "height": 58 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "var": "itemBg", "skin": "ui/agent/img_daili_tiaodibian01.png" }, "child": [{ "type": "Text", "props": { "y": 16, "x": 10, "width": 162, "var": "dtxt1", "text": "name", "overflow": "hidden", "fontSize": 26, "color": "#9cc5d8" } }, { "type": "Text", "props": { "y": 16, "x": 171, "width": 81, "var": "dtxt2", "text": "type", "overflow": "hidden", "fontSize": 26, "color": "#9cc5d8", "align": "center" } }, { "type": "Text", "props": { "y": 16, "x": 254, "width": 216, "var": "dtxt3", "text": "name", "overflow": "hidden", "fontSize": 26, "color": "#ffba25", "align": "center" } }, { "type": "Text", "props": { "y": 16, "x": 477, "width": 216, "var": "dtxt4", "text": "name", "overflow": "hidden", "fontSize": 26, "color": "#ffba25", "align": "center" } }, { "type": "Text", "props": { "y": 16, "x": 699, "width": 118, "var": "dtxt5", "text": "type", "overflow": "hidden", "fontSize": 26, "color": "#9cc5d8", "align": "center" } }, { "type": "Text", "props": { "y": 16, "x": 821, "width": 118, "var": "dtxt6", "text": "type", "overflow": "hidden", "fontSize": 26, "color": "#9cc5d8", "align": "center" } }] }] };
+                DirectlyItemUI.uiView = { "type": "View", "props": { "width": 1014, "height": 58 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "var": "itemBg", "skin": "ui/agent/img_daili_tiaodibian01.png" }, "child": [{ "type": "Text", "props": { "y": 16, "x": 6, "width": 238, "var": "dtxt1", "text": "name", "overflow": "hidden", "height": 26, "fontSize": 26, "color": "#9cc5d8" } }, { "type": "Text", "props": { "y": 16, "x": 244, "width": 81, "var": "dtxt2", "text": "type", "overflow": "hidden", "fontSize": 26, "color": "#9cc5d8", "align": "center" } }, { "type": "Text", "props": { "y": 16, "x": 327, "width": 216, "var": "dtxt3", "text": "name", "overflow": "hidden", "fontSize": 26, "color": "#ffba25", "align": "center" } }, { "type": "Text", "props": { "y": 16, "x": 553, "width": 216, "var": "dtxt4", "text": "name", "overflow": "hidden", "fontSize": 26, "color": "#ffba25", "align": "center" } }, { "type": "Text", "props": { "y": 16, "x": 772, "width": 118, "var": "dtxt5", "text": "type", "overflow": "hidden", "fontSize": 26, "color": "#9cc5d8", "align": "center" } }, { "type": "Text", "props": { "y": 16, "x": 895, "width": 118, "var": "dtxt6", "text": "type", "overflow": "hidden", "fontSize": 26, "color": "#9cc5d8", "align": "center" } }] }] };
                 return DirectlyItemUI;
             }(View));
             agent.DirectlyItemUI = DirectlyItemUI;
@@ -680,7 +698,7 @@ var ui;
                     _super.prototype.createChildren.call(this);
                     this.createView(ui.dlg.balance.UserAuthenDlgUI.uiView);
                 };
-                UserAuthenDlgUI.uiView = { "type": "Dialog", "props": { "width": 754, "height": 480 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "skin": "ui/panel_common/mindlg.png" }, "child": [{ "type": "Image", "props": { "y": 22, "x": 281, "skin": "ui/balance/subres/img_yeb-sfyz_sfyz.png" } }, { "type": "Image", "props": { "y": 53, "x": 707, "var": "closeBtn", "skin": "ui/common/newclose.png", "anchorY": 0.5, "anchorX": 0.5 } }] }, { "type": "Image", "props": { "y": 104, "x": 32, "width": 690, "skin": "ui/common/img_com_xiankuang.png", "height": 272, "sizeGrid": "15,15,15,16" } }, { "type": "Image", "props": { "y": 262, "x": 172, "width": 410, "skin": "ui/common/shurukuang.png", "height": 50, "sizeGrid": "22,20,21,18" }, "child": [{ "type": "TextInput", "props": { "y": 2, "x": 15, "width": 380, "var": "pwdTxt", "valign": "middle", "type": "password", "restrict": "0123456789", "promptColor": "#93afc0", "prompt": "请输入密码(6位数字)", "maxChars": 6, "height": 46, "fontSize": 30, "color": "#ffffff" } }] }, { "type": "Text", "props": { "y": 188, "x": 66, "text": "为了您的账户安全,请输入您的余额宝密码", "height": 34, "fontSize": 34, "color": "#9cc5db" } }, { "type": "Image", "props": { "y": 425, "x": 545, "var": "okBtn", "skin": "ui/common/queding.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 425, "x": 208, "var": "setPwdBtn", "skin": "ui/balance/subres/btn_yeb_xgmm.png", "anchorY": 0.5, "anchorX": 0.5 } }] };
+                UserAuthenDlgUI.uiView = { "type": "Dialog", "props": { "width": 754, "height": 480 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "skin": "ui/panel_common/mindlg.png" }, "child": [{ "type": "Image", "props": { "y": 22, "x": 281, "skin": "ui/balance/subres/img_yeb-sfyz_sfyz.png" } }, { "type": "Image", "props": { "y": 53, "x": 707, "var": "closeBtn", "skin": "ui/common/newclose.png", "anchorY": 0.5, "anchorX": 0.5 } }] }, { "type": "Image", "props": { "y": 104, "x": 32, "width": 690, "skin": "ui/common/img_com_xiankuang.png", "height": 272, "sizeGrid": "15,15,15,16" } }, { "type": "Image", "props": { "y": 262, "x": 172, "width": 410, "skin": "ui/common/shurukuang.png", "height": 50, "sizeGrid": "22,20,21,18" }, "child": [{ "type": "TextInput", "props": { "y": 2, "x": 15, "width": 336, "var": "pwdTxt", "valign": "middle", "type": "password", "restrict": "0123456789", "promptColor": "#93afc0", "prompt": "请输入密码(6位数字)", "maxChars": 6, "height": 46, "fontSize": 30, "color": "#ffffff" } }, { "type": "CheckBox", "props": { "y": 2, "x": 359, "var": "lookBtn", "stateNum": 2, "skin": "ui/common/check_see2.png", "selected": false } }] }, { "type": "Text", "props": { "y": 188, "x": 66, "text": "为了您的账户安全,请输入您的余额宝密码", "height": 34, "fontSize": 34, "color": "#9cc5db" } }, { "type": "Image", "props": { "y": 425, "x": 545, "var": "okBtn", "skin": "ui/common/queding.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 425, "x": 208, "var": "setPwdBtn", "skin": "ui/balance/subres/btn_yeb_xgmm.png", "anchorY": 0.5, "anchorX": 0.5 } }] };
                 return UserAuthenDlgUI;
             }(Dialog));
             balance.UserAuthenDlgUI = UserAuthenDlgUI;
@@ -847,7 +865,7 @@ var ui;
                     _super.prototype.createChildren.call(this);
                     this.createView(ui.dlg.center.SetNickNameDlgUI.uiView);
                 };
-                SetNickNameDlgUI.uiView = { "type": "Dialog", "props": { "width": 754, "height": 480 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "skin": "ui/panel_common/mindlg.png" }, "child": [{ "type": "Image", "props": { "y": 23, "x": 287, "skin": "ui/fullMyCenter/img_grzx_bt06.png" } }, { "type": "Image", "props": { "y": 53, "x": 707, "var": "closeBtn", "skin": "ui/common/newclose.png", "anchorY": 0.5, "anchorX": 0.5 } }] }, { "type": "Image", "props": { "y": 104, "x": 32, "width": 690, "skin": "ui/common/img_com_xiankuang.png", "height": 272, "sizeGrid": "15,15,15,16" }, "child": [{ "type": "Image", "props": { "y": 43, "x": 166, "skin": "ui/fullMyCenter/btn_grzx_wz04.png" } }, { "type": "Image", "props": { "y": 121, "x": 140, "width": 410, "skin": "ui/common/shurukuang.png", "sizeGrid": "22,20,21,18", "height": 50 }, "child": [{ "type": "TextInput", "props": { "y": 5, "x": 23, "width": 364, "var": "nickTxt", "overflow": "hidden", "maxChars": 12, "height": 40, "fontSize": 30, "color": "#93afc0" } }] }] }, { "type": "Image", "props": { "y": 424, "x": 377, "var": "cancelBtn", "skin": "ui/fullMyCenter/btn_grzx_xg02.png", "anchorY": 0.5, "anchorX": 0.5 } }] };
+                SetNickNameDlgUI.uiView = { "type": "Dialog", "props": { "width": 754, "height": 480 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "skin": "ui/panel_common/mindlg.png" }, "child": [{ "type": "Image", "props": { "y": 23, "x": 287, "skin": "ui/fullMyCenter/img_grzx_bt06.png" } }, { "type": "Image", "props": { "y": 53, "x": 707, "var": "closeBtn", "skin": "ui/common/newclose.png", "anchorY": 0.5, "anchorX": 0.5 } }] }, { "type": "Image", "props": { "y": 104, "x": 32, "width": 690, "skin": "ui/common/img_com_xiankuang.png", "height": 272, "sizeGrid": "15,15,15,16" }, "child": [{ "type": "Image", "props": { "y": 43, "x": 166, "skin": "ui/fullMyCenter/btn_grzx_wz04.png" } }, { "type": "Image", "props": { "y": 121, "x": 140, "width": 410, "skin": "ui/common/shurukuang.png", "sizeGrid": "22,20,21,18", "height": 50 }, "child": [{ "type": "TextInput", "props": { "y": 5, "x": 23, "width": 364, "var": "nickTxt", "overflow": "hidden", "maxChars": 12, "height": 40, "fontSize": 30, "color": "#93afc0" } }] }, { "type": "Clip", "props": { "y": 120, "x": 561, "var": "diceBtn", "skin": "ui/fullMyCenter/dice.png", "interval": 50, "index": 0, "clipX": 9, "clipWidth": 52, "clipHeight": 52, "autoPlay": false } }] }, { "type": "Image", "props": { "y": 424, "x": 377, "var": "cancelBtn", "skin": "ui/fullMyCenter/btn_grzx_xg02.png", "anchorY": 0.5, "anchorX": 0.5 } }] };
                 return SetNickNameDlgUI;
             }(Dialog));
             center.SetNickNameDlgUI = SetNickNameDlgUI;
@@ -908,7 +926,7 @@ var ui;
                 _super.prototype.createChildren.call(this);
                 this.createView(ui.dlg.GameUpdateNoticeUI.uiView);
             };
-            GameUpdateNoticeUI.uiView = { "type": "Dialog", "props": { "width": 1035, "height": 633 }, "child": [{ "type": "Image", "props": { "skin": "ui/panel_common/maxdlg.png", "centerY": 0, "centerX": 0, "anchorX": 0 }, "child": [{ "type": "Image", "props": { "y": 25, "x": 428, "skin": "ui/login/img_dl_bt01.png" } }, { "type": "Image", "props": { "y": 99, "x": 26, "width": 984, "skin": "ui/common/img_com_xiankuang.png", "sizeGrid": "10,10,10,10", "height": 435 }, "child": [{ "type": "Panel", "props": { "var": "panel", "vScrollBarSkin": "“”", "top": 2, "right": 2, "left": 2, "bottom": 2 }, "child": [{ "type": "HTMLDivElement", "props": { "y": 10, "x": 10, "width": 960, "var": "htmlText", "innerHTML": "<span style='color:#FFFFFF;fontSize:30'>-本次更新维护时间:</span> <span style='color:#fff200;fontSize:24'>Invalid Date~Invalid Date</span> <span style='color:#FFFFFF;fontSize:30'>abctest</span> <span style='color:#FFFFFF;fontSize:24'>1.sahkjdsahdhkjashkjdahkjsdhkjashkjdhkjashkjdsahkjdhkjashkjdhkjasdhkjsahkjdhkjsahkjdhkjasdhkjasdhkjashkjdhkjashkjdhkjsadhkjahkjsdhkjashkjdhkjasdhkjhkjsahkjdsadsahkjdhkjsadadshkj, 2.sadahsdhkjahkjsdhkjashkjdhkjashkjdhkjashkjdhkjashkjdhkjashkjdhkjasdhkjahkjsdhkjsahkjdhkjsadhkjahkjsdhkjsahkjd 3.ashjdkjsadhkjhkjashkjdhkjsahkjdhkjashkjdasdasj</span>", "height": 100 } }] }] }, { "type": "Image", "props": { "y": 579, "x": 518, "var": "btnConfirm", "skin": "ui/common/queding.png", "anchorY": 0.5, "anchorX": 0.5 } }] }] };
+            GameUpdateNoticeUI.uiView = { "type": "Dialog", "props": { "width": 1035, "height": 633 }, "child": [{ "type": "Image", "props": { "skin": "ui/panel_common/maxdlg.png" }, "child": [{ "type": "Image", "props": { "y": 25, "x": 428, "skin": "ui/login/img_dl_bt01.png" } }, { "type": "Image", "props": { "y": 99, "x": 26, "width": 984, "skin": "ui/common/img_com_xiankuang.png", "sizeGrid": "10,10,10,10", "height": 435 }, "child": [{ "type": "Panel", "props": { "var": "panel", "vScrollBarSkin": "“”", "top": 2, "right": 2, "left": 2, "bottom": 2 }, "child": [{ "type": "HTMLDivElement", "props": { "y": 10, "x": 10, "width": 960, "var": "htmlText", "innerHTML": "<span style='color:#FFFFFF;fontSize:30'>-本次更新维护时间:</span> <span style='color:#fff200;fontSize:24'>Invalid Date~Invalid Date</span> <span style='color:#FFFFFF;fontSize:30'>abctest</span> <span style='color:#FFFFFF;fontSize:24'>1.sahkjdsahdhkjashkjdahkjsdhkjashkjdhkjashkjdsahkjdhkjashkjdhkjasdhkjsahkjdhkjsahkjdhkjasdhkjasdhkjashkjdhkjashkjdhkjsadhkjahkjsdhkjashkjdhkjasdhkjhkjsahkjdsadsahkjdhkjsadadshkj, 2.sadahsdhkjahkjsdhkjashkjdhkjashkjdhkjashkjdhkjashkjdhkjashkjdhkjasdhkjahkjsdhkjsahkjdhkjsadhkjahkjsdhkjsahkjd 3.ashjdkjsadhkjhkjashkjdhkjsahkjdhkjashkjdasdasj</span>", "height": 100 } }] }] }, { "type": "Image", "props": { "y": 579, "x": 518, "var": "btnConfirm", "skin": "ui/common/queding.png", "anchorY": 0.5, "anchorX": 0.5 } }] }] };
             return GameUpdateNoticeUI;
         }(Dialog));
         dlg.GameUpdateNoticeUI = GameUpdateNoticeUI;
@@ -1132,6 +1150,440 @@ var ui;
 (function (ui) {
     var dlg;
     (function (dlg) {
+        var pay;
+        (function (pay) {
+            var AccountInfoViewUI = /** @class */ (function (_super) {
+                __extends(AccountInfoViewUI, _super);
+                function AccountInfoViewUI() {
+                    return _super.call(this) || this;
+                }
+                AccountInfoViewUI.prototype.createChildren = function () {
+                    View.regComponent("Text", laya.display.Text);
+                    _super.prototype.createChildren.call(this);
+                    this.createView(ui.dlg.pay.AccountInfoViewUI.uiView);
+                };
+                AccountInfoViewUI.uiView = { "type": "View", "props": { "width": 1016, "height": 602 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "width": 1016, "skin": "ui/pay/img_chongzhi_diban01_w602.png", "height": 602, "sizeGrid": "302,88,162,258" } }, { "type": "Box", "props": { "y": 451, "x": 0, "width": 1016 }, "child": [{ "type": "Image", "props": { "skin": "ui/pay/img_chongzhi_diban03.png", "sizeGrid": "0,33,0,56" } }, { "type": "Image", "props": { "y": 0, "x": 1012, "skin": "ui/pay/img_chongzhi_diban03.png", "scaleX": -1, "sizeGrid": "0,33,0,56" } }] }, { "type": "Image", "props": { "y": 0, "x": 241, "width": 534, "skin": "ui/pay/atitlebg.png", "sizeGrid": "0,126,0,126" }, "child": [{ "type": "Image", "props": { "y": 15, "x": 114, "skin": "ui/pay/img_chongzhi_zi_txndckxx.png" } }] }, { "type": "Image", "props": { "y": 551, "x": 800, "var": "confirmBtn", "skin": "ui/common/queding.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 551, "x": 214, "var": "prevBtn", "skin": "ui/pay/img_chongzhi_syb.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Text", "props": { "y": 426, "x": 283, "text": "*请务必填写正确存款人信息，否则会入款失败", "fontSize": 22, "color": "#ffba25" } }, { "type": "Box", "props": { "y": 107, "x": 136, "width": 750, "var": "itemBox", "height": 254 }, "child": [{ "type": "Box", "props": { "var": "nameGroup" }, "child": [{ "type": "Image", "props": { "y": 13, "skin": "ui/pay/img_chongzhi_zi_zsxm.png" } }, { "type": "Image", "props": { "x": 182, "width": 558, "skin": "ui/common/shurukuang.png", "height": 55, "sizeGrid": "22,20,21,18" }, "child": [{ "type": "TextInput", "props": { "y": 4, "x": 40, "width": 490, "var": "nameTxt", "promptColor": "#a2e1ee", "prompt": "请输入真实姓名", "height": 50, "fontSize": 32, "color": "#ffffff" } }] }] }, { "type": "Box", "props": { "y": 66, "var": "phoneGroup" }, "child": [{ "type": "Image", "props": { "y": 13, "skin": "ui/pay/img_chongzhi_zi_sjhm.png" } }, { "type": "Image", "props": { "x": 182, "width": 558, "skin": "ui/common/shurukuang.png", "height": 55, "sizeGrid": "22,20,21,18" }, "child": [{ "type": "TextInput", "props": { "y": 4, "x": 40, "width": 490, "var": "phoneTxt", "restrict": "0-9", "promptColor": "#a2e1ee", "prompt": "请输入手机号码", "maxChars": 11, "height": 50, "fontSize": 32, "color": "#ffffff" } }] }] }, { "type": "Box", "props": { "y": 133, "var": "bankNumGroup" }, "child": [{ "type": "Image", "props": { "y": 12, "skin": "ui/pay/img_chongzhi_zi_yhkh.png" } }, { "type": "Image", "props": { "x": 182, "width": 558, "skin": "ui/common/shurukuang.png", "height": 55, "sizeGrid": "22,20,21,18" }, "child": [{ "type": "TextInput", "props": { "y": 4, "x": 40, "width": 490, "var": "cardNumTxt", "restrict": "0-9", "promptColor": "#a2e1ee", "prompt": "请输入银行卡号", "height": 50, "fontSize": 32, "color": "#ffffff" } }] }] }, { "type": "Box", "props": { "y": 199, "var": "bankGroup" }, "child": [{ "type": "Image", "props": { "y": 12, "skin": "ui/pay/img_chongzhi_zi_zfyh.png" } }, { "type": "Image", "props": { "x": 182, "width": 558, "skin": "ui/common/shurukuang.png", "height": 55, "sizeGrid": "22,20,21,18" }, "child": [{ "type": "TextInput", "props": { "y": 4, "x": 40, "width": 372, "var": "bankNameTxt", "promptColor": "#a2e1ee", "prompt": "请选择支付银行", "height": 50, "fontSize": 32, "color": "#ffffff" } }, { "type": "Image", "props": { "y": 30, "x": 486, "var": "chooseBtn", "skin": "ui/pay/img_chongzhi_xuanze.png", "anchorY": 0.5, "anchorX": 0.5 } }] }] }] }] };
+                return AccountInfoViewUI;
+            }(View));
+            pay.AccountInfoViewUI = AccountInfoViewUI;
+        })(pay = dlg.pay || (dlg.pay = {}));
+    })(dlg = ui.dlg || (ui.dlg = {}));
+})(ui || (ui = {}));
+(function (ui) {
+    var dlg;
+    (function (dlg) {
+        var pay;
+        (function (pay) {
+            var BankTransferInfoViewUI = /** @class */ (function (_super) {
+                __extends(BankTransferInfoViewUI, _super);
+                function BankTransferInfoViewUI() {
+                    return _super.call(this) || this;
+                }
+                BankTransferInfoViewUI.prototype.createChildren = function () {
+                    View.regComponent("Text", laya.display.Text);
+                    _super.prototype.createChildren.call(this);
+                    this.createView(ui.dlg.pay.BankTransferInfoViewUI.uiView);
+                };
+                BankTransferInfoViewUI.uiView = { "type": "View", "props": { "width": 1016, "height": 602 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "width": 1016, "skin": "ui/pay/img_chongzhi_diban01_w602.png", "height": 602, "sizeGrid": "302,88,162,258" } }, { "type": "Box", "props": { "y": 451, "x": 0, "width": 1016 }, "child": [{ "type": "Image", "props": { "skin": "ui/pay/img_chongzhi_diban03.png", "sizeGrid": "0,33,0,56" } }, { "type": "Image", "props": { "y": 0, "x": 1012, "skin": "ui/pay/img_chongzhi_diban03.png", "scaleX": -1, "sizeGrid": "0,33,0,56" } }] }, { "type": "Image", "props": { "y": 0, "x": 241, "width": 534, "skin": "ui/pay/atitlebg.png", "sizeGrid": "0,126,0,126" }, "child": [{ "type": "Image", "props": { "y": 15, "x": 115, "skin": "ui/pay/img_chongzhi_zi_qzzzyxzh.png" } }] }, { "type": "Image", "props": { "y": 551, "x": 800, "var": "confirmBtn", "skin": "ui/pay/img_chongzhi_yzz.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 551, "x": 214, "var": "prevBtn", "skin": "ui/pay/img_chongzhi_syb.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Text", "props": { "y": 426, "x": 222, "text": "*部分支付渠道充值金额随机1位小数，请您在付款时确定。", "fontSize": 22, "color": "#ffba25" } }, { "type": "Label", "props": { "y": 120, "x": 240, "width": 279, "var": "timeTxt", "height": 32, "fontSize": 32, "color": "#a2e1ee" } }, { "type": "Label", "props": { "y": 120, "x": 674, "width": 131, "var": "moneyTxt", "underline": true, "height": 32, "fontSize": 32, "color": "#a2e1ee" } }, { "type": "Label", "props": { "y": 177, "x": 240, "width": 570, "var": "payeeTxt", "underline": true, "height": 32, "fontSize": 32, "color": "#a2e1ee" } }, { "type": "Label", "props": { "y": 233, "x": 240, "width": 570, "var": "accountTxt", "underline": true, "height": 32, "fontSize": 32, "color": "#a2e1ee" } }, { "type": "Label", "props": { "y": 290, "x": 240, "width": 570, "var": "branchTxt", "underline": true, "height": 32, "fontSize": 32, "color": "#a2e1ee" } }, { "type": "Label", "props": { "y": 346, "x": 240, "width": 570, "var": "bankTxt", "underline": true, "height": 32, "fontSize": 32, "color": "#a2e1ee" } }, { "type": "Image", "props": { "y": 135, "x": 891, "var": "copyMoney", "skin": "ui/common/copyui.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 192, "x": 891, "var": "copyPayee", "skin": "ui/common/copyui.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 248, "x": 891, "var": "copyAccount", "skin": "ui/common/copyui.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 305, "x": 891, "var": "copyBranch", "skin": "ui/common/copyui.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 361, "x": 891, "var": "copyBank", "skin": "ui/common/copyui.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 124, "x": 84, "skin": "ui/pay/img_chongzhi_zi_crxx.png" } }, { "type": "Image", "props": { "y": 124, "x": 532, "skin": "ui/pay/img_chongzhi_zi_crje.png" } }] };
+                return BankTransferInfoViewUI;
+            }(View));
+            pay.BankTransferInfoViewUI = BankTransferInfoViewUI;
+        })(pay = dlg.pay || (dlg.pay = {}));
+    })(dlg = ui.dlg || (ui.dlg = {}));
+})(ui || (ui = {}));
+(function (ui) {
+    var dlg;
+    (function (dlg) {
+        var pay;
+        (function (pay) {
+            var FixedMoneyItemUI = /** @class */ (function (_super) {
+                __extends(FixedMoneyItemUI, _super);
+                function FixedMoneyItemUI() {
+                    return _super.call(this) || this;
+                }
+                FixedMoneyItemUI.prototype.createChildren = function () {
+                    View.regComponent("Text", laya.display.Text);
+                    _super.prototype.createChildren.call(this);
+                    this.createView(ui.dlg.pay.FixedMoneyItemUI.uiView);
+                };
+                FixedMoneyItemUI.uiView = { "type": "View", "props": { "width": 228, "height": 103 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "skin": "ui/pay/img_chongzhi_yeqian02.png" }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "var": "selectBg", "skin": "ui/pay/img_chongzhi_yeqian.png" } }] }, { "type": "Text", "props": { "y": 67, "x": 7, "width": 214, "var": "scopeTxt", "text": "0", "height": 32, "fontSize": 30, "color": "#663d12", "align": "center" } }, { "type": "Text", "props": { "y": 20, "x": 7, "width": 214, "var": "titleTxt", "text": "0", "overflow": "hidden", "height": 32, "fontSize": 30, "color": "#663d12", "align": "center" } }] };
+                return FixedMoneyItemUI;
+            }(View));
+            pay.FixedMoneyItemUI = FixedMoneyItemUI;
+        })(pay = dlg.pay || (dlg.pay = {}));
+    })(dlg = ui.dlg || (ui.dlg = {}));
+})(ui || (ui = {}));
+(function (ui) {
+    var dlg;
+    (function (dlg) {
+        var pay;
+        (function (pay) {
+            var FixedMoneyViewUI = /** @class */ (function (_super) {
+                __extends(FixedMoneyViewUI, _super);
+                function FixedMoneyViewUI() {
+                    return _super.call(this) || this;
+                }
+                FixedMoneyViewUI.prototype.createChildren = function () {
+                    View.regComponent("Text", laya.display.Text);
+                    _super.prototype.createChildren.call(this);
+                    this.createView(ui.dlg.pay.FixedMoneyViewUI.uiView);
+                };
+                FixedMoneyViewUI.uiView = { "type": "View", "props": { "width": 1016, "height": 602 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "width": 1016, "skin": "ui/pay/img_chongzhi_diban01_w602.png", "height": 602, "sizeGrid": "302,88,162,258" } }, { "type": "Box", "props": { "y": 451, "x": 0, "width": 1016 }, "child": [{ "type": "Image", "props": { "skin": "ui/pay/img_chongzhi_diban03.png", "sizeGrid": "0,33,0,56" } }, { "type": "Image", "props": { "y": 0, "x": 1012, "skin": "ui/pay/img_chongzhi_diban03.png", "scaleX": -1, "sizeGrid": "0,33,0,56" } }] }, { "type": "Image", "props": { "y": 10, "x": 25, "width": 966, "skin": "ui/pay/img_chongzhi_diban02_968.png", "sizeGrid": "36,20,36,20" } }, { "type": "Panel", "props": { "y": 12, "x": 31, "width": 954, "var": "itemPanel", "height": 104 } }, { "type": "Image", "props": { "y": 124, "x": 27, "skin": "ui/pay/img_chongzhi_chuangwan.png" }, "child": [{ "type": "Text", "props": { "y": 11, "x": 51, "width": 318, "var": "infoTxt", "text": "请选择以下金额进行充值", "height": 30, "fontSize": 30, "color": "#ffba25" } }] }, { "type": "Box", "props": { "y": 187, "x": 20, "var": "btnBox" } }, { "type": "Image", "props": { "y": 551, "x": 507, "var": "submitBtn", "skin": "ui/pay/img_chongzhi_tijiaochongzhi.png", "anchorY": 0.5, "anchorX": 0.5 } }] };
+                return FixedMoneyViewUI;
+            }(View));
+            pay.FixedMoneyViewUI = FixedMoneyViewUI;
+        })(pay = dlg.pay || (dlg.pay = {}));
+    })(dlg = ui.dlg || (ui.dlg = {}));
+})(ui || (ui = {}));
+(function (ui) {
+    var dlg;
+    (function (dlg) {
+        var pay;
+        (function (pay) {
+            var HistoryItemUI = /** @class */ (function (_super) {
+                __extends(HistoryItemUI, _super);
+                function HistoryItemUI() {
+                    return _super.call(this) || this;
+                }
+                HistoryItemUI.prototype.createChildren = function () {
+                    View.regComponent("Text", laya.display.Text);
+                    _super.prototype.createChildren.call(this);
+                    this.createView(ui.dlg.pay.HistoryItemUI.uiView);
+                };
+                HistoryItemUI.uiView = { "type": "View", "props": { "width": 960, "height": 120 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 4, "width": 952, "skin": "ui/pay/img_cz_kuang.png", "height": 120 }, "child": [{ "type": "Image", "props": { "y": 72, "x": 513, "var": "copyBtn", "skin": "ui/common/copyui.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Text", "props": { "y": 12, "x": 23, "text": "充值: ", "fontSize": 20, "color": "#f9cb46" } }, { "type": "Text", "props": { "y": 37, "x": 23, "text": "支付方式:", "fontSize": 20, "color": "#f9cb46" } }, { "type": "Text", "props": { "y": 63, "x": 23, "text": "订单号:", "fontSize": 20, "color": "#f9cb46" } }, { "type": "Text", "props": { "y": 88, "x": 23, "text": "创建时间:", "fontSize": 20, "color": "#f9cb46" } }, { "type": "Text", "props": { "y": 12, "x": 90, "var": "stateTxt", "text": "xxx", "fontSize": 20, "color": "#fff600" } }, { "type": "Text", "props": { "y": 37, "x": 116, "var": "payMethodTxt", "text": "xxx", "fontSize": 20, "color": "#a2e1ee" } }, { "type": "Text", "props": { "y": 63, "x": 98, "width": 366, "var": "orderTxt", "text": "xxx", "overflow": "hidden", "height": 20, "fontSize": 20, "color": "#a2e1ee" } }, { "type": "Text", "props": { "y": 88, "x": 118, "var": "timeTxt", "text": "xxx", "fontSize": 20, "color": "#a2e1ee" } }, { "type": "Text", "props": { "y": 12, "x": 722, "text": "支付金额:", "fontSize": 20, "color": "#f9cb46" } }, { "type": "Text", "props": { "y": 37, "x": 722, "text": "优惠金额:", "fontSize": 20, "color": "#f9cb46" } }, { "type": "Text", "props": { "y": 88, "x": 722, "text": "总计金额:", "fontSize": 20, "color": "#f9cb46", "bold": true } }, { "type": "Text", "props": { "y": 12, "x": 829, "width": 100, "var": "payMoneyTxt", "text": "xxx", "height": 20, "fontSize": 20, "color": "#a2e1ee", "align": "right" } }, { "type": "Text", "props": { "y": 37, "x": 829, "width": 100, "var": "saleTxt", "text": "xxx", "height": 20, "fontSize": 20, "color": "#a2e1ee", "align": "right" } }, { "type": "Text", "props": { "y": 88, "x": 829, "width": 100, "var": "totalTxt", "text": "xxx", "height": 20, "fontSize": 20, "color": "#a2e1ee", "bold": true, "align": "right" } }] }] };
+                return HistoryItemUI;
+            }(View));
+            pay.HistoryItemUI = HistoryItemUI;
+        })(pay = dlg.pay || (dlg.pay = {}));
+    })(dlg = ui.dlg || (ui.dlg = {}));
+})(ui || (ui = {}));
+(function (ui) {
+    var dlg;
+    (function (dlg) {
+        var pay;
+        (function (pay) {
+            var OtherPayViewUI = /** @class */ (function (_super) {
+                __extends(OtherPayViewUI, _super);
+                function OtherPayViewUI() {
+                    return _super.call(this) || this;
+                }
+                OtherPayViewUI.prototype.createChildren = function () {
+                    View.regComponent("Text", laya.display.Text);
+                    _super.prototype.createChildren.call(this);
+                    this.createView(ui.dlg.pay.OtherPayViewUI.uiView);
+                };
+                OtherPayViewUI.uiView = { "type": "View", "props": { "width": 1016, "height": 602 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "width": 1016, "skin": "ui/pay/img_chongzhi_diban01_w602.png", "height": 602, "sizeGrid": "302,88,162,258" } }, { "type": "Box", "props": { "y": 451, "x": 0, "width": 1016 }, "child": [{ "type": "Image", "props": { "skin": "ui/pay/img_chongzhi_diban03.png", "sizeGrid": "0,33,0,56" } }, { "type": "Image", "props": { "y": 0, "x": 1012, "skin": "ui/pay/img_chongzhi_diban03.png", "scaleX": -1, "sizeGrid": "0,33,0,56" } }] }, { "type": "Image", "props": { "y": 10, "x": 25, "width": 966, "skin": "ui/pay/img_chongzhi_diban02_968.png", "sizeGrid": "36,20,36,20" } }, { "type": "Panel", "props": { "y": 12, "x": 31, "width": 954, "var": "itemPanel", "height": 104 } }, { "type": "Image", "props": { "y": 124, "x": 27, "skin": "ui/pay/img_chongzhi_chuangwan.png" }, "child": [{ "type": "Text", "props": { "y": 11, "x": 51, "width": 897, "var": "infoTxt", "text": "玩家常用充值金额", "overflow": "hidden", "height": 30, "fontSize": 30, "color": "#ffba25" } }] }, { "type": "Box", "props": { "y": 187, "x": 20, "var": "btnBox" } }, { "type": "Image", "props": { "y": 551, "x": 507, "var": "submitBtn", "skin": "ui/pay/img_chongzhi_tijiaochongzhi.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 415, "x": 228, "skin": "ui/pay/img_chongzhi_zi_xzje.png" } }, { "type": "Image", "props": { "y": 408, "x": 415, "width": 374, "skin": "ui/pay/img_chongzhi_shuru_w372png.png", "height": 52, "sizeGrid": "18,26,18,26" }, "child": [{ "type": "Image", "props": { "y": 25, "x": 341, "var": "resetBtn", "skin": "ui/pay/img_chongzhi_shuru_x.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "TextInput", "props": { "y": 1, "x": 28, "width": 281, "var": "moneyTxt", "valign": "middle", "restrict": "0-9.", "promptColor": "#8eb5ee", "prompt": "请输入充值金额", "height": 50, "fontSize": 34, "color": "#ffffff", "align": "left" } }] }] };
+                return OtherPayViewUI;
+            }(View));
+            pay.OtherPayViewUI = OtherPayViewUI;
+        })(pay = dlg.pay || (dlg.pay = {}));
+    })(dlg = ui.dlg || (ui.dlg = {}));
+})(ui || (ui = {}));
+(function (ui) {
+    var dlg;
+    (function (dlg) {
+        var pay;
+        (function (pay) {
+            var PayHistoryDlgUI = /** @class */ (function (_super) {
+                __extends(PayHistoryDlgUI, _super);
+                function PayHistoryDlgUI() {
+                    return _super.call(this) || this;
+                }
+                PayHistoryDlgUI.prototype.createChildren = function () {
+                    View.regComponent("Text", laya.display.Text);
+                    _super.prototype.createChildren.call(this);
+                    this.createView(ui.dlg.pay.PayHistoryDlgUI.uiView);
+                };
+                PayHistoryDlgUI.uiView = { "type": "Dialog", "props": { "width": 1034, "height": 630 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "skin": "ui/panel_common/maxdlg.png" }, "child": [{ "type": "Image", "props": { "y": 580, "x": 902, "var": "serviceBtn", "skin": "ui/pay/cz_lxkf.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 561, "x": 33, "skin": "ui/pay/czinfo.png" } }, { "type": "Image", "props": { "y": 19, "x": 416, "skin": "ui/pay/czmxtxt.png" } }, { "type": "Image", "props": { "y": 49, "x": 985, "var": "closeBtn", "skin": "ui/common/newclose.png", "anchorY": 0.5, "anchorX": 0.5 } }] }, { "type": "Image", "props": { "y": 98, "x": 31, "width": 974, "skin": "ui/common/img_com_xiankuang.png", "height": 436, "sizeGrid": "15,15,15,16" } }, { "type": "List", "props": { "y": 157, "x": 38, "width": 960, "var": "itemList", "height": 374 } }, { "type": "CheckBox", "props": { "y": 98, "x": 31, "var": "tab1", "stateNum": 2, "skin": "ui/pay/check_czmx2.png" } }, { "type": "CheckBox", "props": { "y": 98, "x": 356, "var": "tab2", "stateNum": 2, "skin": "ui/pay/check_czmx1.png" } }, { "type": "CheckBox", "props": { "y": 98, "x": 679, "var": "tab3", "stateNum": 2, "skin": "ui/pay/check_czmx3.png" } }, { "type": "Text", "props": { "y": 329, "x": 274, "width": 486, "var": "infoTxt", "height": 30, "fontSize": 30, "color": "#ff0000", "bold": true, "align": "center" } }] };
+                return PayHistoryDlgUI;
+            }(Dialog));
+            pay.PayHistoryDlgUI = PayHistoryDlgUI;
+        })(pay = dlg.pay || (dlg.pay = {}));
+    })(dlg = ui.dlg || (ui.dlg = {}));
+})(ui || (ui = {}));
+(function (ui) {
+    var dlg;
+    (function (dlg) {
+        var pay;
+        (function (pay) {
+            var PayMoneyBtnUI = /** @class */ (function (_super) {
+                __extends(PayMoneyBtnUI, _super);
+                function PayMoneyBtnUI() {
+                    return _super.call(this) || this;
+                }
+                PayMoneyBtnUI.prototype.createChildren = function () {
+                    View.regComponent("Text", laya.display.Text);
+                    _super.prototype.createChildren.call(this);
+                    this.createView(ui.dlg.pay.PayMoneyBtnUI.uiView);
+                };
+                PayMoneyBtnUI.uiView = { "type": "View", "props": { "width": 236, "height": 96 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "skin": "ui/pay/btn_cz_jiner.png", "label": "label" } }, { "type": "Image", "props": { "y": -17, "x": -13, "var": "selectBg", "skin": "ui/pay/btn_cz_jiner-an.png", "label": "label" } }, { "type": "Text", "props": { "y": 27, "x": 18, "width": 200, "var": "txt", "text": "text", "fontSize": 34, "color": "#ffffff", "align": "center" } }] };
+                return PayMoneyBtnUI;
+            }(View));
+            pay.PayMoneyBtnUI = PayMoneyBtnUI;
+        })(pay = dlg.pay || (dlg.pay = {}));
+    })(dlg = ui.dlg || (ui.dlg = {}));
+})(ui || (ui = {}));
+(function (ui) {
+    var dlg;
+    (function (dlg) {
+        var pay;
+        (function (pay) {
+            var PayResultViewUI = /** @class */ (function (_super) {
+                __extends(PayResultViewUI, _super);
+                function PayResultViewUI() {
+                    return _super.call(this) || this;
+                }
+                PayResultViewUI.prototype.createChildren = function () {
+                    View.regComponent("Text", laya.display.Text);
+                    _super.prototype.createChildren.call(this);
+                    this.createView(ui.dlg.pay.PayResultViewUI.uiView);
+                };
+                PayResultViewUI.uiView = { "type": "View", "props": { "width": 1016, "height": 602 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "width": 1016, "skin": "ui/pay/img_chongzhi_diban01_w602.png", "height": 602, "sizeGrid": "302,88,162,258" } }, { "type": "Box", "props": { "y": 451, "x": 0, "width": 1016 }, "child": [{ "type": "Image", "props": { "skin": "ui/pay/img_chongzhi_diban03.png", "sizeGrid": "0,33,0,56" } }, { "type": "Image", "props": { "y": 0, "x": 1012, "skin": "ui/pay/img_chongzhi_diban03.png", "scaleX": -1, "sizeGrid": "0,33,0,56" } }] }, { "type": "Image", "props": { "y": 551, "x": 508, "var": "confirmBtn", "skin": "ui/common/queding.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 46, "x": 176, "skin": "ui/pay/img_chongzhi_chonggong.png" } }, { "type": "Text", "props": { "y": 66, "x": 272, "text": "恭喜您,您的订单已经提交成功!", "fontSize": 32, "color": "#33ff00" } }, { "type": "Text", "props": { "y": 112, "x": 272, "text": "充值金额", "fontSize": 26, "color": "#a2e1ee" } }, { "type": "Text", "props": { "y": 112, "x": 380, "var": "moneyTxt", "text": "xxx", "fontSize": 26, "color": "#ffba25" } }, { "type": "Text", "props": { "y": 112, "x": 505, "var": "dwTxt", "text": "元", "fontSize": 26, "color": "#a2e1ee" } }, { "type": "Text", "props": { "y": 205, "x": 272, "text": "正在排队,等待客服进行确认...", "fontSize": 32, "color": "#ffba25" } }, { "type": "Text", "props": { "y": 344, "x": 272, "text": "充值成功", "fontSize": 32, "color": "#ffba25" } }, { "type": "Text", "props": { "y": 394, "x": 272, "wordWrap": true, "width": 527, "text": "充值成功后,您的余额将在1分钟内更新,请稍后查看,若届时未更新,请联系在线客服。", "leading": 10, "height": 70, "fontSize": 26, "color": "#a2e1ee" } }] };
+                return PayResultViewUI;
+            }(View));
+            pay.PayResultViewUI = PayResultViewUI;
+        })(pay = dlg.pay || (dlg.pay = {}));
+    })(dlg = ui.dlg || (ui.dlg = {}));
+})(ui || (ui = {}));
+(function (ui) {
+    var dlg;
+    (function (dlg) {
+        var pay;
+        (function (pay) {
+            var PayTabItemUI = /** @class */ (function (_super) {
+                __extends(PayTabItemUI, _super);
+                function PayTabItemUI() {
+                    return _super.call(this) || this;
+                }
+                PayTabItemUI.prototype.createChildren = function () {
+                    _super.prototype.createChildren.call(this);
+                    this.createView(ui.dlg.pay.PayTabItemUI.uiView);
+                };
+                PayTabItemUI.uiView = { "type": "View", "props": { "width": 344, "height": 112 }, "child": [{ "type": "Image", "props": { "y": 8, "x": 0, "skin": "ui/panel_common/img_com_quanping_ce_di.png" }, "child": [{ "type": "Image", "props": { "y": -8, "x": 0, "var": "tab_on", "skin": "ui/panel_common/img_com_quanping_ce_xuanzhong.png" } }, { "type": "Image", "props": { "y": 0, "x": 235, "var": "hotIcon", "skin": "ui/pay/icon_cz_zhifu_hui.png" } }, { "type": "Image", "props": { "y": -1, "x": 29, "var": "payIcon", "skin": "ui/pay/payicon01.png" } }] }] };
+                return PayTabItemUI;
+            }(View));
+            pay.PayTabItemUI = PayTabItemUI;
+        })(pay = dlg.pay || (dlg.pay = {}));
+    })(dlg = ui.dlg || (ui.dlg = {}));
+})(ui || (ui = {}));
+(function (ui) {
+    var dlg;
+    (function (dlg) {
+        var pay;
+        (function (pay) {
+            var SaveQrInfoViewUI = /** @class */ (function (_super) {
+                __extends(SaveQrInfoViewUI, _super);
+                function SaveQrInfoViewUI() {
+                    return _super.call(this) || this;
+                }
+                SaveQrInfoViewUI.prototype.createChildren = function () {
+                    View.regComponent("Text", laya.display.Text);
+                    _super.prototype.createChildren.call(this);
+                    this.createView(ui.dlg.pay.SaveQrInfoViewUI.uiView);
+                };
+                SaveQrInfoViewUI.uiView = { "type": "View", "props": { "width": 1016, "height": 602 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "width": 1016, "skin": "ui/pay/img_chongzhi_diban01_w602.png", "height": 602, "sizeGrid": "302,88,162,258" } }, { "type": "Box", "props": { "y": 451, "x": 0, "width": 1016 }, "child": [{ "type": "Image", "props": { "skin": "ui/pay/img_chongzhi_diban03.png", "sizeGrid": "0,33,0,56" } }, { "type": "Image", "props": { "y": 0, "x": 1012, "skin": "ui/pay/img_chongzhi_diban03.png", "scaleX": -1, "sizeGrid": "0,33,0,56" } }] }, { "type": "Image", "props": { "y": 0, "x": 223, "width": 569, "skin": "ui/pay/atitlebg.png", "sizeGrid": "0,126,0,126", "height": 71 }, "child": [{ "type": "Image", "props": { "y": 15, "x": 94, "skin": "ui/pay/img_chongzhi_zi_bcewm.png" } }] }, { "type": "Image", "props": { "y": 551, "x": 800, "var": "confirmBtn", "skin": "ui/pay/img_chongzhi_yzz.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 551, "x": 214, "var": "prevBtn", "skin": "ui/pay/img_chongzhi_syb.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 188, "x": 136, "width": 216, "var": "qrbox", "skin": "ui/pay/img_chongzhi_ewmdi.jpg", "height": 216 }, "child": [{ "type": "Image", "props": { "y": 7, "x": 7, "width": 202, "var": "qrIcon", "height": 202 } }] }, { "type": "Text", "props": { "y": 188, "x": 390, "wordWrap": true, "width": 574, "var": "helpTxt", "leading": 12, "height": 234, "fontSize": 22, "color": "#ffba25" } }, { "type": "Text", "props": { "y": 440, "x": 390, "width": 573, "var": "hintTxt", "text": "*请务必按此金额并在备注填写订单号", "height": 22, "fontSize": 22, "color": "#ff0000" } }, { "type": "Box", "props": { "y": 90, "x": 225, "var": "topGroup" }, "child": [{ "type": "Image", "props": { "skin": "ui/pay/img_chongzhi_zi_czje.png" } }, { "type": "Image", "props": { "y": 45, "skin": "ui/pay/img_chongzhi_zi_ddh.png" } }, { "type": "Text", "props": { "x": 170, "width": 202, "var": "moneyTxt", "height": 32, "fontSize": 32, "color": "#a2e1ee" } }, { "type": "Label", "props": { "y": 43, "x": 170, "width": 248, "var": "numTxt", "underline": true, "height": 32, "fontSize": 32, "color": "#a2e1ee" } }, { "type": "Image", "props": { "y": 59, "x": 477, "var": "copyBtn", "skin": "ui/common/copyui.png", "anchorY": 0.5, "anchorX": 0.5 } }] }] };
+                return SaveQrInfoViewUI;
+            }(View));
+            pay.SaveQrInfoViewUI = SaveQrInfoViewUI;
+        })(pay = dlg.pay || (dlg.pay = {}));
+    })(dlg = ui.dlg || (ui.dlg = {}));
+})(ui || (ui = {}));
+(function (ui) {
+    var dlg;
+    (function (dlg) {
+        var pay;
+        (function (pay) {
+            var TransferPayItemUI = /** @class */ (function (_super) {
+                __extends(TransferPayItemUI, _super);
+                function TransferPayItemUI() {
+                    return _super.call(this) || this;
+                }
+                TransferPayItemUI.prototype.createChildren = function () {
+                    View.regComponent("Text", laya.display.Text);
+                    _super.prototype.createChildren.call(this);
+                    this.createView(ui.dlg.pay.TransferPayItemUI.uiView);
+                };
+                TransferPayItemUI.uiView = { "type": "View", "props": { "width": 958, "height": 154 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "skin": "ui/pay/img_chongzhi_ditiao.png" } }, { "type": "Text", "props": { "y": 69, "x": 220, "text": "收款银行", "fontSize": 26, "color": "#f9cb46" } }, { "type": "Text", "props": { "y": 18, "x": 220, "text": "收款人", "fontSize": 34, "color": "#f9cb46" } }, { "type": "Text", "props": { "y": 112, "x": 220, "text": "汇款资讯", "fontSize": 26, "color": "#f9cb46" } }, { "type": "Text", "props": { "y": 69, "x": 356, "var": "bankTxt", "text": "xxx", "fontSize": 26, "color": "#a2e1ee" } }, { "type": "Text", "props": { "y": 18, "x": 356, "var": "payeeTxt", "text": "xxx", "fontSize": 34, "color": "#a2e1ee" } }, { "type": "Text", "props": { "y": 112, "x": 356, "width": 589, "var": "infoTxt", "text": "xxx", "overflow": "hidden", "height": 32, "fontSize": 26, "color": "#a2e1ee" } }, { "type": "Text", "props": { "y": 7, "x": 4, "width": 131, "var": "numTxt", "text": "xxx", "fontSize": 48, "color": "#8eb5ee", "align": "center" } }] };
+                return TransferPayItemUI;
+            }(View));
+            pay.TransferPayItemUI = TransferPayItemUI;
+        })(pay = dlg.pay || (dlg.pay = {}));
+    })(dlg = ui.dlg || (ui.dlg = {}));
+})(ui || (ui = {}));
+(function (ui) {
+    var dlg;
+    (function (dlg) {
+        var pay;
+        (function (pay) {
+            var TransferPayViewUI = /** @class */ (function (_super) {
+                __extends(TransferPayViewUI, _super);
+                function TransferPayViewUI() {
+                    return _super.call(this) || this;
+                }
+                TransferPayViewUI.prototype.createChildren = function () {
+                    View.regComponent("Text", laya.display.Text);
+                    _super.prototype.createChildren.call(this);
+                    this.createView(ui.dlg.pay.TransferPayViewUI.uiView);
+                };
+                TransferPayViewUI.uiView = { "type": "View", "props": { "y": 0, "x": 0, "width": 1016, "height": 602 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "width": 1016, "skin": "ui/pay/img_chongzhi_diban01_w602.png", "height": 602, "sizeGrid": "302,88,162,258" } }, { "type": "Text", "props": { "y": -32, "x": 52, "width": 912, "var": "titleTxt", "height": 30, "fontSize": 30, "color": "#f9cb46", "align": "center" } }, { "type": "Panel", "props": { "y": 23, "x": 30, "width": 981, "var": "contentGroup", "height": 570 }, "child": [{ "type": "Image", "props": { "y": 11, "skin": "ui/pay/img_chongzhi_zi_dybxzje.png" } }, { "type": "Image", "props": { "y": 314, "skin": "ui/pay/img_cz_f_dierbu.png" }, "child": [{ "type": "Image", "props": { "y": 22, "x": 684, "var": "serviceBtn", "skin": "ui/pay/img_cz_f_zxkf.png", "anchorY": 0.5, "anchorX": 0.5 } }] }, { "type": "Box", "props": { "y": 95, "x": 0, "var": "btnGroup" } }, { "type": "Box", "props": { "y": 378, "x": 0, "var": "itemBox" } }, { "type": "Image", "props": { "y": 0, "x": 318, "width": 374, "skin": "ui/pay/img_chongzhi_shuru_w372png.png", "height": 52, "sizeGrid": "18,26,18,26" }, "child": [{ "type": "Image", "props": { "y": 25, "x": 341, "var": "resetBtn", "skin": "ui/pay/img_chongzhi_shuru_x.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "TextInput", "props": { "y": 1, "x": 28, "width": 276, "var": "moneyTxt", "valign": "middle", "restrict": "0-9.", "promptColor": "#8eb5ee", "prompt": "请输入充值金额", "height": 50, "fontSize": 34, "color": "#ffffff", "align": "left" } }] }] }] };
+                return TransferPayViewUI;
+            }(View));
+            pay.TransferPayViewUI = TransferPayViewUI;
+        })(pay = dlg.pay || (dlg.pay = {}));
+    })(dlg = ui.dlg || (ui.dlg = {}));
+})(ui || (ui = {}));
+(function (ui) {
+    var dlg;
+    (function (dlg) {
+        var pay;
+        (function (pay) {
+            var VipPayItemUI = /** @class */ (function (_super) {
+                __extends(VipPayItemUI, _super);
+                function VipPayItemUI() {
+                    return _super.call(this) || this;
+                }
+                VipPayItemUI.prototype.createChildren = function () {
+                    View.regComponent("Text", laya.display.Text);
+                    _super.prototype.createChildren.call(this);
+                    this.createView(ui.dlg.pay.VipPayItemUI.uiView);
+                };
+                VipPayItemUI.uiView = { "type": "View", "props": { "width": 950, "height": 158 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "width": 950, "skin": "ui/pay/img_cz_vip_tiao01.png", "height": 158, "sizeGrid": "0,48,0,264" } }, { "type": "Image", "props": { "y": 0, "x": 612, "var": "maxIcon", "skin": "ui/pay/wxMax.png" } }, { "type": "Image", "props": { "y": 86, "x": 725, "var": "copyBtn", "skin": "ui/common/copyui.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Text", "props": { "y": 30, "x": 234, "width": 311, "var": "txt1", "text": "xxx", "overflow": "hidden", "height": 36, "fontSize": 32, "color": "#f9cb46" } }, { "type": "Text", "props": { "y": 71, "x": 234, "width": 127, "var": "txt2", "text": "aa", "height": 30, "fontSize": 24, "color": "#ffffff" } }, { "type": "Text", "props": { "y": 71, "x": 365, "width": 318, "var": "txt3", "text": "bb", "overflow": "hidden", "height": 30, "fontSize": 24, "color": "#ffffff" } }, { "type": "Text", "props": { "y": 106, "x": 234, "width": 688, "var": "txt4", "text": "ccc", "overflow": "hidden", "height": 30, "fontSize": 24, "color": "#ffffff" } }, { "type": "Image", "props": { "y": 24, "x": 78, "var": "minIcon", "skin": "ui/pay/wxMin.png" } }] };
+                return VipPayItemUI;
+            }(View));
+            pay.VipPayItemUI = VipPayItemUI;
+        })(pay = dlg.pay || (dlg.pay = {}));
+    })(dlg = ui.dlg || (ui.dlg = {}));
+})(ui || (ui = {}));
+(function (ui) {
+    var dlg;
+    (function (dlg) {
+        var pay;
+        (function (pay) {
+            var VipPayViewUI = /** @class */ (function (_super) {
+                __extends(VipPayViewUI, _super);
+                function VipPayViewUI() {
+                    return _super.call(this) || this;
+                }
+                VipPayViewUI.prototype.createChildren = function () {
+                    View.regComponent("Text", laya.display.Text);
+                    _super.prototype.createChildren.call(this);
+                    this.createView(ui.dlg.pay.VipPayViewUI.uiView);
+                };
+                VipPayViewUI.uiView = { "type": "View", "props": { "width": 990, "height": 620 }, "child": [{ "type": "Panel", "props": { "y": 88, "x": 20, "width": 950, "var": "itemPanel", "height": 530 } }, { "type": "Image", "props": { "y": 14, "x": 131, "width": 728, "skin": "ui/pay/img_cz_yhid.png", "sizeGrid": "0,227,0,226" }, "child": [{ "type": "Image", "props": { "y": 33, "x": 625, "var": "copyBtn", "skin": "ui/pay/img_cz_fuzhiid.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Text", "props": { "y": 13, "x": 233, "width": 266, "var": "idTxt", "overflow": "hidden", "height": 36, "fontSize": 36, "color": "#ffffff" } }] }] };
+                return VipPayViewUI;
+            }(View));
+            pay.VipPayViewUI = VipPayViewUI;
+        })(pay = dlg.pay || (dlg.pay = {}));
+    })(dlg = ui.dlg || (ui.dlg = {}));
+})(ui || (ui = {}));
+(function (ui) {
+    var dlg;
+    (function (dlg) {
+        var pay;
+        (function (pay) {
+            var WebBankDlgUI = /** @class */ (function (_super) {
+                __extends(WebBankDlgUI, _super);
+                function WebBankDlgUI() {
+                    return _super.call(this) || this;
+                }
+                WebBankDlgUI.prototype.createChildren = function () {
+                    _super.prototype.createChildren.call(this);
+                    this.createView(ui.dlg.pay.WebBankDlgUI.uiView);
+                };
+                WebBankDlgUI.uiView = { "type": "Dialog", "props": { "width": 754, "height": 480 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "skin": "ui/panel_common/mindlg.png" }, "child": [{ "type": "Image", "props": { "y": 55, "x": 708, "var": "closeBtn", "skin": "ui/common/newclose.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 24, "x": 286, "skin": "ui/pay/img_chongzhi _zi_xzyh.png" } }] }, { "type": "Image", "props": { "y": 426, "x": 376, "var": "confirmBtn", "skin": "ui/common/queding.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 104, "x": 32, "width": 690, "skin": "ui/common/img_com_xiankuang.png", "height": 274, "sizeGrid": "15,15,15,16" }, "child": [{ "type": "List", "props": { "y": 5, "x": 23, "width": 644, "var": "itemList", "height": 264 } }] }] };
+                return WebBankDlgUI;
+            }(Dialog));
+            pay.WebBankDlgUI = WebBankDlgUI;
+        })(pay = dlg.pay || (dlg.pay = {}));
+    })(dlg = ui.dlg || (ui.dlg = {}));
+})(ui || (ui = {}));
+(function (ui) {
+    var dlg;
+    (function (dlg) {
+        var pay;
+        (function (pay) {
+            var WebBankItemUI = /** @class */ (function (_super) {
+                __extends(WebBankItemUI, _super);
+                function WebBankItemUI() {
+                    return _super.call(this) || this;
+                }
+                WebBankItemUI.prototype.createChildren = function () {
+                    View.regComponent("Text", laya.display.Text);
+                    _super.prototype.createChildren.call(this);
+                    this.createView(ui.dlg.pay.WebBankItemUI.uiView);
+                };
+                WebBankItemUI.uiView = { "type": "View", "props": { "width": 644, "height": 58 }, "child": [{ "type": "Text", "props": { "y": 12, "x": 27, "width": 590, "var": "nameTxt", "height": 32, "fontSize": 32, "color": "#a2e1ee", "align": "center" } }, { "type": "Line", "props": { "y": 56, "x": 0, "toY": 0, "toX": 644, "lineWidth": 2, "lineColor": "#576cb4" } }] };
+                return WebBankItemUI;
+            }(View));
+            pay.WebBankItemUI = WebBankItemUI;
+        })(pay = dlg.pay || (dlg.pay = {}));
+    })(dlg = ui.dlg || (ui.dlg = {}));
+})(ui || (ui = {}));
+(function (ui) {
+    var dlg;
+    (function (dlg) {
+        var pay;
+        (function (pay) {
+            var WeChatPublicItemUI = /** @class */ (function (_super) {
+                __extends(WeChatPublicItemUI, _super);
+                function WeChatPublicItemUI() {
+                    return _super.call(this) || this;
+                }
+                WeChatPublicItemUI.prototype.createChildren = function () {
+                    View.regComponent("Text", laya.display.Text);
+                    _super.prototype.createChildren.call(this);
+                    this.createView(ui.dlg.pay.WeChatPublicItemUI.uiView);
+                };
+                WeChatPublicItemUI.uiView = { "type": "View", "props": { "width": 950, "height": 158 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "width": 950, "skin": "ui/pay/img_cz_vip_tiao01.png", "sizeGrid": "0,48,0,264" } }, { "type": "Image", "props": { "y": 0, "x": 612, "skin": "ui/pay/wxMax.png" } }, { "type": "Text", "props": { "y": 30, "x": 234, "width": 311, "text": "微信公众号", "overflow": "hidden", "height": 36, "fontSize": 32, "color": "#f9cb46" } }, { "type": "Text", "props": { "y": 106, "x": 234, "width": 661, "var": "infoTxt", "text": "xxx", "overflow": "hidden", "height": 32, "fontSize": 24, "color": "#ffffff" } }, { "type": "Text", "props": { "y": 71, "x": 234, "width": 423, "var": "titleTxt", "text": "bb", "overflow": "hidden", "height": 30, "fontSize": 24, "color": "#ffffff" } }, { "type": "Image", "props": { "y": 24, "x": 78, "skin": "ui/pay/wxMin.png" } }, { "type": "Image", "props": { "y": 86, "x": 725, "skin": "ui/pay/img_cz_vip_xiangqing.png", "anchorY": 0.5, "anchorX": 0.5 } }] };
+                return WeChatPublicItemUI;
+            }(View));
+            pay.WeChatPublicItemUI = WeChatPublicItemUI;
+        })(pay = dlg.pay || (dlg.pay = {}));
+    })(dlg = ui.dlg || (ui.dlg = {}));
+})(ui || (ui = {}));
+(function (ui) {
+    var dlg;
+    (function (dlg) {
+        var pay;
+        (function (pay) {
+            var WeChatPublicViewUI = /** @class */ (function (_super) {
+                __extends(WeChatPublicViewUI, _super);
+                function WeChatPublicViewUI() {
+                    return _super.call(this) || this;
+                }
+                WeChatPublicViewUI.prototype.createChildren = function () {
+                    _super.prototype.createChildren.call(this);
+                    this.createView(ui.dlg.pay.WeChatPublicViewUI.uiView);
+                };
+                WeChatPublicViewUI.uiView = { "type": "View", "props": { "width": 990, "height": 620 }, "child": [{ "type": "Panel", "props": { "y": 0, "x": 20, "width": 950, "var": "itemPanel", "height": 620 } }] };
+                return WeChatPublicViewUI;
+            }(View));
+            pay.WeChatPublicViewUI = WeChatPublicViewUI;
+        })(pay = dlg.pay || (dlg.pay = {}));
+    })(dlg = ui.dlg || (ui.dlg = {}));
+})(ui || (ui = {}));
+(function (ui) {
+    var dlg;
+    (function (dlg) {
+        var RechargeDlgUI = /** @class */ (function (_super) {
+            __extends(RechargeDlgUI, _super);
+            function RechargeDlgUI() {
+                return _super.call(this) || this;
+            }
+            RechargeDlgUI.prototype.createChildren = function () {
+                View.regComponent("Text", laya.display.Text);
+                _super.prototype.createChildren.call(this);
+                this.createView(ui.dlg.RechargeDlgUI.uiView);
+            };
+            RechargeDlgUI.uiView = { "type": "Dialog", "props": { "width": 1334, "height": 750 }, "child": [{ "type": "Image", "props": { "y": 0, "skin": "ui/panel_common/img_com_quanping_di.jpg", "centerX": 0 } }, { "type": "Image", "props": { "y": 334, "skin": "ui/pay/img_cz_hongbao.png", "right": 0 } }, { "type": "Box", "props": { "y": 124, "x": 353, "width": 900, "var": "viewBox", "height": 602, "centerX": 136 } }, { "type": "Image", "props": { "y": 1, "var": "TRgroup", "skin": "ui/common/img_com_quanping_guanbi01.png", "right": -55 }, "child": [{ "type": "Image", "props": { "y": 45, "x": 166, "var": "backBtn", "skin": "ui/common/img_com_quanping_guanbi02.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 46, "x": -78, "var": "payBtn", "skin": "ui/pay/btn_cz_czmx.png", "label": "label", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 46, "x": -319, "var": "serviceBtn", "skin": "ui/pay/img_chongzhi_zxkf.png", "anchorY": 0.5, "anchorX": 0.5 } }] }, { "type": "Image", "props": { "y": 87, "x": 10, "var": "tabGroup", "skin": "ui/panel_common/img_com_quanping_cedi.png", "left": -48 }, "child": [{ "type": "Panel", "props": { "y": 45, "x": 0, "width": 363, "var": "tabPanel", "height": 620 } }, { "type": "Image", "props": { "x": 118, "var": "arrowBtn", "skin": "ui/pay/btn_cz_shangxia.png", "bottom": 28 } }] }, { "type": "Image", "props": { "y": 0, "x": 10, "var": "LTgroup", "skin": "ui/panel_common/img_com_quanping_ce_biaotou.png", "left": -48 }, "child": [{ "type": "Image", "props": { "y": 24, "x": 202, "skin": "ui/pay/img_cz_chongzhi.png" } }, { "type": "Image", "props": { "y": 8, "x": 61, "skin": "ui/pay/img_cz_biaotou-icon2.png" } }] }, { "type": "Image", "props": { "y": 300, "var": "errIcon", "skin": "ui/pay/pay_error.png", "centerX": 150 }, "child": [{ "type": "Text", "props": { "y": 250, "x": 9, "text": "该支付方式目前无法使用", "fontSize": 25, "color": "#aa9a9a" } }, { "type": "Text", "props": { "y": 285, "x": -23, "text": "敬请谅解!请选择其它支付方式!", "fontSize": 25, "color": "#aa9a9a" } }] }, { "type": "Image", "props": { "y": 80, "width": 419, "var": "infoGroup", "skin": "ui/pay/img_cz_youhui.png", "height": 58, "centerX": 132, "sizeGrid": "0,70,0,70" }, "child": [{ "type": "Text", "props": { "y": 8, "x": 169, "width": 152, "var": "infoTxt", "text": "xxx", "height": 30, "fontSize": 30, "color": "#ffffff" } }, { "type": "Image", "props": { "y": 1, "x": 98, "skin": "ui/pay/img_congzhi_youhui01.png" } }] }] };
+            return RechargeDlgUI;
+        }(Dialog));
+        dlg.RechargeDlgUI = RechargeDlgUI;
+    })(dlg = ui.dlg || (ui.dlg = {}));
+})(ui || (ui = {}));
+(function (ui) {
+    var dlg;
+    (function (dlg) {
         var SystemDlgUI = /** @class */ (function (_super) {
             __extends(SystemDlgUI, _super);
             function SystemDlgUI() {
@@ -1159,7 +1611,7 @@ var ui;
                 _super.prototype.createChildren.call(this);
                 this.createView(ui.dlg.TipsDlgUI.uiView);
             };
-            TipsDlgUI.uiView = { "type": "Dialog", "props": { "width": 754, "height": 480 }, "child": [{ "type": "Image", "props": { "skin": "ui/panel_common/mindlg.png" } }, { "type": "Image", "props": { "y": 109, "width": 710, "skin": "ui/common/img_com_xiankuang.png", "sizeGrid": "10,10,10,10", "height": 271, "centerX": 0 } }, { "type": "Image", "props": { "y": 22, "x": 320, "skin": "ui/panel_common/img_ts_ts.png" } }, { "type": "Image", "props": { "y": 52, "x": 706, "var": "btnClose", "top": 12, "skin": "ui/common/newclose.png", "right": 10, "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 426, "x": 376, "var": "btnConfirm", "skin": "ui/panel_common/queding.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Label", "props": { "y": 109, "x": 32, "wordWrap": true, "width": 690, "var": "message", "valign": "middle", "text": "...", "leading": 12, "height": 270, "fontSize": 30, "font": "SimHei", "color": "#b3d8e3", "align": "center" } }] };
+            TipsDlgUI.uiView = { "type": "Dialog", "props": { "width": 754, "height": 480 }, "child": [{ "type": "Image", "props": { "skin": "ui/panel_common/mindlg.png" } }, { "type": "Image", "props": { "y": 109, "width": 710, "skin": "ui/common/img_com_xiankuang.png", "sizeGrid": "10,10,10,10", "height": 271, "centerX": 0 } }, { "type": "Image", "props": { "y": 22, "x": 320, "skin": "ui/panel_common/img_ts_ts.png" } }, { "type": "Image", "props": { "y": 52, "x": 706, "var": "btnClose", "top": 12, "skin": "ui/common/newclose.png", "right": 10, "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 426, "x": 376, "var": "btnConfirm", "skin": "ui/common/queding.png", "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Label", "props": { "y": 109, "x": 32, "wordWrap": true, "width": 690, "var": "message", "valign": "middle", "text": "...", "leading": 12, "height": 270, "fontSize": 30, "font": "SimHei", "color": "#b3d8e3", "align": "center" } }] };
             return TipsDlgUI;
         }(Dialog));
         dlg.TipsDlgUI = TipsDlgUI;

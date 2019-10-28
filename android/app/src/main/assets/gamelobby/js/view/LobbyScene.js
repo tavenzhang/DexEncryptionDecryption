@@ -69,6 +69,8 @@ var LobbyScene = /** @class */ (function (_super) {
             LayaMain.getInstance().initLogin();
             return;
         }
+        //检测维护公告
+        LobbyModel.checkMaintenanceNotice();
         Common.backUrl = ConfObjRead.getConfUrl().url.backlobby;
         SaveManager.getObj().initCommon(Common.access_token, ConfObjRead.getConfUrl().url.apihome);
         Common.confObj.url = ConfObjRead.getConfUrl().url;

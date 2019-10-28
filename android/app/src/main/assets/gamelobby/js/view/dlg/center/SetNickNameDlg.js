@@ -34,6 +34,11 @@ var view;
                 };
                 SetNickNameDlg.prototype.initView = function () {
                     var _this = this;
+                    LobbyModel.reqNickName(this, function (str) {
+                        if (_this.destroyed)
+                            return;
+                        _this.nickTxt.text = str;
+                    }, true);
                     EventManager.addTouchScaleListener(this.closeBtn, this, function () {
                         SoundPlayer.closeSound();
                         _this.close(null, true);
@@ -47,6 +52,27 @@ var view;
                         _this.reqSetNickName();
                     });
                     this.nickTxt.on(Laya.Event.INPUT, this, this.inputHandler);
+                    this.diceBtn.interval = 60;
+                    EventManager.addTouchScaleListener(this.diceBtn, this, function () {
+                        SoundPlayer.clickSound();
+                        _this.diceBtn.mouseEnabled = false;
+                        _this.cancelBtn.mouseEnabled = false;
+                        _this.diceBtn.play();
+                        var time = Math.random() * 400 + 600 >> 0;
+                        Laya.timer.once(time, _this, _this.reqNickName);
+                    }, null, 0.8, true);
+                };
+                //请求随机昵称
+                SetNickNameDlg.prototype.reqNickName = function () {
+                    var _this = this;
+                    LobbyModel.reqNickName(this, function (str) {
+                        if (_this.destroyed)
+                            return;
+                        _this.nickTxt.text = str;
+                        _this.cancelBtn.mouseEnabled = true;
+                        _this.diceBtn.mouseEnabled = true;
+                        _this.diceBtn.stop();
+                    }, true);
                 };
                 //限制字符数
                 SetNickNameDlg.prototype.inputHandler = function () {
@@ -59,6 +85,7 @@ var view;
                         this.nickTxt.text = Tools.trimRight(this.inputStr);
                     }
                 };
+                //请求设置昵称
                 SetNickNameDlg.prototype.reqSetNickName = function () {
                     var _this = this;
                     LayaMain.getInstance().showCircleLoading();
@@ -67,14 +94,16 @@ var view;
                         if (suc) {
                             if (jobj.code == 1001) { //修改成功
                                 _this.close(null, true);
-                                LobbyModel.reqUserInfo(false);
+                                LobbyModel.reqUserCurrentInfo();
                             }
                             Toast.showToast(jobj.message || "");
                         }
                     });
                 };
                 SetNickNameDlg.prototype.onClosed = function (type) {
-                    EventManager.removeBtnEvent(this.cancelBtn);
+                    Laya.timer.clear(this, this.reqNickName);
+                    this.diceBtn.stop();
+                    EventManager.removeAllEvents(this);
                     _super.prototype.onClosed.call(this, type);
                     this.destroy(true);
                 };

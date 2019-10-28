@@ -85,14 +85,12 @@ var Common = /** @class */ (function () {
         this.userInfo_current = null;
         this.loginInfo = null;
         this.avatorInfo = null;
-        this.bindPhoneInfo = null;
         this.cardInfo = null;
         this.bankInfo = null;
         this.alipayInfo = null;
         this.balanceInfo = null;
         this.userBalance = 0;
         GameData.bindAward = 0;
-        GameData.isGetBindAward = true;
         GameData.bindOpen = false;
         AgentModel.clear();
     };

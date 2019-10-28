@@ -111,6 +111,12 @@ export default class Enter extends Component {
                 TW_Log("TW_SubGameDownLoaderData-----Active-",TW_SubGameDownLoaderData)
                 TW_Store.dataStore.startLoadGame();
              }
+            if(TW_Store.gameUIStroe.wxShareHandle.isShareIng){
+                if(TW_Store.gameUIStroe.wxShareHandle.callback){
+                    TW_Store.gameUIStroe.wxShareHandle.callback();
+                    TW_Store.gameUIStroe.wxShareHandle.isShareIng=false;
+                }
+            }
             this.flage = false ;
         }else if(nextAppState != null && nextAppState === 'background'){
             TW_Store.dataStore.log += "\nAppStateChange-background\n" ;
@@ -138,14 +144,8 @@ export default class Enter extends Component {
 
 
     onInitAllData=()=>{
-        this.initData();
+        this.isReloadAppDomain=false;
         this.uploadLog();
-        // this.timer2 = setTimeout(() => {
-        //     if (this.hotFixStore.syncMessage === '检测更新中...' || this.hotFixStore.syncMessage === '初始化配置中...') {
-        //         this.hotFixStore.skipUpdate();
-        //       //  this.reloadAppDomain();
-        //     }
-        // }, 7 * 1000)
 
         if(G_IS_IOS){
             if(Orientation&&Orientation.lockToLandscapeRight){
@@ -161,25 +161,28 @@ export default class Enter extends Component {
 
     //域名异常启动介入
     reloadAppDomain(){
-        domainsHelper.getSafeguardName((ok)=>{
-
-            if(ok){
-                //拿到d.json域名初始化
-                this.initDomain();
-                this.timer2 = setTimeout(() => {
-                    if (this.state.syncMessage === '检测更新中...' || this.state.syncMessage === '初始化配置中...') {
-                        this.hotFixStore.skipUpdate();
-                    }
-                },2 * 1000)
-                this.setState({
-                    updateFinished: false,
-                    syncMessage: "初始化配置中...",
-                    updateStatus: 0,
-                })
-            }else {
-                TW_SplashScreen_HIDE();
-            }
-        })
+        TW_Log('reloadAppDomain--reloadAppDomain-',)
+        if(!this.isReloadAppDomain){
+            this.isReloadAppDomain=true;
+            domainsHelper.getSafeguardName((ok)=>{
+                if(ok){
+                    //拿到d.json域名初始化
+                    this.initDomain();
+                    this.timer2 = setTimeout(() => {
+                        if (this.state.syncMessage === '检测更新中...' || this.state.syncMessage === '初始化配置中...') {
+                            this.hotFixStore.skipUpdate();
+                        }
+                    },2 * 1000)
+                    this.setState({
+                        updateFinished: false,
+                        syncMessage: "初始化配置中...",
+                        updateStatus: 0,
+                    })
+                }else {
+                    TW_SplashScreen_HIDE();
+                }
+            })
+        }
     }
 
 
@@ -207,17 +210,12 @@ export default class Enter extends Component {
             //checkView =this.updateFailView()
             checkView = null
         }
-
-        // else {
-        //     return (<App/>);
-        // }
         return (<View style={{flex:1}}>
                       <App/>
                      {checkView}
               </View>)
     }
-
-
+    
 
     initDomain() {
         TW_Store.dataStore.initAppHomeCheck();
@@ -238,10 +236,6 @@ export default class Enter extends Component {
         }).catch((error) => {
             StartUpHelper.getAvailableDomain(AppConfig.domains, this.cacheAttempt)
         })
-    }
-
-    initData() {
-        TW_Store.appStore.currentDomain = AppConfig.domains[0];
     }
 
     //使用默认地址
@@ -281,7 +275,7 @@ export default class Enter extends Component {
             }
             this.storeLog({faileMessage: customerMessage});
             this.hotFixStore.updateFailMsg(customerMessage);
-            this.reloadAppDomain()
+             this.reloadAppDomain()
         } else {
             // TODO 审核通过之后 放开如下，告知ip不在更新范围内的用户11
             // TODO 审核通过之后 放开如下，告知ip不在更新范围内的用户11
@@ -304,10 +298,7 @@ export default class Enter extends Component {
 
     //使用从服务器获取的更新地址更新app
     gotoUpdate() {
-        if(TW_IS_DEBIG){
-            this.hotFixStore.skipUpdate();
-            return
-        }
+
         AsyncStorage.getItem('cacheDomain').then((response) => {
             TW_Log("JXCodePushServerUrl----getItem")
             TW_Store.dataStore.log+="\ncacheDomain-----"+response+"---\n";
@@ -365,6 +356,7 @@ export default class Enter extends Component {
     }
 
     hotFix(hotfixDeploymentKey,isActiveCheck=false) {
+
         this.setState({
             syncMessage: '检测更新中....',
             updateStatus: 0
@@ -389,16 +381,16 @@ export default class Enter extends Component {
                 this.hotFixStore.syncMessage = 'app更新，正在疯狂加载...';
                 let versionData =null;
                 try {
-                    //{"jsVersion":5.23,"isWeakUpate":true}
+                    //{"jsVersion":5.23,"isWeakUpate":true}  "{"jsVersion":v10.24.1814,"isWeakUpate":false}"
                     versionData = JSON.parse(update.description);
                 }catch (e) {
                     versionData = null;
                 }
-
+                TW_Log("versionData--description==--"+ update.description,versionData)
                 if(!isActiveCheck){ //如果是app启动进入热更新检测 并且游戏已经进入大厅，则不使用强制更新提示，下次启动生效
                     if(versionData){
+                        this.isWeakUpdate = versionData.isWeakUpate
                         if(versionData.isWeakUpate){
-                            this.isWeakUpdate = versionData.isWeakUpate
                             this.hotFixStore.isNextAffect =this.isWeakUpdate
                         }else{
                             this.hotFixStore.isNextAffect =false;
@@ -411,12 +403,15 @@ export default class Enter extends Component {
                     //如果是3分钟后台进入前台的热更新检测 使用立即更新
                     this.hotFixStore.isNextAffect =false;
                 }
-                TW_Log('==checkingupdate====hotfixDeploymentKey= versionData='+(versionData==null), versionData);
+                TW_Log('==checkingupdate====hotfixDeploymentKey= versionData=  this.isWeakUpdate'+  this.isWeakUpdate);
                 this.hotFixStore.updateFinished = false;
                 this.storeLog({hotfixDomainAccess: true});
                 if (alreadyInCodePush) return
                 alreadyInCodePush = true
                 let updateMode =  this.hotFixStore.isNextAffect ? CodePush.InstallMode.ON_NEXT_RESTART:CodePush.InstallMode.IMMEDIATE;
+                if(TW_IS_DEBIG){
+                    return
+                }
                 update.download(this.codePushDownloadDidProgress.bind(this)).then((localPackage) => {
                     alreadyInCodePush = false;
                     if (localPackage) {
@@ -477,10 +472,19 @@ export default class Enter extends Component {
                 }
             })
             TW_Store.hotFixStore.isInstalledFinish=true;
+            this.appUpdateTimeid= setInterval(this.noticeAppUpdate,1000);
+
         }).catch((ms) => {
             this.storeLog({updateStatus: false, message: '安装失败,请重试...'})
             this.updateFail('安装失败,请重试...')
         })
+    }
+
+    noticeAppUpdate=()=>{
+        if(TW_Store.gameUpateStore.isEnteredGame){
+            clearInterval(this.appUpdateTimeid);
+            TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appUpate, {data:true}));
+        }
     }
 
     updateFail=(message)=> {

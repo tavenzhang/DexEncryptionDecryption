@@ -40,6 +40,8 @@ var view;
              */
             NoticeDlg.show = function ($type, noticeid, noticeType) {
                 if (noticeid === void 0) { noticeid = -1; }
+                if (LobbyModel.maintenance)
+                    return;
                 NoticeData.currentTab = $type;
                 NoticeData.noticeid = noticeid;
                 NoticeData.noticeType = noticeType;
@@ -58,8 +60,8 @@ var view;
                 this.tabPanel.vScrollBarSkin = "";
                 this.tabPanel.on(Laya.Event.MOUSE_UP, this, this.tabHandler);
                 //tab点击事件
-                this.tab_notice.on(Laya.Event.CLICK, this, this.onTabClick);
-                this.tab_game.on(Laya.Event.CLICK, this, this.onTabClick);
+                EventManager.addTouchScaleListener(this.tab_notice, this, this.onTabClick, null, 1);
+                EventManager.addTouchScaleListener(this.tab_game, this, this.onTabClick, null, 1);
                 //返回按钮
                 EventManager.addTouchScaleListener(this.controls, this, function () {
                     SoundPlayer.returnLobbySound();
@@ -296,13 +298,10 @@ var view;
                 this.off("closeNoticeDlg", this, this.close);
                 EventManager.removeAllEvents(this);
                 this.tabPanel.off(Laya.Event.MOUSE_UP, this, this.tabHandler);
-                this.tab_notice.off(Laya.Event.CLICK, this, this.onTabClick);
-                this.tab_game.off(Laya.Event.CLICK, this, this.onTabClick);
                 //检测绑定送金
                 QueueTask.checkQueue([QueueType.bindPhoneActiv]);
                 _super.prototype.onClosed.call(this, type);
                 this.destroy(true);
-                // PageManager.clearDlgRes(DlgCmd.activityCenter);
             };
             return NoticeDlg;
         }(ui.dlg.NoticeDlgUI));

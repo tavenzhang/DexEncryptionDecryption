@@ -96,16 +96,17 @@ var MyUid = /** @class */ (function () {
         var t = Laya.Browser.now();
         var ua = Laya.Browser.userAgent;
         var str = t + ua;
-        // Debug.log("ua:"+ua);
-        // Debug.log("t:"+t);
-        // Debug.log("str:"+str);
         var str2 = str.substr(0, 32);
-        // MyUid.uid = b64.decode(str);
-        // Debug.log('uid 1:'+MyUid.uid);
         MyUid.uid = btoa(str2);
-        // var dc = atob(MyUid.uid);
         Debug.log('MyUid.createUid uid:' + MyUid.uid);
-        // Debug.log('dc:'+dc);
+    };
+    //创建新的uid
+    MyUid.newUid = function () {
+        var time = Laya.Browser.now();
+        var ua = Laya.Browser.userAgent;
+        var str = time + ua;
+        str = str.substr(0, 32);
+        return btoa(str);
     };
     MyUid.uid = "";
     MyUid.KEY_P_MOBILE = "MOBILE";
