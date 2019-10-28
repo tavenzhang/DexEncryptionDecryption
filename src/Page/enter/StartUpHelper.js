@@ -1,5 +1,5 @@
 import { AsyncStorage} from 'react-native'
-import { create } from 'apisauce'
+//import { create } from 'apisauce'
 
 import NetUitls from "../../Common/Network/TCRequestUitls";
 import Base64 from "../../Common/JXHelper/Base64";
