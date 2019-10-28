@@ -44,7 +44,6 @@ import com.jd.openapp.OpenAppPackage;
 import com.jd.util.AppUtil;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.microsoft.codepush.react.CodePush;
-import com.oblador.vectoricons.VectorIconsPackage;
 import com.umeng.commonsdk.UMConfigure;
 import com.zmxv.RNSound.RNSoundPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
@@ -93,7 +92,6 @@ public class MainApplication extends Application implements ReactApplication {
                     new JPushPackage(false, false),
                     new RNFSPackage(),
                     new CodePush(getResources().getString(R.string.deploymentKey), getApplicationContext(), BuildConfig.DEBUG, "", getSpecialCodeVersion()),
-                    new VectorIconsPackage(),
                     new SplashScreenReactPackage(),
                     new RNSoundPackage(),
                     new RNFetchBlobPackage(),

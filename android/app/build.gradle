@@ -273,7 +273,6 @@ dependencies {
     compile project(':react-native-keep-awake')
     compile project(':react-native-picker')
     compile project(':react-native-zip-archive')
-    compile project(':react-native-vector-icons')
     compile project(':react-native-splash-screen')
     compile project(':react-native-sound')
     compile project(':react-native-orientation')
@@ -297,7 +296,6 @@ dependencies {
     //implementation project(':ReactAndroid')            //添加React-native项目
     implementation 'com.zhy:okhttputils:2.6.2'
     implementation project(':react-native-code-push')
-    implementation project(':react-native-vector-icons')
     implementation project(':react-native-splash-screen')
     implementation project(':react-native-sound')
     implementation project(':react-native-fetch-blob')
