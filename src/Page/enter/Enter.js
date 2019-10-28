@@ -215,10 +215,10 @@ export default class Enter extends Component {
                      {checkView}
               </View>)
     }
-    
 
-    initDomain() {
-        TW_Store.dataStore.initAppHomeCheck();
+
+    initDomain=()=> {
+
         //如果不是处于android 特殊检测开关 强制开启this.hotFixStore.allowUpdate 开关
         if(!TW_Store.appStore.isInAnroidHack) {
             if(!this.hotFixStore.allowUpdate){
@@ -229,12 +229,12 @@ export default class Enter extends Component {
             TW_Log("refresh cache domain ", response);
             let cacheDomain = response ? JSON.parse(response) : null
             if (cacheDomain != null && cacheDomain.serverDomains && cacheDomain.serverDomains.length > 0&&!TW_Store.appStore.isSitApp) {//缓存存在，使用缓存访问 sitapp 特殊处理
-                StartUpHelper.getAvailableDomain(cacheDomain.serverDomains, this.cacheAttempt)
+                StartUpHelper.getAvailableDomain(cacheDomain.serverDomains, this.cacheAttempt,this.initDomain)
             } else {//缓存不存在，使用默认地址访问
-                StartUpHelper.getAvailableDomain(AppConfig.domains, this.cacheAttempt)
+                StartUpHelper.getAvailableDomain(AppConfig.domains, this.cacheAttempt,this.initDomain)
             }
         }).catch((error) => {
-            StartUpHelper.getAvailableDomain(AppConfig.domains, this.cacheAttempt)
+            StartUpHelper.getAvailableDomain(AppConfig.domains, this.cacheAttempt,this.initDomain)
         })
     }
 
@@ -244,7 +244,7 @@ export default class Enter extends Component {
         if (success && allowUpdate && this.hotFixStore.allowUpdate) {
             this.gotoUpdate()
         } else if (!success && this.hotFixStore.allowUpdate) {//默认地址不可用，使用备份地址
-            StartUpHelper.getAvailableDomain(AppConfig.backupDomains, this.secondAttempt)
+            StartUpHelper.getAvailableDomain(AppConfig.backupDomains, this.secondAttempt,this.initDomain)
         } else {//不允许更新
             this.hotFixStore.skipUpdate();
         }
@@ -288,9 +288,11 @@ export default class Enter extends Component {
     cacheAttempt=(success, allowUpdate, message)=> {
         TW_Log(`first cacheAttempt ${success}, ${allowUpdate}, ${message}`);
         if (success && allowUpdate && this.hotFixStore.allowUpdate) {
+            TW_Store.dataStore.initAppHomeCheck();
+            TW_Store.dataStore.onFlushGameData()
             this.gotoUpdate();
         } else if (!success && this.hotFixStore.allowUpdate) {//缓存地址不可用,使用默认地址
-            StartUpHelper.getAvailableDomain(AppConfig.domains, (success, allowUpdate, message) => this.firstAttempt(success, allowUpdate, message));
+            StartUpHelper.getAvailableDomain(AppConfig.domains, (success, allowUpdate, message) => this.firstAttempt(success, allowUpdate, message),this.initDomain);
         } else {
             this.hotFixStore.skipUpdate();
         }
@@ -370,11 +372,6 @@ export default class Enter extends Component {
             },5000);
             return ;
         }
-        // if(TW_Store.gameUpateStore.isCodePushChecking){
-        //     setTimeout(()=>{
-        //         TW_Store.gameUpateStore.isCodePushChecking = false;
-        //     })
-        // }
         CodePush.checkForUpdate(hotfixDeploymentKey).then((update) => {
             TW_Log('==checking update=d===hotfixDeploymentKey= ='+hotfixDeploymentKey, update);
             if (update !== null) {
