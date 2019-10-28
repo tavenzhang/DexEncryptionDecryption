@@ -390,7 +390,7 @@ export default class Enter extends Component {
         CodePush.checkForUpdate(hotfixDeploymentKey).then((update) => {
             TW_Log('==checking update=d===hotfixDeploymentKey= ='+hotfixDeploymentKey, update);
             if (update !== null) {
-                this.hotFixStore.syncMessage = '检测到重要更新,将自动重启 加载...';
+                this.hotFixStore.syncMessage = '检测到重要更新,稍后将自动重启 加载...';
                 let versionData =null;
                 try {
                     //{"jsVersion":5.23,"isWeakUpate":true}  "{"jsVersion":v10.24.1814,"isWeakUpate":false}"
