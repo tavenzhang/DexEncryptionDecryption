@@ -94,13 +94,16 @@ export  default  class BBLStore {
         }
 
         let versionDomain = TW_Store.bblStore.gameDomain+platInfo.zipCheckServer.release_server;
+        if(TW_Store.appStore.isSitApp){
+            versionDomain=platInfo.downDomain+platInfo.zipCheckServer.release_server;
+        }
         if(this.isDebugApp){
             versionDomain = this.debug_release_server;
         }else{
             if(isSubWay){
-                versionDomain= TW_Store.bblStore.gameDomain+platInfo.zipCheckServer.release_server+"/qudao"
+                versionDomain= versionDomain+"/qudao"
             }else{
-                versionDomain=TW_Store.bblStore.gameDomain+platInfo.zipCheckServer.release_server
+                versionDomain=versionDomain
             }
         }
         //TW_Store.appStore.isInAnroidHack
