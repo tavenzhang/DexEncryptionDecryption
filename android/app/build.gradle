@@ -1,25 +1,6 @@
 
 apply plugin: "com.android.application"
 
-buildscript {
-    repositories {
-        maven { url 'https://maven.fabric.io/public' }
-    }
-    dependencies {
-
-//	implementation project(":react-native-openinstall")
-//    implementation project(':jcore-react-native')
-//    implementation project(':jpush-react-native')
-        // The Fabric Gradle plugin uses an open ended version to react
-        // quickly to Android tooling updates
-        classpath 'io.fabric.tools:gradle:1.+'
-    }
-}
-apply plugin: 'io.fabric'
-
-repositories {
-    maven { url 'https://maven.fabric.io/public' }
-}
 /**
  * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets
  * and bundleReleaseJsAndAssets).
@@ -292,32 +273,19 @@ dependencies {
     compile project(':react-native-keep-awake')
     compile project(':react-native-picker')
     compile project(':react-native-zip-archive')
-    compile project(':react-native-vector-icons')
-    compile project(':react-native-toast-native')
-    compile project(':react-native-svg')
     compile project(':react-native-splash-screen')
     compile project(':react-native-sound')
-    compile project(':react-native-shake-event')
     compile project(':react-native-orientation')
-    compile project(':react-native-material-kit')
-    compile project(':react-native-interactable')
-    compile project(':react-native-image-picker')
-    compile project(':react-native-image-crop-picker')
     compile project(':react-native-fs')
-
     compile project(':react-native-fetch-blob')
     compile project(':react-native-fast-image')
-    compile project(':react-native-fabric')
     compile project(':react-native-device-info')
     compile project(':react-native-code-push')
-    compile project(':react-native-blur')
     compile project(':jpush-react-native')
     implementation project(':react-native-orientation')
     implementation project(':react-native-zip-archive')
-    implementation project(':react-native-fabric')
     implementation 'com.android.support:multidex:1.0.3'
     implementation project(':react-native-fs')
-    implementation project(':react-native-image-crop-picker')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':jpush-react-native')
     implementation project(':jcore-react-native')
@@ -327,19 +295,11 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
     //implementation project(':ReactAndroid')            //添加React-native项目
     implementation 'com.zhy:okhttputils:2.6.2'
-    implementation project(':react-native-toast-native')
-    implementation project(':react-native-shake-event')
     implementation project(':react-native-code-push')
-    implementation project(':react-native-vector-icons')
-    implementation project(':react-native-svg')
     implementation project(':react-native-splash-screen')
     implementation project(':react-native-sound')
-    implementation project(':react-native-material-kit')
-    implementation project(':react-native-interactable')
-    implementation project(':react-native-image-picker')
     implementation project(':react-native-fetch-blob')
     implementation project(':react-native-device-info')
-    implementation project(':react-native-blur')
     implementation project(':react-native-fast-image')
     implementation 'com.jakewharton:butterknife:10.1.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'

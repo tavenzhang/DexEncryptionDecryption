@@ -56,9 +56,6 @@
         </activity>
 
         <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="4711ad6d815964a1103b461bc1d85ddf312b037d" />
-        <meta-data
             android:name="JPUSH_APPKEY"
             android:value="${JPUSH_APPKEY}" />
         <meta-data
