@@ -12,7 +12,6 @@ import android.util.Log;
 import com.dylanvann.fastimage.FastImageViewPackage;
 import com.jd.invokenative.DplusReactPackage;
 import com.jd.invokenative.RNUMConfigure;
-import com.crashlytics.android.Crashlytics;
 
 import com.facebook.react.ReactApplication;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
@@ -48,7 +47,6 @@ import com.microsoft.codepush.react.CodePush;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.umeng.commonsdk.UMConfigure;
 import com.zmxv.RNSound.RNSoundPackage;
-import io.fabric.sdk.android.Fabric;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 
 import java.util.Arrays;
@@ -92,23 +90,14 @@ public class MainApplication extends Application implements ReactApplication {
                     new PickerViewPackage(),
                     new OrientationPackage(),
                     new RNZipArchivePackage(),
-                    new FabricPackage(),
                     new JPushPackage(false, false),
                     new RNFSPackage(),
-                    new PickerPackage(),
-                    new RCTToastPackage(),
-                    new RNShakeEventPackage(),
                     new CodePush(getResources().getString(R.string.deploymentKey), getApplicationContext(), BuildConfig.DEBUG, "", getSpecialCodeVersion()),
                     new VectorIconsPackage(),
-                    new SvgPackage(),
                     new SplashScreenReactPackage(),
                     new RNSoundPackage(),
-                    new ReactMaterialKitPackage(),
-                    new Interactable(),
-                    new ImagePickerPackage(),
                     new RNFetchBlobPackage(),
                     new RNDeviceInfo(),
-                    new BlurViewPackage(),
                     new FastImageViewPackage(),
                     new RCTMarqueeLabelPackage(),
                     new JXHelperPackage(),
@@ -161,7 +150,6 @@ public class MainApplication extends Application implements ReactApplication {
     public void onCreate() {
         super.onCreate();
 
-        Fabric.with(this, new Crashlytics());
         AppUtil.updateLocalAFFCode(this);
         CrashHandler.getInstance().init(this);
         // 极光配置
