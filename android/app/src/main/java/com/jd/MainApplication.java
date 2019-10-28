@@ -12,7 +12,6 @@ import android.util.Log;
 import com.dylanvann.fastimage.FastImageViewPackage;
 import com.jd.invokenative.DplusReactPackage;
 import com.jd.invokenative.RNUMConfigure;
-import com.cmcewen.blurview.BlurViewPackage;
 import com.crashlytics.android.Crashlytics;
 
 import com.facebook.react.ReactApplication;
@@ -30,20 +29,14 @@ import com.jd.webview.WebViewReactPackage;
 import com.rnziparchive.RNZipArchivePackage;
 import com.umeng.socialize.PlatformConfig;
 
-import com.smixx.fabric.FabricPackage;
 
 import cn.jpush.reactnativejpush.JPushPackage;
 
 import com.rnfs.RNFSPackage;
-import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.github.xinthink.rnmk.ReactMaterialKitPackage;
-import com.horcrux.svg.SvgPackage;
-import com.imagepicker.ImagePickerPackage;
-import com.jadsonlourenco.RNShakeEvent.RNShakeEventPackage;
 import com.jd.audio.RNAudioPackage;
 import com.jd.crash.CrashHandler;
 import com.jd.jxhelper.JXHelperPackage;
@@ -53,9 +46,7 @@ import com.jd.util.AppUtil;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.microsoft.codepush.react.CodePush;
 import com.oblador.vectoricons.VectorIconsPackage;
-import com.toast.RCTToastPackage;
 import com.umeng.commonsdk.UMConfigure;
-import com.wix.interactable.Interactable;
 import com.zmxv.RNSound.RNSoundPackage;
 import io.fabric.sdk.android.Fabric;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
