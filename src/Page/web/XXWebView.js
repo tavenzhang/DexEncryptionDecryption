@@ -49,7 +49,6 @@ export default class XXWebView extends Component {
                     TW_Store.dataStore.appGameListM = res;
                 }
             }
-           // this.onFlushGameData()
         });
         // TW_Log("(_keyboard-TW_DATA_KEY.gameList-FileTools--==G_IS_IOS== middle" + G_IS_IOS,Keyboard.addListener);
         if (G_IS_IOS) {
@@ -266,7 +265,7 @@ export default class XXWebView extends Component {
                                     TW_Store.gameUpateStore.isTempExist = false;
                                 }
                             }, 1000)
-
+                            this.onFlushGameData();
                             break;
                         case "copylink":
                             Clipboard.setString(message.param);
