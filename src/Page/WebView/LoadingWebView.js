@@ -25,8 +25,6 @@ export default class LoadingWebView extends Component {
     };
 
 
-
-
     render() {
         let newUrl = TW_Store.dataStore.targetAppDir + "/loading/loading.html";
         let myParam = "";
@@ -43,7 +41,8 @@ export default class LoadingWebView extends Component {
             };
         }
 
-       /// let visible = TW_Store.gameUpateStore.isNeedUpdate||TW_Store.gameUpateStore.isAppDownIng
+        //let visible = TW_Store.gameUpateStore.isNeedUpdate||TW_Store.gameUpateStore.isAppDownIng
+        TW_Log("targetAppDir----LoadingWebView-isNeedUpdate=="+TW_Store.gameUpateStore.isNeedUpdate+"---isAppDownIng="+TW_Store.gameUpateStore.isAppDownIng);
         let visible = TW_Store.gameUpateStore.isNeedUpdate
         if(!visible){
             return null;
@@ -55,7 +54,7 @@ export default class LoadingWebView extends Component {
             window.ReactNativeWebView.postMessage(data);
           };
         })()`
-        TW_Log("targetAppDir----ModuleWebView-source=="+source);
+        TW_Log("targetAppDir----LoadingWebView-source=="+newUrl,source);
         return (
             <View style={[styles.container,{width: TW_Store.appStore.screenW}]}>
                 <WebView
@@ -97,7 +96,7 @@ export default class LoadingWebView extends Component {
     }
 
     onMsgHandle = (message) => {
-        TW_Log("onMessage====ModuleWebView=======" + this.constructor.name, message);
+        TW_Log("onMessage====LoadingWebView=======" + this.constructor.name, message);
         let url = "";
         if (message && message.action) {
             switch (message.action) {
@@ -105,21 +104,13 @@ export default class LoadingWebView extends Component {
                     // TW_Log("game---ct=="+message.ct,message.data);
                     break;
                 case  "game_custom":
-                    TW_Log("onMessage====ModuleWebView======TW_Store.gameUIStroe.showGusetView=", message);
+                    TW_Log("onMessage====LoadingWebView======TW_Store.gameUIStroe.showGusetView=", message);
                     TW_Store.gameUIStroe.showGusetView();
-                    // TW_Store.gameUIStroe.isShowShare=!TW_Store.gameUIStroe.isShowShare
                     break;
             }
         }
     }
 
-    handleUrl = (url) => {
-        if (url && url.indexOf("../") > -1) {
-            url = url.replace("../", "");
-        }
-        //  url = TW_Store.bblStore.homeDomain + "/" + url;
-        return url
-    }
 
     onLoadEnd=()=>{
         if(G_IS_IOS) {

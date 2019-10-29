@@ -15,6 +15,7 @@ import { UpDateHeadAppId } from '../../Common/Network/TCRequestConfig';
 import NetUitls from '../../Common/Network/TCRequestUitls';
 import TCUserOpenPayApp from '../../Page/UserCenter/UserPay/TCUserOpenPayApp';
 import OpeninstallModule from "openinstall-react-native";
+import {SoundHelper} from "../../Common/JXHelper/SoundHelper";
 /**
  * 用于初始化项目信息
  */
@@ -125,9 +126,14 @@ export default class AppInfoStore {
                     this.checkAppInfoUpdate(null);
                 }
             }
-
         });
 
+        TW_Data_Store.getItem(TW_DATA_KEY.isInitStore, (err, ret) => {
+            if (`${ret}` == "1") {
+                TW_Store.dataStore.isAppInited=true;
+            }
+            SoundHelper.startBgMusic();
+        });
     }
 
     checkAppInfoUpdate = (oldData = null) => {

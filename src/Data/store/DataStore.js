@@ -62,37 +62,20 @@ export default class DataStore {
 
     @action
     async initAppHomeCheck () {
-        const is_lobby_exist = await RNFS.exists(TW_Store.dataStore.originAppDir);
-        TW_Data_Store.getItem(TW_DATA_KEY.isInitStore, (err, ret) => {
-            TW_Log("TW_Data_Store---versionBBL--W_DATA_KEY.isInitStore==err=3=" + err+"--is_lobby_exist==="+is_lobby_exist, ret);
-            let isInitedStore=`${ret}` == "1"
-            TW_Store.gameUpateStore.isIncludeLobby=is_lobby_exist;
-                if (err) {
-                    if(is_lobby_exist){
-                        this.copy_assets_to_dir();
-                    }else{
-                        this.loadHomeVerson();
-                    }
-                } else {
-                    if (isInitedStore) {
-                        this.isAppInited = true;
-                        this.loadHomeVerson();
-                    } else {
-                        if(is_lobby_exist){
-                            this.copy_assets_to_dir();
-                        }else{
-                            this.loadHomeVerson();
-                        }
-                    }
-                }
-
-        });
+        const is_lobby_exist = await RNFS.exists(TW_Store.dataStore.originAppDir+"/index.html");
+        TW_Store.gameUpateStore.isIncludeLobby=is_lobby_exist;
+        if (this.isAppInited) {
+            this.loadHomeVerson();
+        } else {
+            this.copy_assets_to_dir();
+        }
+        TW_Log("this.isAppInited-----------"+this.isAppInited+"---is_lobby_exist=="+is_lobby_exist,)
     }
 
 
     async loadHomeVerson(){
         let Url =TW_Store.dataStore.getHomeWebHome()+"/assets/conf/version.json";
-        SoundHelper.startBgMusic();
+
         const target_dir_exist = await RNFS.exists(Url);
        // TW_Log("Url-----home---target_dir_exist="+target_dir_exist,Url);
         this.log+="Url-----home---target_dir_exist="+target_dir_exist;
@@ -176,7 +159,7 @@ export default class DataStore {
                 this.log += "==>TW_Store.dataStore.isAppInited=" + TW_Store.dataStore.isAppInited;
                 this.log+="\nthis.homeVersionM.versionNum---"+this.homeVersionM.versionNum +"content.versionNum="+content.versionNum;
                 TW_Log("TW_DATA_KEY.versionBBL  this.homeVersionM.versionNum =" +this.homeVersionM.versionNum ,content.versionNum);
-                if (!TW_IS_DEBIG) {
+                if (true) {
                     if (this.homeVersionM.versionNum != content.versionNum) {
                         TW_Store.gameUpateStore.isNeedUpdate=true;
                         if(!TW_Store.gameUpateStore.isAppDownIng) {
@@ -282,7 +265,6 @@ export default class DataStore {
                     TW_Log('versionBBL --downloadFile --下载文件不存在--', formUrl);
                         TW_Store.gameUpateStore.isLoading=false;
                         TW_Store.gameUpateStore.isNeedUpdate=false;
-                        TW_Store.gameUpateStore.isTempExist=true;
                         TW_LoaderOnValueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.game_loading,{data:{do:"loadFinish"}}));
                 }
             })
@@ -291,7 +273,6 @@ export default class DataStore {
             if(!TW_Store.gameUpateStore.isAppDownIng){
                 TW_Store.gameUpateStore.isLoading=false;
                 TW_Store.gameUpateStore.isNeedUpdate=false;
-                TW_Store.gameUpateStore.isTempExist=true;
                 TW_LoaderOnValueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.game_loading,{data:{do:"loadFinish"}}));
             }
         }
@@ -300,7 +281,7 @@ export default class DataStore {
 
     //解压
     unzipNewCourse=(downloadDest)=> {
-        TW_Log(`versionBBL unzip start------ ${downloadDest}`);
+        TW_Log(`versionBBL unzip start------ ${downloadDest}`+"--   TW_Store.gameUpateStore.isLoading=="+   TW_Store.gameUpateStore.isLoading);
         this.log+="==>unzipNewCourse--="+downloadDest;
         // zipPath：zip的路径
         // documentPath：解压到的目录
@@ -323,8 +304,8 @@ export default class DataStore {
                      setTimeout(()=>{
                              TW_LoaderOnValueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.game_loading,{data:{do:"loadFinish"}}));
                              TW_Store.gameUpateStore.isLoading=false;
-                             TW_Store.gameUpateStore.isTempExist=true;
                              },G_IS_IOS ? 500:2000)
+
 
             })
     }

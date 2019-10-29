@@ -163,11 +163,11 @@ export default class XXWebView extends Component {
             };
         }
 
-        if (TW_IS_DEBIG) {
-            // source =  require('./../../../android/app/src/main/assets/gamelobby/index.html');
-            let uri = "http://localhost:8081/android/app/src/main/assets/gamelobby/index.html?platform=ios&hash=7e5876ea5a240467db5670550b53411b&rm-" + this.rom
-            source = {uri}
-        }
+        // if (TW_IS_DEBIG) {
+        //     // source =  require('./../../../android/app/src/main/assets/gamelobby/index.html');
+        //     let uri = "http://localhost:8081/android/app/src/main/assets/gamelobby/index.html?platform=ios&hash=7e5876ea5a240467db5670550b53411b&rm-" + this.rom
+        //     source = {uri}
+        // }
         TW_Log("targetAppDir----MainBundlePath-TW_Store.dataStore.isAppInited-----" + TW_Store.dataStore.isAppInited+"---TW_Store.appStore.deviceToken="+TW_Store.appStore.deviceToken, TW_Store.bblStore.getBrandUrl());
         if (!TW_Store.dataStore.isAppInited) {
             return null
@@ -260,9 +260,8 @@ export default class XXWebView extends Component {
                                 clearTimeout(this.timeId);
                             }
                             this.timeId = setTimeout(() => {
-                                if (TW_Store.gameUpateStore.isNeedUpdate && TW_Store.gameUpateStore.isTempExist) {
+                                if (TW_Store.gameUpateStore.isNeedUpdate) {
                                     TW_Store.gameUpateStore.isNeedUpdate = false;
-                                    TW_Store.gameUpateStore.isTempExist = false;
                                 }
                             }, 1000)
                             this.onFlushGameData();
@@ -402,10 +401,7 @@ export default class XXWebView extends Component {
                     TW_Store.gameUIStroe.isShowUserInfo = !TW_Store.gameUIStroe.isShowUserInfo;
                     break;
                 case "showGame":
-                    if (TW_Store.gameUpateStore.isTempExist) {
-                        TW_Store.gameUpateStore.isNeedUpdate = false;
-                        TW_Store.gameUpateStore.isTempExist = false;
-                    }
+                    TW_Store.gameUpateStore.isNeedUpdate = false;
                     TW_Store.gameUpateStore.isEnteredGame = true;
                     setTimeout(() => {
                         if (TW_Store.dataStore.isAppSound) {

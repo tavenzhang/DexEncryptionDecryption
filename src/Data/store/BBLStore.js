@@ -110,7 +110,7 @@ export  default  class BBLStore {
         if(TW_Store.appStore.isInAnroidHack){
             versionDomain+="/isInAnroidHack"
         }
-        //TW_Log("versionDomain----getVersionDomain---",versionDomain)
+        TW_Log("versionDomain----getVersionDomain---",versionDomain)
         //对于android hack 包。 故意使用不存在路径
        return versionDomain;
     }
@@ -126,7 +126,6 @@ export  default  class BBLStore {
         if(TW_OnValueJSHome){
             TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.showLoading,{data:isShow,alpha:0.5}));
         }
-
         this.isShowCircle =isShow;
     }
     @action

@@ -8,9 +8,8 @@ Sound.setActive(true)
 Sound.enableInSilenceMode(true)
 
 
-
 export class SoundHelper {
-    static  soundleMusic= null
+    static  soundleMusic = null
 
     static  playSoundBundle = () => {
 
@@ -33,73 +32,69 @@ export class SoundHelper {
     }
 
 
-    static async startBgMusic(force=false) {
+    static async startBgMusic(force = false) {
 
-        if(G_IS_IOS){
-             Sound.setCategory('Ambient', true)
+        if (G_IS_IOS) {
+            Sound.setCategory('Ambient', true)
         }
-        if(TW_Store.dataStore.isAppInited){
-            let file = G_IS_IOS ? `${TW_Store.dataStore.getHomeWebHome()}/assets/raw/bgm_lobby.mp3` : "bgm_lobby.mp3";
-            //let isExist = await RNFS.exists(file);
-            //TW_Log("playBgMusic-file--isExist---" + isExist, file);
-            try {
-                if (!SoundHelper.soundleMusic||force) {
-                    let s = SoundHelper.soundleMusic = new Sound(file, '', (e) => {
-                        if (e) {
-                            TW_Log('playBgMusic--SoundFile----', e);
-                        } else {
-                            TW_Log('playBgMusic--play----', s);
-                            TW_Store.dataStore.isAppSound = true;
-                            s.setSpeed(1);
+        let file = G_IS_IOS ? `${TW_Store.dataStore.getHomeWebHome()}/assets/raw/bgm_lobby.mp3` : "bgm_lobby.mp3";
+        //let isExist = await RNFS.exists(file);
+        //TW_Log("playBgMusic-file--isExist---" + isExist, file);
+        try {
+            if (!SoundHelper.soundleMusic || force) {
+                let s = SoundHelper.soundleMusic = new Sound(file, '', (e) => {
+                    if (e) {
+                        TW_Log('playBgMusic--SoundFile----', e);
+                    } else {
+                        TW_Log('playBgMusic--play----', s);
+                        TW_Store.dataStore.isAppSound = true;
+                        s.setSpeed(1);
 
-                            s.setNumberOfLoops(999);
-                            SoundHelper.onCheckPalyMusic();
-                        }
-                    });
-                }
-            } catch (e) {
-                TW_Log("playBgMusic--catch--", e)
+                        s.setNumberOfLoops(999);
+                        SoundHelper.onCheckPalyMusic();
+                    }
+                });
             }
+        } catch (e) {
+            TW_Log("playBgMusic--catch--", e)
         }
     }
 
 
-
-
-    static  pauseMusic() {
+    static pauseMusic() {
         TW_Log("playBgMusic---pauseMusic-")
-        if(SoundHelper.soundleMusic){
+        if (SoundHelper.soundleMusic) {
             SoundHelper.soundleMusic.pause();
             SoundHelper.soundleMusic.setVolume(0.001);
         }
     }
 
-    static  playMusic() {
+    static playMusic() {
         TW_Log("playBgMusic---playMusic-")
-        if(SoundHelper.soundleMusic){
+        if (SoundHelper.soundleMusic) {
             SoundHelper.soundleMusic.play()
             SoundHelper.soundleMusic.setVolume(1);
         }
     }
 
-    static  releaseMusic() {
+    static releaseMusic() {
         TW_Log("playBgMusic---releaseMusic-")
-        if(SoundHelper.soundleMusic){
+        if (SoundHelper.soundleMusic) {
             SoundHelper.soundleMusic.release()
         }
     }
 
-    static  onCheckPalyMusic() {
+    static onCheckPalyMusic() {
 
-        if(SoundHelper.soundleMusic){
-            TW_Data_Store.getItem(TW_DATA_KEY.BG_MUSIC,(err,ret)=>{
-                TW_Log("playBgMusic---onCheckPalyMusic-ret=="+ret)
-                if(ret==null){
+        if (SoundHelper.soundleMusic) {
+            TW_Data_Store.getItem(TW_DATA_KEY.BG_MUSIC, (err, ret) => {
+                TW_Log("playBgMusic---onCheckPalyMusic-ret==" + ret)
+                if (ret == null) {
                     SoundHelper.playMusic()
-                }else{
-                    if(ret=="1"){
+                } else {
+                    if (ret == "1") {
                         SoundHelper.playMusic()
-                    }else{
+                    } else {
                         SoundHelper.pauseMusic()
                     }
                 }
