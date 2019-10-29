@@ -23,7 +23,7 @@ cp -rf ./Init/CodePushConfig.m  ${scriptPath}/node_modules/react-native-code-pus
 cp -rf ./Init/RN_Fetch_fs.js  ${scriptPath}/node_modules/react-native-fetch-blob/fs.js
 
 
-cp -rf ./Init/MKTouchableManager.m  ${scriptPath}/node_modules/react-native-material-kit/iOS/RCTMaterialKit/MKTouchableManager.m
+#cp -rf ./Init/MKTouchableManager.m  ${scriptPath}/node_modules/react-native-material-kit/iOS/RCTMaterialKit/MKTouchableManager.m
 
 npx jetify
 

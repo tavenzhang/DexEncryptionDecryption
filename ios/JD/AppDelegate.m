@@ -10,7 +10,6 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <WebKit/WebKit.h>
-#import <Crashlytics/Crashlytics.h>
 #import <OpenInstallSDK.h>
 #import <SplashScreen.h>
 #import <UMShare/UMShare.h>
