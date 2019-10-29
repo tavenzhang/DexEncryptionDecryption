@@ -142,7 +142,7 @@ export default class XXWebView extends Component {
 
 
     render() {
-        // TW_Log("TW_DATA_KEY.gameList-FileTools--==err=flash=this.state.flash--isLoading="+TW_Store.gameUpateStore.isLoading+"---TW_Store.gameUpateStore.isIncludeLobby"+TW_Store.gameUpateStore.isIncludeLobby);
+        TW_Log("TW_DATA_KEY.gameList-FileTools--==err=flash=this.state.flash--isLoading="+TW_Store.gameUpateStore.isLoading+"---TW_Store.gameUpateStore.isIncludeLobby"+TW_Store.gameUpateStore.isIncludeLobby);
         let news = TW_Store.gameUpateStore.isLoading || !TW_Store.dataStore.isAppInited
         if (news) {
             return null
@@ -264,6 +264,7 @@ export default class XXWebView extends Component {
                                     TW_Store.gameUpateStore.isNeedUpdate = false;
                                 }
                             }, 1000)
+                            TW_SplashScreen_HIDE()
                             this.onFlushGameData();
                             break;
                         case "copylink":
@@ -501,7 +502,6 @@ export default class XXWebView extends Component {
     onLoadEnd = () => {
         TW_Store.bblStore.isLoading = false;
         this.onEvaleJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.windowResize, {}));
-        setTimeout(()=>{TW_SplashScreen_HIDE()},300);
     }
 
 
@@ -524,9 +524,9 @@ export default class XXWebView extends Component {
     }
 
     onError = (error) => {
-        if (TW_Store.dataStore.isAppInited) {
-            TW_Store.dataStore.onRetartApp();
-        }
+        // if (TW_Store.dataStore.isAppInited) {
+        //     TW_Store.dataStore.onRetartApp();
+        // }
         TW_Log("onError======XXWebView=====event=====rr22", error)
     }
 

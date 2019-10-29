@@ -397,6 +397,13 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RCTOrientation;
 		};
+		95075E882368397E006A84E5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A64BC82211154D06A65315D9 /* RNVectorIcons.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5DBEB1501B18CEA900B34395;
+			remoteInfo = RNVectorIcons;
+		};
 		950EEDF022214E850011DBE1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 950EEDBD22214E850011DBE1 /* ReactNativeKeyboardManager.xcodeproj */;
@@ -904,6 +911,7 @@
 		2283624C202DA5590075881C /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				95075E892368397E006A84E5 /* libRNVectorIcons.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1806,6 +1814,13 @@
 			remoteRef = 9501195921E438C8008CB01A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		95075E892368397E006A84E5 /* libRNVectorIcons.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNVectorIcons.a;
+			remoteRef = 95075E882368397E006A84E5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		950EEDF122214E850011DBE1 /* libReactNativeKeyboardManager.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -2129,6 +2144,7 @@
 					"$(PROJECT_DIR)/JD/base/talkingData",
 					"$(PROJECT_DIR)/JD/base/umeng/UMShare/SocialLibraries/WeChat",
 				);
+				MARKETING_VERSION = 2.8.8;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -2188,6 +2204,7 @@
 					"$(PROJECT_DIR)/JD/base/talkingData",
 					"$(PROJECT_DIR)/JD/base/umeng/UMShare/SocialLibraries/WeChat",
 				);
+				MARKETING_VERSION = 2.8.8;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
