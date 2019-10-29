@@ -75,7 +75,6 @@ export default class DataStore {
 
     async loadHomeVerson(){
         let Url =TW_Store.dataStore.getHomeWebHome()+"/assets/conf/version.json";
-
         const target_dir_exist = await RNFS.exists(Url);
        // TW_Log("Url-----home---target_dir_exist="+target_dir_exist,Url);
         this.log+="Url-----home---target_dir_exist="+target_dir_exist;
@@ -305,8 +304,6 @@ export default class DataStore {
                              TW_LoaderOnValueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.game_loading,{data:{do:"loadFinish"}}));
                              TW_Store.gameUpateStore.isLoading=false;
                              },G_IS_IOS ? 500:2000)
-
-
             })
     }
 
