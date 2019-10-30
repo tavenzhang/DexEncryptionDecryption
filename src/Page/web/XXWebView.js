@@ -169,11 +169,6 @@ export default class XXWebView extends Component {
         //     source = {uri}
         // }
         TW_Log("targetAppDir----MainBundlePath-TW_Store.dataStore.isAppInited-----" + TW_Store.dataStore.isAppInited+"---TW_Store.appStore.deviceToken="+TW_Store.appStore.deviceToken,source);
-        this.checkFileExist(TW_Store.dataStore.targetAppDir+"/libthird/qr.cb.js")
-        this.checkFileExist(TW_Store.dataStore.targetAppDir+"/libs/laya.core.js")
-        this.checkFileExist(TW_Store.dataStore.targetAppDir+"/libs/laya.ui.js")
-        this.checkFileExist(TW_Store.dataStore.targetAppDir+"/js/lobby.js")
-        this.checkFileExist(TW_Store.dataStore.targetAppDir+"/js/LayaMain.js")
 
 
         let injectJs = `window.appData=${JSON.stringify({
@@ -272,11 +267,6 @@ export default class XXWebView extends Component {
                             if (this.timeId) {
                                 clearTimeout(this.timeId);
                             }
-                            this.timeId = setTimeout(() => {
-                                if (TW_Store.gameUpateStore.isNeedUpdate) {
-                                    TW_Store.gameUpateStore.isNeedUpdate = false;
-                                }
-                            }, 1000)
                             TW_SplashScreen_HIDE()
                             this.onFlushGameData();
                             break;
@@ -416,7 +406,6 @@ export default class XXWebView extends Component {
                     TW_Store.gameUIStroe.isShowUserInfo = !TW_Store.gameUIStroe.isShowUserInfo;
                     break;
                 case "showGame":
-                    TW_Store.gameUpateStore.isNeedUpdate = false;
                     TW_Store.gameUpateStore.isEnteredGame = true;
                     setTimeout(() => {
                         if (TW_Store.dataStore.isAppSound) {

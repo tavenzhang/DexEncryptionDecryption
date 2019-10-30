@@ -278,6 +278,7 @@ export default class DataStore {
     unzipNewCourse=(downloadDest)=> {
         TW_Log(`versionBBL unzip start------ ${downloadDest}`+"--   TW_Store.gameUpateStore.isLoading=="+   TW_Store.gameUpateStore.isLoading);
         this.log+="==>unzipNewCourse--="+downloadDest;
+
         // zipPath：zip的路径
         // documentPath：解压到的目录
         unzip(downloadDest,  rootStore.bblStore.storeDir)
