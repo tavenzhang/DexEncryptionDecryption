@@ -296,7 +296,7 @@ export default class DataStore {
                     this.onSaveVersionM(this.content,false,()=>{
                         this.log+="==>onSaveVersionM--=end";
                     });
-                },G_IS_IOS ? 500:10000)
+                },G_IS_IOS ? 500:5000)
 
             })
             .catch((error) => {
