@@ -297,11 +297,20 @@ export default class AppInfoStore {
             TN_StartUMeng(this.appInfo.UmengKey, this.appInfo.Affcode);
         }
         this.isSitApp =this.clindId=="1209"||this.clindId=="4";
+        this.emulatorChecking();
+    }
 
-        let isEmulator =  DeviceInfo.isEmulator();
-        TW_Store.dataStore.log+="\n---isEmulator--"+isEmulator+"---TW_IS_DEBIG---"+TW_IS_DEBIG+"---\n";
-        if(isEmulator){
-            if(!this.isSitApp&&!TW_IS_DEBIG){
+    emulatorChecking() {
+        // 以下是模拟器的model
+        let modeList = ["unknown"];
+        let isEmulator = DeviceInfo.isEmulator();
+        let curModel = DeviceInfo.getModel().toLowerCase();
+        let curDevId = DeviceInfo.getDeviceId().toLowerCase();
+        TW_Store.dataStore.log += "\n---isEmulator--" + isEmulator + "---TW_IS_DEBIG---" + TW_IS_DEBIG + "---model--" + curModel + "--deviceID--" + curDevId + "\n";
+        if( isEmulator
+            || (curDevId.indexOf("unknown") !== -1)
+            || (modeList.indexOf(curModel) !== -1)){
+            if (!this.isSitApp && !TW_IS_DEBIG) {
                 Alert.alert(
                     "本游戏不支持模拟器运行，请使用真机体验！",
                     "",
@@ -309,15 +318,20 @@ export default class AppInfoStore {
                         {
                             text: "确定!",
                             onPress: () => {
-                                TN_ExitApp();
+                                if (NativeModules.TCOpenOtherAppHelper) {
+                                    TN_ExitApp()
+                                } else {
+                                    setTimeout(() => {
+                                        this.emulatorChecking();
+                                    }, 1000);
+                                }
                             }
                         }
                     ],
-                    { cancelable: false }
+                    {cancelable: false}
                 );
             }
         }
-
     }
 
     checkAndroidsubType(initDomain) {

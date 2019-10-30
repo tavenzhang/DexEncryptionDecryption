@@ -305,18 +305,19 @@ export default class XXWebView extends Component {
                             }
                             break;
                         case "wxLogin":
-                            TW_Store.gameUIStroe.checkWXInstall((ret)=>{
-                                if(ret){
-                                    TN_WechatAuth(   (code, result, message) => {
-                                        TW_Store.dataStore.log+="\n message---"+JSON.stringify(result)+"---\n--code===="+code+"===message=="+message;
-                                        TW_Log("code----"+code+"---message---"+message,result);
-                                        if(result){
-                                            if (code == 200||code==0) {
-                                                this.onEvaleJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.wxLogin,{data:result}));
-                                            }else{
+                            TW_Store.gameUIStroe.checkWXInstall((ret)=> {
+                                TW_Store.dataStore.log += "\n\n==> wxLogin checkWXInstall---" + ret;
+                                if (ret) {
+                                    TN_WechatAuth((code, result, message) => {
+                                        TW_Store.dataStore.log += "\n==> wxLogin message---" + JSON.stringify(result) + "---\n--code====" + code + "===message==" + message;
+                                        TW_Log("wxLogin code----" + code + "---message---" + message, result);
+                                        if (result) {
+                                            if (code == 200 || code == 0) {
+                                                this.onEvaleJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.wxLogin, {data: result}));
+                                            } else {
                                                 this.onEvaleJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.popTip, {data: "微信授权异常!"}));
                                             }
-                                        }else{
+                                        } else {
                                             this.onEvaleJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.popTip, {data: "微信授权异常!"}));
                                         }
                                     });
