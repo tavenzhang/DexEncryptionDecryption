@@ -467,7 +467,7 @@ export default class Enter extends Component {
             CodePush.notifyAppReady().then(() => {
                 // this.setUpdateFinished()
                 if(!this.hotFixStore.isNextAffect){
-                    TW_Store.gameUpateStore.isNeedUpdate=false;
+                    TW_Store.dataStore.hideLoadingView();
                     TW_Store.gameUpateStore.isAppDownIng=false;
                 }
             })
