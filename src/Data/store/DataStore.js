@@ -278,7 +278,6 @@ export default class DataStore {
     unzipNewCourse = (downloadDest) => {
         TW_Log(`versionBBL unzip start------ ${downloadDest}` + "--   TW_Store.gameUpateStore.isLoading==" + TW_Store.gameUpateStore.isLoading);
         this.log += "==>unzipNewCourse--=" + downloadDest;
-
         unzip(downloadDest, rootStore.bblStore.storeDir)
             .then((path) => {
                 TW_Log(`versionBBL unzip completed at------ ${path}`);
