@@ -121,7 +121,7 @@ export default class LoadingWebView extends Component {
     }
 
     onError = (error) => {
-        if (TW_Store.gameUpateStore.isNeedUpdate) {
+        if (TW_Store.gameUpateStore.isNeedUpdate&&TW_Store.appStore.isAppInited) {
             TW_Store.gameUpateStore.isNeedUpdate=false;
         }
     }
