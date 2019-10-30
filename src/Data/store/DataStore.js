@@ -475,7 +475,7 @@ export default class DataStore {
                     }
                 }
             }
-            //  TW_Log("FileTools----TW_DATA_KEY.gameList---FileTools--getUrlAndParamsAndCallback--------rt==-"+JSON.stringify(lastList));
+             TW_Log("FileTools----TW_DATA_KEY.gameList---FileTools--getUrlAndParamsAndCallback--------rt==-"+JSON.stringify(lastList));
             if(TW_OnValueJSHome&&gameList.length>0){
                 TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.gamesinfo,{data:gameList}));
             }
@@ -484,10 +484,10 @@ export default class DataStore {
 
     @action
     onUpdateGameData(gameList){
-        // TW_Log("( _keyboard---onFinishGameList==TW_Store.dataStore.appGameListM=" ,gameM);
-        let gameItem= gameList[gameList.length-1];
+         TW_Log("( _keyboard---onFinishGameList==TW_Store.dataStore.appGameListM=" ,gameList);
+        let gameItem= gameList[0];
         //排除第三方平台数据的影响
-        if(gameItem&&gameItem.classify==2) {
+
             for (let item of gameList) {
                 if(item.classify==2){
                     for(let dataKey in TW_Store.dataStore.appGameListM) {
@@ -516,7 +516,6 @@ export default class DataStore {
                 }
             }
             this.onFlushGameData();
-        }
     }
 
 
