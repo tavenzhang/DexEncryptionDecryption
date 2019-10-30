@@ -76,7 +76,7 @@ export default class DataStore {
     async loadHomeVerson(){
         let Url =TW_Store.dataStore.getHomeWebHome()+"/assets/conf/version.json";
         const target_dir_exist = await RNFS.exists(Url);
-       // TW_Log("Url-----home---target_dir_exist="+target_dir_exist,Url);
+        TW_Log("Url-----home---target_dir_exist="+target_dir_exist,Url);
         this.log+="Url-----home---target_dir_exist="+target_dir_exist;
         this.log+="\nUrl-----home---target_dir_exist=Url-"+Url;
         if(target_dir_exist){
@@ -122,7 +122,7 @@ export default class DataStore {
     }
 
     checkHomeZipUpdate=()=>{
-        //TW_Log("TW_DATA_KEY.versionBBL start  http ===> "+rootStore.bblStore.getVersionConfig());
+        TW_Log("TW_DATA_KEY.versionBBL start  http ===> "+rootStore.bblStore.getVersionConfig());
         this.log+="==>getVersionConfig="+rootStore.bblStore.getVersionConfig();
         this.isCheckRequesting=true;
         //如果超过3秒还没返回数据 默认不更新
@@ -177,10 +177,6 @@ export default class DataStore {
                 this.onSaveVersionM({}, true);
                 TW_Store.gameUpateStore.isNeedUpdate=false;
             }
-            setTimeout(()=>{
-                TW_SplashScreen_HIDE();
-            },G_IS_IOS? 1200:1500)
-
         })
     }
 
@@ -213,7 +209,7 @@ export default class DataStore {
         const options = {
             fromUrl: formUrl,
             toFile: downloadDest,
-            background: false,
+            background: true,
             begin: (res) => {
                 TW_Log('versionBBL--begin', res);
                // this.log+="==>downloadFile--begin="+res;
@@ -291,19 +287,22 @@ export default class DataStore {
                     TW_Log("versionBBL 删除文件----downloadDest!"+downloadDest)
                 }).catch((err) => {
                     TW_Log("versionBBL 删除文件失败");
-                });;
-                this.log+="==>onSaveVersionM--=start";
-                this.onSaveVersionM(this.content,false,()=>{
-                    this.log+="==>onSaveVersionM--=end";
                 });
+
+                this.log+="==>onSaveVersionM--=start";
+                setTimeout(()=>{
+                    TW_LoaderOnValueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.game_loading,{data:{do:"loadFinish"}}));
+                    TW_Store.gameUpateStore.isLoading=false;
+                    this.onSaveVersionM(this.content,false,()=>{
+                        this.log+="==>onSaveVersionM--=end";
+                    });
+                },G_IS_IOS ? 500:10000)
+
             })
             .catch((error) => {
                 TW_Log("versionBBL  解压失败11",error);
             }).finally(()=>{
-                     setTimeout(()=>{
-                             TW_LoaderOnValueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.game_loading,{data:{do:"loadFinish"}}));
-                             TW_Store.gameUpateStore.isLoading=false;
-                             },G_IS_IOS ? 500:2000)
+
             })
     }
 
@@ -335,7 +334,7 @@ export default class DataStore {
             if (target_dir_exist) {
                 // TW_Log("versionBBL bbl---   RNFS.unlink---start" + target_dir_exist,target_dir);
                 RNFS.unlink(target_dir).then((ret) => {
-                    // TW_Log("versionBBL bbl--- unlink----target_dir==!" + target_dir_exist, ret);
+                     TW_Log("versionBBL bbl--- unlink----target_dir==!" + target_dir_exist, ret);
                     RNFS.copyFile(source_dir, target_dir).then(() => {
                         this.log+="onSaveCopyState---\n"
                         this.onSaveCopyState();

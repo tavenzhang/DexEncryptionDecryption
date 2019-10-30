@@ -7,7 +7,7 @@ import {
     Clipboard
 } from 'react-native';
 import {WebView} from 'react-native-webview';
-
+import RNFS from "react-native-fs";
 import {observer} from 'mobx-react';
 import NetUitls from "../../Common/Network/TCRequestUitls";
 import Toast from "../../Common/JXHelper/JXToast";
@@ -168,10 +168,14 @@ export default class XXWebView extends Component {
         //     let uri = "http://localhost:8081/android/app/src/main/assets/gamelobby/index.html?platform=ios&hash=7e5876ea5a240467db5670550b53411b&rm-" + this.rom
         //     source = {uri}
         // }
-        TW_Log("targetAppDir----MainBundlePath-TW_Store.dataStore.isAppInited-----" + TW_Store.dataStore.isAppInited+"---TW_Store.appStore.deviceToken="+TW_Store.appStore.deviceToken, TW_Store.bblStore.getBrandUrl());
-        if (!TW_Store.dataStore.isAppInited) {
-            return null
-        }
+        TW_Log("targetAppDir----MainBundlePath-TW_Store.dataStore.isAppInited-----" + TW_Store.dataStore.isAppInited+"---TW_Store.appStore.deviceToken="+TW_Store.appStore.deviceToken,source);
+        this.checkFileExist(TW_Store.dataStore.targetAppDir+"/libthird/qr.cb.js")
+        this.checkFileExist(TW_Store.dataStore.targetAppDir+"/libs/laya.core.js")
+        this.checkFileExist(TW_Store.dataStore.targetAppDir+"/libs/laya.ui.js")
+        this.checkFileExist(TW_Store.dataStore.targetAppDir+"/js/lobby.js")
+        this.checkFileExist(TW_Store.dataStore.targetAppDir+"/js/LayaMain.js")
+
+
         let injectJs = `window.appData=${JSON.stringify({
             isApp: true,
             taven: "isOk",
@@ -224,6 +228,15 @@ export default class XXWebView extends Component {
             </View>
         );
     }
+
+    async checkFileExist (file) {
+        const target_dir_exist = await RNFS.exists(file);
+        //if(!target_dir_exist){
+            TW_Log("checkFileExist-----file===="+file+"-----exist=="+target_dir_exist)
+       // }
+
+    }
+
 
 
     onMessage = (event) => {

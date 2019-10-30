@@ -135,7 +135,7 @@ export default class LoadingWebView extends Component {
         dataStr = dataStr ? dataStr : "";
 
         if(this.refs.myWebView){
-            TW_Log("downloadFile---onLoadEvalueJS--versionBBL---progress-TW_Store.gameUpateStore.isNeedUpdate=-",data);
+          //  TW_Log("downloadFile---onLoadEvalueJS--versionBBL---progress-TW_Store.gameUpateStore.isNeedUpdate=-",data);
             this.refs.myWebView.postMessage(dataStr, "*");
         }
 
