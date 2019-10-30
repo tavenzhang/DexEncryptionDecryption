@@ -269,6 +269,10 @@ export default class XXWebView extends Component {
                             }
                             TW_SplashScreen_HIDE()
                             this.onFlushGameData();
+                            if(TW_Store.gameUpateStore.isTempExist){
+                                TW_Store.gameUpateStore.isTempExist=false;
+                                TW_Store.gameUpateStore.isNeedUpdate=false;
+                            }
                             break;
                         case "copylink":
                             Clipboard.setString(message.param);

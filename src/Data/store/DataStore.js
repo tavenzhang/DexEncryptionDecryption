@@ -279,8 +279,6 @@ export default class DataStore {
         TW_Log(`versionBBL unzip start------ ${downloadDest}`+"--   TW_Store.gameUpateStore.isLoading=="+   TW_Store.gameUpateStore.isLoading);
         this.log+="==>unzipNewCourse--="+downloadDest;
 
-        // zipPath：zip的路径
-        // documentPath：解压到的目录
         unzip(downloadDest,  rootStore.bblStore.storeDir)
             .then((path) => {
                 TW_Log(`versionBBL unzip completed at------ ${path}`);
@@ -294,6 +292,7 @@ export default class DataStore {
                 setTimeout(()=>{
                     TW_LoaderOnValueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.game_loading,{data:{do:"loadFinish"}}));
                     TW_Store.gameUpateStore.isLoading=false;
+                    TW_Store.gameUpateStore.isTempExist=true;
                     this.onSaveVersionM(this.content,false,()=>{
                         this.log+="==>onSaveVersionM--=end";
                     });
