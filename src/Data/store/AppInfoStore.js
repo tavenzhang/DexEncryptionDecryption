@@ -262,12 +262,11 @@ export default class AppInfoStore {
     };
 
     initData = appInfo => {
-        if(!appInfo){
-            appInfo = { PLAT_ID: configAppId, isNative: false };
-        }
-        else{
-            appInfo.PLAT_ID= appInfo.PLAT_ID ? appInfo.PLAT_ID:appInfo.PlatId;//兼容某些老的app
-            if(!appInfo.PLAT_ID){
+        if (!appInfo) {
+            appInfo = {PLAT_ID: configAppId, isNative: false};
+        } else {
+            appInfo.PLAT_ID = appInfo.PLAT_ID ? appInfo.PLAT_ID : appInfo.PlatId;//兼容某些老的app
+            if (!appInfo.PLAT_ID) {
                 appInfo.PLAT_ID = configAppId;
             }
         }
@@ -296,7 +295,7 @@ export default class AppInfoStore {
             // TN_START_SHARE("111","222");
             TN_StartUMeng(this.appInfo.UmengKey, this.appInfo.Affcode);
         }
-        this.isSitApp =this.clindId=="1209"||this.clindId=="4";
+        this.isSitApp = this.clindId == "1209" || this.clindId == "4";
         this.emulatorChecking();
     }
 
@@ -306,11 +305,11 @@ export default class AppInfoStore {
         let isEmulator = DeviceInfo.isEmulator();
         let curModel = DeviceInfo.getModel().toLowerCase();
         let curDevId = DeviceInfo.getDeviceId().toLowerCase();
-        let emulatorChecking=isEmulator
+        let emulatorChecking = isEmulator
             || (curDevId.indexOf("unknown") !== -1)
-            || (modeList.indexOf(curModel) !== -1)
-        TW_Store.dataStore.log += "\n---isEmulator--" + isEmulator + "---TW_IS_DEBIG---" + TW_IS_DEBIG + "---model--" + curModel + "--deviceID--" + curDevId + "\n---Emulator--"+emulatorChecking;
-        if( emulatorChecking){
+            || (modeList.indexOf(curModel) !== -1);
+        TW_Store.dataStore.log += "\n---isEmulator--" + isEmulator + "---TW_IS_DEBIG---" + TW_IS_DEBIG + "---isSitApp---" + this.isSitApp + "---model--" + curModel + "--deviceID--" + curDevId + "\n---Emulator--" + emulatorChecking;
+        if (emulatorChecking) {
             if (!this.isSitApp && !TW_IS_DEBIG) {
                 Alert.alert(
                     "本游戏不支持模拟器运行，请使用真机体验！",
