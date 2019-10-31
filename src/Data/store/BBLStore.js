@@ -98,11 +98,10 @@ export  default  class BBLStore {
             versionDomain=platInfo.downDomain+path;
         }else{
             if(path.indexOf("bbl_lobby")==-1){
-                versionDomain = TW_Store.bblStore.gameDomain+"/bbl_lobby/"+versionDomain
-            }else{
-                versionDomain = TW_Store.bblStore.gameDomain+versionDomain
+                versionDomain =  TW_Store.bblStore.gameDomain+"/bbl_lobby/"+path
             }
         }
+
         if(this.isDebugApp){
             versionDomain = this.debug_release_server;
         }else{
@@ -118,8 +117,9 @@ export  default  class BBLStore {
         }
         TW_Log("versionDomain----getVersionDomain---",versionDomain)
         //对于android hack 包。 故意使用不存在路径
-       return versionDomain;
+        return versionDomain;
     }
+
 
 
     @action
