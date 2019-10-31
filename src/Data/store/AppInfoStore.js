@@ -15,6 +15,7 @@ import { UpDateHeadAppId } from '../../Common/Network/TCRequestConfig';
 import NetUitls from '../../Common/Network/TCRequestUitls';
 import TCUserOpenPayApp from '../../Page/UserCenter/UserPay/TCUserOpenPayApp';
 import OpeninstallModule from "openinstall-react-native";
+import {SoundHelper} from "../../Common/JXHelper/SoundHelper";
 /**
  * 用于初始化项目信息
  */
@@ -125,9 +126,14 @@ export default class AppInfoStore {
                     this.checkAppInfoUpdate(null);
                 }
             }
-
         });
 
+        TW_Data_Store.getItem(TW_DATA_KEY.isInitStore, (err, ret) => {
+            if (`${ret}` == "1") {
+                TW_Store.dataStore.isAppInited=true;
+            }
+            SoundHelper.startBgMusic();
+        });
     }
 
     checkAppInfoUpdate = (oldData = null) => {
@@ -256,12 +262,11 @@ export default class AppInfoStore {
     };
 
     initData = appInfo => {
-        if(!appInfo){
-            appInfo = { PLAT_ID: configAppId, isNative: false };
-        }
-        else{
-            appInfo.PLAT_ID= appInfo.PLAT_ID ? appInfo.PLAT_ID:appInfo.PlatId;//兼容某些老的app
-            if(!appInfo.PLAT_ID){
+        if (!appInfo) {
+            appInfo = {PLAT_ID: configAppId, isNative: false};
+        } else {
+            appInfo.PLAT_ID = appInfo.PLAT_ID ? appInfo.PLAT_ID : appInfo.PlatId;//兼容某些老的app
+            if (!appInfo.PLAT_ID) {
                 appInfo.PLAT_ID = configAppId;
             }
         }
@@ -290,12 +295,24 @@ export default class AppInfoStore {
             // TN_START_SHARE("111","222");
             TN_StartUMeng(this.appInfo.UmengKey, this.appInfo.Affcode);
         }
-        this.isSitApp =this.clindId=="1209"||this.clindId=="4";
+        this.isSitApp = this.clindId == "1209" || this.clindId == "4";
+        this.emulatorChecking();
+    }
 
-        let isEmulator =  DeviceInfo.isEmulator();
-        TW_Store.dataStore.log+="\n---isEmulator--"+isEmulator+"---TW_IS_DEBIG---"+TW_IS_DEBIG+"---\n";
-        if(isEmulator){
-            if(!this.isSitApp&&!TW_IS_DEBIG){
+    emulatorChecking() {
+        // 以下是模拟器的model
+        let modeList = ["unknown"];
+        let isEmulator = DeviceInfo.isEmulator();
+        let curModel = DeviceInfo.getModel().toLowerCase();
+        let curDevId = DeviceInfo.getDeviceId().toLowerCase();
+        let curDevName = DeviceInfo.getDeviceName().toLowerCase();
+        let emulatorChecking = isEmulator
+            || (curDevId.indexOf("unknown") !== -1)
+            || (modeList.indexOf(curModel) !== -1);
+        TW_Store.dataStore.log += "\n---isEmulator--" + isEmulator + "---TW_IS_DEBIG---" + TW_IS_DEBIG + "---isSitApp---" + this.isSitApp +
+            "---model--" + curModel + "--deviceID--" + curDevId + "--deviceName--" + curDevName +"\n---Emulator--" + emulatorChecking;
+        if (emulatorChecking) {
+            if (!this.isSitApp && !TW_IS_DEBIG) {
                 Alert.alert(
                     "本游戏不支持模拟器运行，请使用真机体验！",
                     "",
@@ -303,15 +320,20 @@ export default class AppInfoStore {
                         {
                             text: "确定!",
                             onPress: () => {
-                                TN_ExitApp();
+                                if (NativeModules.TCOpenOtherAppHelper) {
+                                    TN_ExitApp()
+                                } else {
+                                    setTimeout(() => {
+                                        this.emulatorChecking();
+                                    }, 1000);
+                                }
                             }
                         }
                     ],
-                    { cancelable: false }
+                    {cancelable: false}
                 );
             }
         }
-
     }
 
     checkAndroidsubType(initDomain) {

@@ -44,23 +44,21 @@ export default class GameGuestView extends Component {
     }
 
     showQA=()=> {
-        if(!this.state.isQASelected){
-            this.setState({isQASelected:true})
+        if (!this.state.isQASelected) {
+            this.setState({isQASelected: true})
         }
         TW_Store.bblStore.playSoundByFile(TW_Store.bblStore.SOUND_ENUM.enterPanelClick);
         this.countDebug++;
-        TW_Log("(this.countDebug000--"+this.countDebug+"--TW_Store.appStore.clindId == "+(this.countDebug==1))
-        if(this.countDebug==1){
-            setTimeout(()=>{
-                TW_Log("this.countDebug000------"+this.countDebug)
-                if(this.countDebug>=4){
-                    TW_Log("this.countDebug000------"+this.countDebug)
-                  //  if(TW_Store.appStore.isSitApp||TW_Store.appStore.clindId == "214"){
-                        TW_Store.bblStore.changeShowDebug(true);
-                   // }
+        TW_Log("(this.countDebug000--" + this.countDebug + "--TW_Store.appStore.clindId == " + (this.countDebug == 1))
+        if (this.countDebug == 1) {
+            setTimeout(() => {
+                TW_Log("this.countDebug000------" + this.countDebug)
+                if (this.countDebug >= 5) {
+                    TW_Log("this.countDebug000------" + this.countDebug)
+                    TW_Store.bblStore.changeShowDebug(true);
                 }
-                this.countDebug =0;
-            },1000)
+                this.countDebug = 0;
+            }, 1000)
         }
     }
 
@@ -107,7 +105,7 @@ export default class GameGuestView extends Component {
                      style={{position: "absolute", right: 0, top: 0, width: SCREEN_W * 0.20, height: SCREEN_H * 0.12}}
                      resizeMode={'stretch'}/>
             <TCButtonImg imgSource={ASSET_Images.gameUI.payBack}
-                         soundName={TW_Store.bblStore.SOUND_ENUM.returnLobbyClick}
+                         soundName={TW_Store.bblStore.SOUND_ENUM.close}
                          onClick={() => TW_Store.gameUIStroe.isShowGuest = false}
                          btnStyle={{
                              position: "absolute",

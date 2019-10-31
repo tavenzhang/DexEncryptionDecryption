@@ -1,4 +1,4 @@
-import { NativeModules, BackHandler } from 'react-native';
+import { NativeModules } from 'react-native';
 
 //所有的本地 native 接口聚集到此 方便维护
 global.TN_GetAppInfo = (callBack: func) => {
@@ -105,7 +105,7 @@ global.TN_ExitApp = () => {
     if (G_IS_IOS) {
         NativeModules.JDHelper.exitApp();
     } else {
-        BackHandler.exitApp();
+        NativeModules.TCOpenOtherAppHelper.exitApp()
     }
 };
 global.TN_SetCodePushConifg = (serverUrl,appVersion="2.2.2") => {
