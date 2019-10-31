@@ -92,10 +92,16 @@ export  default  class BBLStore {
         if(subStrWay.length>0&&subStrWay!="0"){
             isSubWay = true;
         }
-
+        let path= platInfo.zipCheckServer.release_server
         let versionDomain = TW_Store.bblStore.gameDomain+platInfo.zipCheckServer.release_server;
         if(TW_Store.appStore.isSitApp){
-            versionDomain=platInfo.downDomain+platInfo.zipCheckServer.release_server;
+            versionDomain=platInfo.downDomain+path;
+        }else{
+            if(path.indexOf("bbl_lobby")==-1){
+                versionDomain = TW_Store.bblStore.gameDomain+"/bbl_lobby/"+versionDomain
+            }else{
+                versionDomain = TW_Store.bblStore.gameDomain+versionDomain
+            }
         }
         if(this.isDebugApp){
             versionDomain = this.debug_release_server;
