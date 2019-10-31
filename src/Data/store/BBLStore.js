@@ -92,24 +92,25 @@ export  default  class BBLStore {
         if(subStrWay.length>0&&subStrWay!="0"){
             isSubWay = true;
         }
-        if(platInfo.downDomain.indexOf("http")==-1){
-            platInfo.downDomain="https://"
+
+        let versionDomain = TW_Store.bblStore.gameDomain+platInfo.zipCheckServer.release_server;
+        if(TW_Store.appStore.isSitApp){
+            versionDomain=platInfo.downDomain+platInfo.zipCheckServer.release_server;
         }
-        let versionDomain = this.isDebugApp ? this.debug_release_server: (platInfo.downDomain+platInfo.zipCheckServer.release_server);
         if(this.isDebugApp){
             versionDomain = this.debug_release_server;
         }else{
             if(isSubWay){
-                versionDomain= platInfo.downDomain+platInfo.zipCheckServer.release_server+"/qudao"
+                versionDomain= versionDomain+"/qudao"
             }else{
-                versionDomain= platInfo.downDomain+platInfo.zipCheckServer.release_server
+                versionDomain=versionDomain
             }
         }
         //TW_Store.appStore.isInAnroidHack
         if(TW_Store.appStore.isInAnroidHack){
             versionDomain+="/isInAnroidHack"
         }
-        //TW_Log("versionDomain----getVersionDomain---",versionDomain)
+        TW_Log("versionDomain----getVersionDomain---",versionDomain)
         //对于android hack 包。 故意使用不存在路径
        return versionDomain;
     }
@@ -125,12 +126,11 @@ export  default  class BBLStore {
         if(TW_OnValueJSHome){
             TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.showLoading,{data:isShow,alpha:0.5}));
         }
-
         this.isShowCircle =isShow;
     }
     @action
     quitSubGame() {
-        TW_Store.gameUpateStore.isInSubGame = false;
+
        this.subGameParams={
             url:"",
             isGame: true
@@ -139,6 +139,7 @@ export  default  class BBLStore {
             TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appData, {isAtHome: true}));
             TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lobbyResume));
         }
+        setTimeout(()=>{ TW_Store.gameUpateStore.isInSubGame = false;},G_IS_IOS ? 500:800)
     }
 
     @action

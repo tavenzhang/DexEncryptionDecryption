@@ -7,7 +7,7 @@ import {
     Clipboard
 } from 'react-native';
 import {WebView} from 'react-native-webview';
-
+import RNFS from "react-native-fs";
 import {observer} from 'mobx-react';
 import NetUitls from "../../Common/Network/TCRequestUitls";
 import Toast from "../../Common/JXHelper/JXToast";
@@ -49,7 +49,6 @@ export default class XXWebView extends Component {
                     TW_Store.dataStore.appGameListM = res;
                 }
             }
-            this.onFlushGameData()
         });
         // TW_Log("(_keyboard-TW_DATA_KEY.gameList-FileTools--==G_IS_IOS== middle" + G_IS_IOS,Keyboard.addListener);
         if (G_IS_IOS) {
@@ -143,8 +142,8 @@ export default class XXWebView extends Component {
 
 
     render() {
-        // TW_Log("TW_DATA_KEY.gameList-FileTools--==err=flash=this.state.flash--isLoading="+TW_Store.gameUpateStore.isLoading+"---TW_Store.gameUpateStore.isOldHome"+TW_Store.gameUpateStore.isOldHome);
-        let news = (TW_Store.gameUpateStore.isLoading && !TW_Store.gameUpateStore.isOldHome) || !TW_Store.dataStore.isAppInited
+        TW_Log("TW_DATA_KEY.gameList-FileTools--==err=flash=this.state.flash--isLoading="+TW_Store.gameUpateStore.isLoading+"---TW_Store.gameUpateStore.isIncludeLobby"+TW_Store.gameUpateStore.isIncludeLobby);
+        let news = TW_Store.gameUpateStore.isLoading || !TW_Store.dataStore.isAppInited
         if (news) {
             return null
         }
@@ -155,24 +154,23 @@ export default class XXWebView extends Component {
             file: TW_Store.dataStore.targetAppDir+ "/index.html",
             allowingReadAccessToURL: TW_Store.dataStore.targetAppDir,
             allowFileAccessFromFileURLs: TW_Store.dataStore.targetAppDir,
-            param:`?app=true&&isDebug=${TW_Store.appStore.isSitApp||TW_Store.appStore.clindId==214}`
+            param:`?app=true&&isDebug=${TW_Store.appStore.isSitApp||TW_Store.appStore.clindId==214}&&version=${TW_Store.dataStore.homeVersionM.versionNum}`
         };
 
         if (!G_IS_IOS) {
             source = {
-                uri: TW_Store.dataStore.targetAppDir+"/index.html"+`?app=true&&isDebug=${TW_Store.appStore.isSitApp||TW_Store.appStore.clindId==214}`,
+                uri: TW_Store.dataStore.targetAppDir+"/index.html"+`?app=true&&isDebug=${TW_Store.appStore.isSitApp||TW_Store.appStore.clindId==214}&&version=${TW_Store.dataStore.homeVersionM.versionNum}`,
             };
         }
 
-        if (TW_IS_DEBIG) {
-            // source =  require('./../../../android/app/src/main/assets/gamelobby/index.html');
-            let uri = "http://localhost:8081/android/app/src/main/assets/gamelobby/index.html?platform=ios&hash=7e5876ea5a240467db5670550b53411b&rm-" + this.rom
-            source = {uri}
-        }
-        TW_Log("targetAppDir----MainBundlePath-TW_Store.dataStore.isAppInited-----" + TW_Store.dataStore.isAppInited+"---TW_Store.appStore.deviceToken="+TW_Store.appStore.deviceToken, TW_Store.bblStore.getBrandUrl());
-        if (!TW_Store.dataStore.isAppInited) {
-            return null
-        }
+        // if (TW_IS_DEBIG) {
+        //     // source =  require('./../../../android/app/src/main/assets/gamelobby/index.html');
+        //     let uri = "http://localhost:8081/android/app/src/main/assets/gamelobby/index.html?platform=ios&hash=7e5876ea5a240467db5670550b53411b&rm-" + this.rom
+        //     source = {uri}
+        // }
+        TW_Log("targetAppDir----MainBundlePath-TW_Store.dataStore.isAppInited-----" + TW_Store.dataStore.isAppInited+"---TW_Store.appStore.deviceToken="+TW_Store.appStore.deviceToken,source);
+
+
         let injectJs = `window.appData=${JSON.stringify({
             isApp: true,
             taven: "isOk",
@@ -226,6 +224,15 @@ export default class XXWebView extends Component {
         );
     }
 
+    async checkFileExist (file) {
+        const target_dir_exist = await RNFS.exists(file);
+        //if(!target_dir_exist){
+            TW_Log("checkFileExist-----file===="+file+"-----exist=="+target_dir_exist)
+       // }
+
+    }
+
+
 
     onMessage = (event) => {
         let message = JSON.parse(event.nativeEvent.data);
@@ -260,14 +267,12 @@ export default class XXWebView extends Component {
                             if (this.timeId) {
                                 clearTimeout(this.timeId);
                             }
-                            this.timeId = setTimeout(() => {
-                                if (TW_Store.gameUpateStore.isNeedUpdate && TW_Store.gameUpateStore.isTempExist) {
-                                    TW_Store.gameUpateStore.isNeedUpdate = false;
-                                    TW_Store.gameUpateStore.isTempExist = false;
-                                    TW_Store.gameUpateStore.isOldHome = false;
-                                }
-                            }, 1000)
-
+                            TW_SplashScreen_HIDE()
+                            this.onFlushGameData();
+                            if(TW_Store.gameUpateStore.isTempExist){
+                                TW_Store.gameUpateStore.isTempExist=false;
+                                TW_Store.gameUpateStore.isNeedUpdate=false;
+                            }
                             break;
                         case "copylink":
                             Clipboard.setString(message.param);
@@ -294,18 +299,19 @@ export default class XXWebView extends Component {
                             }
                             break;
                         case "wxLogin":
-                            TW_Store.gameUIStroe.checkWXInstall((ret)=>{
-                                if(ret){
-                                    TN_WechatAuth(   (code, result, message) => {
-                                        TW_Store.dataStore.log+="\n message---"+JSON.stringify(result)+"---\n--code===="+code+"===message=="+message;
-                                        TW_Log("code----"+code+"---message---"+message,result);
-                                        if(result){
-                                            if (code == 200||code==0) {
-                                                this.onEvaleJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.wxLogin,{data:result}));
-                                            }else{
+                            TW_Store.gameUIStroe.checkWXInstall((ret)=> {
+                                TW_Store.dataStore.log += "\n\n==> wxLogin checkWXInstall---" + ret;
+                                if (ret) {
+                                    TN_WechatAuth((code, result, message) => {
+                                        TW_Store.dataStore.log += "\n==> wxLogin message---" + JSON.stringify(result) + "---\n--code====" + code + "===message==" + message;
+                                        TW_Log("wxLogin code----" + code + "---message---" + message, result);
+                                        if (result) {
+                                            if (code == 200 || code == 0) {
+                                                this.onEvaleJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.wxLogin, {data: result}));
+                                            } else {
                                                 this.onEvaleJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.popTip, {data: "微信授权异常!"}));
                                             }
-                                        }else{
+                                        } else {
                                             this.onEvaleJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.popTip, {data: "微信授权异常!"}));
                                         }
                                     });
@@ -404,12 +410,10 @@ export default class XXWebView extends Component {
                     TW_Store.gameUIStroe.isShowUserInfo = !TW_Store.gameUIStroe.isShowUserInfo;
                     break;
                 case "showGame":
-                    if (TW_Store.gameUpateStore.isTempExist) {
-                        TW_Store.gameUpateStore.isNeedUpdate = false;
-                        TW_Store.gameUpateStore.isTempExist = false;
-                        TW_Store.gameUpateStore.isOldHome = false
-                    }
                     TW_Store.gameUpateStore.isEnteredGame = true;
+                    if(TW_Store.gameUpateStore.isNeedUpdate){
+                        TW_Store.gameUpateStore.isNeedUpdate= false;
+                    }
                     setTimeout(() => {
                         if (TW_Store.dataStore.isAppSound) {
                             this.onEvaleJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.stopMusic));
@@ -508,7 +512,6 @@ export default class XXWebView extends Component {
     onLoadEnd = () => {
         TW_Store.bblStore.isLoading = false;
         this.onEvaleJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.windowResize, {}));
-        setTimeout(()=>{TW_SplashScreen_HIDE()},300);
     }
 
 
@@ -531,9 +534,9 @@ export default class XXWebView extends Component {
     }
 
     onError = (error) => {
-        if (TW_Store.dataStore.isAppInited) {
-            TW_Store.dataStore.onRetartApp();
-        }
+        // if (TW_Store.dataStore.isAppInited) {
+        //     TW_Store.dataStore.onRetartApp();
+        // }
         TW_Log("onError======XXWebView=====event=====rr22", error)
     }
 

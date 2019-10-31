@@ -15,7 +15,7 @@ export default class GameUpateStore {
     isTempExist = false;
 
     @observable
-    isOldHome = false;
+    isIncludeLobby = false;
 
     @observable
     isInSubGame = false;

@@ -107,7 +107,7 @@ export default class GameGuestView extends Component {
                      style={{position: "absolute", right: 0, top: 0, width: SCREEN_W * 0.20, height: SCREEN_H * 0.12}}
                      resizeMode={'stretch'}/>
             <TCButtonImg imgSource={ASSET_Images.gameUI.payBack}
-                         soundName={TW_Store.bblStore.SOUND_ENUM.returnLobbyClick}
+                         soundName={TW_Store.bblStore.SOUND_ENUM.close}
                          onClick={() => TW_Store.gameUIStroe.isShowGuest = false}
                          btnStyle={{
                              position: "absolute",

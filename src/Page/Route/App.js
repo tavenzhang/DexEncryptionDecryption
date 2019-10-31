@@ -80,7 +80,6 @@ import GameUIView from "../enter/GameUIView";
 
 import TCUserBankPayMessageNew from "../UserCenter/UserPay/TCUserBankPayMessageNew";
 import KeyboardManager from 'react-native-keyboard-manager'
-import {JX_PLAT_INFO} from "../asset";
 import LoadingWebView from "../WebView/LoadingWebView";
 import SubGameView from "./SubGameView";
 import GameLogView from "./GameLogView";
@@ -117,7 +116,8 @@ export default class App extends Component {
 
 
     render() {
-        //TW_Log("onBackAndroid--TW_Store.gameUpateStore.isNeedUpdate--"+TW_Store.gameUpateStore.isNeedUpdate);
+        TW_Log("onBackAndroid--TW_Store.gameUpateStore.isNeedUpdate--"+TW_Store.gameUpateStore.isNeedUpdate+"--TW_Store.dataStore.isAppInite=="+TW_Store.dataStore.isAppInited);
+        TW_Log("onBackAndroid--TW_Store.gameUpateStore.isAppDownIng--"+TW_Store.gameUpateStore.isAppDownIng)
         return (
             <Provider  {...rootStore} >
                 <View style={{flex: 1, backgroundColor: "black"}}>
@@ -129,7 +129,7 @@ export default class App extends Component {
                         }}
                     />
                     <SubGameView/>
-                    {TW_Store.dataStore.isAppInited &&(!TW_Store.gameUpateStore.isOldHome||TW_Store.gameUpateStore.isAppDownIng) ? <LoadingWebView/>:null}
+                    {TW_Store.dataStore.isAppInited &&TW_Store.gameUpateStore.isNeedUpdate ? <LoadingWebView/>:null}
                      <ModuleWebView/>
                      <GameUIView/>
                      <GameLogView/>
