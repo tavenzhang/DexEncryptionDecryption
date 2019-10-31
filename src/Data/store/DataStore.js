@@ -125,6 +125,7 @@ export default class DataStore {
         setTimeout(() => {
             if (this.isCheckRequesting) {
                 this.isCheckRequesting = false;
+                this.hideLoadingView();
                 this.log += "\n==>TW_Store.dataStore.this.isCheckRequesting" + this.isCheckRequesting;
                 TW_SplashScreen_HIDE();
             }
