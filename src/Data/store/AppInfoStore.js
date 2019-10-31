@@ -307,7 +307,6 @@ export default class AppInfoStore {
         let curDevId = DeviceInfo.getDeviceId().toLowerCase();
         let curDevName = DeviceInfo.getDeviceName().toLowerCase();
         let emulatorChecking = isEmulator
-            || (curDevName.indexOf("unknown") !== -1)
             || (curDevId.indexOf("unknown") !== -1)
             || (modeList.indexOf(curModel) !== -1);
         TW_Store.dataStore.log += "\n---isEmulator--" + isEmulator + "---TW_IS_DEBIG---" + TW_IS_DEBIG + "---isSitApp---" + this.isSitApp +
