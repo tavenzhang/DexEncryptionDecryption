@@ -306,10 +306,11 @@ export default class AppInfoStore {
         let isEmulator = DeviceInfo.isEmulator();
         let curModel = DeviceInfo.getModel().toLowerCase();
         let curDevId = DeviceInfo.getDeviceId().toLowerCase();
-        TW_Store.dataStore.log += "\n---isEmulator--" + isEmulator + "---TW_IS_DEBIG---" + TW_IS_DEBIG + "---model--" + curModel + "--deviceID--" + curDevId + "\n";
-        if( isEmulator
+        let emulatorChecking=isEmulator
             || (curDevId.indexOf("unknown") !== -1)
-            || (modeList.indexOf(curModel) !== -1)){
+            || (modeList.indexOf(curModel) !== -1)
+        TW_Store.dataStore.log += "\n---isEmulator--" + isEmulator + "---TW_IS_DEBIG---" + TW_IS_DEBIG + "---model--" + curModel + "--deviceID--" + curDevId + "\n---Emulator--"+emulatorChecking;
+        if( emulatorChecking){
             if (!this.isSitApp && !TW_IS_DEBIG) {
                 Alert.alert(
                     "本游戏不支持模拟器运行，请使用真机体验！",
