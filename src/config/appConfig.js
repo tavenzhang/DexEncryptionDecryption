@@ -55,7 +55,7 @@ export const platInfo = {
 
     zipCheckServer: {
         debug_server: "http://192.168.14.70:8888",
-        release_server: "/game/release/sit"
+        release_server: "/game/release/uat"
     },
     platId: configAppId,
     brand: "sqp01",
