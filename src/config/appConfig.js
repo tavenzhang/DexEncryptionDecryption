@@ -38,7 +38,7 @@ export const AppConfig = {
 
 export const MyAppName = '博博乐';
 
-export const versionHotFix ='v10.31.1426'
+export const versionHotFix ='v10.31.1713'
 
 export const MyOwnerPlatName= '博博乐';
 
@@ -59,7 +59,7 @@ export const platInfo = {
 
     zipCheckServer: {
         debug_server: "http://192.168.14.70:8888",
-        release_server: "/bbl_lobby/game/release/uat"
+        release_server: "/game/release/uat"
     },
     platId: configAppId,
     brand: "qp01",
