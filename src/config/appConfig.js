@@ -38,7 +38,7 @@ export const AppConfig = {
 
 export const MyAppName = '博博乐sit';
 
-export const versionHotFix ='v10.31.1713'
+export const versionHotFix ='v10.31.1759'
 
 export const MyOwnerPlatName= 'sit';
 
@@ -55,7 +55,7 @@ export const platInfo = {
 
     zipCheckServer: {
         debug_server: "http://192.168.14.70:8888",
-        release_server: "/game/release/uat"
+        release_server: "/game/release/sit"
     },
     platId: configAppId,
     brand: "sqp01",
