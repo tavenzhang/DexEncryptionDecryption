@@ -461,7 +461,7 @@ export default class XXWebView extends Component {
                                 let access_token = TW_GetQueryString("access_token", message.url);
                                 if (ret.rs && access_token && access_token != "") {
                                     TW_Store.userStore.initLoginToken(access_token);
-                                    // this.onFlushGameData();
+                                     this.onFlushGameData();
                                 }
                                 if (message.url.indexOf("/api/v1/gamecenter/player/user") > -1) {
                                     TW_Store.bblStore.avatarData = ret.content
