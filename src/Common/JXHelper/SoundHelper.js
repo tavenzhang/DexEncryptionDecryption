@@ -1,7 +1,7 @@
 import React from 'react';
 import {NativeModules, Platform} from 'react-native';
 import RNFS from "react-native-fs";
-
+import {MainBundlePath, DocumentDirectoryPath} from 'react-native-fs'
 const Sound = require('react-native-sound');
 //ar SoundFile = require('../../../android/app/src/main/assets/gamelobby/assets/raw/bgm_lobby.mp3')
 Sound.setActive(true)
@@ -37,16 +37,17 @@ export class SoundHelper {
         if (G_IS_IOS) {
             Sound.setCategory('Ambient', true)
         }
-        let file = G_IS_IOS ? `${TW_Store.dataStore.getHomeWebHome()}/assets/raw/bgm_lobby.mp3` : "bgm_lobby.mp3";
-        //let isExist = await RNFS.exists(file);
-        //TW_Log("playBgMusic-file--isExist---" + isExist, file);
+        let file = G_IS_IOS ? `${TW_Store.dataStore.getHomeWebHome()}/assets/raw/bgm_lobby.mp3` : `${DocumentDirectoryPath}/gamelobby/assets/raw/bgm_lobby.mp3`;
+        let isExist = await RNFS.exists(file);
+        TW_Log("playBgMusic-file--isExist---" + isExist+"--Sound.DOCUMENT==="+Sound.DOCUMENT, file);
         try {
             if (!SoundHelper.soundleMusic || force) {
+                TW_Log("playBgMusic--start--force==", force)
                 let s = SoundHelper.soundleMusic = new Sound(file, '', (e) => {
                     if (e) {
-                        TW_Log('playBgMusic--SoundFile----', e);
+                        TW_Log('playBgMusic--SoundFile--error--', e);
                     } else {
-                        TW_Log('playBgMusic--play----', s);
+                        TW_Log('playBgMusic--play--ok--', s);
                         TW_Store.dataStore.isAppSound = true;
                         s.setSpeed(1);
 
