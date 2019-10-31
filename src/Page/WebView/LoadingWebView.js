@@ -8,7 +8,7 @@ import {WebView} from 'react-native-webview';
 import {observer} from "mobx-react";
 
 @observer
-export default class LoadingWebView extends Component {
+export default class  LoadingWebView extends Component {
 
     constructor(state) {
         super(state)
