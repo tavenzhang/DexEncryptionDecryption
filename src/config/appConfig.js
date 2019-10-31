@@ -37,13 +37,10 @@ export const AppConfig = {
 }
 
 
-export const MyAppName = '博博乐';
+export const MyAppName = '超会赢棋牌';
+export const MyOwnerPlatName= '超会赢棋牌';
 
-export const versionHotFix ='v10.31.1759'
-
-export const MyOwnerPlatName= '博博乐';
-
-export const versionHotFix ='v10.31.1759'
+export const versionHotFix ='v10.31.2103'
 
 
 //第三方安全域名base64 key
