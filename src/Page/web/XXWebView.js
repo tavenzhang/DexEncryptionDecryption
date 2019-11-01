@@ -411,9 +411,6 @@ export default class XXWebView extends Component {
                     break;
                 case "showGame":
                     TW_Store.gameUpateStore.isEnteredGame = true;
-                    if(TW_Store.gameUpateStore.isNeedUpdate){
-                        TW_Store.gameUpateStore.isNeedUpdate= false;
-                    }
                     setTimeout(() => {
                         if (TW_Store.dataStore.isAppSound) {
                             this.onEvaleJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.stopMusic));
@@ -461,7 +458,7 @@ export default class XXWebView extends Component {
                                 let access_token = TW_GetQueryString("access_token", message.url);
                                 if (ret.rs && access_token && access_token != "") {
                                     TW_Store.userStore.initLoginToken(access_token);
-                                    // this.onFlushGameData();
+                                     this.onFlushGameData();
                                 }
                                 if (message.url.indexOf("/api/v1/gamecenter/player/user") > -1) {
                                     TW_Store.bblStore.avatarData = ret.content

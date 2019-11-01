@@ -8,7 +8,7 @@ import {WebView} from 'react-native-webview';
 import {observer} from "mobx-react";
 
 @observer
-export default class LoadingWebView extends Component {
+export default class  LoadingWebView extends Component {
 
     constructor(state) {
         super(state)
@@ -43,7 +43,7 @@ export default class LoadingWebView extends Component {
 
         //let visible = TW_Store.gameUpateStore.isNeedUpdate||TW_Store.gameUpateStore.isAppDownIng
         TW_Log("targetAppDir----LoadingWebView-isNeedUpdate=="+TW_Store.gameUpateStore.isNeedUpdate+"---isAppDownIng="+TW_Store.gameUpateStore.isAppDownIng);
-        let visible = TW_Store.gameUpateStore.isNeedUpdate
+        let visible = TW_Store.gameUpateStore.isNeedUpdate ||TW_Store.gameUpateStore.isLoading
         if(!visible){
             return null;
         }

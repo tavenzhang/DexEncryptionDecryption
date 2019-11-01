@@ -242,7 +242,8 @@ export default class DataStore {
                 }
 
             },
-            readTimeout: 4000
+            readTimeout: 4000,
+            connectionTimeout:4000
         };
         try {
             const ret = RNFS.downloadFile(options);
@@ -450,7 +451,7 @@ export default class DataStore {
                     }
                 }
             }
-            //  TW_Log("FileTools----TW_DATA_KEY.gameList---FileTools--getUrlAndParamsAndCallback--------rt==-"+JSON.stringify(lastList));
+              TW_Log("FileTools----TW_DATA_KEY.gameList---FileTools--getUrlAndParamsAndCallback--------rt==-"+JSON.stringify(lastList));
             if (TW_OnValueJSHome && gameList.length > 0) {
                 TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.gamesinfo, {data: gameList}));
             }

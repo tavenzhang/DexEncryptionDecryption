@@ -92,11 +92,16 @@ export  default  class BBLStore {
         if(subStrWay.length>0&&subStrWay!="0"){
             isSubWay = true;
         }
-
+        let path= platInfo.zipCheckServer.release_server
         let versionDomain = TW_Store.bblStore.gameDomain+platInfo.zipCheckServer.release_server;
         if(TW_Store.appStore.isSitApp){
-            versionDomain=platInfo.downDomain+platInfo.zipCheckServer.release_server;
+            versionDomain=platInfo.downDomain+path;
+        }else{
+            if(path.indexOf("bbl_lobby")==-1){
+                versionDomain =  TW_Store.bblStore.gameDomain+"/bbl_lobby/"+path
+            }
         }
+
         if(this.isDebugApp){
             versionDomain = this.debug_release_server;
         }else{
@@ -112,8 +117,9 @@ export  default  class BBLStore {
         }
         TW_Log("versionDomain----getVersionDomain---",versionDomain)
         //对于android hack 包。 故意使用不存在路径
-       return versionDomain;
+        return versionDomain;
     }
+
 
 
     @action
