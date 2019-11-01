@@ -352,7 +352,7 @@ export default class Enter extends Component {
         this.hotFixStore.percent = (parseFloat(progress.receivedBytes / progress.totalBytes).toFixed(2) * 100).toFixed(1);
         if(!this.hotFixStore.isNextAffect){
             this.hotFixStore.progress = progress;
-            TW_Store.gameUpateStore.isNeedUpdate=true;
+           // TW_Store.gameUpateStore.isNeedUpdate=true;
             TW_Store.gameUpateStore.isAppDownIng=true;
         }
     }
