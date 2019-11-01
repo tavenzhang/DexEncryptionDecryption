@@ -112,9 +112,9 @@ export  default  class BBLStore {
             }
         }
         //TW_Store.appStore.isInAnroidHack
-        if(TW_Store.appStore.isInAnroidHack){
-            versionDomain+="/isInAnroidHack"
-        }
+        // if(TW_Store.appStore.isInAnroidHack){
+        //     versionDomain+="/isInAnroidHack"
+        // }
         TW_Log("versionDomain----getVersionDomain---",versionDomain)
         //对于android hack 包。 故意使用不存在路径
         return versionDomain;
