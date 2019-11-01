@@ -116,8 +116,8 @@ export default class App extends Component {
 
 
     render() {
-        TW_Log("onBackAndroid--TW_Store.gameUpateStore.isNeedUpdate--"+TW_Store.gameUpateStore.isNeedUpdate+"--TW_Store.dataStore.isAppInite=="+TW_Store.dataStore.isAppInited);
-        TW_Log("onBackAndroid--TW_Store.gameUpateStore.isAppDownIng--"+TW_Store.gameUpateStore.isAppDownIng)
+        // TW_Log("onBackAndroid--TW_Store.gameUpateStore.isNeedUpdate--"+TW_Store.gameUpateStore.isNeedUpdate+"--TW_Store.dataStore.isAppInite=="+TW_Store.dataStore.isAppInited);
+        // TW_Log("onBackAndroid--TW_Store.gameUpateStore.isAppDownIng--"+TW_Store.gameUpateStore.isAppDownIng)
         return (
             <Provider  {...rootStore} >
                 <View style={{flex: 1, backgroundColor: "black"}}>
