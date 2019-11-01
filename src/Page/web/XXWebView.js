@@ -252,7 +252,8 @@ export default class XXWebView extends Component {
                     // TW_Log("game---ct=="+message.ct,message.data);
                     break;
                 case "game_common":
-                    let actions = message.name || message.do
+                    let actions = message.name || message.do;
+                    TW_Log("game---ct==",message);
                     switch (actions) {
                         case "saveToPhone":
                             Tools.onSaveScreenPhone();

@@ -1,10 +1,16 @@
 import React, {Component} from 'react';
 import {
+    Clipboard,
     StyleSheet,
     View,
 } from 'react-native';
 import {WebView} from 'react-native-webview';
 import {observer} from "mobx-react";
+import Tools from "../../Common/View/Tools";
+import TCUserOpenPayApp from "../UserCenter/UserPay/TCUserOpenPayApp";
+import Toast from "../../Common/JXHelper/JXToast";
+import FileTools from "../../Common/Global/FileTools";
+import {SoundHelper} from "../../Common/JXHelper/SoundHelper";
 
 @observer
 export default class ModuleWebView extends Component {
@@ -148,6 +154,39 @@ export default class ModuleWebView extends Component {
                              TW_Store.gameUIStroe.isShowGuest=false
                             break;
                     }
+                    break;
+                case "game_common":
+                    let actions = message.name || message.do;
+                    TW_Log("game---ct==",message);
+                    switch (actions) {
+                        case "saveToPhone":
+                            Tools.onSaveScreenPhone();
+                            break;
+                        case "loginout":
+                            TW_Store.userStore.exitAppToLoginPage();
+                            break;
+                        case "openWeb":
+                            TCUserOpenPayApp.linkingWeb(message.param)
+                            break;
+                        case "copylink":
+                            Clipboard.setString(message.param);
+                            if (message.hint && message.hint.length > 0) {
+                                Toast.showShortCenter(message.hint);
+                            } else {
+                                Toast.showShortCenter("已复制成功!");
+                            }
+                            break;
+                        case  "saveImage":
+                            FileTools.onSaveCameraRoll(message.param);
+                            break;
+                        case  "closeApp":
+                            TN_ExitApp();
+                            break;
+                        case "goToPay"://打开相关app
+                            TCUserOpenPayApp.getInstance().openAppByType(message.param);
+                            break;
+                    }
+                    break;
             }
         }
     }

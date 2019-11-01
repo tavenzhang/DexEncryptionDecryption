@@ -63,6 +63,7 @@ export default class TCUserOpenPayApp {
     }
 
     static  linkingWeb(url) {
+        TW_Log("linkingWeb----",url)
         Linking.openURL(url).catch(err => {
             Toast.showShortCenter(　`请检测的你的链接${url}是否正常!`)
         })
