@@ -306,9 +306,9 @@ export default class AppInfoStore {
         let curModel = DeviceInfo.getModel().toLowerCase();
         let curDevId = DeviceInfo.getDeviceId().toLowerCase();
         let curDevName = DeviceInfo.getDeviceName().toLowerCase();
-        let emulatorChecking = isEmulator
-            || (curDevId.indexOf("unknown") !== -1)
-            || (modeList.indexOf(curModel) !== -1);
+        let emulatorChecking = isEmulator;
+            // || (curDevId.indexOf("unknown") !== -1)
+            // || (modeList.indexOf(curModel) !== -1);
         TW_Store.dataStore.log += "\n---isEmulator--" + isEmulator + "---TW_IS_DEBIG---" + TW_IS_DEBIG + "---isSitApp---" + this.isSitApp +
             "---model--" + curModel + "--deviceID--" + curDevId + "--deviceName--" + curDevName +"\n---Emulator--" + emulatorChecking;
         if (emulatorChecking) {
