@@ -240,6 +240,10 @@ export default class Enter extends Component {
 
     //使用默认地址
     firstAttempt(success, allowUpdate, message) {
+        if(success){
+            TW_Store.dataStore.initAppHomeCheck();
+            TW_Store.dataStore.onFlushGameData()
+        }
         TW_Log(`first attempt ${success}, ${allowUpdate}, ${message}`);
         if (success && allowUpdate && this.hotFixStore.allowUpdate) {
             this.gotoUpdate()
@@ -252,6 +256,10 @@ export default class Enter extends Component {
 
     //使用默认备份地址
     secondAttempt=(success, allowUpdate, message)=> {
+        if(success){
+            TW_Store.dataStore.initAppHomeCheck();
+            TW_Store.dataStore.onFlushGameData()
+        }
         if (success && allowUpdate && this.hotFixStore.allowUpdate) {
             this.gotoUpdate()
         } else if (!success && this.hotFixStore.allowUpdate) {//备份地址不可用
@@ -286,10 +294,14 @@ export default class Enter extends Component {
 
     //使用缓存地址
     cacheAttempt=(success, allowUpdate, message)=> {
+
         TW_Log(`first cacheAttempt ${success}, ${allowUpdate}, ${message}`);
-        if (success && allowUpdate && this.hotFixStore.allowUpdate) {
+        if(success){
             TW_Store.dataStore.initAppHomeCheck();
             TW_Store.dataStore.onFlushGameData()
+        }
+        if (success && allowUpdate && this.hotFixStore.allowUpdate) {
+
             this.gotoUpdate();
         } else if (!success && this.hotFixStore.allowUpdate) {//缓存地址不可用,使用默认地址
             StartUpHelper.getAvailableDomain(AppConfig.domains, (success, allowUpdate, message) => this.firstAttempt(success, allowUpdate, message),this.initDomain);
@@ -469,6 +481,7 @@ export default class Enter extends Component {
                 if(!this.hotFixStore.isNextAffect){
                     TW_Store.dataStore.hideLoadingView();
                     TW_Store.gameUpateStore.isAppDownIng=false;
+                    SoundHelper.releaseMusic();
                 }
             })
             TW_Store.hotFixStore.isInstalledFinish=true;
