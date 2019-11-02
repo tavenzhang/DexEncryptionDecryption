@@ -481,6 +481,7 @@ export default class Enter extends Component {
                 if(!this.hotFixStore.isNextAffect){
                     TW_Store.dataStore.hideLoadingView();
                     TW_Store.gameUpateStore.isAppDownIng=false;
+                    SoundHelper.releaseMusic();
                 }
             })
             TW_Store.hotFixStore.isInstalledFinish=true;
