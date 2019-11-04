@@ -406,6 +406,8 @@ export default class Enter extends Component {
                         }
                         if(`${TW_Store.appStore.specialVersionHot}`==`${versionData.sp}`){
                             this.isWeakUpdate=true
+                        }else{
+                            TW_Store.hotFixStore.versionHotFix=TW_Store.hotFixStore.versionHotFix+": "+versionData.sp
                         }
                     }
                     if(TW_Store.gameUpateStore.isEnteredGame&&this.isWeakUpdate){
