@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import {WebView} from 'react-native-webview';
 import {observer} from "mobx-react";
+import {platInfo} from "../../config/appConfig";
 
 @observer
 export default class  LoadingWebView extends Component {
@@ -49,11 +50,26 @@ export default class  LoadingWebView extends Component {
         }
         let injectJs = `window.appData=${JSON.stringify({
             isApp: true,
+            taven: "isOk",
+            brandID:platInfo.brand,
+            brandUrl:TW_Store.bblStore.getBrandUrl(),
+            clientId: TW_Store.appStore.clindId,
+            urlJSON: TW_Store.bblStore.getUriConfig(),
+            isAndroidHack: TW_Store.appStore.isInAnroidHack,
+            hackData:{filterGameList:["zjh","lhd","bjl","pg","jlbsh","tto","erbg"]},
+            deviceToken: TW_Store.appStore.deviceToken,
+            loginDomain: TW_Store.bblStore.loginDomain + "/api/v1/account",
+            gameDomain: TW_Store.bblStore.gameDomain + "/api/v1/gamecenter",
+            affCode: TW_Store.appStore.userAffCode,
+            isDebug: TW_IS_DEBIG,
+            appVersion: TW_Store.appStore.versionHotFix+(!G_IS_IOS&&TW_Store.appStore.subAppType!="0" ? ` - ${TW_Store.appStore.subAppType}`:""),
+            isAppSound: TW_Store.dataStore.isAppSound,
+            specialVersionHot:parseInt(TW_Store.appStore.specialVersionHot),
         })},(function() {
           window.postMessage = function(data) {
             window.ReactNativeWebView.postMessage(data);
           };
-        })()`
+        })()`;
         TW_Log("targetAppDir----LoadingWebView-source=="+newUrl,source);
         return (
             <View style={[styles.container,{width: TW_Store.appStore.screenW}]}>

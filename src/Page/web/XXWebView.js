@@ -187,7 +187,7 @@ export default class XXWebView extends Component {
             isDebug: TW_IS_DEBIG,
             appVersion: TW_Store.appStore.versionHotFix+(!G_IS_IOS&&TW_Store.appStore.subAppType!="0" ? ` - ${TW_Store.appStore.subAppType}`:""),
             isAppSound: TW_Store.dataStore.isAppSound,
-            specialVersionHot:TW_Store.appStore.specialVersionHot,
+            specialVersionHot:parseInt(TW_Store.appStore.specialVersionHot),
             isNewApp: G_IS_IOS ? true : false
                 })},(function() {
           window.postMessage = function(data) {
