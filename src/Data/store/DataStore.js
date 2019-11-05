@@ -7,7 +7,9 @@ import rootStore from "./RootStore";
 import CodePush from 'react-native-code-push'
 import {SoundHelper} from "../../Common/JXHelper/SoundHelper";
 import FileTools from "../../Common/Global/FileTools";
-
+import {appVersion, config} from "../../Common/Network/TCRequestConfig";
+import {configAppId, versionHotFix} from "../../config/appConfig";
+import DeviceInfo from 'react-native-device-info';
 export default class DataStore {
 
     @observable
@@ -621,6 +623,28 @@ export default class DataStore {
         if (TW_OnValueJSHome) {
             TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.flushMoney, {}));
         }
+    }
+
+    @action
+    onUploadDeviceData() {
+        let param= {
+            "appVersion": versionHotFix,
+            "browser": DeviceInfo.getUserAgent(),
+            "deviceModel": DeviceInfo.getDeviceName(),
+            "resourceEnum": G_IS_IOS ? 'ios' : 'android',
+            "sysVersion": DeviceInfo.getSystemVersion()
+        }
+        NetUitls.postUrlAndParamsAndCallback(config.api.gameDeviceInfo, param, (rt) => {
+            this.log += "\n==>config.api.gameDeviceInfo--upload" + rt.rs;
+            // if (rt.rs) {
+            // } else {
+            //     this.onSaveVersionM({}, true);
+            //     this.hideLoadingView()
+            // }
+        })
+
+
+
     }
 }
 

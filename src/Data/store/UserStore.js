@@ -107,6 +107,7 @@ export default class UserStore {
             TW_Store.userPayTypeStore.initPopUp();
             TW_Store.userPayTypeStore.initPayTypeList();
             TW_Store.bblStore.getAppData();
+            TW_Store.dataStore.onUploadDeviceData();
         }
 
     }

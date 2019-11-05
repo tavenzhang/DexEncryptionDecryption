@@ -127,7 +127,6 @@ export const config = {
         userBets: "dsf/center/player/getBetLog",//用户下注记录
         transferRecords: "dsf/center/player/getTransfer",//转账记录
 
-
         //自己的游戏
         getInternalStartGame:"/cms/internal/startGame",//获取自己的游戏的链接
 
@@ -135,7 +134,10 @@ export const config = {
         gameCuest:"/api/v1/cms/internal/mobile/#0/otherSetting/pcCusService",
 
         //　获取下载以及分享数据
-        gameShareDown:"/api/v1/gamecenter/player/brand/material/info?brand=#0"
+        gameShareDown:"/api/v1/gamecenter/player/brand/material/info?brand=#0",
+
+        //上传设备信息
+        gameDeviceInfo:"users/info/collect/device/up"
 
 
 
