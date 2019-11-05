@@ -135,7 +135,7 @@ export  default  class BBLStore {
         this.isShowCircle =isShow;
     }
     @action
-    quitSubGame() {
+    quitSubGame(type="") {
 
        this.subGameParams={
             url:"",
@@ -143,7 +143,7 @@ export  default  class BBLStore {
         }
         if (TW_OnValueJSHome) {
             TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appData, {isAtHome: true}));
-            TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lobbyResume));
+            TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lobbyResume),{tpye:type});
         }
         setTimeout(()=>{ TW_Store.gameUpateStore.isInSubGame = false;},G_IS_IOS ? 500:800)
     }
