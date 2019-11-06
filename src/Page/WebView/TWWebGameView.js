@@ -211,7 +211,7 @@ export default class TWWebGameView extends Component {
                     TW_NavHelp.pushView(JX_Compones.WebView, {url})
                     break;
                 case "game_back":
-                    this.onBackHomeJs()
+                    this.onBackHomeJs(message.type)
                     break;
                 case "game_recharge":
                     TW_Store.gameUIStroe.isShowAddPayView = !TW_Store.gameUIStroe.isShowAddPayView;
@@ -302,11 +302,11 @@ export default class TWWebGameView extends Component {
         }
     };
 
-    onBackHomeJs = () => {
+    onBackHomeJs = (type="") => {
         if (TW_Store.dataStore.isAppSound) {
             SoundHelper.onCheckPalyMusic();
         }
-        TW_Store.bblStore.quitSubGame();
+        TW_Store.bblStore.quitSubGame(type);
         clearTimeout(this.timeId);
 
     }
