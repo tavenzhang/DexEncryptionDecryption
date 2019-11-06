@@ -37,6 +37,7 @@ function viewRoutHelp(component) {
 const Components = {
     XXWebView: viewRoutHelp(XXWebView),
     WebView: viewRoutHelp(TCWebView),
+    TWThirdWebView:viewRoutHelp(TWThirdWebView),
     TCUserDetailMsg: viewRoutHelp(TCUserDetailMsg),
     TCUserMessage: viewRoutHelp(TCUserMessage),
     TCAddUserInfo: viewRoutHelp(TCAddUserInfo),
@@ -84,6 +85,7 @@ import LoadingWebView from "../WebView/LoadingWebView";
 import SubGameView from "./SubGameView";
 import GameLogView from "./GameLogView";
 import ModuleWebView from "../WebView/ModuleWebView";
+import TWThirdWebView from "../WebView/TWThirdWebView";
 
 
 

@@ -24,7 +24,7 @@ export default class ExitGameAlertView extends Component {
 
     render() {
         const { onPressConfirm, onPressCancel,isOpenAddPay } = this.props;
-        let hintStr =isOpenAddPay ? "退出当前游戏并前往充值页面吗？":"确定退出当前游戏?"
+        let hintStr =isOpenAddPay ? "返回大厅 前往充值吗？":"是否返回大厅?"
         return (
             <View style={styles.viewExit}>
                 <ImageBackground

@@ -262,7 +262,8 @@ export default class XXWebView extends Component {
                             TW_Store.userStore.exitAppToLoginPage();
                             break;
                         case "openWeb":
-                            TCUserOpenPayApp.linkingWeb(message.param)
+                           // TCUserOpenPayApp.linkingWeb(message.param)
+                            TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:message.param})
                             break;
                         case "onGameInit":
                             if (this.timeId) {
