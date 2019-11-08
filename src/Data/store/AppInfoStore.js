@@ -336,7 +336,7 @@ export default class AppInfoStore {
         }
     }
 
-    checkAndroidsubType(initDomain) {
+    checkAppSubType(initDomain) {
         // 如果是android 需要判断是否为特殊subType 聚道包 例子 subAppType 21,  21 特殊类型包
         switch (`${this.subAppType}`) {
             case '21':
@@ -371,8 +371,8 @@ export default class AppInfoStore {
                     url,
                     {
                         appId: this.applicationId,
-                        version: this.appVersion,
-                        appType: "ANDROID",
+                        version:this.appVersion,
+                        appType: G_IS_IOS ? "IOS":"ANDROID",
                         owner: MyOwnerPlatName,
                     },
                     res => {
@@ -429,13 +429,20 @@ export default class AppInfoStore {
     }
 
     async initAndroidAppInfo(callback) {
-        let appInfo = this.appInfo;
+        let appInfo = this.appInfo;Ω
         if (appInfo) {
             //this.userAffCode = appInfo.Affcode;
-            this.appVersion = appInfo.versionName;
-            this.applicationId = appInfo.applicationId;
+            if(G_IS_IOS){
+                this.appVersion = appInfo.CFBundleShortVersionString;
+                this.applicationId = appInfo.CFBundleIdentifier;
+              //  this.appVersion=
+            }else{
+                this.appVersion = appInfo.versionName;
+                this.applicationId = appInfo.applicationId;
+            }
+
         }
-        TW_Log("appInfo----end--appInfo====" + appInfo, appInfo);
+        TW_Log("appInfo----end--appInfo==applicationId==" +  this.applicationId , appInfo);
         callback && callback(true);
     }
 
