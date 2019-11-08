@@ -25,6 +25,8 @@
                 			</array>
                 		</dict>
 	</array>
+	<key>SUB_TYPE</key>
+    <string></string>
 	<key>AppSecret</key>
         	<dict>
         		<key>weixin</key>
