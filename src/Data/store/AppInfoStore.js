@@ -55,7 +55,7 @@ export default class AppInfoStore {
     versionHotFix = versionHotFix;
 
     @observable
-    specialVersionHot = "2";
+    specialVersionHot = '2';
 
     @observable
     currentDomain = '';
