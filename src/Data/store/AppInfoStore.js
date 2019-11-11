@@ -437,7 +437,7 @@ export default class AppInfoStore {
     }
 
     async initAndroidAppInfo(callback) {
-        let appInfo = this.appInfo;Ω
+        let appInfo = this.appInfo;
         if (appInfo) {
             //this.userAffCode = appInfo.Affcode;
             if(G_IS_IOS){
