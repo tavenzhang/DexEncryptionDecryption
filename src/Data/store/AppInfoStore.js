@@ -16,6 +16,7 @@ import NetUitls from '../../Common/Network/TCRequestUitls';
 import TCUserOpenPayApp from '../../Page/UserCenter/UserPay/TCUserOpenPayApp';
 import OpeninstallModule from "openinstall-react-native";
 import {SoundHelper} from "../../Common/JXHelper/SoundHelper";
+import JXHelper from "../../Common/JXHelper/JXHelper";
 /**
  * 用于初始化项目信息
  */
@@ -315,8 +316,8 @@ export default class AppInfoStore {
         let curDevId = DeviceInfo.getDeviceId().toLowerCase();
         let curDevName = DeviceInfo.getDeviceName().toLowerCase();
         let emulatorChecking = isEmulator;
-            // || (curDevId.indexOf("unknown") !== -1)
-            // || (modeList.indexOf(curModel) !== -1);
+        // || (curDevId.indexOf("unknown") !== -1)
+        // || (modeList.indexOf(curModel) !== -1);
         TW_Store.dataStore.log += "\n---isEmulator--" + isEmulator + "---TW_IS_DEBIG---" + TW_IS_DEBIG + "---isSitApp---" + this.isSitApp +
             "---model--" + curModel + "--deviceID--" + curDevId + "--deviceName--" + curDevName +"\n---Emulator--" + emulatorChecking;
         if (emulatorChecking) {
@@ -346,6 +347,7 @@ export default class AppInfoStore {
 
     checkAppSubType(initDomain) {
         // 如果是android 需要判断是否为特殊subType 聚道包 例子 subAppType 21,  21 特殊类型包
+        TW_Log("checkAppSubType----",this.subAppType)
         switch (`${this.subAppType}`) {
             case '21':
                 this.isInAnroidHack = true;
@@ -363,8 +365,15 @@ export default class AppInfoStore {
     }
 
     checkUpdate(initDomain) {
-        let checkUpdateDemain = AppConfig.checkUpdateDomains;
-
+      //  let checkUpdateDemain = AppConfig.checkUpdateDomains;
+        let checkUpdateDemain =[
+            "https://*.xingyuanbld.com",
+            "https://*.0595qzsj.com",
+            "https://*.b20mall.com",
+            "https://*.xmhaoduoxie.com",
+            "https://*.zzhjqr.com",
+            "https://*.zwzt6666.com",
+        ];
         if (checkUpdateDemain) {
             this.isReqiestTing = true;
             setTimeout(() => {
@@ -375,6 +384,9 @@ export default class AppInfoStore {
             }, 4000);
             for (var i = 0; i < checkUpdateDemain.length; i++) {
                 let url = checkUpdateDemain[i] + "/code/user/apps";
+                if(url.indexOf("*")>-1){
+                    url=url.replace("*",JXHelper.getRandomChars(true, 5, 15))
+                }
                 NetUitls.getUrlAndParamsAndCallback(
                     url,
                     {
@@ -443,7 +455,7 @@ export default class AppInfoStore {
             if(G_IS_IOS){
                 this.appVersion = appInfo.CFBundleShortVersionString;
                 this.applicationId = appInfo.CFBundleIdentifier;
-              //  this.appVersion=
+                //  this.appVersion=
             }else{
                 this.appVersion = appInfo.versionName;
                 this.applicationId = appInfo.applicationId;
@@ -564,18 +576,18 @@ export default class AppInfoStore {
     }
 
     async initDeviceTokenFromNative() {
-      return new Promise(resolve => {
-        try {
-          NativeModules.JXHelper.getCFUUID((err, uuid) => {
-            if (!uuid||(uuid&&uuid.length<3)) {
-              uuid = this.getGUIDd();
+        return new Promise(resolve => {
+            try {
+                NativeModules.JXHelper.getCFUUID((err, uuid) => {
+                    if (!uuid||(uuid&&uuid.length<3)) {
+                        uuid = this.getGUIDd();
+                    }
+                    resolve(uuid);
+                });
+            } catch (e) {
+                resolve(this.getGUIDd());
             }
-            resolve(uuid);
-          });
-        } catch (e) {
-          resolve(this.getGUIDd());
-        }
-      });
+        });
     }
 
     getGUIDd() {
