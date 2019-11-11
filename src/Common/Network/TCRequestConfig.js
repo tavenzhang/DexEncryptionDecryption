@@ -137,7 +137,7 @@ export const config = {
         gameShareDown:"/api/v1/gamecenter/player/brand/material/info?brand=#0",
 
         //上传设备信息
-        gameDeviceInfo:"users/info/collect/device/up"
+        gameDeviceInfo:"bi/users/info/collect/device/up"
 
 
 

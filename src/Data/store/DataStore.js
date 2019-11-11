@@ -628,10 +628,10 @@ export default class DataStore {
     @action
     onUploadDeviceData() {
         let param= {
-            "appVersion": versionHotFix,
+            "appVersion": TW_Store.appStore.versionHotFix,
             "browser": DeviceInfo.getUserAgent(),
             "deviceModel": DeviceInfo.getDeviceName(),
-            "resourceEnum": G_IS_IOS ? 'ios' : 'android',
+            "resourceEnum": G_IS_IOS ? 'iphone' : 'android',
             "sysVersion": DeviceInfo.getSystemVersion()
         }
         NetUitls.postUrlAndParamsAndCallback(config.api.gameDeviceInfo, param, (rt) => {

@@ -52,10 +52,13 @@ export default class AppInfoStore {
      */
     userAffCode = '';
     @observable
-    versionHotFix = versionHotFix;
+    specialVersionHot = '2';
+
 
     @observable
-    specialVersionHot = '2';
+    versionHotFix = versionHotFix;
+
+
 
     @observable
     currentDomain = '';
@@ -102,10 +105,15 @@ export default class AppInfoStore {
 
     constructor() {
         this.init();
+        if(versionHotFix.indexOf("v")>-1){
+            let subpre=versionHotFix.substr(0,1);
+            this.versionHotFix=`${subpre}${this.specialVersionHot}.${versionHotFix.substr(1)}`
+        }else{
+            this.versionHotFix=`v${this.specialVersionHot}.${versionHotFix}`
+        }
     }
 
     init() {
-
         TW_Data_Store.getItem(TW_DATA_KEY.platData, (err, ret) => {
             TW_Log(
                 "TN_GetPlatInfo---versionBBL--TW_DATA_KEY.platDat====eeror=" +
