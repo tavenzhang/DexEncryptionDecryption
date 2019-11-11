@@ -15,23 +15,23 @@
 			</array>
 		</dict>
 		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>weixin</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>wx26019a5a7de8db15</string>
-			</array>
-		</dict>
+                			<key>CFBundleTypeRole</key>
+                			<string>Editor</string>
+                			<key>CFBundleURLName</key>
+                			<string>weixin</string>
+                			<key>CFBundleURLSchemes</key>
+                			<array>
+                				<string>wx26019a5a7de8db15</string>
+                			</array>
+                		</dict>
 	</array>
 	<key>SUB_TYPE</key>
-	<string>21</string>
+    <string></string>
 	<key>AppSecret</key>
-	<dict>
-		<key>weixin</key>
-		<string>62ef8d30f3c4e244bde8831dd2f4ec84</string>
-	</dict>
+        	<dict>
+        		<key>weixin</key>
+        		<string>62ef8d30f3c4e244bde8831dd2f4ec84</string>
+        	</dict>
 	<key>com.openinstall.APP_KEY</key>
 	<string>evna9i</string>
 	<key>PLAT_ID</key>
