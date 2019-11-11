@@ -151,9 +151,9 @@ export default class Enter extends Component {
             if(Orientation&&Orientation.lockToLandscapeRight){
                 Orientation.lockToLandscapeRight();
             }
-            this.initDomain();
+            appInfoStore.checkAppSubType(this.initDomain);
         }else{
-            appInfoStore.checkAndroidsubType(this.initDomain);
+            appInfoStore.checkAppSubType(this.initDomain);
         }
 
     }
