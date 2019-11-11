@@ -38,7 +38,7 @@ export const AppConfig = {
 
 export const MyAppName = '博博乐sit';
 
-export const versionHotFix = 'v1111.1705';
+export const versionHotFix = 'v1111.1840';
 
 export const MyOwnerPlatName= 'sit';
 
