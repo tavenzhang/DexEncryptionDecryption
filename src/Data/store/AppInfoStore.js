@@ -145,10 +145,7 @@ export default class AppInfoStore {
         });
 
         TW_Data_Store.getItem(TW_DATA_KEY.LobbyReadyOK, (err, ret) => {
-            if (`${ret}` == "1") {
-                TW_Store.gameUpateStore.isNeedUpdate=false;
-            }
-
+                TW_Store.gameUpateStore.isNeedUpdate=`${ret}` == "1";
         });
     }
 
