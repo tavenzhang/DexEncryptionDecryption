@@ -9,7 +9,7 @@ import {observer} from "mobx-react";
 import {platInfo} from "../../config/appConfig";
 
 @observer
-export default class  LoadingWebView extends Component {
+export default class LoadingWebView extends Component {
 
     constructor(state) {
         super(state)
@@ -43,42 +43,42 @@ export default class  LoadingWebView extends Component {
         }
 
         //let visible = TW_Store.gameUpateStore.isNeedUpdate||TW_Store.gameUpateStore.isAppDownIng
-        TW_Log("targetAppDir----LoadingWebView-isNeedUpdate=="+TW_Store.gameUpateStore.isNeedUpdate+"---isAppDownIng="+TW_Store.gameUpateStore.isAppDownIng);
-        let visible = TW_Store.gameUpateStore.isNeedUpdate ||TW_Store.gameUpateStore.isLoading
-        if(!visible){
+        TW_Log("targetAppDir----LoadingWebView-isNeedUpdate==" + TW_Store.gameUpateStore.isNeedUpdate + "---isAppDownIng=" + TW_Store.gameUpateStore.isAppDownIng);
+        let visible = TW_Store.gameUpateStore.isNeedUpdate || TW_Store.gameUpateStore.isLoading
+        if (!visible) {
             return null;
         }
         let injectJs = `window.appData=${JSON.stringify({
             isApp: true,
             taven: "isOk",
-            brandID:platInfo.brand,
-            brandUrl:TW_Store.bblStore.getBrandUrl(),
+            brandID: platInfo.brand,
+            brandUrl: TW_Store.bblStore.getBrandUrl(),
             clientId: TW_Store.appStore.clindId,
             urlJSON: TW_Store.bblStore.getUriConfig(),
             isAndroidHack: TW_Store.appStore.isInAnroidHack,
-            hackData:{filterGameList:["zjh","lhd","bjl","pg","jlbsh","tto","erbg"]},
+            hackData: {filterGameList: ["zjh", "lhd", "bjl", "pg", "jlbsh", "tto", "erbg"]},
             deviceToken: TW_Store.appStore.deviceToken,
             loginDomain: TW_Store.bblStore.loginDomain + "/api/v1/account",
             gameDomain: TW_Store.bblStore.gameDomain + "/api/v1/gamecenter",
             affCode: TW_Store.appStore.userAffCode,
             isDebug: TW_IS_DEBIG,
-            appVersion: TW_Store.appStore.versionHotFix+(!G_IS_IOS&&TW_Store.appStore.subAppType!="0" ? ` - ${TW_Store.appStore.subAppType}`:""),
+            appVersion: TW_Store.appStore.versionHotFix + (!G_IS_IOS && TW_Store.appStore.subAppType != "0" ? ` - ${TW_Store.appStore.subAppType}` : ""),
             isAppSound: TW_Store.dataStore.isAppSound,
-            specialVersionHot:parseInt(TW_Store.appStore.specialVersionHot),
+            specialVersionHot: parseInt(TW_Store.appStore.specialVersionHot),
         })},(function() {
           window.postMessage = function(data) {
             window.ReactNativeWebView.postMessage(data);
           };
         })()`;
-        TW_Log("targetAppDir----LoadingWebView-source=="+newUrl,source);
+        TW_Log("targetAppDir----LoadingWebView-source==" + newUrl, source);
         return (
-            <View style={[styles.container,{width: TW_Store.appStore.screenW}]}>
+            <View style={[styles.container, {width: TW_Store.appStore.screenW}]}>
                 <WebView
                     ref="myWebView"
                     useWebKit={true}
                     automaticallyAdjustContentInsets={true}
                     allowsInlineMediaPlayback={true}
-                    style={[styles.webView,{width: TW_Store.appStore.screenW}]}
+                    style={[styles.webView, {width: TW_Store.appStore.screenW}]}
                     source={source}
                     javaScriptEnabled={true}
                     domStorageEnabled={true}
@@ -121,7 +121,7 @@ export default class  LoadingWebView extends Component {
                     break;
                 case  "game_custom":
                     TW_Log("onMessage====LoadingWebView======TW_Store.gameUIStroe.showGusetView=", message);
-                    if(!TW_Store.appStore.isInAnroidHack){
+                    if (!TW_Store.appStore.isInAnroidHack) {
                         TW_Store.gameUIStroe.showGusetView();
                     }
                     break;
@@ -130,16 +130,26 @@ export default class  LoadingWebView extends Component {
     }
 
 
-    onLoadEnd=()=>{
-        if(G_IS_IOS) {
-            TW_SplashScreen_HIDE();
-        }else{
-            setTimeout(()=>{TW_SplashScreen_HIDE()},800);
+    onLoadEnd = () => {
+        if (G_IS_IOS) {
+            setTimeout(() => {
+                let visible = TW_Store.gameUpateStore.isNeedUpdate || TW_Store.gameUpateStore.isLoading
+                if (visible) {
+                    TW_SplashScreen_HIDE()
+                }
+            }, 500);
+        } else {
+            setTimeout(() => {
+                let visible = TW_Store.gameUpateStore.isNeedUpdate || TW_Store.gameUpateStore.isLoading
+                if (visible) {
+                    TW_SplashScreen_HIDE()
+                }
+            }, 800);
         }
     }
 
     onError = (error) => {
-        if (TW_Store.gameUpateStore.isNeedUpdate&&TW_Store.appStore.isAppInited) {
+        if (TW_Store.gameUpateStore.isNeedUpdate && TW_Store.appStore.isAppInited) {
             TW_Store.dataStore.hideLoadingView();
         }
     }
@@ -152,8 +162,8 @@ export default class  LoadingWebView extends Component {
         let dataStr = JSON.stringify(data);
         dataStr = dataStr ? dataStr : "";
 
-        if(this.refs.myWebView){
-          //  TW_Log("downloadFile---onLoadEvalueJS--versionBBL---progress-TW_Store.gameUpateStore.isNeedUpdate=-",data);
+        if (this.refs.myWebView) {
+            //  TW_Log("downloadFile---onLoadEvalueJS--versionBBL---progress-TW_Store.gameUpateStore.isNeedUpdate=-",data);
             this.refs.myWebView.postMessage(dataStr, "*");
         }
 
@@ -173,7 +183,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         position: "absolute",
-         zIndex:10002,
+        zIndex: 10002,
         height: SCREEN_H,
         width: SCREEN_W,
         backgroundColor: "black",
