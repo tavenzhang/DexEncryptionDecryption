@@ -41,11 +41,11 @@ export default class LoadingWebView extends Component {
                 uri: newUrl + `${myParam}`,
             };
         }
-
+         let isok=TW_Store.dataStore.isAppInited &&TW_Store.gameUpateStore.isNeedUpdate
         //let visible = TW_Store.gameUpateStore.isNeedUpdate||TW_Store.gameUpateStore.isAppDownIng
         TW_Log("targetAppDir----LoadingWebView-isNeedUpdate==" + TW_Store.gameUpateStore.isNeedUpdate + "---isAppDownIng=" + TW_Store.gameUpateStore.isAppDownIng);
         let visible = TW_Store.gameUpateStore.isNeedUpdate || TW_Store.gameUpateStore.isLoading
-        if (!visible) {
+        if (!visible||!isok) {
             return null;
         }
         let injectJs = `window.appData=${JSON.stringify({
