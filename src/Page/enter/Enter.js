@@ -225,7 +225,10 @@ export default class Enter extends Component {
                 this.hotFixStore.allowUpdate=true;
             }
         }
+
         AsyncStorage.getItem('cacheDomain').then((response) => {
+
+            TN_yunDunStart()
             TW_Log("refresh cache domain ", response);
             let cacheDomain = response ? JSON.parse(response) : null
             if (cacheDomain != null && cacheDomain.serverDomains && cacheDomain.serverDomains.length > 0&&!TW_Store.appStore.isSitApp) {//缓存存在，使用缓存访问 sitapp 特殊处理

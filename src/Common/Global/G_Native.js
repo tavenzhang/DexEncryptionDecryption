@@ -119,4 +119,22 @@ global.TN_SetCodePushConifg = (serverUrl,appVersion="2.2.2") => {
         }
     }
 };
+
+
+global.TN_yunDunStart = (appKey="",groupName="",ddomain="",token="",port="443") => {
+    if (G_IS_IOS) {
+        appKey=TW_Store.appStore.yunDunData.appIosKey;
+        groupName=TW_Store.appStore.yunDunData.groupname;
+        ddomain=TW_Store.appStore.yunDunData.dip;
+        token=TW_Store.appStore.deviceToken;
+        port="443";
+        if(NativeModules.JDHelper.yunDunStart){
+            NativeModules.JDHelper.yunDunStart(appKey,groupName,token,ddomain,port,function (data) {
+                TW_Log("TN_yunDunStart-------------data======="+data)
+
+            });
+        }
+
+    }
+};
 global.TN_UMShareModule = NativeModules.UMShareModule;

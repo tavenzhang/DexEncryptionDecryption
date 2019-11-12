@@ -7,7 +7,7 @@ import {
     MyAppName,
     versionHotFix,
     platInfo,
-    AppConfig,
+    YunDunData,
     MyOwnerPlatName,
 } from "../../config/appConfig";
 
@@ -103,6 +103,8 @@ export default class AppInfoStore {
     isSitApp=false
 
     openInstallCheckCount = 1;
+    @observable
+    yunDunData =YunDunData;
 
     constructor() {
         this.init();
@@ -506,6 +508,7 @@ export default class AppInfoStore {
             TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appNativeData, { data: TW_Store.bblStore.getAppNativeData()}));
             this.saveDeviceTokenToLocalStore();
         }
+        this.yunDunData.token=this.deviceToken;
     }
 
     async initDeviceUniqueID() {

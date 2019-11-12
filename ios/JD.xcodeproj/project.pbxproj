@@ -68,6 +68,9 @@
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		8AE0ECB39EF843F0AF445E81 /* libRNSound.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BEFF0107AB7443494B42405 /* libRNSound.a */; };
 		9501198B21E43927008CB01A /* libRCTOrientation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9501195A21E438C8008CB01A /* libRCTOrientation.a */; };
+		950BD7E623797CE200DA4A7B /* YunCeng.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 950BD7AA23797CE100DA4A7B /* YunCeng.framework */; };
+		950BD7E723797F9000DA4A7B /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C61C60B9222CBF5100E09E95 /* CoreTelephony.framework */; };
+		950BD7E823797F9E00DA4A7B /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 952508D121B6BC7800E78AB2 /* libresolv.tbd */; };
 		950EE4E2221118750011DBE1 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 950EE4E1221118750011DBE1 /* assets */; };
 		950EE74E221A8C090011DBE1 /* libRNZipArchive.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 951A04ED21D8A542000EBC62 /* libRNZipArchive.a */; };
 		950EEE0622214EA30011DBE1 /* libReactNativeKeyboardManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 950EEDF122214E850011DBE1 /* libReactNativeKeyboardManager.a */; };
@@ -674,6 +677,7 @@
 		946BA38B82C34345974FBE3F /* libRNDeviceInfo-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNDeviceInfo-tvOS.a"; sourceTree = "<group>"; };
 		9501194121E438C8008CB01A /* RCTOrientation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTOrientation.xcodeproj; path = "../node_modules/react-native-orientation/iOS/RCTOrientation.xcodeproj"; sourceTree = "<group>"; };
 		9501198921E438DF008CB01A /* libSDWebImage iOS static.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libSDWebImage iOS static.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		950BD7AA23797CE100DA4A7B /* YunCeng.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = YunCeng.framework; sourceTree = "<group>"; };
 		950EE4E1221118750011DBE1 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../android/app/src/main/assets; sourceTree = "<group>"; };
 		950EEDBD22214E850011DBE1 /* ReactNativeKeyboardManager.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeKeyboardManager.xcodeproj; path = "../node_modules/react-native-keyboard-manager/ios/ReactNativeKeyboardManager.xcodeproj"; sourceTree = "<group>"; };
 		950EEE59222416390011DBE1 /* RCTBEEPickerManager.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBEEPickerManager.xcodeproj; path = "../node_modules/react-native-picker/ios/RCTBEEPickerManager.xcodeproj"; sourceTree = "<group>"; };
@@ -726,11 +730,13 @@
 				95280EF522BA460C00A51B6B /* libRNFetchBlob.a in Frameworks */,
 				95E1B8AD2248856700C9CE2E /* libKCKeepAwake.a in Frameworks */,
 				950EEEA3222416700011DBE1 /* libRCTBEEPickerManager.a in Frameworks */,
+				950BD7E723797F9000DA4A7B /* CoreTelephony.framework in Frameworks */,
 				950EEE0622214EA30011DBE1 /* libReactNativeKeyboardManager.a in Frameworks */,
 				C6073E87222E1276001E64D0 /* libSocialWeChat.a in Frameworks */,
 				C61C60BB222CBF6700E09E95 /* libc++.tbd in Frameworks */,
 				C61C60BA222CBF5100E09E95 /* CoreTelephony.framework in Frameworks */,
 				C61C60B8222CBF4200E09E95 /* libsqlite3.tbd in Frameworks */,
+				950BD7E623797CE200DA4A7B /* YunCeng.framework in Frameworks */,
 				C61C60B6222CBF3900E09E95 /* CoreGraphics.framework in Frameworks */,
 				C61C60B4222CBF2400E09E95 /* SystemConfiguration.framework in Frameworks */,
 				C61C60B2222CBED700E09E95 /* UShareUI.framework in Frameworks */,
@@ -748,6 +754,7 @@
 				22B3BD12204FB4CF00B6B7FF /* libTalkingData.a in Frameworks */,
 				2259B6F12046B34E0037370E /* libsqlite3.0.tbd in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
+				950BD7E823797F9E00DA4A7B /* libresolv.tbd in Frameworks */,
 				95FFA4E621B402F700E25995 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
@@ -1202,6 +1209,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				950BD7A923797CE100DA4A7B /* framework */,
 				13B07FAE1A68108700A75B9A /* JD */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
@@ -1229,6 +1237,14 @@
 				9501195A21E438C8008CB01A /* libRCTOrientation.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		950BD7A923797CE100DA4A7B /* framework */ = {
+			isa = PBXGroup;
+			children = (
+				950BD7AA23797CE100DA4A7B /* YunCeng.framework */,
+			);
+			path = framework;
 			sourceTree = "<group>";
 		};
 		950EEDBE22214E850011DBE1 /* Products */ = {
@@ -2119,6 +2135,7 @@
 					"$(PROJECT_DIR)/JD/base/umeng",
 					"$(PROJECT_DIR)/JD/base/umeng/UMShare",
 					"$(PROJECT_DIR)/JD/base/umeng/UMShare/UMSocialUI",
+					"$(PROJECT_DIR)/framework",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2135,6 +2152,7 @@
 					"$(SRCROOT)/../node_modules/jcore-react-native/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-zip-archive/ios",
 					"$(SRCROOT)/../node_modules/openinstall-react-native/ios/RCTOpenInstall/RCTOpenInstall",
+					"$(PROJECT_DIR)/framework/YunCeng.framework/**",
 				);
 				INFOPLIST_FILE = JD/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -2179,6 +2197,7 @@
 					"$(PROJECT_DIR)/JD/base/umeng",
 					"$(PROJECT_DIR)/JD/base/umeng/UMShare",
 					"$(PROJECT_DIR)/JD/base/umeng/UMShare/UMSocialUI",
+					"$(PROJECT_DIR)/framework",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2195,6 +2214,7 @@
 					"$(SRCROOT)/../node_modules/jcore-react-native/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-zip-archive/ios",
 					"$(SRCROOT)/../node_modules/openinstall-react-native/ios/RCTOpenInstall/RCTOpenInstall",
+					"$(PROJECT_DIR)/framework/YunCeng.framework/**",
 				);
 				INFOPLIST_FILE = JD/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
