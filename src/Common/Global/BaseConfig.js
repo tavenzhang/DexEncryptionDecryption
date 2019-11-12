@@ -24,7 +24,7 @@ global.TW_OnBackHomeJs=null;
 global.TW_SplashScreen_HIDE=()=>{
     setTimeout(()=>{
         SplashScreen.hide();
-    },1000)
+    },G_IS_IOS? 500:800)
 
     // if(Orientation&&Orientation.lockToLandscapeLeft()){
     //     Orientation.lockToLandscapeLeft();
