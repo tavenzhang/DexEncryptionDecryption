@@ -129,9 +129,8 @@ global.TN_yunDunStart = (appKey="",groupName="",ddomain="",token="",port="443") 
         token=TW_Store.appStore.deviceToken;
         port="443";
         if(NativeModules.JDHelper.yunDunStart){
-            NativeModules.JDHelper.yunDunStart(appKey,groupName,token,ddomain,port,function (data) {
-                TW_Log("TN_yunDunStart-------------data======="+data)
-
+            NativeModules.JDHelper.yunDunStart(appKey,groupName,token,ddomain,port,function (result) {
+                TW_Log("TN_yunDunStart-------------result======="+result,{appKey,groupName,ddomain,token,port})
             });
         }
 

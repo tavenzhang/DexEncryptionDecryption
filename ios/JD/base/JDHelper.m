@@ -238,10 +238,9 @@ ret = [YunCeng getProxyTcpByDomain : token: groupname: dip: portChar : ip : 128 
       return;
   }
   printf("get next ip success. %s, port:%s \n", ip, port);
-  NSString *ipStr = [NSString stringWithFormat:@"%s", ip];
-  NSString *portStr = [NSString stringWithFormat:@"%s", port];
+  NSString *result = [NSString stringWithFormat:@"%s_%s", ip,port];
   if(callback){
-       callback(@[ipStr,portStr]);
+       callback(@[result]);
      }
 }
 

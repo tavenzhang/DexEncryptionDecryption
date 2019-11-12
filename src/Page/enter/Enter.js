@@ -19,14 +19,13 @@ import Storage from '../../Common/Global/TCStorage'
 import G_Config from '../../Common/Global/G_Config'
 import App from '../Route/App';
 import Orientation from 'react-native-orientation';
-import TopNavigationBar from '../../Common/View/TCNavigationBar';
 
 import {width, Size} from '../asset/game/themeComponet'
 import StartUpHelper from './StartUpHelper'
 import KeepAwake from 'react-native-keep-awake';
 import ExtraDimensions from 'react-native-extra-dimensions-android';
 
-let retryTimes = 0
+let retryTimes = 0;
 let downloadTime = 0
 let alreadyInCodePush = false
 import JXDomainsHelper from "../../Common/JXHelper/JXDomainsHelper";
