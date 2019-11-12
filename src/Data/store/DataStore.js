@@ -56,7 +56,8 @@ export default class DataStore {
 
     @action
     async initAppHomeCheck() {
-        const is_lobby_exist = await RNFS.exists(TW_Store.dataStore.originAppDir + "/index.html");
+        const is_lobby_exist =await RNFS.exists(TW_Store.dataStore.originAppDir + "/index.html");
+
         TW_Store.gameUpateStore.isIncludeLobby = is_lobby_exist;
         if (this.isAppInited) {
             this.loadHomeVerson();

@@ -415,6 +415,7 @@ export default class XXWebView extends Component {
                     break;
                 case "showGame":
                     TW_Store.gameUpateStore.isEnteredGame = true;
+                    TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK,'1');
                     setTimeout(() => {
                         if (TW_Store.dataStore.isAppSound) {
                             this.onEvaleJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.stopMusic));
