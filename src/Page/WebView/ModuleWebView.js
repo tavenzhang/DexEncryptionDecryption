@@ -11,6 +11,7 @@ import TCUserOpenPayApp from "../UserCenter/UserPay/TCUserOpenPayApp";
 import Toast from "../../Common/JXHelper/JXToast";
 import FileTools from "../../Common/Global/FileTools";
 import {SoundHelper} from "../../Common/JXHelper/SoundHelper";
+import {platInfo} from "../../config/appConfig";
 
 @observer
 export default class ModuleWebView extends Component {
@@ -37,8 +38,9 @@ export default class ModuleWebView extends Component {
         // let token = GameUtils.getQueryVariable("token");
         // let cid = GameUtils.getQueryVariable("clientId");
         // let surl = GameUtils.getQueryVariable("service");
-        let myParam = `?apihome=${TW_Store.bblStore.getUriConfig().url.apihome}&token=${TW_Store.userStore.access_token}&clientId=${TW_Store.appStore.clindId}&service=${TW_Store.gameUIStroe.gustWebUrl}&debug=${TW_Store.appStore.isSitApp}`;
-      //  let isShowUi=TW_Store.gameUIStroe.isShowAddPayView||TW_Store.gameUIStroe.isShowGuest;
+        let myParam=`?apihome=${TW_Store.bblStore.getUriConfig().url.apihome}&token=${TW_Store.userStore.access_token}&clientId=${TW_Store.appStore.clindId}&service=${TW_Store.gameUIStroe.gustWebUrl}`
+         myParam+=`&debug=${TW_Store.appStore.isSitApp}&isAndroidHack=${TW_Store.appStore.isInAnroidHack}&subType=${TW_Store.appStore.subAppType}`
+        //  let isShowUi=TW_Store.gameUIStroe.isShowAddPayView||TW_Store.gameUIStroe.isShowGuest;
         let isShowUi=TW_Store.gameUIStroe.isShowAddPayView
         if (this.refs.myView) {
             if(isShowUi){
@@ -81,11 +83,22 @@ export default class ModuleWebView extends Component {
 
         let injectJs = `window.appData=${JSON.stringify({
             isApp: true,
+            taven: "isOk",
+            brandID:platInfo.brand,
+            isAndroidHack: TW_Store.appStore.isInAnroidHack,
+            hackData:{filterGameList:["zjh","lhd","bjl","pg","jlbsh","tto","erbg"]},
+            deviceToken: TW_Store.appStore.deviceToken,
+            loginDomain: TW_Store.bblStore.loginDomain + "/api/v1/account",
+            gameDomain: TW_Store.bblStore.gameDomain + "/api/v1/gamecenter",
+            affCode: TW_Store.appStore.userAffCode,
+            isDebug: TW_IS_DEBIG,
+            specialVersionHot:parseInt(TW_Store.appStore.specialVersionHot),
+            isNewApp: G_IS_IOS ? true : false
         })},(function() {
           window.postMessage = function(data) {
             window.ReactNativeWebView.postMessage(data);
           };
-        })()`
+        })()`;
 
         TW_Log("targetAppDir----ModuleWebView-source==isShowUi-"+isShowUi,source);
         return (
