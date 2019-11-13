@@ -6,7 +6,7 @@ export default class GameUpateStore {
     isLoading = false;
 
     @observable
-    isNeedUpdate = true;
+    isNeedUpdate = false;
 
     @observable
     isAppDownIng= false;

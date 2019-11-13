@@ -22,7 +22,10 @@ global.TW_LoaderOnValueJS=()=>{};
 global.TW_OnValueJSSubGame=()=>{};
 global.TW_OnBackHomeJs=null;
 global.TW_SplashScreen_HIDE=()=>{
-    SplashScreen.hide();
+    setTimeout(()=>{
+        SplashScreen.hide();
+    },G_IS_IOS? 500:600)
+
     // if(Orientation&&Orientation.lockToLandscapeLeft()){
     //     Orientation.lockToLandscapeLeft();
     // }

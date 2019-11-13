@@ -34,7 +34,8 @@ global.TW_DATA_KEY={
     platData:"platData",
     gameList:"gameList",
     AFF_CODE:"aff_code",
-    BG_MUSIC:"BG_MUSIC"
+    BG_MUSIC:"BG_MUSIC",
+    LobbyReadyOK:"LobbyReadyOK"
 }
 
 

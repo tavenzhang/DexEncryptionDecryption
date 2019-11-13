@@ -143,6 +143,11 @@ export default class AppInfoStore {
             }
             SoundHelper.startBgMusic();
         });
+
+        TW_Data_Store.getItem(TW_DATA_KEY.LobbyReadyOK, (err, ret) => {
+                TW_Store.gameUpateStore.isNeedUpdate=`${ret}` == "1" ? false:true;
+                TW_Log("TW_DATA_KEY.LobbyReadyOK---"+ret,TW_Store.gameUpateStore.isNeedUpdate)
+        });
     }
 
     checkAppInfoUpdate = (oldData = null) => {
