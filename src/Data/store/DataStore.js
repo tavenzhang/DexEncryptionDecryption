@@ -56,7 +56,8 @@ export default class DataStore {
 
     @action
     async initAppHomeCheck() {
-        const is_lobby_exist = await RNFS.exists(TW_Store.dataStore.originAppDir + "/index.html");
+        const is_lobby_exist =await RNFS.exists(TW_Store.dataStore.originAppDir + "/index.html");
+
         TW_Store.gameUpateStore.isIncludeLobby = is_lobby_exist;
         if (this.isAppInited) {
             this.loadHomeVerson();
@@ -136,6 +137,7 @@ export default class DataStore {
             this.log += "\n==>TW_Store.dataStore.this.getUrlAndParamsAndCallbackrt.rs--" + rt.rs;
             this.isCheckRequesting = false;
             TW_Log("TW_DATA_KEY.versionBBL http results== ", rt);
+            TW_SplashScreen_HIDE();
             if (rt.rs) {
                 let content = rt.content;
                 this.content = content;
