@@ -171,7 +171,7 @@ android {
     }
 
     flavorDimensions "color"
-   
+
     productFlavors {
         taven {
             applicationId APP_ID
@@ -264,6 +264,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-orientation-locker')
     implementation project(':@react-native-community_netinfo')
     implementation project(':@react-native-community_cameraroll')
     implementation project(':react-native-webview')

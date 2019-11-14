@@ -18,7 +18,7 @@ import {observer} from 'mobx-react'
 import Storage from '../../Common/Global/TCStorage'
 import G_Config from '../../Common/Global/G_Config'
 import App from '../Route/App';
-import Orientation from 'react-native-orientation';
+import Orientation from 'react-native-orientation-locker';
 
 import {width, Size} from '../asset/game/themeComponet'
 import StartUpHelper from './StartUpHelper'
