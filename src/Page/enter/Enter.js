@@ -18,7 +18,7 @@ import {observer} from 'mobx-react'
 import Storage from '../../Common/Global/TCStorage'
 import G_Config from '../../Common/Global/G_Config'
 import App from '../Route/App';
-import Orientation from 'react-native-orientation-locker';
+import Orientation from 'react-native-orientation';
 
 import {width, Size} from '../asset/game/themeComponet'
 import StartUpHelper from './StartUpHelper'
@@ -145,8 +145,9 @@ export default class Enter extends Component {
     onInitAllData=()=>{
         this.isReloadAppDomain=false;
         this.uploadLog();
-
+        Orientation.unlockAllOrientations()
         if(G_IS_IOS){
+
             if(Orientation&&Orientation.lockToLandscapeRight){
                 Orientation.lockToLandscapeRight();
             }
@@ -226,8 +227,7 @@ export default class Enter extends Component {
         }
 
         AsyncStorage.getItem('cacheDomain').then((response) => {
-
-            TN_yunDunStart()
+          //  TN_yunDunStart()
             TW_Log("refresh cache domain ", response);
             let cacheDomain = response ? JSON.parse(response) : null
             if (cacheDomain != null && cacheDomain.serverDomains && cacheDomain.serverDomains.length > 0&&!TW_Store.appStore.isSitApp) {//缓存存在，使用缓存访问 sitapp 特殊处理

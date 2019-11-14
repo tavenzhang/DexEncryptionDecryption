@@ -10,7 +10,7 @@ import {TCButtonImg} from "../../../../Common/View/button/TCButtonView";
 import PropTypes from "prop-types";
 import LoadingView from "../../LoadingView";
 import { WebView } from 'react-native-webview';
-import Orientation from 'react-native-orientation-locker';
+import Orientation from 'react-native-orientation';
 
 @observer
 export default class GameGuestView extends Component {
