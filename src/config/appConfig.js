@@ -29,19 +29,16 @@ export const AppConfig = {
         appDomainBase.base6
     ],
     checkUpdateDomains:[
-        "https://*.xingyuanbld.com",
-        "https://*.0595qzsj.com",
-        "https://*.b20mall.com",
-        "https://*.xmhaoduoxie.com",
-        "https://*.zzhjqr.com",
-        "https://*.zwzt6666.com",
+        "https://www.ba2d16.com",
+        "https://www.aa2d16.com",
+        "https://www.ca2d16.com"
     ],
 }
 
 
 export const MyAppName = '博博乐';
 
-export const versionHotFix = 'v1113.0954';
+export const versionHotFix = 'v1113.1742';
 
 export const MyOwnerPlatName= '博博乐';
 
