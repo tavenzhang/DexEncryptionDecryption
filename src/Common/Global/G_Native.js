@@ -121,19 +121,23 @@ global.TN_SetCodePushConifg = (serverUrl,appVersion="2.2.2") => {
 };
 
 
-global.TN_yunDunStart = (appKey="",groupName="",ddomain="",token="",port="443") => {
-    if (G_IS_IOS) {
-        appKey=TW_Store.appStore.yunDunData.appIosKey;
-        groupName=TW_Store.appStore.yunDunData.groupname;
-        ddomain=TW_Store.appStore.yunDunData.dip;
-        token=TW_Store.appStore.deviceToken;
-        port="443";
-        if(NativeModules.JDHelper.yunDunStart){
+global.TN_yunDunStart = (callBack) => {
+    let yunDunStart= G_IS_IOS ? NativeModules.JDHelper.yunDunStart: NativeModules.JXHelper.yunDunStart
+       let  appKey=TW_Store.appStore.yunDunData.appIosKey;
+        let groupName=TW_Store.appStore.yunDunData.groupname;
+        let ddomain=TW_Store.appStore.yunDunData.dip;
+        let  token=TW_Store.appStore.deviceToken;
+        let  port="443";
+        if(yunDunStart){
             NativeModules.JDHelper.yunDunStart(appKey,groupName,token,ddomain,port,function (result) {
                 TW_Log("TN_yunDunStart-------------result======="+result,{appKey,groupName,ddomain,token,port})
+                let dataPort=result.split("_")[1];
+                if(callBack){
+                    callBack(dataPort)
+                }
             });
+        }else{
+            callBack()
         }
-
-    }
 };
 global.TN_UMShareModule = NativeModules.UMShareModule;

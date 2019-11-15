@@ -227,18 +227,35 @@ export default class Enter extends Component {
         }
 
         AsyncStorage.getItem('cacheDomain').then((response) => {
-          //  TN_yunDunStart()
-            TW_Log("refresh cache domain ", response);
-            let cacheDomain = response ? JSON.parse(response) : null
-            if (cacheDomain != null && cacheDomain.serverDomains && cacheDomain.serverDomains.length > 0&&!TW_Store.appStore.isSitApp) {//缓存存在，使用缓存访问 sitapp 特殊处理
-                StartUpHelper.getAvailableDomain(cacheDomain.serverDomains, this.cacheAttempt,this.initDomain)
-            } else {//缓存不存在，使用默认地址访问
-                StartUpHelper.getAvailableDomain(AppConfig.domains, this.cacheAttempt,this.initDomain)
-            }
+           TN_yunDunStart((port)=>{
+               TW_Log("TN_yunDunStart----port",port)
+               if(port){
+                   let doMainArr = []
+                    for (let item of  TW_Store.appStore.yunDunData.domaims){
+                        TW_Log("TN_yunDunStart----port--start--",item)
+                        item=item+":"+port
+                        doMainArr.push(item)
+                    }
+                   TW_Log("TN_yunDunStart----port--after--item--",doMainArr)
+                   StartUpHelper.getAvailableDomain(doMainArr, this.cacheAttempt,this.initDomain)
+               }else{
+                   TW_Log("refresh cache domain ", response);
+                   let cacheDomain = response ? JSON.parse(response) : null
+                   if (cacheDomain != null && cacheDomain.serverDomains && cacheDomain.serverDomains.length > 0&&!TW_Store.appStore.isSitApp) {//缓存存在，使用缓存访问 sitapp 特殊处理
+                       StartUpHelper.getAvailableDomain(cacheDomain.serverDomains, this.cacheAttempt,this.initDomain)
+                   } else {//缓存不存在，使用默认地址访问
+                       StartUpHelper.getAvailableDomain(AppConfig.domains, this.cacheAttempt,this.initDomain)
+                   }
+               }
+           })
+
         }).catch((error) => {
             StartUpHelper.getAvailableDomain(AppConfig.domains, this.cacheAttempt,this.initDomain)
         })
     }
+
+
+
 
     //使用默认地址
     firstAttempt(success, allowUpdate, message) {

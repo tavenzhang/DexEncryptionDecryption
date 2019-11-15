@@ -247,6 +247,13 @@ public class JXHelper extends ReactContextBaseJavaModule {
                      map.putString("com.openinstall.APP_KEY",openInstallKey);
                      callback.invoke(map);
     }
+
+    @ReactMethod
+    public void yunDunStart(String keyStr, String groupId,String groupId, String tokenStr,String ddomain, String portS,Callback callback) {
+
+
+    }
+
     public String getAffCode() {
         return  MainActivity.instance.readMetaDataByTag("TD_CHANNEL_AFFCODE");
     }

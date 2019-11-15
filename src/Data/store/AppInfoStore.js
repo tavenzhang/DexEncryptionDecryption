@@ -103,7 +103,7 @@ export default class AppInfoStore {
     isSitApp=false
 
     openInstallCheckCount = 1;
-    @observable
+
     yunDunData =YunDunData;
 
     constructor() {

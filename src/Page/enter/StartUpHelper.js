@@ -60,7 +60,7 @@ function getAvailableDomain (domains,callback,initDomainCallBack) {
                       TW_Store.appStore.currentDomain=TW_Store.bblStore.loginDomain =TW_Store.bblStore.gameDomain=gameDomain;
                   }
               }
-              TW_Log('大王来巡山 content==domains[i] loginDomain--'+ TW_Store.bblStore.loginDomain,TW_Store.bblStore.gameDomain);
+              TW_Log('大王来巡山 content==domains[i] loginDomain--'+ TW_Store.bblStore.loginDomain,  TW_Store.appStore.currentDomain);
               AsyncStorage.setItem('cacheDomain', JSON.stringify({
                   serverDomains: content.serverDomains,
                   hotfixDomains: content.availableUpdateInfoList,

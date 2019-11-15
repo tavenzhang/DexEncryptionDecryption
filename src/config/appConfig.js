@@ -47,7 +47,8 @@ export const YunDunData= {appIosKey:"DpV1sEv2lZyavrD7xIpYOZFlLbV_BEmr5CvA34neuD6
                       groupname:"Auto139440.ureJ56X0B0.ftnormal01ai.com",
                       dip:"chy-test",
                       dport:"443",
-                      token:""
+                      token:"",
+                      domaims:["https://yundun-qp01-game.513xyz.com"]
                       };
 // export const safeguardDomain = [
 //     'https://987645ba00a9b0416b254f33d918ed64.oss-cn-shenzhen.aliyuncs.com',
