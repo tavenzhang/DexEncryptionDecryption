@@ -145,7 +145,7 @@ export default class Enter extends Component {
     onInitAllData=()=>{
         this.isReloadAppDomain=false;
         this.uploadLog();
-        Orientation.unlockAllOrientations()
+        //Orientation.unlockAllOrientations()
         if(G_IS_IOS){
 
             if(Orientation&&Orientation.lockToLandscapeRight){

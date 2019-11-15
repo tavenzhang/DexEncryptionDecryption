@@ -14,7 +14,6 @@ import com.jd.invokenative.DplusReactPackage;
 import com.jd.invokenative.RNUMConfigure;
 
 import com.facebook.react.ReactApplication;
-import org.wonday.orientation.OrientationPackage;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.reactnativecommunity.cameraroll.CameraRollPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;

@@ -10,9 +10,11 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import androidx.core.content.ContextCompat;
 
+import com.aliyun.security.yunceng.android.sdk.YunCeng;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.JSApplicationIllegalArgumentException;
@@ -249,9 +251,30 @@ public class JXHelper extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void yunDunStart(String keyStr, String groupId,String groupId, String tokenStr,String ddomain, String portS,Callback callback) {
+    public void yunDunStart(String keyStr, String groupId, String tokenStr,String ddomain, String portS,Callback callback) {
+        try {
+            int ret = 0;
+            StringBuffer target_ip = null;
+            StringBuffer targer_port = null;
+            String resultStr = "";
 
-
+            // 初始化
+            ret = YunCeng.initEx(keyStr, tokenStr);
+            if (0 == ret) {
+                // 获取IP
+                ret = YunCeng.getProxyTcpByDomain(tokenStr, groupId, ddomain, portS, target_ip, targer_port);
+                if (0 == ret) {
+                    resultStr = target_ip.toString() + "_" + targer_port.toString();
+                } else {
+                    Log.d("YunCeng", "Get IP failed: " + ret);
+                }
+            } else {
+                Log.d("YunCeng", "SDK init failed: " + ret);
+            }
+            callback.invoke(resultStr);
+        } catch (Exception e) {
+            Log.d("YunCeng", e.getMessage());
+        }
     }
 
     public String getAffCode() {
