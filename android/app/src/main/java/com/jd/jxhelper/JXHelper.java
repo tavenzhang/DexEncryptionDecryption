@@ -252,17 +252,21 @@ public class JXHelper extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void yunDunStart(String keyStr, String groupId, String tokenStr,String ddomain, String portS,Callback callback) {
+        Log.d("YunCeng", "starr===");
+        String resultStr = null;
         try {
             int ret = 0;
-            StringBuffer target_ip = null;
-            StringBuffer targer_port = null;
-            String resultStr = "";
+            StringBuffer target_ip = new StringBuffer();
+            StringBuffer targer_port = new StringBuffer();
 
             // 初始化
             ret = YunCeng.initEx(keyStr, tokenStr);
+            Log.d("YunCeng--keyStr--keyStr", "ret==="+ret+"====keyStr=="+keyStr+"---ddomain="+ddomain);
             if (0 == ret) {
+                Log.d("YunCeng--keyStr--keyStr", "groupId==="+groupId);
                 // 获取IP
                 ret = YunCeng.getProxyTcpByDomain(tokenStr, groupId, ddomain, portS, target_ip, targer_port);
+                Log.d("YunCeng", "Get IP failed: " + ret);
                 if (0 == ret) {
                     resultStr = target_ip.toString() + "_" + targer_port.toString();
                 } else {
@@ -274,6 +278,7 @@ public class JXHelper extends ReactContextBaseJavaModule {
             callback.invoke(resultStr);
         } catch (Exception e) {
             Log.d("YunCeng", e.getMessage());
+             callback.invoke(resultStr);
         }
     }
 

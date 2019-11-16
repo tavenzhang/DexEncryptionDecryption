@@ -55,11 +55,8 @@ export default class AppInfoStore {
     @observable
     specialVersionHot = '2';
 
-
     @observable
     versionHotFix = versionHotFix;
-
-
 
     @observable
     currentDomain = '';
@@ -108,6 +105,7 @@ export default class AppInfoStore {
 
     constructor() {
         this.init();
+        this.initDeviceTokenFromLocalStore();
         if(versionHotFix.indexOf("v")>-1){
             let subpre=versionHotFix.substr(0,1);
             this.versionHotFix=`${subpre}${this.specialVersionHot}.${versionHotFix.substr(1)}`
@@ -177,7 +175,6 @@ export default class AppInfoStore {
                 this.APP_DOWNLOAD_VERSION = this.APP_DOWNLOAD_VERSION
                     ? this.APP_DOWNLOAD_VERSION
                     : "1.0";
-                TW_Store.bblStore.getAppData();
 
                 try {
                     TW_Data_Store.getItem(TW_DATA_KEY.AFF_CODE, (err, ret) => {
@@ -244,14 +241,6 @@ export default class AppInfoStore {
         if (url && url.length > 0 && !this.isInAnroidHack) {
             TW_Log("onShowDownAlert-----url==this.APP_DOWNLOAD_VERSION=" + this.APP_DOWNLOAD_VERSION, this.latestNativeVersion);
             let isShowAlert=this.APP_DOWNLOAD_VERSION != this.latestNativeVersion;
-            // if(!isShowAlert&&this.appInfo.PLAT_ID=="1147"){
-            //     //针对超会赢棋牌app 做特殊处理 由于超会赢中途更新了app微信账号
-            //     if(this.appInfo.PLAT_ID=="1147"&&this.appInfo.AppSecret&&this.appInfo.AppSecret.weixin){
-            //         isShowAlert = (this.appInfo.AppSecret.weixin != "c05ff4e9cb83b964dd7e1c46b7f3f080")
-            //     }
-            // }
-
-            TW_Log("onBackAndroid---this.APP_DOWNLOAD_VERSION==-" + this.APP_DOWNLOAD_VERSION, this.latestNativeVersion);
             if (isShowAlert) {
 
                 //清除所有的缓存数据 方便app升级
@@ -297,7 +286,7 @@ export default class AppInfoStore {
         this.isInitPlat = true;
         this.initAppName();
         this.initAppVersion();
-        this.initDeviceTokenFromLocalStore();
+
         /*** 初始化邀请码*/
         this.userAffCode = this.appInfo.Affcode;
         this.callInitFuc = this.callInitFuc ? this.callInitFuc() : null;
