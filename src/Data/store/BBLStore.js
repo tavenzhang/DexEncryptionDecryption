@@ -11,10 +11,10 @@ import NetUitls from "../../Common/Network/TCRequestUitls";
 export  default  class BBLStore {
 
     @observable
-    gameDomain = appDomainBase.base1;
+    gameDomain = "";
 
     @observable
-    loginDomain = appDomainBase.base1;
+    loginDomain = "";
 
     @observable
     isLoading = true;

@@ -10,9 +10,11 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import androidx.core.content.ContextCompat;
 
+import com.aliyun.security.yunceng.android.sdk.YunCeng;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.JSApplicationIllegalArgumentException;
@@ -247,6 +249,39 @@ public class JXHelper extends ReactContextBaseJavaModule {
                      map.putString("com.openinstall.APP_KEY",openInstallKey);
                      callback.invoke(map);
     }
+
+    @ReactMethod
+    public void yunDunStart(String keyStr, String groupId, String tokenStr,String ddomain, String portS,Callback callback) {
+        Log.d("YunCeng", "starr===");
+        String resultStr = null;
+        try {
+            int ret = 0;
+            StringBuffer target_ip = new StringBuffer();
+            StringBuffer targer_port = new StringBuffer();
+
+            // 初始化
+            ret = YunCeng.initEx(keyStr, tokenStr);
+            Log.d("YunCeng--keyStr--keyStr", "ret==="+ret+"====keyStr=="+keyStr+"---ddomain="+ddomain);
+            if (0 == ret) {
+                Log.d("YunCeng--keyStr--keyStr", "groupId==="+groupId);
+                // 获取IP
+                ret = YunCeng.getProxyTcpByDomain(tokenStr, groupId, ddomain, portS, target_ip, targer_port);
+                Log.d("YunCeng", "Get IP failed: " + ret);
+                if (0 == ret) {
+                    resultStr = target_ip.toString() + "_" + targer_port.toString();
+                } else {
+                    Log.d("YunCeng", "Get IP failed: " + ret);
+                }
+            } else {
+                Log.d("YunCeng", "SDK init failed: " + ret);
+            }
+            callback.invoke(resultStr);
+        } catch (Exception e) {
+            Log.d("YunCeng", e.getMessage());
+             callback.invoke(resultStr);
+        }
+    }
+
     public String getAffCode() {
         return  MainActivity.instance.readMetaDataByTag("TD_CHANNEL_AFFCODE");
     }

@@ -8,7 +8,6 @@
 
 #import "JXHelper.h"
 #import "JXKeyChain.h"
-
 static NSString * const KEY_IN_KEYCHAIN = @"com.JX.app.allinfo";
 static NSString * const KEY_PASSWORD = @"com.JX.app.password";
 
@@ -67,6 +66,7 @@ RCT_EXPORT_METHOD(readIosData:(NSString*)key back:(RCTResponseSenderBlock)callba
     }
   }
 }
+
 
 
 +(NSString *)getCFUUID

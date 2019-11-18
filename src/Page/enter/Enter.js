@@ -19,14 +19,13 @@ import Storage from '../../Common/Global/TCStorage'
 import G_Config from '../../Common/Global/G_Config'
 import App from '../Route/App';
 import Orientation from 'react-native-orientation';
-import TopNavigationBar from '../../Common/View/TCNavigationBar';
 
 import {width, Size} from '../asset/game/themeComponet'
 import StartUpHelper from './StartUpHelper'
 import KeepAwake from 'react-native-keep-awake';
 import ExtraDimensions from 'react-native-extra-dimensions-android';
 
-let retryTimes = 0
+let retryTimes = 0;
 let downloadTime = 0
 let alreadyInCodePush = false
 import JXDomainsHelper from "../../Common/JXHelper/JXDomainsHelper";
@@ -146,8 +145,9 @@ export default class Enter extends Component {
     onInitAllData=()=>{
         this.isReloadAppDomain=false;
         this.uploadLog();
-
+        //Orientation.unlockAllOrientations()
         if(G_IS_IOS){
+
             if(Orientation&&Orientation.lockToLandscapeRight){
                 Orientation.lockToLandscapeRight();
             }
@@ -226,23 +226,25 @@ export default class Enter extends Component {
             }
         }
         AsyncStorage.getItem('cacheDomain').then((response) => {
-            TW_Log("refresh cache domain ", response);
-            let cacheDomain = response ? JSON.parse(response) : null
-            if (cacheDomain != null && cacheDomain.serverDomains && cacheDomain.serverDomains.length > 0&&!TW_Store.appStore.isSitApp) {//缓存存在，使用缓存访问 sitapp 特殊处理
-                StartUpHelper.getAvailableDomain(cacheDomain.serverDomains, this.cacheAttempt,this.initDomain)
-            } else {//缓存不存在，使用默认地址访问
-                StartUpHelper.getAvailableDomain(AppConfig.domains, this.cacheAttempt,this.initDomain)
-            }
+              TW_Log("refresh cache domain ", response);
+                let cacheDomain = response ? JSON.parse(response) : null
+                if (cacheDomain != null && cacheDomain.serverDomains && cacheDomain.serverDomains.length > 0&&!TW_Store.appStore.isSitApp) {//缓存存在，使用缓存访问 sitapp 特殊处理
+                    StartUpHelper.getAvailableDomain(cacheDomain.serverDomains, this.cacheAttempt,this.initDomain)
+                } else {//缓存不存在，使用默认地址访问
+                    StartUpHelper.getAvailableDomain(AppConfig.domains, this.cacheAttempt,this.initDomain)
+                }
         }).catch((error) => {
             StartUpHelper.getAvailableDomain(AppConfig.domains, this.cacheAttempt,this.initDomain)
         })
     }
 
+
+
+
     //使用默认地址
     firstAttempt(success, allowUpdate, message) {
         if(success){
-            TW_Store.dataStore.initAppHomeCheck();
-            TW_Store.dataStore.onFlushGameData()
+            this.httpResInit()
         }
         TW_Log(`first attempt ${success}, ${allowUpdate}, ${message}`);
         if (success && allowUpdate && this.hotFixStore.allowUpdate) {
@@ -257,8 +259,7 @@ export default class Enter extends Component {
     //使用默认备份地址
     secondAttempt=(success, allowUpdate, message)=> {
         if(success){
-            TW_Store.dataStore.initAppHomeCheck();
-            TW_Store.dataStore.onFlushGameData()
+            this.httpResInit()
         }
         if (success && allowUpdate && this.hotFixStore.allowUpdate) {
             this.gotoUpdate()
@@ -297,8 +298,7 @@ export default class Enter extends Component {
 
         TW_Log(`first cacheAttempt ${success}, ${allowUpdate}, ${message}`);
         if(success){
-            TW_Store.dataStore.initAppHomeCheck();
-            TW_Store.dataStore.onFlushGameData()
+            this.httpResInit()
         }
         if (success && allowUpdate && this.hotFixStore.allowUpdate) {
 
@@ -308,6 +308,13 @@ export default class Enter extends Component {
         } else {
             this.hotFixStore.skipUpdate();
         }
+    }
+
+    httpResInit=()=>{
+        TW_Store.dataStore.initAppHomeCheck();
+        TW_Store.dataStore.onFlushGameData()
+        TW_Store.bblStore.getAppData();
+
     }
 
     //使用从服务器获取的更新地址更新app

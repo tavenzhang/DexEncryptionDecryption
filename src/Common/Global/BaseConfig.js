@@ -1,6 +1,6 @@
 import {Platform, Dimensions} from 'react-native'
 import SplashScreen from "react-native-splash-screen";
-import Orientation from 'react-native-orientation';
+
 /**
  * 常用的全局常量
  **/

@@ -6,7 +6,7 @@ export default class GameUpateStore {
     isLoading = false;
 
     @observable
-    isNeedUpdate = false;
+    isNeedUpdate = true;
 
     @observable
     isAppDownIng= false;
@@ -21,7 +21,7 @@ export default class GameUpateStore {
     isInSubGame = false;
 
     @observable
-    isEnteredGame = true;
+    isEnteredGame = false;
 
 
 }
