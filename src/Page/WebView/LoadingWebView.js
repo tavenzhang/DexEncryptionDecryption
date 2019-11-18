@@ -28,10 +28,6 @@ export default class LoadingWebView extends Component {
 
     render() {
         let isok=TW_Store.dataStore.isAppInited
-        if(!isok)
-        {
-            return
-        }
         let newUrl = TW_Store.dataStore.targetAppDir + "/loading/loading.html";
         let myParam=`?apihome=${TW_Store.bblStore.getUriConfig().url.apihome}&token=${TW_Store.userStore.access_token}&clientId=${TW_Store.appStore.clindId}&service=${TW_Store.gameUIStroe.gustWebUrl}`
         myParam+=`&debug=${TW_Store.appStore.isSitApp||TW_Store.appStore.clindId=="214"}&isAndroidHack=${TW_Store.appStore.isInAnroidHack}&subType=${TW_Store.appStore.subAppType}`

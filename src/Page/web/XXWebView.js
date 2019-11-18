@@ -142,7 +142,7 @@ export default class XXWebView extends Component {
 
     render() {
         TW_Log("TW_DATA_KEY.gameList-FileTools--==err=flash=this.state.flash--isLoading="+TW_Store.gameUpateStore.isLoading+"---TW_Store.gameUpateStore.isIncludeLobby"+TW_Store.gameUpateStore.isIncludeLobby);
-        let news = TW_Store.gameUpateStore.isLoading || !TW_Store.dataStore.isAppInited;
+        let news = TW_Store.gameUpateStore.isLoading || !TW_Store.dataStore.isAppInited ;
         if (news) {
             return null
         }
@@ -161,14 +161,13 @@ export default class XXWebView extends Component {
                 uri: TW_Store.dataStore.targetAppDir+"/index.html"+`?app=true&&isDebug=${TW_Store.appStore.isSitApp||TW_Store.appStore.clindId==214}&&version=${TW_Store.dataStore.homeVersionM.versionNum}`,
             };
         }
-       // TW_Store.dataStore.log+="\nsource--------web-"+JSON.stringify(source)+"---\n";
+     
 
         // if (TW_IS_DEBIG) {
         //     // source =  require('./../../../android/app/src/main/assets/gamelobby/index.html');
         //     let uri = "http://localhost:8081/android/app/src/main/assets/gamelobby/index.html?platform=ios&hash=7e5876ea5a240467db5670550b53411b&rm-" + this.rom
         //     source = {uri}
         // }
-       // this.checkFileExist(this.source.file)
         TW_Log("targetAppDir----MainBundlePath-TW_Store.dataStore.isAppInited-----" + TW_Store.dataStore.isAppInited+"---TW_Store.appStore.deviceToken="+TW_Store.appStore.deviceToken,source);
 
 
@@ -230,7 +229,6 @@ export default class XXWebView extends Component {
         const target_dir_exist = await RNFS.exists(file);
         //if(!target_dir_exist){
             TW_Log("checkFileExist-----file===="+file+"-----exist=="+target_dir_exist)
-        this.log += "Url-checkFileExist-file--"+file +"---existhome---" + target_dir_exist+"----\n";
        // }
 
     }
@@ -516,8 +514,9 @@ export default class XXWebView extends Component {
 
     onLoadEnd = () => {
         TW_Store.bblStore.isLoading = false;
-        this.checkFileExist(TW_Store.dataStore.targetAppDir+ "/index.html")
         this.onEvaleJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.windowResize, {}));
+        TW_Store.bblStore.changeShowDebug(true);
+
     }
 
 
