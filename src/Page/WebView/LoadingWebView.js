@@ -27,6 +27,11 @@ export default class LoadingWebView extends Component {
 
 
     render() {
+        let isok=TW_Store.dataStore.isAppInited
+        if(!isok)
+        {
+            return
+        }
         let newUrl = TW_Store.dataStore.targetAppDir + "/loading/loading.html";
         let myParam=`?apihome=${TW_Store.bblStore.getUriConfig().url.apihome}&token=${TW_Store.userStore.access_token}&clientId=${TW_Store.appStore.clindId}&service=${TW_Store.gameUIStroe.gustWebUrl}`
         myParam+=`&debug=${TW_Store.appStore.isSitApp||TW_Store.appStore.clindId=="214"}&isAndroidHack=${TW_Store.appStore.isInAnroidHack}&subType=${TW_Store.appStore.subAppType}`
@@ -42,11 +47,11 @@ export default class LoadingWebView extends Component {
                 uri: newUrl + `${myParam}`,
             };
         }
-         let isok=TW_Store.dataStore.isAppInited
+
         //let visible = TW_Store.gameUpateStore.isNeedUpdate||TW_Store.gameUpateStore.isAppDownIng
         TW_Log("targetAppDir----LoadingWebView-isNeedUpdate==" + TW_Store.gameUpateStore.isNeedUpdate + "---isAppDownIng=" + TW_Store.gameUpateStore.isAppDownIng);
         let visible = TW_Store.gameUpateStore.isNeedUpdate || TW_Store.gameUpateStore.isLoading
-        if (!visible||!isok) {
+        if (!visible) {
             return null;
         }
         let injectJs = `window.appData=${JSON.stringify({
@@ -151,7 +156,7 @@ export default class LoadingWebView extends Component {
 
     onError = (error) => {
         if (TW_Store.gameUpateStore.isNeedUpdate && TW_Store.appStore.isAppInited) {
-            TW_Store.dataStore.hideLoadingView();
+           TW_Store.dataStore.hideLoadingView();
         }
     }
 

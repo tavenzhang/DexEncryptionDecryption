@@ -323,7 +323,7 @@ export default class Enter extends Component {
         AsyncStorage.getItem('cacheDomain').then((response) => {
             TW_Log("JXCodePushServerUrl----getItem")
             TW_Store.dataStore.log+="\ncacheDomain-----"+response+"---\n";
-            let cacheDomain = JSON.parse(response)
+            let cacheDomain = JSON.parse(response);
             let hotfixDeploymentKey=""
             let serveUrl = ""
             if(cacheDomain&&cacheDomain.hotfixDomains.length>0){

@@ -103,7 +103,7 @@ export  default  class BBLStore {
         }
 
         if(this.isDebugApp){
-            versionDomain = this.debug_release_server;
+           // versionDomain = this.debug_release_server;
         }else{
             if(isSubWay){
                 versionDomain= versionDomain+"/qudao"

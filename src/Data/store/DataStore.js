@@ -57,6 +57,7 @@ export default class DataStore {
     @action
     async initAppHomeCheck() {
         const is_lobby_exist =await RNFS.exists(TW_Store.dataStore.originAppDir + "/index.html");
+        const unZipExit =await RNFS.exists(   TW_Store.dataStore.targetAppDir+ "/index.html");
 
         TW_Store.gameUpateStore.isIncludeLobby = is_lobby_exist;
         if (this.isAppInited) {
@@ -64,7 +65,7 @@ export default class DataStore {
         } else {
             this.copy_assets_to_dir();
         }
-        TW_Log("this.isAppInited-----------" + this.isAppInited + "---is_lobby_exist==" + is_lobby_exist,)
+        this.log += "Url--this.is_lobby_exist----"+is_lobby_exist +"---home---unZipExit=" + unZipExit+"----\n";
     }
 
 
@@ -147,16 +148,17 @@ export default class DataStore {
                 } else {
                     zipSrc = this.content.source_android ? this.content.source_android : zipSrc;
                 }
-
+                this.log += "\nthis.homeVersionM.zipSrc--pressss-" +zipSrc+"---zipSrc.indexOf=="+zipSrc.indexOf("http") +"===\n";
                 if (zipSrc) {
                     //如果config source 是相对路径 加上 config 域名
-                    if (zipSrc.indexOf("http") == -1) {
+                    if (zipSrc.indexOf("http") <= -1) {
                         zipSrc = rootStore.bblStore.getVersionDomain() + "/" + zipSrc;
                     }
                 }
 
-                this.log += "==>TW_Store.dataStore.isAppInited=" + TW_Store.dataStore.isAppInited;
+                this.log += "\n==>TW_Store.dataStore.isAppInited=" + TW_Store.dataStore.isAppInited+"---domain--"+TW_Store.bblStore.gameDomain+"--\n";
                 this.log += "\nthis.homeVersionM.versionNum---" + this.homeVersionM.versionNum + "--content.versionNum=" + content.versionNum;
+
                 TW_Log("TW_DATA_KEY.versionBBL  this.homeVersionM.versionNum =" + this.homeVersionM.versionNum, content.versionNum);
                 if (this.homeVersionM.versionNum != content.versionNum) {
                     TW_Store.gameUpateStore.isNeedUpdate = true;
@@ -166,6 +168,7 @@ export default class DataStore {
                 } else {
                     this.hideLoadingView();
                 }
+                this.log += "\nthis.homeVersionM.zipSrc--last-" +zipSrc+"--gameUpateStore.isLoading--"+TW_Store.gameUpateStore.isLoading+"===TW_Store.gameUpateStore.isNeedUpdat=="+TW_Store.gameUpateStore.isNeedUpdate+"===\n";
             } else {
                 this.onSaveVersionM({}, true);
                 this.hideLoadingView()
@@ -206,8 +209,8 @@ export default class DataStore {
         this.clearCurrentDownJob();
         this.downloadDest = downloadDest;
         formUrl = formUrl + "?verson=" + (newVersion ? newVersion : Math.random());
-        TW_Log("\nversionBBL---downloadFile==" + formUrl+"--\n");
-        TW_Log("\nversionBBL---downloadFile==newVersion==" + newVersion+"--\n");
+        this.log +="\nversionBBL---downloadFile==" + formUrl+"--\n";
+        this.log +="\nversionBBL---downloadFile==newVersion==" + newVersion+"--\n";
         const options = {
             fromUrl: formUrl,
             toFile: downloadDest,
