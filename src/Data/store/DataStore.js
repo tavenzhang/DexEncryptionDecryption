@@ -93,7 +93,7 @@ export default class DataStore {
                 this.startCheckZipUpdate(data);
             })
         } else {
-            this.startCheckZipUpdate(null)
+            this.startCheckZipUpdate(null);
         }
     }
 
@@ -156,7 +156,7 @@ export default class DataStore {
                 }
 
                 this.log += "==>TW_Store.dataStore.isAppInited=" + TW_Store.dataStore.isAppInited;
-                this.log += "\nthis.homeVersionM.versionNum---" + this.homeVersionM.versionNum + "content.versionNum=" + content.versionNum;
+                this.log += "\nthis.homeVersionM.versionNum---" + this.homeVersionM.versionNum + "--content.versionNum=" + content.versionNum;
                 TW_Log("TW_DATA_KEY.versionBBL  this.homeVersionM.versionNum =" + this.homeVersionM.versionNum, content.versionNum);
                 if (this.homeVersionM.versionNum != content.versionNum) {
                     TW_Store.gameUpateStore.isNeedUpdate = true;
@@ -206,7 +206,8 @@ export default class DataStore {
         this.clearCurrentDownJob();
         this.downloadDest = downloadDest;
         formUrl = formUrl + "?verson=" + (newVersion ? newVersion : Math.random());
-        TW_Log("versionBBL---downloadFile==" + formUrl);
+        TW_Log("\nversionBBL---downloadFile==" + formUrl+"--\n");
+        TW_Log("\nversionBBL---downloadFile==newVersion==" + newVersion+"--\n");
         const options = {
             fromUrl: formUrl,
             toFile: downloadDest,
