@@ -13,6 +13,7 @@
 #import "AppDelegate+JDBase.h"
 #import <AdSupport/AdSupport.h>
 #import <CodePush.h>
+#import  "YunCeng.h"
 @implementation JDHelper
 RCT_EXPORT_MODULE();
 
@@ -208,5 +209,40 @@ RCT_EXPORT_METHOD(setCodePushConfig:(NSString *)server:(NSString *)appVersion){
      // [[CodePushConfig current] setAppVersion:appVersion];
   }
 }
+
+RCT_EXPORT_METHOD(yunDunStart:(NSString*)keyStr:(NSString *)groupId:(NSString *)tokenStr:(NSString *)ddomain:(NSString *)portS back:(RCTResponseSenderBlock)callback)
+{
+   const char *appkey= [keyStr UTF8String];
+   const char *token=[tokenStr UTF8String];
+   const char *portChar=[portS UTF8String];
+   const char *dip=[ddomain UTF8String];
+     int ret = [YunCeng initEx:appkey:token];
+     if (0 != ret) {
+        printf("init failed. \n");
+        return;
+      }
+
+  const char *groupname = [groupId UTF8String];
+
+  char ip[128]= {0};
+
+  char port[32] = {0};
+
+  /* ret = [YunCeng getProxyTcpByIp : "token": groupname: “1.1.1.1”: "80" : ip : 128 : port:32];
+  */
+
+//  ret = [YunCeng getProxyTcpomain : token groupname: groupname: "80" : ip : 128 : port:32];
+ret = [YunCeng getProxyTcpByDomain : token: groupname: dip: portChar : ip : 128 : port:32];
+  if (0 != ret) {
+    printf("get next ip failed");
+      return;
+  }
+  printf("get next ip success. %s, port:%s \n", ip, port);
+  NSString *result = [NSString stringWithFormat:@"%s_%s", ip,port];
+  if(callback){
+       callback(@[result]);
+     }
+}
+
 
 @end

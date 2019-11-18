@@ -102,6 +102,7 @@ export const gameUI = {
     guestQABg: require('./game/guest/guest_qa_Bg.png'),
     guestOSBg: require('./game/guest/guest_os_Bg.png'),
     guestQuestionAns: require('./game/guest/guest_question_answer.png'),
+    guestBack:require('./game/guest/guest_back.png'),
     //moneyOut
     titleMoneyOut: require('./game/moneyOut/titleMoneyOut.png'),
     iconMoneyOut: require('./game/moneyOut/iconMoneyOut.png'),

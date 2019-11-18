@@ -69,3 +69,7 @@
 -dontwarn java.nio.file.*
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 -dontwarn okio.**
+
+# 游戏盾
+
+-keep class com.aliyun.security.yunceng.** {*;}
