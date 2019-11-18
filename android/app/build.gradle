@@ -200,10 +200,10 @@ android {
 
     signingConfigs {
         release {
-            storeFile file('kot-cards-yy.keystore')
-            storePassword 'kotcards2018'
-            keyAlias 'yy-cards'
-            keyPassword 'kotcards2018'
+            storeFile file(STORE_FILE)
+            storePassword STORE_PASSWORD
+            keyAlias KEY_ALIAS
+            keyPassword KEY_PASSWORD
         }
     }
 
