@@ -25,6 +25,10 @@ function getAvailableDomain(domains, callback, initDomainCallBack) {
     }, 10000)
 
     TN_yunDunStart((isUseYunDun,port)=>{
+        //如果是sit 环境，云盾无法配置 强制使用老放松接入
+        if(TW_Store.appStore.isSitApp){
+            isUseYunDun =false;
+        }
        // isUseYunDun =false;
         for (let i = 0; i < domains.length; i++) {
             TW_Log('= ' + domains[i]+"----isUseYunDun---"+isUseYunDun+"===port==="+port);
