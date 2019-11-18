@@ -78,6 +78,8 @@ function getAvailableDomain(domains, callback, initDomainCallBack) {
                                 //为了兼容老app。如果是集成了云盾的sdk，使用趋势图域名
                                     TW_Store.appStore.currentDomain = TW_Store.bblStore.loginDomain = TW_Store.bblStore.gameDomain = gameDomain;
                                     TW_Log('大王来巡山 content==domains[i] currentDomain--' + TW_Store.appStore.currentDomain + "---tempDomain--" + tempDomain, serverDomains);
+                            }else{
+                                TW_Store.appStore.currentDomain = TW_Store.bblStore.loginDomain = TW_Store.bblStore.gameDomain = tempDomain;
                             }
                         }
 
