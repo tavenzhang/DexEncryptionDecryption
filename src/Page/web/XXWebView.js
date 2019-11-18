@@ -153,7 +153,7 @@ export default class XXWebView extends Component {
             file: TW_Store.dataStore.targetAppDir+ "/index.html",
             allowingReadAccessToURL: TW_Store.dataStore.targetAppDir,
             allowFileAccessFromFileURLs: TW_Store.dataStore.targetAppDir,
-            param:`?app=true&&isDebug=${TW_Store.appStore.isSitApp||TW_Store.appStore.clindId==214}&&version=${TW_Store.dataStore.homeVersionM.versionNum}`
+            param:`?app=true&isDebug=${TW_Store.appStore.isSitApp||TW_Store.appStore.clindId==214}&version=${TW_Store.dataStore.homeVersionM.versionNum}`
         };
 
         if (!G_IS_IOS) {
@@ -161,6 +161,7 @@ export default class XXWebView extends Component {
                 uri: TW_Store.dataStore.targetAppDir+"/index.html"+`?app=true&&isDebug=${TW_Store.appStore.isSitApp||TW_Store.appStore.clindId==214}&&version=${TW_Store.dataStore.homeVersionM.versionNum}`,
             };
         }
+        TW_Store.dataStore.log+="\nsource--------web-"+JSON.stringify(source)+"---\n";
 
         // if (TW_IS_DEBIG) {
         //     // source =  require('./../../../android/app/src/main/assets/gamelobby/index.html');
@@ -515,6 +516,7 @@ export default class XXWebView extends Component {
         TW_Store.bblStore.isLoading = false;
         this.onEvaleJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.windowResize, {}));
         TW_Store.bblStore.changeShowDebug(true);
+
     }
 
 
