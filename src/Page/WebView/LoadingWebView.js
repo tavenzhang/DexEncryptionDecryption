@@ -35,14 +35,14 @@ export default class LoadingWebView extends Component {
             file: newUrl,
             allowingReadAccessToURL: TW_Store.dataStore.targetAppDir,
             allowFileAccessFromFileURLs: TW_Store.dataStore.targetAppDir,
-            param: myParam
+            param: ""
         };
         if (!G_IS_IOS) {
             source = {
                 uri: newUrl + `${myParam}`,
             };
         }
-         let isok=TW_Store.dataStore.isAppInited &&TW_Store.gameUpateStore.isNeedUpdate
+         let isok=TW_Store.dataStore.isAppInited
         //let visible = TW_Store.gameUpateStore.isNeedUpdate||TW_Store.gameUpateStore.isAppDownIng
         TW_Log("targetAppDir----LoadingWebView-isNeedUpdate==" + TW_Store.gameUpateStore.isNeedUpdate + "---isAppDownIng=" + TW_Store.gameUpateStore.isAppDownIng);
         let visible = TW_Store.gameUpateStore.isNeedUpdate || TW_Store.gameUpateStore.isLoading
