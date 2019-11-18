@@ -26,10 +26,12 @@ function getAvailableDomain(domains, callback, initDomainCallBack) {
 
     TN_yunDunStart((isUseYunDun,port)=>{
         TW_Store.dataStore.log+="\n---游戏盾-==-"+isUseYunDun+"==port=="+port+"---\n";
+        TW_Store.appStore.versionHotFix=isUseYunDun ?  (TW_Store.appStore.versionHotFix+"-yun"):TW_Store.appStore.versionHotFix
         //如果是sit 环境，云盾无法配置 强制使用老放松接入
         if(TW_Store.appStore.isSitApp){
             isUseYunDun =false;
         }
+
        // isUseYunDun =false;
         for (let i = 0; i < domains.length; i++) {
             TW_Log('= ' + domains[i]+"----isUseYunDun---"+isUseYunDun+"===port==="+port);
