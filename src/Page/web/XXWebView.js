@@ -142,7 +142,7 @@ export default class XXWebView extends Component {
 
     render() {
         TW_Log("TW_DATA_KEY.gameList-FileTools--==err=flash=this.state.flash--isLoading="+TW_Store.gameUpateStore.isLoading+"---TW_Store.gameUpateStore.isIncludeLobby"+TW_Store.gameUpateStore.isIncludeLobby);
-        let news = TW_Store.gameUpateStore.isLoading || !TW_Store.dataStore.isAppInited ||TW_Store.appStore.currentDomain.length<=0
+        let news = TW_Store.gameUpateStore.isLoading || !TW_Store.dataStore.isAppInited ;
         if (news) {
             return null
         }
@@ -153,7 +153,7 @@ export default class XXWebView extends Component {
             file: TW_Store.dataStore.targetAppDir+ "/index.html",
             allowingReadAccessToURL: TW_Store.dataStore.targetAppDir,
             allowFileAccessFromFileURLs: TW_Store.dataStore.targetAppDir,
-            param:`?app=true&&isDebug=${TW_Store.appStore.isSitApp||TW_Store.appStore.clindId==214}&&version=${TW_Store.dataStore.homeVersionM.versionNum}`
+            param:`?app=true&isDebug=${TW_Store.appStore.isSitApp||TW_Store.appStore.clindId==214}&version=${TW_Store.dataStore.homeVersionM.versionNum}`
         };
 
         if (!G_IS_IOS) {
@@ -161,6 +161,7 @@ export default class XXWebView extends Component {
                 uri: TW_Store.dataStore.targetAppDir+"/index.html"+`?app=true&&isDebug=${TW_Store.appStore.isSitApp||TW_Store.appStore.clindId==214}&&version=${TW_Store.dataStore.homeVersionM.versionNum}`,
             };
         }
+
 
         // if (TW_IS_DEBIG) {
         //     // source =  require('./../../../android/app/src/main/assets/gamelobby/index.html');
@@ -536,9 +537,9 @@ export default class XXWebView extends Component {
     }
 
     onError = (error) => {
-        // if (TW_Store.dataStore.isAppInited) {
-        //     TW_Store.dataStore.onRetartApp();
-        // }
+        if (TW_Store.dataStore.isAppInited) {
+            TW_Store.dataStore.onRetartApp();
+        }
         TW_Log("onError======XXWebView=====event=====rr22", error)
     }
 

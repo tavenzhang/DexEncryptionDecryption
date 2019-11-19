@@ -21,7 +21,7 @@ export default class GameLogView extends Component {
         if (TW_Store.bblStore.isDebugApp) {
             return (<ScrollView style={{position: "absolute",zIndex:100010, height: JX_PLAT_INFO.SCREEN_H}}><Text
                 style={{
-                    color: "yellow",
+                    color: "red",
                     fontWeight: "bold"
                 }}
                 pointerEvents={"none"}>{`\nversionMangernew==${JSON.stringify(TW_Store.dataStore.homeVersionM)}` +
