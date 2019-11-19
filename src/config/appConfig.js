@@ -38,7 +38,7 @@ export const AppConfig = {
 
 export const MyAppName = '博博乐sit';
 
-export const versionHotFix = 'v2.1118.1134';
+export const versionHotFix = 'v2.1119.1347';
 
 export const MyOwnerPlatName= 'sit';
 
@@ -51,7 +51,7 @@ export const safeguardKey = 'eyJkIjogWyJodHRwczovLzk4NzY0NWJhMDBhOWIwNDE2YjI1NGY
 
 export const platInfo = {
 
-    downDomain:"https://download1.jinkuangjia.com",
+    downDomain:"https://download.jinkuangjia.com",
 
     zipCheckServer: {
         debug_server: "http://192.168.14.70:8888",
