@@ -68,7 +68,6 @@ export default class DataStore {
 
 
 
-
     async loadHomeVerson() {
         let Url = TW_Store.dataStore.getHomeWebHome() + "/assets/conf/version.json";
         const target_dir_exist = await RNFS.exists(Url);

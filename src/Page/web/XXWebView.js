@@ -142,7 +142,7 @@ export default class XXWebView extends Component {
 
     render() {
         TW_Log("TW_DATA_KEY.gameList-FileTools--==err=flash=this.state.flash--isLoading="+TW_Store.gameUpateStore.isLoading);
-        let news = TW_Store.gameUpateStore.isLoading || !TW_Store.dataStore.isAppInited ;
+        let news = TW_Store.gameUpateStore.isLoading || !TW_Store.dataStore.isAppInited|| TW_Store.bblStore.gameDomain.length<=0;
         if (news) {
             return null
         }
