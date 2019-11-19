@@ -172,7 +172,7 @@ export default class LoadingWebView extends Component {
     }
 
     onNavigationStateChange = (navState) => {
-
+        TW_Log("navState====LoadingWebView=======onNavigationStateChange=====url==" + navState.url, navState)
 
     };
 

@@ -35,7 +35,7 @@ export default class GameLogView extends Component {
                 }
             }
             return (<View style={{position: "absolute",   zIndex:100010, bottom:10,left:15}} pointerEvents={"none"}>
-                {isShow ? <Text style={{color:"white",fontSize:10}}>{showText}</Text>:null}
+                {isShow ? <Text style={{color:"white",fontSize:8}}>{showText}</Text>:null}
             </View>)
         }
 
