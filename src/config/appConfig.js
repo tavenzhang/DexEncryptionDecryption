@@ -3,12 +3,12 @@ import React, {
 } from 'react-native';
 
 export const appDomainBase = {
-    base1: 'http://yundun-qp01-game.513xyz.com',
+    base1: 'https://yundun-qp01-game.513xyz.com',
     base2: 'https://qp01-game.513xyz.com',
     base3: 'https://*.gymjjddjzx.com',
-    base4: 'https://yundun-qp01-game.513xyz.com',
-    base5: 'https://yundun-qp01-game.513xyz.com',
-    base6: 'https://yundun-qp01-game.513xyz.com',
+    base4: 'https://yundun-qp02-game.513xyz.com',
+    base5: 'https://yundun-qp02-game.513xyz.com',
+    base6: 'https://yundun-qp02-game.513xyz.com',
 }
 
 

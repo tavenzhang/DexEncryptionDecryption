@@ -141,13 +141,11 @@ export default class XXWebView extends Component {
 
 
     render() {
-        TW_Log("TW_DATA_KEY.gameList-FileTools--==err=flash=this.state.flash--isLoading="+TW_Store.gameUpateStore.isLoading);
-        let news = TW_Store.gameUpateStore.isLoading || !TW_Store.dataStore.isAppInited|| TW_Store.bblStore.gameDomain.length<=0;
+        TW_Log("TW_DATA_KEY.gameList-FileTools--==err=flash=this.state.flash--isLoading="+TW_Store.gameUpateStore.isLoading+"---TW_Store.bblStore.gameDomain.length--"+TW_Store.bblStore.gameDomain.length);
+        let news = TW_Store.gameUpateStore.isLoading || !TW_Store.dataStore.isAppInited|| (TW_Store.bblStore.gameDomain&&TW_Store.bblStore.gameDomain.length<4);
         if (news) {
             return null
         }
-
-        TW_Log("TW_DATA_KEY.gameList-FileTools--=gameUpateStore=news==" + news + "getSettings==isAppInited=" + TW_Store.dataStore.isAppInited)
 
         let source = {
             file: TW_Store.dataStore.targetAppDir+ "/index.html",
@@ -163,12 +161,7 @@ export default class XXWebView extends Component {
         }
 
 
-        // if (TW_IS_DEBIG) {
-        //     // source =  require('./../../../android/app/src/main/assets/gamelobby/index.html');
-        //     let uri = "http://localhost:8081/android/app/src/main/assets/gamelobby/index.html?platform=ios&hash=7e5876ea5a240467db5670550b53411b&rm-" + this.rom
-        //     source = {uri}
-        // }
-        TW_Log("targetAppDir----MainBundlePath-TW_Store.dataStore.isAppInited-----" + TW_Store.dataStore.isAppInited+"---TW_Store.appStore.deviceToken="+TW_Store.appStore.deviceToken,source);
+        TW_Log("targetAppDir----MainBundlePath-TW_Store.dataStore.isAppInited-----",source);
 
 
         let injectJs = `window.appData=${JSON.stringify({

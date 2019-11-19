@@ -36,7 +36,7 @@ export default class LoadingWebView extends Component {
             file: newUrl,
             allowingReadAccessToURL: TW_Store.dataStore.targetAppDir,
             allowFileAccessFromFileURLs: TW_Store.dataStore.targetAppDir,
-            param: ""
+            param: myParam
         };
         if (!G_IS_IOS) {
             source = {
@@ -55,9 +55,7 @@ export default class LoadingWebView extends Component {
             isApp: true,
             taven: "isOk",
             brandID: platInfo.brand,
-            brandUrl: TW_Store.bblStore.getBrandUrl(),
             clientId: TW_Store.appStore.clindId,
-            urlJSON: TW_Store.bblStore.getUriConfig(),
             isAndroidHack: TW_Store.appStore.isInAnroidHack,
             hackData: {filterGameList: ["zjh", "lhd", "bjl", "pg", "jlbsh", "tto", "erbg"]},
             deviceToken: TW_Store.appStore.deviceToken,

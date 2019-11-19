@@ -47,6 +47,9 @@ export default class AppInfoStore {
      */
     @observable
     deviceToken = '';
+
+    @observable
+    yunDunPort = null;
     /**
      * 邀请码
      * @type {string}
@@ -505,7 +508,7 @@ export default class AppInfoStore {
         if (this.deviceToken.length === 0) {
             this.deviceToken = await this.initDeviceUniqueID();
             //刷新游戏appNativeData 数据
-            TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appNativeData, { data: TW_Store.bblStore.getAppNativeData()}));
+            //TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appNativeData, { data: TW_Store.bblStore.getAppNativeData()}));
             this.saveDeviceTokenToLocalStore();
         }
         this.yunDunData.token=this.deviceToken;
