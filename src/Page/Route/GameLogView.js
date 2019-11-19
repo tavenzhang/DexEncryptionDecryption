@@ -31,7 +31,7 @@ export default class GameLogView extends Component {
             if(TW_Store.appStore.isTestApp){
                 if(TW_Store.appStore.yunDunPort) {
                     isShow = true;
-                    showText = TW_Store.bblStore.gameDomain + "--yunDun:" + TW_Store.appStore.yunDunPort
+                    showText = "yundun:" + TW_Store.appStore.yunDunPort
                 }
             }
             return (<View style={{position: "absolute",   zIndex:100010, bottom:10,left:15}} pointerEvents={"none"}>

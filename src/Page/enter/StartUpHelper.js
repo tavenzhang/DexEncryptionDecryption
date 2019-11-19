@@ -71,7 +71,9 @@ function getAvailableDomain(domains, callback, initDomainCallBack) {
                         if (gameDomain.indexOf("http") > -1) {
                             if (!TW_Store.appStore.isSitApp) { //对于sit  环境做特殊处理 使用默认
                                 //为了兼容老app。如果是集成了云盾的sdk，使用趋势图域名
-                                    TW_Store.appStore.currentDomain = TW_Store.bblStore.loginDomain = TW_Store.bblStore.gameDomain = gameDomain;
+                                    if(TW_Store.appStore.currentDomain!=gameDomain){
+                                        TW_Store.appStore.currentDomain = TW_Store.bblStore.loginDomain = TW_Store.bblStore.gameDomain = gameDomain;
+                                    }
                                     TW_Log('大王来巡山 content==domains[i] currentDomain--' + TW_Store.appStore.currentDomain + "---tempDomain--" + tempDomain, serverDomains);
                             }else{
                                 TW_Store.appStore.currentDomain = TW_Store.bblStore.loginDomain = TW_Store.bblStore.gameDomain = tempDomain;
