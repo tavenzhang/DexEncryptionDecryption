@@ -141,8 +141,8 @@ export default class XXWebView extends Component {
 
 
     render() {
-        TW_Log("TW_DATA_KEY.gameList-FileTools--==err=flash=this.state.flash--isLoading="+TW_Store.gameUpateStore.isLoading+"---TW_Store.bblStore.gameDomain.length--"+TW_Store.bblStore.gameDomain.length);
-        let news = TW_Store.gameUpateStore.isLoading || !TW_Store.dataStore.isAppInited|| (TW_Store.bblStore.gameDomain&&TW_Store.bblStore.gameDomain.length<4);
+        TW_Log("TW_DATA_KEY.gameList-FileTools--==err=flash=this.state.flash--isLoading="+TW_Store.gameUpateStore.isLoading+"---TW_Store.bblStore.gameDomain.length--");
+        let news = TW_Store.gameUpateStore.isLoading || !TW_Store.dataStore.isAppInited;
         if (news) {
             return null
         }
@@ -151,7 +151,7 @@ export default class XXWebView extends Component {
             file: TW_Store.dataStore.targetAppDir+ "/index.html",
             allowingReadAccessToURL: TW_Store.dataStore.targetAppDir,
             allowFileAccessFromFileURLs: TW_Store.dataStore.targetAppDir,
-            param:`?app=true&isDebug=${TW_Store.appStore.isSitApp||TW_Store.appStore.clindId==214}&version=${TW_Store.dataStore.homeVersionM.versionNum}`
+            param:`?app=true&isDebug=${TW_Store.appStore.isTestApp}`
         };
 
         if (!G_IS_IOS) {

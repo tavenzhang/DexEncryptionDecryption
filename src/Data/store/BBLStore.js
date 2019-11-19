@@ -51,7 +51,7 @@ export  default  class BBLStore {
     }
 
     @action
-    getUriConfig(){{
+    getUriConfig(){
         return {
             url: {
                 "home": `${this.gameDomain}/g_lobby/home.html`,
@@ -65,7 +65,7 @@ export  default  class BBLStore {
                 "testcustomurl": "https://vp8.livechatvalue.com/chat/chatClient/chatbox.jsp?companyID=80002762&configID=2931&k=1"
             },
         }
-    }}
+    }
 
 
 
