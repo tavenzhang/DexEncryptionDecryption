@@ -57,18 +57,14 @@ export default class DataStore {
     @action
     async initAppHomeCheck() {
         const is_lobby_exist =await RNFS.exists(TW_Store.dataStore.originAppDir + "/index.html");
-        const unZipExit =await RNFS.exists(   TW_Store.dataStore.targetAppDir+ "/index.html");
-
         TW_Store.gameUpateStore.isIncludeLobby = is_lobby_exist;
         if (this.isAppInited) {
             this.loadHomeVerson();
         } else {
-            this.copy_assets_to_dir();
+            setTimeout(this.initAppHomeCheck,1000);
         }
-        this.log += "Url--this.is_lobby_exist----"+is_lobby_exist +"---home---unZipExit=" + unZipExit+"----\n";
+        this.log += "Url--this.is_lobby_exist----"+is_lobby_exist +"----\n";
     }
-
-
 
 
 
@@ -77,8 +73,7 @@ export default class DataStore {
         let Url = TW_Store.dataStore.getHomeWebHome() + "/assets/conf/version.json";
         const target_dir_exist = await RNFS.exists(Url);
         TW_Log("Url-----home---target_dir_exist=" + target_dir_exist, Url);
-        this.log += "Url-----home---target_dir_exist=" + target_dir_exist;
-        this.log += "\nUrl-----home---target_dir_exist=Url-" + Url;
+        this.log += "\nUrl-----home---target_dir_exist=Url-" + Url+"---target_dir_exist=="+target_dir_exist;
         if (target_dir_exist) {
             RNFS.readFile(Url).then(ret => {
                 let data = ret
@@ -323,16 +318,13 @@ export default class DataStore {
             if (err) {
                 TW_Log("versionBBL bbl--- copyFile--onSaveCopyState--error===!", err);
             } else {
-                setTimeout(() => {
                     this.isAppInited = true;
-                    this.loadHomeVerson();
-                }, G_IS_IOS ? 1000 : 2000);
             }
             this.log += "onSaveCopyState---  this.isAppInited=" + this.isAppInited + "\n"
         })
     }
 
-    async copy_assets_to_dir() {
+    async   copy_assets_to_dir() {
         let source_dir = this.originAppDir;
         let target_dir = ""
         TW_Log('andorid--------copy_assets_to_dir--start');

@@ -141,7 +141,7 @@ export default class XXWebView extends Component {
 
 
     render() {
-        TW_Log("TW_DATA_KEY.gameList-FileTools--==err=flash=this.state.flash--isLoading="+TW_Store.gameUpateStore.isLoading+"---TW_Store.gameUpateStore.isIncludeLobby"+TW_Store.gameUpateStore.isIncludeLobby);
+        TW_Log("TW_DATA_KEY.gameList-FileTools--==err=flash=this.state.flash--isLoading="+TW_Store.gameUpateStore.isLoading);
         let news = TW_Store.gameUpateStore.isLoading || !TW_Store.dataStore.isAppInited ;
         if (news) {
             return null
@@ -536,9 +536,12 @@ export default class XXWebView extends Component {
         }
     }
 
-    onError = (error) => {
+    async onError  (error) {
         if (TW_Store.dataStore.isAppInited) {
-            TW_Store.dataStore.onRetartApp();
+            const unZipExit =await RNFS.exists(   TW_Store.dataStore.targetAppDir+ "/index.html");
+            if(unZipExit){
+                TW_Store.dataStore.onRetartApp();
+            }
         }
         TW_Log("onError======XXWebView=====event=====rr22", error)
     }

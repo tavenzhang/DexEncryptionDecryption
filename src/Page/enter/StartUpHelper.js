@@ -89,7 +89,8 @@ function getAvailableDomain(domains, callback, initDomainCallBack) {
                             serverDomains: serverDomains,
                             hotfixDomains: content.availableUpdateInfoList,
                             trendChartDomains: content.trendChartDomains,
-                            responseTime: rt.duration
+                            responseTime: rt.duration,
+                            currendDomain:TW_Store.appStore.currentDomain,
                         }), (err) => {
                             netStateCheckAllReady = true
                             if (!err) {
