@@ -98,9 +98,12 @@ export default class AppInfoStore {
     //openInstallData
     @observable
     openInstallData = { appKey: "", data: null };
-
+  //是否是测试app sit and shApp
     @observable
     isSitApp=false
+    //是否是测试app 包含uat
+    @observable
+    isTestApp=false
 
     openInstallCheckCount = 1;
 
@@ -148,12 +151,12 @@ export default class AppInfoStore {
                 TW_Store.dataStore.copy_assets_to_dir(()=>{SoundHelper.startBgMusic();});
             }
 
-            // TW_Data_Store.getItem(TW_DATA_KEY.LobbyReadyOK, (err, ret) => {
-            //     if(TW_Store.dataStore.isAppInited){
-            //         TW_Store.gameUpateStore.isNeedUpdate=`${ret}` == "1" ? false:true;
-            //         TW_Log("TW_DATA_KEY.LobbyReadyOK---"+ret,TW_Store.gameUpateStore.isNeedUpdate)
-            //     }
-            // });
+            TW_Data_Store.getItem(TW_DATA_KEY.LobbyReadyOK, (err, ret) => {
+                if(TW_Store.dataStore.isAppInited){
+                    TW_Store.gameUpateStore.isNeedUpdate=`${ret}` == "1" ? false:true;
+                    TW_Log("TW_DATA_KEY.LobbyReadyOK---"+ret,TW_Store.gameUpateStore.isNeedUpdate)
+                }
+            });
         });
 
 
@@ -310,6 +313,7 @@ export default class AppInfoStore {
             TN_StartUMeng(this.appInfo.UmengKey, this.appInfo.Affcode);
         }
         this.isSitApp = this.clindId == "1209" || this.clindId == "4";
+        this.isTestApp=this.isSitApp||this.clindId == "214"
         this.emulatorChecking();
     }
 
