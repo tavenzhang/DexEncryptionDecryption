@@ -311,19 +311,22 @@ export default class DataStore {
 
 
     @action
-    onSaveCopyState() {
+    onSaveCopyState(callBack) {
         TW_Data_Store.setItem(TW_DATA_KEY.isInitStore, "1", (err) => {
             this.log += "onSavaCoisInitStorepyState---err=" + err + "\n"
             if (err) {
                 TW_Log("versionBBL bbl--- copyFile--onSaveCopyState--error===!", err);
             } else {
                     this.isAppInited = true;
+                    if(callBack){
+                        callBack()
+                    }
             }
             this.log += "onSaveCopyState---  this.isAppInited=" + this.isAppInited + "\n"
         })
     }
 
-    async   copy_assets_to_dir() {
+    async   copy_assets_to_dir(callBack) {
         let source_dir = this.originAppDir;
         let target_dir = ""
         TW_Log('andorid--------copy_assets_to_dir--start');
@@ -337,7 +340,7 @@ export default class DataStore {
                     TW_Log("versionBBL bbl--- unlink----target_dir==!" + target_dir_exist, ret);
                     RNFS.copyFile(source_dir, target_dir).then(() => {
                         this.log += "onSaveCopyState---\n"
-                        this.onSaveCopyState();
+                        this.onSaveCopyState(callBack);
                     }).catch((err) => {
                         TW_Log("versionBBL bbl--- 删除文件失败", target_dir_exist);
                     })
@@ -346,7 +349,7 @@ export default class DataStore {
                 // let ret = await RNFS.copyFile(source_dir, target_dir);
                 RNFS.copyFile(source_dir, target_dir).then(() => {
                     this.log += "onSaveCopyState---\n"
-                    this.onSaveCopyState();
+                    this.onSaveCopyState(callBack);
                 }).catch((err) => {
                     this.log += "copyFile-err--" + err
                     //TW_Log("versionBBL bbl--- 删除文件失败", target_dir_exist);
@@ -364,7 +367,7 @@ export default class DataStore {
             for (let i = 0; i < items.length; i++) {
                 const item = items[i];
                 if (item.isDirectory()) {
-                    await this.androdi_copy_assets_to_dir(`${source_dir}/${item.name}`, `${target_dir}/${item.name}`);
+                    await this.androdi_copy_assets_to_dir(`${source_dir}/${item.name}`, `${target_dir}/${item.name}`,callBack);
                 } else {
                     await RNFS.copyFileAssets(`${source_dir}/${item.name}`, `${target_dir}/${item.name}`);
                 }
@@ -372,7 +375,7 @@ export default class DataStore {
         }
     }
 
-    async androdi_copy_assets_to_dir(source_dir: string, target_dir: string) {
+    async androdi_copy_assets_to_dir(source_dir: string, target_dir: string,callBack) {
         const target_dir_exist = await RNFS.exists(target_dir);
         if (!target_dir_exist) {
             await RNFS.mkdir(target_dir);
@@ -389,7 +392,7 @@ export default class DataStore {
                 TW_Log('andorid----androdi_copy_assets-----fileState-== ' + fileState, item);
                 if (item.path && item.path.indexOf("zzzFinish/") > -1) {
                     //　利用zzzFinish来判断是否android拷贝完成
-                    this.onSaveCopyState();
+                    this.onSaveCopyState(callBack);
                 }
             }
         }

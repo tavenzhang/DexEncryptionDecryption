@@ -140,10 +140,11 @@ export default class AppInfoStore {
         TW_Data_Store.getItem(TW_DATA_KEY.isInitStore, (err, ret) => {
             if (`${ret}` == "1") {
                 TW_Store.dataStore.isAppInited=true;
+                SoundHelper.startBgMusic();
             }else{
-                TW_Store.dataStore.copy_assets_to_dir();
+                TW_Store.dataStore.copy_assets_to_dir(()=>{SoundHelper.startBgMusic();});
             }
-            SoundHelper.startBgMusic();
+
             // TW_Data_Store.getItem(TW_DATA_KEY.LobbyReadyOK, (err, ret) => {
             //     if(TW_Store.dataStore.isAppInited){
             //         TW_Store.gameUpateStore.isNeedUpdate=`${ret}` == "1" ? false:true;
