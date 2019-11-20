@@ -8,6 +8,7 @@ import {ASSET_Images} from "../../asset";
 import {TCButton, TCButtonImg} from "../../../Common/View/button/TCButtonView";
 import ExitGameAlertView from "./ExitGameAlertView";
 import PropTypes from "prop-types";
+import Orientation from 'react-native-orientation';
 
 const GAME_ICONS = ASSET_Images.gameMemu;
 const SIZE = {
@@ -47,6 +48,12 @@ export default class GameMenuButton extends Component {
     }
 
     componentWillMount() {
+        Orientation.getOrientation((err, orientation) => {
+            TW_Log(`Orientation---: ${orientation}`);
+            if(orientation=='LANDSCAPE'){
+                this.setState({isScreenPortrait:false})
+            }
+        });
 
         Dimensions.addEventListener("change", this.onOrientationChange);
     }
@@ -115,7 +122,7 @@ export default class GameMenuButton extends Component {
     }
 
     getGameMenuPosition=()=> {
-        const { isScreenPortrait } = this.state;
+        const {isScreenPortrait} = this.state;
         const extraTopHeight = G_IS_IOS ? StatusBarHeight : 5;
         const extraBottomHeight = IS_CHECK_SAFEAREA ? SafeAreaBottomHeight : 0;
         let position;
@@ -125,16 +132,16 @@ export default class GameMenuButton extends Component {
 
         if (isScreenPortrait) {
             position = {
-                initX: dx - 60,
-                initY: 100,
+                initX: dy - 60,
+                initY: 60,
                 topMargin: extraTopHeight,
                 bottomMargin: extraBottomHeight + 100,
                 rightMargin: 60,
                 leftMargin: 0,
                 minX: 5,
-                maxX: dx - 150,
+                maxX: dy - 150,
                 minY: extraTopHeight,
-                maxY: dy - extraBottomHeight - 150
+                maxY: dx - extraBottomHeight - 150
             };
         } else {
             position = {
