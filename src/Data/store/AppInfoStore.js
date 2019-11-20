@@ -152,10 +152,12 @@ export default class AppInfoStore {
             }
 
             TW_Data_Store.getItem(TW_DATA_KEY.LobbyReadyOK, (err, ret) => {
-                // if(TW_Store.dataStore.isAppInited){
-                //     TW_Store.gameUpateStore.isNeedUpdate=`${ret}` == "1" ? false:true;
-                //     TW_Log("TW_DATA_KEY.LobbyReadyOK---"+ret,TW_Store.gameUpateStore.isNeedUpdate)
-                // }
+                if(TW_Store.dataStore.isAppInited){
+                    if(ret){
+                        TW_Store.gameUpateStore.isNeedUpdate=`${ret}` == "1" ? false:true;
+                    }
+                    TW_Log("TW_DATA_KEY.LobbyReadyOK---"+ret,TW_Store.gameUpateStore.isNeedUpdate)
+                }
             });
         });
 
