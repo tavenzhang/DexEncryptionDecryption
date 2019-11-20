@@ -47,6 +47,9 @@ export default class AppInfoStore {
      */
     @observable
     deviceToken = '';
+
+    @observable
+    yunDunPort = null;
     /**
      * 邀请码
      * @type {string}
@@ -95,9 +98,12 @@ export default class AppInfoStore {
     //openInstallData
     @observable
     openInstallData = { appKey: "", data: null };
-
+  //是否是测试app sit and shApp
     @observable
     isSitApp=false
+    //是否是测试app 包含uat
+    @observable
+    isTestApp=false
 
     openInstallCheckCount = 1;
 
@@ -140,13 +146,18 @@ export default class AppInfoStore {
         TW_Data_Store.getItem(TW_DATA_KEY.isInitStore, (err, ret) => {
             if (`${ret}` == "1") {
                 TW_Store.dataStore.isAppInited=true;
+                SoundHelper.startBgMusic();
+            }else{
+                TW_Store.dataStore.copy_assets_to_dir(()=>{SoundHelper.startBgMusic();});
             }
-            SoundHelper.startBgMusic();
+
             TW_Data_Store.getItem(TW_DATA_KEY.LobbyReadyOK, (err, ret) => {
-                // if(TW_Store.dataStore.isAppInited){
-                //     TW_Store.gameUpateStore.isNeedUpdate=`${ret}` == "1" ? false:true;
-                //     TW_Log("TW_DATA_KEY.LobbyReadyOK---"+ret,TW_Store.gameUpateStore.isNeedUpdate)
-                // }
+                if(TW_Store.dataStore.isAppInited){
+                    if(ret){
+                        TW_Store.gameUpateStore.isNeedUpdate=`${ret}` == "1" ? false:true;
+                    }
+                    TW_Log("TW_DATA_KEY.LobbyReadyOK---"+ret,TW_Store.gameUpateStore.isNeedUpdate)
+                }
             });
         });
 
@@ -304,6 +315,7 @@ export default class AppInfoStore {
             TN_StartUMeng(this.appInfo.UmengKey, this.appInfo.Affcode);
         }
         this.isSitApp = this.clindId == "1209" || this.clindId == "4";
+        this.isTestApp=this.isSitApp||this.clindId == "214"
         this.emulatorChecking();
     }
 
@@ -502,7 +514,7 @@ export default class AppInfoStore {
         if (this.deviceToken.length === 0) {
             this.deviceToken = await this.initDeviceUniqueID();
             //刷新游戏appNativeData 数据
-            TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appNativeData, { data: TW_Store.bblStore.getAppNativeData()}));
+            //TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appNativeData, { data: TW_Store.bblStore.getAppNativeData()}));
             this.saveDeviceTokenToLocalStore();
         }
         this.yunDunData.token=this.deviceToken;

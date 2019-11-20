@@ -51,7 +51,7 @@ export  default  class BBLStore {
     }
 
     @action
-    getUriConfig(){{
+    getUriConfig(){
         return {
             url: {
                 "home": `${this.gameDomain}/g_lobby/home.html`,
@@ -65,7 +65,7 @@ export  default  class BBLStore {
                 "testcustomurl": "https://vp8.livechatvalue.com/chat/chatClient/chatbox.jsp?companyID=80002762&configID=2931&k=1"
             },
         }
-    }}
+    }
 
 
 
@@ -291,17 +291,20 @@ export  default  class BBLStore {
         return {
             isApp: true,
             taven: "isOk",
-            brandUrl: TW_Store.bblStore.getBrandUrl(),
+            brandID:platInfo.brand,
+            brandUrl:TW_Store.bblStore.getBrandUrl(),
             clientId: TW_Store.appStore.clindId,
             urlJSON: TW_Store.bblStore.getUriConfig(),
             isAndroidHack: TW_Store.appStore.isInAnroidHack,
+            hackData:{filterGameList:["zjh","lhd","bjl","pg","jlbsh","tto","erbg"]},
             deviceToken: TW_Store.appStore.deviceToken,
             loginDomain: TW_Store.bblStore.loginDomain + "/api/v1/account",
             gameDomain: TW_Store.bblStore.gameDomain + "/api/v1/gamecenter",
             affCode: TW_Store.appStore.userAffCode,
             isDebug: TW_IS_DEBIG,
-            appVersion: TW_Store.appStore.versionHotFix + (!G_IS_IOS && TW_Store.appStore.subAppType != "0" ? ` - ${TW_Store.appStore.subAppType}` : ""),
+            appVersion: TW_Store.appStore.versionHotFix+(!G_IS_IOS&&TW_Store.appStore.subAppType!="0" ? ` - ${TW_Store.appStore.subAppType}`:""),
             isAppSound: TW_Store.dataStore.isAppSound,
+            specialVersionHot:parseInt(TW_Store.appStore.specialVersionHot),
             isNewApp: G_IS_IOS ? true : false
         }
     }

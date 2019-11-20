@@ -163,7 +163,7 @@ export default class TWWebGameView extends Component {
         let {url, isOrigan} = this.props;
         if (url && url.length > 0) {
             if (!isOrigan) {
-                this.timeId = setTimeout(this.onEnterGame, G_IS_IOS ? 1000 : 4000)
+                this.timeId = setTimeout(this.onEnterGame, G_IS_IOS ? 2000 : 4000)
             } else {
                 this.timeId = setTimeout(this.onEnterGame, G_IS_IOS ? 500 : 1000)
             }

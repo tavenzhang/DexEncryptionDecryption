@@ -63,7 +63,7 @@ export default class ModuleWebView extends Component {
                     TW_Log("ModuleWebView--end--isFirstShow")
                     this.isFirstShow=false;
                     this.onShowUI(isShowUi);
-                }, G_IS_IOS ? 700:1000)
+                }, G_IS_IOS ? 500:800)
             }else{
                 this.onShowUI(isShowUi)
             }

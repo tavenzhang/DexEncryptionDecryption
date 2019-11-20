@@ -141,19 +141,17 @@ export default class XXWebView extends Component {
 
 
     render() {
-        TW_Log("TW_DATA_KEY.gameList-FileTools--==err=flash=this.state.flash--isLoading="+TW_Store.gameUpateStore.isLoading+"---TW_Store.gameUpateStore.isIncludeLobby"+TW_Store.gameUpateStore.isIncludeLobby);
-        let news = TW_Store.gameUpateStore.isLoading || !TW_Store.dataStore.isAppInited ;
+        TW_Log("TW_DATA_KEY.gameList-FileTools--==err=flash=this.state.flash--isLoading="+TW_Store.gameUpateStore.isLoading+"---TW_Store.bblStore.gameDomain.length--");
+        let news = TW_Store.gameUpateStore.isLoading || !TW_Store.dataStore.isAppInited||TW_Store.bblStore.gameDomain.length<4;
         if (news) {
             return null
         }
-
-        TW_Log("TW_DATA_KEY.gameList-FileTools--=gameUpateStore=news==" + news + "getSettings==isAppInited=" + TW_Store.dataStore.isAppInited)
 
         let source = {
             file: TW_Store.dataStore.targetAppDir+ "/index.html",
             allowingReadAccessToURL: TW_Store.dataStore.targetAppDir,
             allowFileAccessFromFileURLs: TW_Store.dataStore.targetAppDir,
-            param:`?app=true&isDebug=${TW_Store.appStore.isSitApp||TW_Store.appStore.clindId==214}&version=${TW_Store.dataStore.homeVersionM.versionNum}`
+            param:`?app=true&isDebug=${TW_Store.appStore.isTestApp}&length=${TW_Store.bblStore.gameDomain.length}`
         };
 
         if (!G_IS_IOS) {
@@ -163,12 +161,7 @@ export default class XXWebView extends Component {
         }
 
 
-        // if (TW_IS_DEBIG) {
-        //     // source =  require('./../../../android/app/src/main/assets/gamelobby/index.html');
-        //     let uri = "http://localhost:8081/android/app/src/main/assets/gamelobby/index.html?platform=ios&hash=7e5876ea5a240467db5670550b53411b&rm-" + this.rom
-        //     source = {uri}
-        // }
-        TW_Log("targetAppDir----MainBundlePath-TW_Store.dataStore.isAppInited-----" + TW_Store.dataStore.isAppInited+"---TW_Store.appStore.deviceToken="+TW_Store.appStore.deviceToken,source);
+        TW_Log("targetAppDir----MainBundlePath-TW_Store.dataStore.isAppInited-----",source);
 
 
         let injectJs = `window.appData=${JSON.stringify({
@@ -416,13 +409,11 @@ export default class XXWebView extends Component {
                     break;
                 case "showGame":
                     TW_Store.gameUpateStore.isEnteredGame = true;
+                   // this.onEvaleJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appNativeData, { data: TW_Store.bblStore.getAppNativeData()}));
                     TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK,'1');
-                    setTimeout(() => {
-                        if (TW_Store.dataStore.isAppSound) {
-                            this.onEvaleJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.stopMusic));
-                        }
-                    }, 2000)
-
+                    if (TW_Store.dataStore.isAppSound) {
+                        this.onEvaleJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.stopMusic));
+                    }
                     break;
                 case  "game_custom":
                     TW_Store.gameUIStroe.showGusetView(!TW_Store.gameUIStroe.isShowGuest);
@@ -536,9 +527,12 @@ export default class XXWebView extends Component {
         }
     }
 
-    onError = (error) => {
+    async onError  (error) {
         if (TW_Store.dataStore.isAppInited) {
-            TW_Store.dataStore.onRetartApp();
+            const unZipExit =await RNFS.exists(   TW_Store.dataStore.targetAppDir+ "/index.html");
+            if(unZipExit){
+                TW_Store.dataStore.onRetartApp();
+            }
         }
         TW_Log("onError======XXWebView=====event=====rr22", error)
     }

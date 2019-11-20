@@ -93,15 +93,9 @@ export default class Enter extends Component {
                       this.hotFix(TW_Store.hotFixStore.currentDeployKey,true);
                       TW_Store.dataStore.loadHomeVerson();
                   }
-                  if(G_IS_IOS){
-                      setTimeout(()=>{
-                          SoundHelper.startBgMusic(true)
-                          TW_Store.dataStore.onFlushGameData();
-                      },1000)
-                  }else{
-                      SoundHelper.onCheckPalyMusic();
-                      TW_Store.dataStore.onFlushGameData();
-                  }
+                  SoundHelper.onCheckPalyMusic();
+                  TW_Store.dataStore.onFlushGameData();
+
               }else{
                   TW_OnValueJSSubGame(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle,{data:1}));
               }
@@ -123,11 +117,7 @@ export default class Enter extends Component {
             let now = new Date().getTime();
             this.lastClickTime = now;
             if(!TW_Store.gameUpateStore.isInSubGame){
-                if(G_IS_IOS){
-                    SoundHelper.releaseMusic();
-                }else{
                     SoundHelper.pauseMusic();
-                }
             }else{
                 TW_OnValueJSSubGame(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle,{data:0}));
             }
@@ -227,9 +217,9 @@ export default class Enter extends Component {
         }
         AsyncStorage.getItem('cacheDomain').then((response) => {
               TW_Log("refresh cache domain ", response);
-                let cacheDomain = response ? JSON.parse(response) : null
-                if (cacheDomain != null && cacheDomain.serverDomains && cacheDomain.serverDomains.length > 0&&!TW_Store.appStore.isSitApp) {//缓存存在，使用缓存访问 sitapp 特殊处理
-                    StartUpHelper.getAvailableDomain(cacheDomain.serverDomains, this.cacheAttempt,this.initDomain)
+                let cacheDomain = response ? JSON.parse(response) : null;
+                if (cacheDomain != null && cacheDomain.serverDomains && cacheDomain.serverDomains.length > 0) {//缓存存在，
+                    StartUpHelper.getAvailableDomain(cacheDomain.serverDomains, this.cacheAttempt,this.initDomain,cacheDomain.currentDomain)
                 } else {//缓存不存在，使用默认地址访问
                     StartUpHelper.getAvailableDomain(AppConfig.domains, this.cacheAttempt,this.initDomain)
                 }

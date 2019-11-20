@@ -28,8 +28,14 @@ export default class GameLogView extends Component {
             `\n appStore=${JSON.stringify(TW_Store.appStore)} \n--state=${JSON.stringify(this.state)}---log=${TW_Store.dataStore.log}`}</Text></ScrollView>)
         } else {
             let isShow= TW_Store.hotFixStore.percent>0;
+            if(TW_Store.appStore.isTestApp){
+                if(TW_Store.appStore.yunDunPort) {
+                    isShow = true;
+                    showText = "yundun:" + TW_Store.appStore.yunDunPort
+                }
+            }
             return (<View style={{position: "absolute",   zIndex:100010, bottom:10,left:15}} pointerEvents={"none"}>
-                {isShow ? <Text style={{color:"white",fontSize:10}}>{showText}</Text>:null}
+                {isShow ? <Text style={{color:"white",fontSize:8}}>{showText}</Text>:null}
             </View>)
         }
 

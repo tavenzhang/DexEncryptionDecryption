@@ -57,19 +57,14 @@ export default class DataStore {
     @action
     async initAppHomeCheck() {
         const is_lobby_exist =await RNFS.exists(TW_Store.dataStore.originAppDir + "/index.html");
-        const unZipExit =await RNFS.exists(   TW_Store.dataStore.targetAppDir+ "/index.html");
-
         TW_Store.gameUpateStore.isIncludeLobby = is_lobby_exist;
         if (this.isAppInited) {
             this.loadHomeVerson();
         } else {
-            this.copy_assets_to_dir();
+            setTimeout(this.initAppHomeCheck,1000);
         }
-        this.log += "Url--this.is_lobby_exist----"+is_lobby_exist +"---home---unZipExit=" + unZipExit+"----\n";
+        this.log += "Url--this.is_lobby_exist----"+is_lobby_exist +"----\n";
     }
-
-
-
 
 
 
@@ -77,8 +72,7 @@ export default class DataStore {
         let Url = TW_Store.dataStore.getHomeWebHome() + "/assets/conf/version.json";
         const target_dir_exist = await RNFS.exists(Url);
         TW_Log("Url-----home---target_dir_exist=" + target_dir_exist, Url);
-        this.log += "Url-----home---target_dir_exist=" + target_dir_exist;
-        this.log += "\nUrl-----home---target_dir_exist=Url-" + Url;
+        this.log += "\nUrl-----home---target_dir_exist=Url-" + Url+"---target_dir_exist=="+target_dir_exist;
         if (target_dir_exist) {
             RNFS.readFile(Url).then(ret => {
                 let data = ret
@@ -317,22 +311,22 @@ export default class DataStore {
 
 
     @action
-    onSaveCopyState() {
+    onSaveCopyState(callBack) {
         TW_Data_Store.setItem(TW_DATA_KEY.isInitStore, "1", (err) => {
             this.log += "onSavaCoisInitStorepyState---err=" + err + "\n"
             if (err) {
                 TW_Log("versionBBL bbl--- copyFile--onSaveCopyState--error===!", err);
             } else {
-                setTimeout(() => {
                     this.isAppInited = true;
-                    this.loadHomeVerson();
-                }, G_IS_IOS ? 1000 : 2000);
+                    if(callBack){
+                        callBack()
+                    }
             }
             this.log += "onSaveCopyState---  this.isAppInited=" + this.isAppInited + "\n"
         })
     }
 
-    async copy_assets_to_dir() {
+    async   copy_assets_to_dir(callBack) {
         let source_dir = this.originAppDir;
         let target_dir = ""
         TW_Log('andorid--------copy_assets_to_dir--start');
@@ -346,7 +340,7 @@ export default class DataStore {
                     TW_Log("versionBBL bbl--- unlink----target_dir==!" + target_dir_exist, ret);
                     RNFS.copyFile(source_dir, target_dir).then(() => {
                         this.log += "onSaveCopyState---\n"
-                        this.onSaveCopyState();
+                        this.onSaveCopyState(callBack);
                     }).catch((err) => {
                         TW_Log("versionBBL bbl--- 删除文件失败", target_dir_exist);
                     })
@@ -355,7 +349,7 @@ export default class DataStore {
                 // let ret = await RNFS.copyFile(source_dir, target_dir);
                 RNFS.copyFile(source_dir, target_dir).then(() => {
                     this.log += "onSaveCopyState---\n"
-                    this.onSaveCopyState();
+                    this.onSaveCopyState(callBack);
                 }).catch((err) => {
                     this.log += "copyFile-err--" + err
                     //TW_Log("versionBBL bbl--- 删除文件失败", target_dir_exist);
@@ -373,7 +367,7 @@ export default class DataStore {
             for (let i = 0; i < items.length; i++) {
                 const item = items[i];
                 if (item.isDirectory()) {
-                    await this.androdi_copy_assets_to_dir(`${source_dir}/${item.name}`, `${target_dir}/${item.name}`);
+                    await this.androdi_copy_assets_to_dir(`${source_dir}/${item.name}`, `${target_dir}/${item.name}`,callBack);
                 } else {
                     await RNFS.copyFileAssets(`${source_dir}/${item.name}`, `${target_dir}/${item.name}`);
                 }
@@ -381,7 +375,7 @@ export default class DataStore {
         }
     }
 
-    async androdi_copy_assets_to_dir(source_dir: string, target_dir: string) {
+    async androdi_copy_assets_to_dir(source_dir: string, target_dir: string,callBack) {
         const target_dir_exist = await RNFS.exists(target_dir);
         if (!target_dir_exist) {
             await RNFS.mkdir(target_dir);
@@ -398,7 +392,7 @@ export default class DataStore {
                 TW_Log('andorid----androdi_copy_assets-----fileState-== ' + fileState, item);
                 if (item.path && item.path.indexOf("zzzFinish/") > -1) {
                     //　利用zzzFinish来判断是否android拷贝完成
-                    this.onSaveCopyState();
+                    this.onSaveCopyState(callBack);
                 }
             }
         }
