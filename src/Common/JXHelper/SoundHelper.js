@@ -34,11 +34,12 @@ export class SoundHelper {
 
     static async startBgMusic(force = false) {
 
-        if (G_IS_IOS) {
-            Sound.setCategory('Ambient', true)
-        }
+
         let file =TW_Store.dataStore.isAppInited ? `${DocumentDirectoryPath}/gamelobby/assets/raw/bgm_lobby.mp3`:`android_asset/gamelobby/assets/raw/bgm_lobby.mp3`;
-        //let file = G_IS_IOS ? `${TW_Store.dataStore.getHomeWebHome()}/assets/raw/bgm_lobby.mp3` : `${DocumentDirectoryPath}/gamelobby/assets/raw/bgm_lobby.mp3`;
+        if (G_IS_IOS) {
+            Sound.setCategory('Ambient', true);
+            file = `${TW_Store.dataStore.getHomeWebHome()}/assets/raw/bgm_lobby.mp3`
+        }
         let isExist = await RNFS.exists(file);
         TW_Log("playBgMusic-file--isExist---" + isExist+"--Sound.DOCUMENT==="+Sound.DOCUMENT, file);
         try {
