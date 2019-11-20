@@ -151,7 +151,7 @@ export default class XXWebView extends Component {
             file: TW_Store.dataStore.targetAppDir+ "/index.html",
             allowingReadAccessToURL: TW_Store.dataStore.targetAppDir,
             allowFileAccessFromFileURLs: TW_Store.dataStore.targetAppDir,
-            param:`?app=true&isDebug=${TW_Store.appStore.isTestApp}&version=${TW_Store.dataStore.homeVersionM.versionNum}&length=${TW_Store.bblStore.gameDomain.length}&news=${news}`
+            param:`?app=true&isDebug=${TW_Store.appStore.isTestApp}&length=${TW_Store.bblStore.gameDomain.length}`
         };
 
         if (!G_IS_IOS) {
@@ -409,6 +409,7 @@ export default class XXWebView extends Component {
                     break;
                 case "showGame":
                     TW_Store.gameUpateStore.isEnteredGame = true;
+                   // this.onEvaleJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appNativeData, { data: TW_Store.bblStore.getAppNativeData()}));
                     TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK,'1');
                     if (TW_Store.dataStore.isAppSound) {
                         this.onEvaleJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.stopMusic));

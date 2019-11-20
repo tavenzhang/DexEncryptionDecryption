@@ -9,7 +9,7 @@ import JXHelper from "../../Common/JXHelper/JXHelper";
 const pk64 = 'OXcwQkFRRUZBQU9lZGZxNQ=='
 let base64 = new Base64()
 
-function getAvailableDomain(domains, callback, initDomainCallBack) {
+function getAvailableDomain(domains, callback, initDomainCallBack,currentCacheDomain) {
     // 不用检测可访问域名是否在本地缓存，第一次启动肯定不存在。如果设置缓存，其实每次还是要去校验缓存的那条地址能不能访问。
     // 直接进行检测
     // AsyncStorage.setItem('cacheDomain', JSON.stringify(cacheDomain));
@@ -27,7 +27,10 @@ function getAvailableDomain(domains, callback, initDomainCallBack) {
     TN_yunDunStart((isUseYunDun,port)=>{
         TW_Store.dataStore.log+="\n---游戏盾-==-"+isUseYunDun+"==port=="+port+"---\n";
         for (let i = 0; i < domains.length; i++) {
-            TW_Log('= ' + domains[i]+"----isUseYunDun---"+isUseYunDun+"===port==="+port);
+            TW_Log('= ' + domains[i]+"--TN_yunDunStart---------isUseYunDun---"+isUseYunDun+"===port==="+port);
+            if(currentCacheDomain){
+                TW_Store.appStore.currentDomain = TW_Store.bblStore.loginDomain = TW_Store.bblStore.gameDomain = isUseYunDun ? `${currentCacheDomain}:${port}`:currentCacheDomain
+            }
             let tempDomain = domains[i];
             let isRandomDomain = false
             if (tempDomain.indexOf("http") == -1) {
@@ -40,12 +43,13 @@ function getAvailableDomain(domains, callback, initDomainCallBack) {
                 tempDomain = tempDomain.replace("*",JXHelper.getRandomChars(true, 5, 15));
                 isRandomDomain = true;
             }
+            let requestDomain =tempDomain;
             if(!isRandomDomain){
                 if(isUseYunDun){
-                    tempDomain =tempDomain+":"+port
+                    requestDomain =tempDomain+":"+port
                 }
             }
-            NetUitls.getUrlAndParamsAndCallback(`${tempDomain}/api/v1/ip/user/checkIpInfoDomainsEncrypte?clientId=${TW_Store.appStore.clindId}&platform=CG`, null, (rt) => {
+            NetUitls.getUrlAndParamsAndCallback(`${requestDomain}/api/v1/ip/user/checkIpInfoDomainsEncrypte?clientId=${TW_Store.appStore.clindId}&platform=CG`, null, (rt) => {
                 if (rt.rs) {
                     if (!isFinish) {
                         isFinish = true;
@@ -63,7 +67,7 @@ function getAvailableDomain(domains, callback, initDomainCallBack) {
                         content.allowAppUpdate = true;
                         TW_Log('大王来巡山 content==domains[i]--' + tempDomain, content);
 
-                        let gameDomain = tempDomain;
+                        let gameDomain = requestDomain;
                         let serverDomains = content.serverDomains;
                         if(isUseYunDun){
                             serverDomains =content.trendChartDomains.concat(serverDomains);
@@ -74,9 +78,9 @@ function getAvailableDomain(domains, callback, initDomainCallBack) {
                                     if(TW_Store.appStore.currentDomain!=gameDomain){
                                         TW_Store.appStore.currentDomain = TW_Store.bblStore.loginDomain = TW_Store.bblStore.gameDomain = gameDomain;
                                     }
-                                    TW_Log('大王来巡山 content==domains[i] currentDomain--' + TW_Store.appStore.currentDomain + "---tempDomain--" + tempDomain, serverDomains);
+                                    TW_Log('大王来巡山 content==domains[i] currentDomain--' + TW_Store.appStore.currentDomain + "---tempDomain--" + tempDomain, gameDomain);
                             }else{
-                                TW_Store.appStore.currentDomain = TW_Store.bblStore.loginDomain = TW_Store.bblStore.gameDomain = tempDomain;
+                                TW_Store.appStore.currentDomain = TW_Store.bblStore.loginDomain = TW_Store.bblStore.gameDomain = gameDomain;
                             }
                         }
 
@@ -85,7 +89,7 @@ function getAvailableDomain(domains, callback, initDomainCallBack) {
                             hotfixDomains: content.availableUpdateInfoList,
                             trendChartDomains: content.trendChartDomains,
                             responseTime: rt.duration,
-                            currendDomain:TW_Store.appStore.currentDomain,
+                            currentDomain:tempDomain,
                         }), (err) => {
                             netStateCheckAllReady = true
                             if (!err) {
