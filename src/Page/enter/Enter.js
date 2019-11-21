@@ -46,10 +46,20 @@ export default class Enter extends Component {
         TW_Store.appStore.regCallInitFuc(this.onInitAllData);
         this.flage = false
         this.isWeakUpdate=true;
+        Orientation.addSpecificOrientationListener(this.addSpecificOrientationListener);
     }
 
-    componentWillMount(){
+    addSpecificOrientationListener = (orientation) => {
+        TW_Log("_orientationDidChange-----orientation-",orientation)
+        if (orientation === 'LANDSCAPE') {
+            // do something with landscape layout
+        } else {
+            // do something with portrait layout
+        }
+    }
 
+
+    componentWillMount(){
         if(NativeModules.KCKeepAwake&&KeepAwake.activate){
             TW_Store.appStore.keepAwake=true;
             KeepAwake.activate();
@@ -76,6 +86,7 @@ export default class Enter extends Component {
 
         AppState.addEventListener('change',this._handleAppStateChange);
     }
+
 
 
     _handleAppStateChange = (nextAppState)=>{
@@ -138,8 +149,13 @@ export default class Enter extends Component {
         //Orientation.unlockAllOrientations()
         if(G_IS_IOS){
 
-            if(Orientation&&Orientation.lockToLandscapeRight){
+            Orientation.getOrientation((err, orientation) => {
+                TW_Log(`_orientationDidChange-- init----: ${orientation}`+"--err"+err);
+            });
+            TW_Log("_orientationDidChange-----start-lockToLandscapeRight")
+            if(Orientation){
                 Orientation.lockToLandscapeRight();
+                TW_Log("_orientationDidChange-----end-lockToLandscapeRight")
             }
             appInfoStore.checkAppSubType(this.initDomain);
         }else{

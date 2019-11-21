@@ -54,12 +54,7 @@ export default class TWThirdWebView extends Component {
     }
 
     componentWillUnmount(): void {
-        //返回横屏
-        Orientation.unlockAllOrientations();
-        Orientation.lockToLandscape();
-        Orientation.getOrientation((err, orientation) => {
-            TW_Log(`Orientation.lockToLandscape()---: ${orientation}`);
-        });
+
     }
 
     render() {
@@ -109,6 +104,12 @@ export default class TWThirdWebView extends Component {
                     isOpenAddPay={this.state.isOpenAddPay}
                     onPressConfirm={()=>{
                         this.onBackHomeJs();
+                        //返回横屏
+                        Orientation.unlockAllOrientations();
+                        Orientation.lockToLandscapeRight();
+                        Orientation.getOrientation((err, orientation) => {
+                            TW_Log(`Orientation.lockToLandscape()---: ${orientation}`);
+                        });
                         this.setState({isShowExitAlertView: false});
                         if(this.state.isOpenAddPay){
                             TW_Store.gameUIStroe.isShowAddPayView = true;
@@ -120,6 +121,8 @@ export default class TWThirdWebView extends Component {
             </View>
         );
     }
+
+
 
     onClickMenu=(btnId)=>{
         switch (btnId) {
