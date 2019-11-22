@@ -45,16 +45,13 @@ export default class Enter extends Component {
         this.initDomain=this.initDomain.bind(this);
         TW_Store.appStore.regCallInitFuc(this.onInitAllData);
         this.flage = false
-        this.isWeakUpdate=true;
+        this.isWeakUpdate=false;
         Orientation.addSpecificOrientationListener(this.addSpecificOrientationListener);
-        TW_Log("_orientationDidChange-----start-lockToLandscapeRight")
-        // if(G_IS_IOS){
-        //     Orientation.lockToLandscapeRight();
-        // }
+        TW_Log("_orientationDidChange-----start-lockToLandscapeRight");
 
-        Orientation.getOrientation((err, orientation) => {
-            TW_Log(`_orientationDidChange-- init----: ${orientation}`+"--err"+err);
-        });
+        if(G_IS_IOS){
+            Orientation.lockToLandscapeRight();
+        }
     }
 
     addSpecificOrientationListener = (orientation) => {
@@ -432,7 +429,7 @@ export default class Enter extends Component {
                             TW_Store.hotFixStore.versionHotFix=TW_Store.hotFixStore.versionHotFix+": "+versionData.sp
                         }
                     }
-                    if(TW_Store.gameUpateStore.isEnteredGame&&this.isWeakUpdate){
+                    if(this.isWeakUpdate){
                         this.hotFixStore.isNextAffect =true;
                     }
                 }else {
