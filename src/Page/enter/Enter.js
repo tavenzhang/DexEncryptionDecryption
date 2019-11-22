@@ -48,9 +48,9 @@ export default class Enter extends Component {
         this.isWeakUpdate=true;
         Orientation.addSpecificOrientationListener(this.addSpecificOrientationListener);
         TW_Log("_orientationDidChange-----start-lockToLandscapeRight")
-        if(G_IS_IOS){
-            Orientation.lockToLandscapeRight();
-        }
+        // if(G_IS_IOS){
+        //     Orientation.lockToLandscapeRight();
+        // }
 
         Orientation.getOrientation((err, orientation) => {
             TW_Log(`_orientationDidChange-- init----: ${orientation}`+"--err"+err);
