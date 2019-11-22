@@ -48,7 +48,10 @@ export default class Enter extends Component {
         this.isWeakUpdate=true;
         Orientation.addSpecificOrientationListener(this.addSpecificOrientationListener);
         TW_Log("_orientationDidChange-----start-lockToLandscapeRight")
-        Orientation.lockToLandscapeRight();
+        if(G_IS_IOS){
+            Orientation.lockToLandscapeRight();
+        }
+
         Orientation.getOrientation((err, orientation) => {
             TW_Log(`_orientationDidChange-- init----: ${orientation}`+"--err"+err);
         });
@@ -60,7 +63,12 @@ export default class Enter extends Component {
             TW_Log("_orientationDidChange-----orientation-PORTRAIT---lockToLandscape",orientation)
             if(TW_Store.appStore.isLockToLandscape){
                 //Orientation.lockToLandscape()
-                Orientation.lockToLandscapeRight();
+                if(G_IS_IOS){
+                    Orientation.lockToLandscapeRight();
+                }else{
+                    Orientation.lockToLandscape()
+                }
+
             }
         }
 

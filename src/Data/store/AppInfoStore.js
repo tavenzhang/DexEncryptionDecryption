@@ -647,6 +647,10 @@ export default class AppInfoStore {
         this.isLockToLandscape=true;
         //返回横屏
         //Orientation.lockToLandscape()
-        Orientation.lockToLandscapeRight();
+        if(G_IS_IOS){
+            Orientation.lockToLandscapeRight();
+        }else{
+            Orientation.lockToLandscape()
+        };
     }
 }
