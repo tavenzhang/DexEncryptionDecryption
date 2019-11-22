@@ -259,7 +259,7 @@ export default class XXWebView extends Component {
                             TCUserOpenPayApp.linkingWeb(message.param)
                             break;
                         case "openAppWeb":
-                            TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:message.param})
+                            TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:message.param,isShowReload:true})
                             break;
                         case "onGameInit":
                             if (this.timeId) {
@@ -351,6 +351,9 @@ export default class XXWebView extends Component {
                             break;
                         case "appUpate":
                             TW_Store.dataStore.onRetartApp();
+                            break;
+                        case "customerService":
+                            TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:TW_Store.gameUIStroe.gustWebUrl,isShowReload:false});
                             break;
                     }
                     break;

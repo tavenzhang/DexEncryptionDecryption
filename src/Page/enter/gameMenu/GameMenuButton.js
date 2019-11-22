@@ -28,8 +28,13 @@ export default class GameMenuButton extends Component {
 
     static propTypes = {
         onPressExit: PropTypes.any,//
+        itransEnabled: PropTypes.any,
+        isShowReload:PropTypes.any,
     };
-
+    static defaultProps = {
+        itransEnabled:"NO",
+        isShowReload:true
+    };
 
     constructor(props) {
         super(props);
@@ -212,21 +217,24 @@ export default class GameMenuButton extends Component {
                                 ]}
                                 duration={500}
                                 {...animationProps}>
-                                <TCButton
-                                    containStyles={[
-                                        styles.btnIcon,
-                                        {
-                                            alignSelf: "center",
-                                            marginRight: -10
-                                        }
-                                    ]}
-                                    onClick={() => this.onPressIcon(TYPE.reload)}>
-                                    <Image
-                                        source={GAME_ICONS.btnReload}
-                                        resizeMode="contain"
-                                        style={styles.imgIcon}
-                                    />
-                                </TCButton>
+                                {
+                                    this.props.isShowReload ?     <TCButton
+                                        containStyles={[
+                                            styles.btnIcon,
+                                            {
+                                                alignSelf: "center",
+                                                marginRight: -10
+                                            }
+                                        ]}
+                                        onClick={() => this.onPressIcon(TYPE.reload)}>
+                                        <Image
+                                            source={GAME_ICONS.btnReload}
+                                            resizeMode="contain"
+                                            style={styles.imgIcon}
+                                        />
+                                    </TCButton>:null
+                                }
+
 
                                 <View style={{ marginRight: -7 }}>
                                     {this.props.itransEnabled==='ON' ?

@@ -631,7 +631,7 @@ export default class DataStore {
             "appVersion": TW_Store.appStore.versionHotFix,
             "browser": DeviceInfo.getUserAgent(),
             "deviceModel": DeviceInfo.getDeviceName(),
-            "resourceEnum": G_IS_IOS ? 'iphone' : 'android',
+            "resourceEnum": "APP",
             "sysVersion": DeviceInfo.getSystemVersion()
         }
         NetUitls.postUrlAndParamsAndCallback(config.api.gameDeviceInfo, param, (rt) => {

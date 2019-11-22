@@ -27,10 +27,12 @@ export default class TWThirdWebView extends Component {
 
     static propTypes = {
         data: PropTypes.func,
-        isShow: PropTypes.any
+        isShow: PropTypes.any,
+        isShowReload: PropTypes.any
     };
     static defaultProps = {
-        title: ''
+        title: '',
+        isShowReload:true
     };
 
     constructor(state) {
@@ -46,22 +48,17 @@ export default class TWThirdWebView extends Component {
 
     componentWillMount() {
        //旋转到竖屏
-        Orientation.lockToPortrait();
-        Orientation.getOrientation((err, orientation) => {
-            TW_Log(`Orientation.lockToPortrait()---: ${orientation}`);
-        });
-        TW_Log(" Orientation.lockToPortrait()-------"+Orientation.unlockAllOrientations,Orientation)
+        TW_Store.appStore.lockToProrit();
     }
 
-    componentWillUnmount(): void {
 
-    }
 
     render() {
-        let {url} = this.props;
+        let {url,isShowReload} = this.props;
         let source = {
             uri:url,
         };
+        TW_Log("TWThirdWebView--------", this.props)
         let injectJs = `(function() {
               window.postMessage = function(data) {
                 window.ReactNativeWebView.postMessage(data);
@@ -98,18 +95,13 @@ export default class TWThirdWebView extends Component {
                     alignItems: "center", backgroundColor: "transparent"
                 }}>
                 </View>}
-                <GameMenuButton itransEnabled={"ON"}
+                <GameMenuButton isShowReload={isShowReload} itransEnabled={"ON"}
                                                 onPressExit={this.onClickMenu}/>
                 {this.state.isShowExitAlertView && <ExitGameAlertView
                     isOpenAddPay={this.state.isOpenAddPay}
                     onPressConfirm={()=>{
                         this.onBackHomeJs();
-                        //返回横屏
-                        Orientation.unlockAllOrientations();
-                        Orientation.lockToLandscapeRight();
-                        Orientation.getOrientation((err, orientation) => {
-                            TW_Log(`Orientation.lockToLandscape()---: ${orientation}`);
-                        });
+                        TW_Store.appStore.lockToLandscape();
                         this.setState({isShowExitAlertView: false});
                         if(this.state.isOpenAddPay){
                             TW_Store.gameUIStroe.isShowAddPayView = true;

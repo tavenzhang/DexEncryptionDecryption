@@ -47,15 +47,23 @@ export default class Enter extends Component {
         this.flage = false
         this.isWeakUpdate=true;
         Orientation.addSpecificOrientationListener(this.addSpecificOrientationListener);
+        TW_Log("_orientationDidChange-----start-lockToLandscapeRight")
+        Orientation.lockToLandscapeRight();
+        Orientation.getOrientation((err, orientation) => {
+            TW_Log(`_orientationDidChange-- init----: ${orientation}`+"--err"+err);
+        });
     }
 
     addSpecificOrientationListener = (orientation) => {
-        TW_Log("_orientationDidChange-----orientation-",orientation)
-        if (orientation === 'LANDSCAPE') {
-            // do something with landscape layout
-        } else {
-            // do something with portrait layout
+        TW_Log("_orientationDidChange-----orientation-"+orientation+"----TW_Store.appStore.isLockToLandscape==",TW_Store.appStore.isLockToLandscape)
+        if( orientation&&orientation.indexOf("PORTRAIT")>-1){
+            TW_Log("_orientationDidChange-----orientation-PORTRAIT---lockToLandscape",orientation)
+            if(TW_Store.appStore.isLockToLandscape){
+                //Orientation.lockToLandscape()
+                Orientation.lockToLandscapeRight();
+            }
         }
+
     }
 
 
@@ -148,19 +156,12 @@ export default class Enter extends Component {
         this.uploadLog();
         //Orientation.unlockAllOrientations()
         if(G_IS_IOS){
-
-            Orientation.getOrientation((err, orientation) => {
-                TW_Log(`_orientationDidChange-- init----: ${orientation}`+"--err"+err);
-            });
-            TW_Log("_orientationDidChange-----start-lockToLandscapeRight")
-            if(Orientation){
-                Orientation.lockToLandscapeRight();
-                TW_Log("_orientationDidChange-----end-lockToLandscapeRight")
-            }
             appInfoStore.checkAppSubType(this.initDomain);
         }else{
             appInfoStore.checkAppSubType(this.initDomain);
         }
+
+
 
     }
 

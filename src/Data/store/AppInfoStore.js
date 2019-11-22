@@ -2,6 +2,7 @@ import { observable, action } from "mobx";
 import { NativeModules, Alert, Platform } from 'react-native';
 import CodePush from "react-native-code-push";
 import DeviceInfo from 'react-native-device-info';
+import Orientation from 'react-native-orientation';
 import {
     configAppId,
     MyAppName,
@@ -106,8 +107,11 @@ export default class AppInfoStore {
     isTestApp=false
 
     openInstallCheckCount = 1;
-
+    //云盾数据
     yunDunData =YunDunData;
+
+    //是否锁定屏幕旋转
+    isLockToLandscape =true
 
     constructor() {
         this.init();
@@ -629,5 +633,20 @@ export default class AppInfoStore {
                 this.subAppType
                 }`;
         }
+    }
+
+    lockToProrit(){
+        Orientation.unlockAllOrientations();
+        this.isLockToLandscape=false;
+        Orientation.lockToPortrait();
+
+    }
+
+
+    lockToLandscape(){
+        this.isLockToLandscape=true;
+        //返回横屏
+        //Orientation.lockToLandscape()
+        Orientation.lockToLandscapeRight();
     }
 }
