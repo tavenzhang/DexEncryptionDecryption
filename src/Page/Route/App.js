@@ -105,7 +105,6 @@ export default class App extends Component {
             BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
            // this.requestCameraPermission()
         }
-       // TW_Store.bblStore.changeShowDebug(true);
     }
 
 
@@ -136,6 +135,7 @@ export default class App extends Component {
                      <ModuleWebView/>
                      <GameUIView/>
                      <GameLogView/>
+                     <CommonBoxLayer/>
                 </View>
             </Provider>
 

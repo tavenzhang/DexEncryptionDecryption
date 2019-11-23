@@ -46,7 +46,6 @@ export default class DataStore {
 
     @action
     getGameRootDir() {
-        // return G_IS_IOS ? (MainBundlePath + '/assets') : "file:///android_asset";
         if (this.isAppInited) {
             return G_IS_IOS ? DocumentDirectoryPath : `file:///${DocumentDirectoryPath}`;
         } else {
@@ -56,21 +55,26 @@ export default class DataStore {
 
     @action
     async initAppHomeCheck() {
-        const is_lobby_exist =await RNFS.exists(TW_Store.dataStore.originAppDir + "/index.html");
-        TW_Store.gameUpateStore.isIncludeLobby = is_lobby_exist;
-        if (this.isAppInited) {
+        if(TW_Store.gameUpateStore.isIncludeLoadView){
+            if (this.isAppInited) {
+                this.loadHomeVerson();
+            } else {
+                setTimeout(this.initAppHomeCheck,1000);
+            }
+            const is_lobby_exist =await RNFS.exists(TW_Store.dataStore.originAppDir + "/index.html");
+            TW_Store.gameUpateStore.isIncludeLobby = is_lobby_exist;
+            this.log += "Url--this.is_lobby_exist----"+is_lobby_exist +"----\n";
+        }else{
             this.loadHomeVerson();
-        } else {
-            setTimeout(this.initAppHomeCheck,1000);
         }
-        this.log += "Url--this.is_lobby_exist----"+is_lobby_exist +"----\n";
+
     }
 
 
 
     async loadHomeVerson() {
         let Url = TW_Store.dataStore.getHomeWebHome() + "/assets/conf/version.json";
-        const target_dir_exist = await RNFS.exists(Url);
+        const target_dir_exist =  await RNFS.exists(Url);
         TW_Log("Url-----home---target_dir_exist=" + target_dir_exist, Url);
         this.log += "\nUrl-----home---target_dir_exist=Url-" + Url+"---target_dir_exist=="+target_dir_exist;
         if (target_dir_exist) {
@@ -114,6 +118,8 @@ export default class DataStore {
         }
         this.log += "-->startCheckZipUpdate----homeVersionM-==-" + JSON.stringify(this.homeVersionM)
     }
+
+
 
     checkHomeZipUpdate = () => {
         TW_Log("TW_DATA_KEY.versionBBL start  http ===> " + rootStore.bblStore.getVersionConfig());
@@ -222,13 +228,13 @@ export default class DataStore {
             },
             progress: (res) => {
                 // this.log+="==>progress-="+res;
-                // onProgress({percent:(res.bytesWritten/res.contentLength).toFixed(2),param});
                 let percent = 0;
+                let tempContent = 40000000; //如果读取不到总大小 因为cdn等因素 默认使用18m 到0.99 等待，
                 if (res.contentLength > 0) {
-                    percent = (res.bytesWritten / res.contentLength).toFixed(2);
+                    tempContent=res.contentLength;
+                    percent = (res.bytesWritten / tempContent).toFixed(2);
                 } else {
-                    let tempContent = 35000000; //如果读取不到总大小 因为cdn等因素 默认使用18m 到0.99 等待，
-                    //let tempContent=40000000;
+                    tempContent=40000000;
                     let tempPercent = (res.bytesWritten / tempContent).toFixed(2);
                     percent = tempPercent >= 0.99 ? 0.99 : tempPercent;
                 }
@@ -241,6 +247,15 @@ export default class DataStore {
                             percent
                         }
                     }));
+                }
+                if(!TW_Store.gameUpateStore.isIncludeLoadView){
+                    TW_Store.commonBoxStore.curPecent=percent;
+                    if(!TW_Store.gameUpateStore.isAppDownIng){
+                        TW_Store.commonBoxStore.isShow=true;
+                    }else{
+                        TW_Store.commonBoxStore.isShow=false;
+                    }
+
                 }
 
             },
@@ -296,6 +311,10 @@ export default class DataStore {
                     TW_LoaderOnValueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.game_loading, {data: {do: "loadFinish"}}));
                     TW_Store.gameUpateStore.isLoading = false;
                     TW_Store.gameUpateStore.isTempExist = true;
+                    if(!TW_Store.gameUpateStore.isIncludeLoadView){
+                        TW_Store.commonBoxStore.isShow=false;
+                        this.onSaveCopyState()
+                    }
                     this.onSaveVersionM(this.content, false, () => {
                         this.log += "==>onSaveVersionM--=end";
                     });
@@ -305,7 +324,6 @@ export default class DataStore {
             .catch((error) => {
                 TW_Log("versionBBL  解压失败11", error);
             }).finally(() => {
-
         })
     }
 

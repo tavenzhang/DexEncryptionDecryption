@@ -42,7 +42,7 @@ export default class RefreshListView extends Component {
      * @type {boolean}
      */
 
-    static propTypes : {
+    static propTypes = {
                 isAllowRefresh: PropTypes.bool,//是否允许下拉刷新
                 isNodataView: PropTypes.func ,//数据为空时显示view
                 isRenderFooter: PropTypes.bool,//是否允许上拉加载更多

@@ -18,6 +18,9 @@ export default class GameUpateStore {
     isIncludeLobby = false;
 
     @observable
+    isIncludeLoadView = false;
+
+    @observable
     isInSubGame = false;
 
     @observable

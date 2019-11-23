@@ -218,14 +218,6 @@ export default class XXWebView extends Component {
         );
     }
 
-    async checkFileExist (file) {
-        const target_dir_exist = await RNFS.exists(file);
-        //if(!target_dir_exist){
-            TW_Log("checkFileExist-----file===="+file+"-----exist=="+target_dir_exist)
-       // }
-
-    }
-
 
 
     onMessage = (event) => {
@@ -237,9 +229,6 @@ export default class XXWebView extends Component {
         TW_Log("onMessage======XXWebView=====>>" + this.constructor.name + "\n", message);
         let url = "";
         let gameData = null;
-        let retList = null;
-        let gameM = null;
-
         if (message && message.action) {
             switch (message.action) {
                 case "Log":
