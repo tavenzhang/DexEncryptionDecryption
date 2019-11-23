@@ -17,8 +17,8 @@ import PropTypes from "prop-types";
 @observer
 export default class TCUserPayAndWithdrawRecords extends Component {
 
-    static propTypes : {
-        type:PropTypes.any,
+    static propTypes = {
+        type:PropTypes.string,
         accountType:PropTypes.any,
     }
     static defaultProps = {

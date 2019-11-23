@@ -11,7 +11,7 @@ import {indexBgColor} from '../../../Page/asset/game/themeComponet'
 var createReactClass = require('create-react-class');
 
 const DefaultTabBar = createReactClass({
-    // propTypes: {
+    // propTypes= {
     //     goToPage: React.PropTypes.func,
     //     activeTab: React.PropTypes.number,
     //     tabs: React.PropTypes.array,

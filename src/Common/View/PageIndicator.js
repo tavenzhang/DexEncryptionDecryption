@@ -58,7 +58,7 @@ var styles = StyleSheet.create({
 });
 
 var DefaultViewPageIndicator = createReactClass({
-    // propTypes: {
+    // propTypes= {
     //     goToPage: React.PropTypes.func,
     //     activePage: React.PropTypes.number,
     //     pageCount: React.PropTypes.number
