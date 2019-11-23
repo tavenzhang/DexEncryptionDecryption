@@ -18,6 +18,7 @@ import TCUserOpenPayApp from '../../Page/UserCenter/UserPay/TCUserOpenPayApp';
 import OpeninstallModule from "openinstall-react-native";
 import {SoundHelper} from "../../Common/JXHelper/SoundHelper";
 import JXHelper from "../../Common/JXHelper/JXHelper";
+import RNFS from "react-native-fs";
 /**
  * 用于初始化项目信息
  */
@@ -145,14 +146,24 @@ export default class AppInfoStore {
                     this.checkAppInfoUpdate(null);
                 }
             }
-        });
+        })
+        TW_Data_Store.getItem(TW_DATA_KEY.isInitStore, this.checkSavedData)
 
-        TW_Data_Store.getItem(TW_DATA_KEY.isInitStore, (err, ret) => {
+    }
+
+    async checkSavedData(err, ret) {
+        TW_Log("checkSavedData======loadingViewExist===ret--"+ret+"--eeeor="+err)
             if (`${ret}` == "1") {
                 TW_Store.dataStore.isAppInited=true;
                 SoundHelper.startBgMusic();
             }else{
-                TW_Store.dataStore.copy_assets_to_dir(()=>{SoundHelper.startBgMusic();});
+                const  loadingSourceViewExist=   await RNFS.exists(TW_Store.dataStore.originAppDir + "/loading/loading.html");
+                TW_Log("checkSavedData======loadingViewExist==="+loadingSourceViewExist+"--ret--"+ret+"--eeeor="+err)
+                if(loadingSourceViewExist){
+                    TW_Store.dataStore.copy_assets_to_dir(()=>{SoundHelper.startBgMusic();});
+                }else{
+                    TW_Store.gameUpateStore.isIncludeLoadView=false;
+                }
             }
 
             TW_Data_Store.getItem(TW_DATA_KEY.LobbyReadyOK, (err, ret) => {
@@ -163,9 +174,6 @@ export default class AppInfoStore {
                     TW_Log("TW_DATA_KEY.LobbyReadyOK---"+ret,TW_Store.gameUpateStore.isNeedUpdate)
                 }
             });
-        });
-
-
     }
 
     checkAppInfoUpdate = (oldData = null) => {

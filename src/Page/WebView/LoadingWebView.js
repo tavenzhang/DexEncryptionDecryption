@@ -45,7 +45,7 @@ export default class LoadingWebView extends Component {
         }
 
         //let visible = TW_Store.gameUpateStore.isNeedUpdate||TW_Store.gameUpateStore.isAppDownIng
-        TW_Log("targetAppDir----LoadingWebView-isNeedUpdate==" + TW_Store.gameUpateStore.isNeedUpdate + "---isAppDownIng=" + TW_Store.gameUpateStore.isAppDownIng);
+        TW_Log("targetAppDir----LoadingWebView-isNeedUpdate==" + TW_Store.gameUpateStore.isNeedUpdate + "---isAppDownIng=" + TW_Store.gameUpateStore.isAppDownIng+"--istInit=="+TW_Store.dataStore.isAppInited);
         let isReady=TW_Store.dataStore.isAppInited
         let visible = TW_Store.gameUpateStore.isNeedUpdate || TW_Store.gameUpateStore.isLoading
         if (!visible||!isReady) {

@@ -46,14 +46,14 @@ export default class Enter extends Component {
         TW_Store.appStore.regCallInitFuc(this.onInitAllData);
         this.flage = false
         this.isWeakUpdate=false;
-        Orientation.addSpecificOrientationListener(this.addSpecificOrientationListener);
+        Orientation.addOrientationListener(this.addOrientationListener);
         TW_Log("_orientationDidChange-----start-lockToLandscapeRight");
         if(G_IS_IOS){
             Orientation.lockToLandscapeRight();
         }
     }
 
-    addSpecificOrientationListener = (orientation) => {
+    addOrientationListener = (orientation) => {
         TW_Log("_orientationDidChange-----orientation-"+orientation+"----TW_Store.appStore.isLockToLandscape==",TW_Store.appStore.isLockToLandscape)
         if( orientation&&orientation.indexOf("PORTRAIT")>-1){
             TW_Log("_orientationDidChange-----orientation-PORTRAIT---lockToLandscape",orientation)
@@ -382,7 +382,6 @@ export default class Enter extends Component {
         this.hotFixStore.percent = (parseFloat(progress.receivedBytes / progress.totalBytes).toFixed(2) * 100).toFixed(1);
         if(!this.hotFixStore.isNextAffect){
             this.hotFixStore.progress = progress;
-           // TW_Store.gameUpateStore.isNeedUpdate=true;
             TW_Store.gameUpateStore.isAppDownIng=true;
         }
     }
@@ -463,7 +462,6 @@ export default class Enter extends Component {
                 }).finally(()=>{
                     if(!this.hotFixStore.isNextAffect){
                         TW_Store.gameUpateStore.isAppDownIng=false;
-                        //TW_Store.gameUpateStore.isNeedUpdate=false;
                     }
                 })
             }

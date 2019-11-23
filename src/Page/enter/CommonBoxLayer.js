@@ -26,16 +26,16 @@ export default class CommonBoxLayer extends Component {
     // }.toFixed(2)
 
     render() {
-
         let store = TW_Store.commonBoxStore;
         TW_Log("commonBoxStore.SCREEN_W---",store);
-        let percent =(store.curPecent/store.totalPecent).toFixed(2);
+        let percent =store.curPecent;
         if(store.isShow){
             return (<View style={styles.container} pointerEvents={"none"}>
-                <View style={{paddingHorizontal:30, paddingVertical:40, borderRadius: 20,backgroundColor:'rgba(0, 0, 0, 0.5)', justifyContent:"center",
+                <View style={{paddingHorizontal:40, paddingVertical:25, borderRadius: 20,backgroundColor:"rgba(10,10,10,0.5)", justifyContent:"center",
                     alignItems:"center"}}>
-                    <Text style={{color:"yellow", textAlign: "center",marginBottom:15}}>{store.txtHint+"\n"+parseInt(percent*100)+"%"}</Text>
+                    <Text style={{color:"#99ffff", textAlign: "center",marginBottom:10,}}>{store.txtHint+"\n"+parseInt(percent*100)+"%"}</Text>
                     <Progress.Bar
+                        color={"#ffcc33"}
                         progress={percent}
                         width={200}/>
                 </View>
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
         alignSelf:"center",
         position: "absolute",
         backgroundColor:"transparent",
-        zIndex: 300
+        zIndex: 3009
     },
 
 });
