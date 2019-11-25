@@ -232,7 +232,7 @@ export default class GameMenuButton extends Component {
                                             resizeMode="contain"
                                             style={styles.imgIcon}
                                         />
-                                    </TCButton>:null
+                                    </TCButton>:<View style={styles.btnIcon}/>
                                 }
 
 
