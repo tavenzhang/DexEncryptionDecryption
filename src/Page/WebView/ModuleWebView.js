@@ -10,7 +10,6 @@ import Tools from "../../Common/View/Tools";
 import TCUserOpenPayApp from "../UserCenter/UserPay/TCUserOpenPayApp";
 import Toast from "../../Common/JXHelper/JXToast";
 import FileTools from "../../Common/Global/FileTools";
-import {SoundHelper} from "../../Common/JXHelper/SoundHelper";
 import {platInfo} from "../../config/appConfig";
 
 @observer
@@ -40,8 +39,8 @@ export default class ModuleWebView extends Component {
         // let surl = GameUtils.getQueryVariable("service");
         let myParam=`?apihome=${TW_Store.bblStore.getUriConfig().url.apihome}&token=${TW_Store.userStore.access_token}&clientId=${TW_Store.appStore.clindId}&service=${TW_Store.gameUIStroe.gustWebUrl}`
          myParam+=`&debug=${TW_Store.appStore.isSitApp||TW_Store.appStore.clindId=="214"}&isAndroidHack=${TW_Store.appStore.isInAnroidHack}&subType=${TW_Store.appStore.subAppType}`
-        //  let isShowUi=TW_Store.gameUIStroe.isShowAddPayView||TW_Store.gameUIStroe.isShowGuest;
-        let isShowUi=TW_Store.gameUIStroe.isShowAddPayView
+         let isShowUi=TW_Store.gameUIStroe.isShowAddPayView||TW_Store.gameUIStroe.isShowGuest;
+       // let isShowUi=TW_Store.gameUIStroe.isShowAddPayView
         if (this.refs.myView) {
             if(isShowUi){
                 if(TW_Store.gameUIStroe.isShowAddPayView){
@@ -50,12 +49,12 @@ export default class ModuleWebView extends Component {
                         this.onLoadEvalueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.showRecharge));
                     }
                 }
-                // if(TW_Store.gameUIStroe.isShowGuest){
-                //     if(this.currentView!=TW_Store.bblStore.ACT_ENUM.isShowGuest){
-                //         this.currentView=TW_Store.bblStore.ACT_ENUM.isShowGuest;
-                //         this.onLoadEvalueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.showService));
-                //     }
-                // }
+                if(TW_Store.gameUIStroe.isShowGuest){
+                    if(this.currentView!=TW_Store.bblStore.ACT_ENUM.isShowGuest){
+                        this.currentView=TW_Store.bblStore.ACT_ENUM.isShowGuest;
+                        this.onLoadEvalueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.showService));
+                    }
+                }
             }
             if(this.isFirstShow&&isShowUi){
                 TW_Log("ModuleWebView--start--isFirstShow")
@@ -131,7 +130,7 @@ export default class ModuleWebView extends Component {
         );
     }
 
-    onShowUI=(isShowUi)=>{
+    onShowUI=(isShowUi=true)=>{
 
         this.refs.myView.setNativeProps({style: {zIndex: isShowUi ?  10001:-888}});
     }
@@ -164,7 +163,7 @@ export default class ModuleWebView extends Component {
                             TW_Store.gameUIStroe.isShowAddPayView =false;
                             break;
                         case TW_Store.bblStore.ACT_ENUM.showService://客服界面
-                             TW_Store.gameUIStroe.isShowGuest=false
+                             TW_Store.gameUIStroe.isShowGuest=false;
                             break;
                     }
                     break;
@@ -198,6 +197,10 @@ export default class ModuleWebView extends Component {
                         case "goToPay"://打开相关app
                             TCUserOpenPayApp.getInstance().openAppByType(message.param);
                             break;
+                        case "customerService":
+                            TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:TW_Store.gameUIStroe.gustWebUrl,isShowReload:false,backHandle:this.onShowUI});
+                            this.onShowUI(false)
+                            break;
                     }
                     break;
             }
@@ -223,12 +226,10 @@ export default class ModuleWebView extends Component {
             TW_Log("downloadFile---ModuleWebView--versionBBL---progress-onLoadEvalueJS=-",data);
             this.refs.myWebView.postMessage(dataStr, "*");
         }
-
     }
 
     onNavigationStateChange = (navState) => {
         TW_Log("downloadFile---ModuleWebView--versionBBL---progress-onNavigationStateChange=-",navState);
-
     };
 
 }

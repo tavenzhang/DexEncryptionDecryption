@@ -209,7 +209,7 @@ export default class Enter extends Component {
         this.timer && clearTimeout(this.timer)
         this.timer2 && clearTimeout(this.timer2)
         AppState.removeEventListener('change', this.handleAppStateChange);
-        Orientation&&this.orientationDidChange&&Orientation.removeOrientationListener(this.orientationDidChange);
+        Orientation&&Orientation.removeOrientationListener(this.addOrientationListener);
 
     }
 
