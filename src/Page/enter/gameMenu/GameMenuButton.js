@@ -4,11 +4,11 @@ import { observer } from "mobx-react";
 import TCDragExpandableButton from "../../../Common/View/button/TCDragExpandableButton";
 import { StatusBarHeight, SafeAreaBottomHeight } from "../../asset/screen";
 import * as Animatable from "react-native-animatable";
-import {ASSET_Images} from "../../asset";
-import {TCButton, TCButtonImg} from "../../../Common/View/button/TCButtonView";
+import { ASSET_Images } from "../../asset";
+import { TCButton, TCButtonImg } from "../../../Common/View/button/TCButtonView";
 import ExitGameAlertView from "./ExitGameAlertView";
 import PropTypes from "prop-types";
-import Orientation from 'react-native-orientation';
+import Orientation from 'react-native-orientation-locker';
 
 const GAME_ICONS = ASSET_Images.gameMemu;
 const SIZE = {
@@ -29,11 +29,11 @@ export default class GameMenuButton extends Component {
     static propTypes = {
         onPressExit: PropTypes.any,//
         itransEnabled: PropTypes.any,
-        isShowReload:PropTypes.any,
+        isShowReload: PropTypes.any,
     };
     static defaultProps = {
-        itransEnabled:"NO",
-        isShowReload:true
+        itransEnabled: "NO",
+        isShowReload: true
     };
 
     constructor(props) {
@@ -53,10 +53,10 @@ export default class GameMenuButton extends Component {
     }
 
     componentWillMount() {
-        Orientation.getOrientation((err, orientation) => {
+        Orientation.getOrientation((orientation) => {
             TW_Log(`Orientation---: ${orientation}`);
-            if(orientation=='LANDSCAPE'){
-                this.setState({isScreenPortrait:false})
+            if (orientation == 'LANDSCAPE-LEFT') {
+                this.setState({ isScreenPortrait: false })
             }
         });
 
@@ -67,8 +67,8 @@ export default class GameMenuButton extends Component {
         Dimensions.removeEventListener("change", this.onOrientationChange);
     }
 
-    setCollapsibility=(isCollapse)=> {
-        TW_Log("setCollapsibility--isCollapse==",isCollapse)
+    setCollapsibility = (isCollapse) => {
+        TW_Log("setCollapsibility--isCollapse==", isCollapse)
         this.setState({ isCollapse: isCollapse || !this.state.isCollapse });
         this.refs.btnDrag && this.refs.btnDrag.onPressHandleViewChange();
 
@@ -79,24 +79,24 @@ export default class GameMenuButton extends Component {
         }
     }
 
-    setExitAlertViewVisibility=(isShow)=> {
+    setExitAlertViewVisibility = (isShow) => {
         this.setState({ isShowExitAlertView: isShow });
     }
 
-    onOrientationChange=({ window: { width, height } })=> {
+    onOrientationChange = ({ window: { width, height } }) => {
         this.setCollapsibility(true);
         const isScreenLandscape = width > height;
         this.setState({ isScreenPortrait: !isScreenLandscape });
         this.setCollapsibility(true);
     }
 
-    onPressIcon=(type)=> {
-        TW_Log("onPressIcon---type==",type)
+    onPressIcon = (type) => {
+        TW_Log("onPressIcon---type==", type)
         this.setCollapsibility();
         const { onPressExit } = this.props;
         switch (type) {
             case TYPE.transfer:
-               // JX_NavHelp.pushView(JX_Compones.UserTransfer);
+                // JX_NavHelp.pushView(JX_Compones.UserTransfer);
                 if (onPressExit) {
                     onPressExit(type);
                 }
@@ -117,17 +117,17 @@ export default class GameMenuButton extends Component {
         }
     }
 
-    onPressConfirmExit=()=> {
+    onPressConfirmExit = () => {
         this.setExitAlertViewVisibility(false);
         //JX_NavHelp.popToBack();
     }
 
-    onPressCancel=()=> {
+    onPressCancel = () => {
         this.setExitAlertViewVisibility(false);
     }
 
-    getGameMenuPosition=()=> {
-        const {isScreenPortrait} = this.state;
+    getGameMenuPosition = () => {
+        const { isScreenPortrait } = this.state;
         const extraTopHeight = G_IS_IOS ? StatusBarHeight : 5;
         const extraBottomHeight = IS_CHECK_SAFEAREA ? SafeAreaBottomHeight : 0;
         let position;
@@ -191,7 +191,7 @@ export default class GameMenuButton extends Component {
         return (
             <TCDragExpandableButton
                 ref="btnDrag"
-                style={isCollapse ?styles.viewDraggableForCollapse:styles.viewDraggable}
+                style={isCollapse ? styles.viewDraggableForCollapse : styles.viewDraggable}
                 topMargin={position.topMargin}
                 bottomMargin={position.bottomMargin}
                 leftMargin={position.leftMargin}
@@ -212,13 +212,13 @@ export default class GameMenuButton extends Component {
                                     styles.flexRow,
                                     {
                                         opacity: isCollapse ? 0 : 1,
-                                        position: isCollapse ? 'absolute':'relative'
+                                        position: isCollapse ? 'absolute' : 'relative'
                                     }
                                 ]}
                                 duration={500}
                                 {...animationProps}>
                                 {
-                                    this.props.isShowReload ?     <TCButton
+                                    this.props.isShowReload ? <TCButton
                                         containStyles={[
                                             styles.btnIcon,
                                             {
@@ -232,12 +232,12 @@ export default class GameMenuButton extends Component {
                                             resizeMode="contain"
                                             style={styles.imgIcon}
                                         />
-                                    </TCButton>:null
+                                    </TCButton> : null
                                 }
 
 
                                 <View style={{ marginRight: -7 }}>
-                                    {this.props.itransEnabled==='ON' ?
+                                    {this.props.itransEnabled === 'ON' ?
                                         null
                                         :
                                         <TCButton
@@ -262,42 +262,42 @@ export default class GameMenuButton extends Component {
                                     </TCButton>
                                 </View>
                             </Animatable.View>
-                            <TCButtonImg btnStyle={styles.viewMenu} imgSource={ isCollapse
+                            <TCButtonImg btnStyle={styles.viewMenu} imgSource={isCollapse
                                 ? GAME_ICONS.btnMenu
-                                : GAME_ICONS.btnCollapseRight}  onClick={this.setCollapsibility} imgStyle={styles.imgMainIcon}/>
+                                : GAME_ICONS.btnCollapseRight} onClick={this.setCollapsibility} imgStyle={styles.imgMainIcon} />
                         </View>
                     ) : (
-                        <View style={styles.flexRow}>
-                            <TCButtonImg btnStyle={styles.viewMenu} imgSource={  isCollapse ? GAME_ICONS.btnMenu : GAME_ICONS.btnCollapseLeft}
-                                         imgStyle={styles.imgMainIcon}
-                                         onClick={this.setCollapsibility}
-                            />
-                            <Animatable.View
-                                pointerEvents={isCollapse ? "none" : "auto"}
-                                style={[styles.flexRow, { opacity: isCollapse ? 0 : 1 }]}
-                                duration={500}
-                                {...animationProps}>
-                                <View style={{ marginLeft: -7 }}>
-                                    {this.props.itransEnabled==='ON' ?
-                                        null
-                                        :
-                                        <TCButtonImg btnStyle={[styles.btnIcon, { marginBottom: 20 }]} onClick={() => this.onPressIcon(TYPE.transfer)}
-                                        imgSource={GAME_ICONS.btnTransfer} imgStyle={styles.imgIcon}
+                            <View style={styles.flexRow}>
+                                <TCButtonImg btnStyle={styles.viewMenu} imgSource={isCollapse ? GAME_ICONS.btnMenu : GAME_ICONS.btnCollapseLeft}
+                                    imgStyle={styles.imgMainIcon}
+                                    onClick={this.setCollapsibility}
+                                />
+                                <Animatable.View
+                                    pointerEvents={isCollapse ? "none" : "auto"}
+                                    style={[styles.flexRow, { opacity: isCollapse ? 0 : 1 }]}
+                                    duration={500}
+                                    {...animationProps}>
+                                    <View style={{ marginLeft: -7 }}>
+                                        {this.props.itransEnabled === 'ON' ?
+                                            null
+                                            :
+                                            <TCButtonImg btnStyle={[styles.btnIcon, { marginBottom: 20 }]} onClick={() => this.onPressIcon(TYPE.transfer)}
+                                                imgSource={GAME_ICONS.btnTransfer} imgStyle={styles.imgIcon}
+                                            />
+                                        }
+                                        <TCButtonImg btnStyle={[styles.btnIcon]} onClick={() => this.onPressIcon(TYPE.exit)}
+                                            imgSource={GAME_ICONS.btnExit} imgStyle={styles.imgIcon}
                                         />
-                                    }
-                                    <TCButtonImg btnStyle={[styles.btnIcon]} onClick={() => this.onPressIcon(TYPE.exit)}
-                                                 imgSource={GAME_ICONS.btnExit} imgStyle={styles.imgIcon}
-                                    />
-                                </View>
-                                <TCButtonImg btnStyle={[styles.btnIcon, {
-                                    alignSelf: "center",
-                                    marginLeft: -10
-                                }]} onClick={() => this.onPressIcon(TYPE.reload)}
-                                             imgSource={GAME_ICONS.btnReload} imgStyle={styles.imgIcon}/>
+                                    </View>
+                                    <TCButtonImg btnStyle={[styles.btnIcon, {
+                                        alignSelf: "center",
+                                        marginLeft: -10
+                                    }]} onClick={() => this.onPressIcon(TYPE.reload)}
+                                        imgSource={GAME_ICONS.btnReload} imgStyle={styles.imgIcon} />
 
-                            </Animatable.View>
-                        </View>
-                    )
+                                </Animatable.View>
+                            </View>
+                        )
                 }
             />
         );
@@ -308,8 +308,8 @@ const styles = StyleSheet.create({
     viewDraggableForCollapse: {
         position: "absolute",
         zIndex: 10000,
-        height:SIZE.mainIcon,
-        width:SIZE.mainIcon
+        height: SIZE.mainIcon,
+        width: SIZE.mainIcon
     },
     viewDraggable: {
         position: "absolute",

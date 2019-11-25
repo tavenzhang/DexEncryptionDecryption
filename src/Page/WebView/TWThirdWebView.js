@@ -20,7 +20,7 @@ import TCUserOpenPayApp from "../UserCenter/UserPay/TCUserOpenPayApp";
 import ExitGameAlertView from "../enter/gameMenu/ExitGameAlertView";
 import GameMenuButton from "../enter/gameMenu/GameMenuButton";
 import {withMappedNavigationProps} from 'react-navigation-props-mapper'
-import Orientation from 'react-native-orientation';
+
 @withMappedNavigationProps()
 @observer
 export default class TWThirdWebView extends Component {
