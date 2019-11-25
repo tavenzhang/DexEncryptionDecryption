@@ -30,16 +30,20 @@ export default class GameMenuButton extends Component {
         onPressExit: PropTypes.any,//
         itransEnabled: PropTypes.any,
         isShowReload:PropTypes.any,
-    };
+        isScreenPortrait:PropTypes.any,
+
+};
     static defaultProps = {
         itransEnabled:"NO",
-        isShowReload:true
+        isShowReload:true,
+        isScreenPortrait:false
     };
 
     constructor(props) {
-        super(props);
+        super(props)
+        let {isScreenPortrait}=this.props
         this.state = {
-            isScreenPortrait: true,
+            isScreenPortrait: isScreenPortrait,
             isShowExitAlertView: false,
             isCollapse: true,
             isCollapseInit: false
@@ -49,22 +53,24 @@ export default class GameMenuButton extends Component {
         this.setExitAlertViewVisibility = this.setExitAlertViewVisibility.bind(this);
         this.onPressConfirmExit = this.onPressConfirmExit.bind(this);
         this.onPressCancel = this.onPressCancel.bind(this);
-        this.onOrientationChange = this.onOrientationChange.bind(this);
     }
 
     componentWillMount() {
-        Orientation.getOrientation((err, orientation) => {
-            TW_Log(`Orientation---: ${orientation}`);
-            if(orientation=='LANDSCAPE'){
-                this.setState({isScreenPortrait:false})
-            }
-        });
-
-        Dimensions.addEventListener("change", this.onOrientationChange);
+        Orientation.addOrientationListener(this.addOrientationListener);
     }
 
     componentWillUnmount() {
-        Dimensions.removeEventListener("change", this.onOrientationChange);
+        Orientation.removeOrientationListener(this.addOrientationListener);
+    }
+
+    addOrientationListener=(orientation)=> {
+        let isScreenLandscape = true;
+        if( orientation&&orientation.indexOf("PORTRAIT")>-1){
+            TW_Log("_orientationDidChange-----orientation-PORTRAIT---lockToLandscape",orientation)
+            isScreenLandscape=false
+        }
+        this.setState({ isScreenPortrait: !isScreenLandscape });
+        this.setCollapsibility(true);
     }
 
     setCollapsibility=(isCollapse)=> {
@@ -83,12 +89,7 @@ export default class GameMenuButton extends Component {
         this.setState({ isShowExitAlertView: isShow });
     }
 
-    onOrientationChange=({ window: { width, height } })=> {
-        this.setCollapsibility(true);
-        const isScreenLandscape = width > height;
-        this.setState({ isScreenPortrait: !isScreenLandscape });
-        this.setCollapsibility(true);
-    }
+
 
     onPressIcon=(type)=> {
         TW_Log("onPressIcon---type==",type)
@@ -137,21 +138,21 @@ export default class GameMenuButton extends Component {
 
         if (isScreenPortrait) {
             position = {
-                initX: dy - 60,
+                initX: dy - 80,
                 initY: 60,
                 topMargin: extraTopHeight,
                 bottomMargin: extraBottomHeight + 100,
-                rightMargin: 60,
-                leftMargin: 0,
+                rightMargin: 100 ,
+                leftMargin:100 ,
                 minX: 5,
-                maxX: dy - 150,
+                maxX: dy - 50,
                 minY: extraTopHeight,
                 maxY: dx - extraBottomHeight - 150
             };
         } else {
             position = {
                 initX: extraTopHeight,
-                initY: SCREEN_W / 2 - 60,
+                initY: dy / 2 - 60,
                 topMargin: -30,
                 bottomMargin: extraBottomHeight + 100,
                 rightMargin: 60,
@@ -180,6 +181,7 @@ export default class GameMenuButton extends Component {
         const { isCollapse } = this.state;
         const position = this.getGameMenuPosition();
         const animationProps = {};
+        TW_Log("isScreenPortrait-----"+isScreenPortrait,position)
         if (this.state.isCollapseInit) {
             if (isScreenPortrait) {
                 animationProps.animation = isCollapse ? "fadeOutRight" : "fadeInRight";
@@ -206,6 +208,9 @@ export default class GameMenuButton extends Component {
                 contentView={
                     isScreenPortrait ? (
                         <View style={styles.flexRow}>
+                            <TCButtonImg btnStyle={styles.viewMenu} imgSource={ isCollapse
+                                ? GAME_ICONS.btnMenu
+                                : GAME_ICONS.btnCollapseRight}  onClick={this.setCollapsibility} imgStyle={styles.imgMainIcon}/>
                             <Animatable.View
                                 pointerEvents={isCollapse ? "none" : "auto"}
                                 style={[
@@ -223,7 +228,7 @@ export default class GameMenuButton extends Component {
                                             styles.btnIcon,
                                             {
                                                 alignSelf: "center",
-                                                marginRight: -10
+                                                marginRight: -10,
                                             }
                                         ]}
                                         onClick={() => this.onPressIcon(TYPE.reload)}>
@@ -262,9 +267,7 @@ export default class GameMenuButton extends Component {
                                     </TCButton>
                                 </View>
                             </Animatable.View>
-                            <TCButtonImg btnStyle={styles.viewMenu} imgSource={ isCollapse
-                                ? GAME_ICONS.btnMenu
-                                : GAME_ICONS.btnCollapseRight}  onClick={this.setCollapsibility} imgStyle={styles.imgMainIcon}/>
+
                         </View>
                     ) : (
                         <View style={styles.flexRow}>
