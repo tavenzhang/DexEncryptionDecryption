@@ -1,5 +1,5 @@
 import { NativeModules } from 'react-native'
-import Orientation from 'react-native-orientation-locker';
+import Orientation from 'react-native-orientation';
 try{
 
 }catch (e) {

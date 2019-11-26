@@ -8,7 +8,7 @@ import {ASSET_Images} from "../../asset";
 import {TCButton, TCButtonImg} from "../../../Common/View/button/TCButtonView";
 import ExitGameAlertView from "./ExitGameAlertView";
 import PropTypes from "prop-types";
-import Orientation from 'react-native-orientation-locker';
+import Orientation from 'react-native-orientation';
 
 const GAME_ICONS = ASSET_Images.gameMemu;
 const SIZE = {

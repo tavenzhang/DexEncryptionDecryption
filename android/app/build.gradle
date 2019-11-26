@@ -281,6 +281,7 @@ dependencies {
     compile project(':react-native-device-info')
     compile project(':react-native-code-push')
     compile project(':jpush-react-native')
+    compile project(':react-native-orientation')
     implementation project(':react-native-zip-archive')
     implementation 'com.android.support:multidex:1.0.3'
     implementation project(':react-native-fs')

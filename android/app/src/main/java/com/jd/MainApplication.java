@@ -26,7 +26,7 @@ import com.beefe.picker.PickerViewPackage;
 import com.jd.webview.WebViewReactPackage;
 import com.rnziparchive.RNZipArchivePackage;
 import com.umeng.socialize.PlatformConfig;
-import org.wonday.orientation.OrientationPackage;
+import com.github.yamill.orientation.OrientationPackage;
 
 import cn.jpush.reactnativejpush.JPushPackage;
 

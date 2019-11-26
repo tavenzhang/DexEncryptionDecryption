@@ -18,7 +18,7 @@ import { observer } from 'mobx-react'
 import Storage from '../../Common/Global/TCStorage'
 import G_Config from '../../Common/Global/G_Config'
 import App from '../Route/App';
-import Orientation from 'react-native-orientation-locker';
+import Orientation from 'react-native-orientation';
 
 import { width, Size } from '../asset/game/themeComponet'
 import StartUpHelper from './StartUpHelper'
@@ -47,11 +47,10 @@ export default class Enter extends Component {
         this.flage = false
         this.isWeakUpdate = false;
 
-
         Orientation.addOrientationListener(this._onOrientationDidChange);
         TW_Log("_orientationDidChange-----start-lockToLandscapeRight");
         if (G_IS_IOS) {
-            Orientation.lockToLandscapeLeft();
+            Orientation.lockToLandscapeRight();
         }
     }
 
@@ -79,7 +78,7 @@ export default class Enter extends Component {
 
             if (TW_Store.appStore.isLockToLandscape) {
                 if (G_IS_IOS) {
-                    Orientation.lockToLandscapeLeft();
+                    Orientation.lockToLandscapeRight();
                 } else {
                     Orientation.lockToLandscape()
                 }
