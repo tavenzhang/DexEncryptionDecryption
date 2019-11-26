@@ -92,7 +92,7 @@ export default class GameMenuButton extends Component {
 
 
     onPressIcon=(type)=> {
-        TW_Log("onPressIcon---type==",type)
+        TW_Log("onPressIcon---type==",type);
         this.setCollapsibility();
         const { onPressExit } = this.props;
         switch (type) {
@@ -133,25 +133,25 @@ export default class GameMenuButton extends Component {
         const extraBottomHeight = IS_CHECK_SAFEAREA ? SafeAreaBottomHeight : 0;
         let position;
 
-        const dx = isScreenPortrait ? SCREEN_W : SCREEN_H;
-        const dy = isScreenPortrait ? SCREEN_H : SCREEN_W;
+        const dx = isScreenPortrait ? SCREEN_H : SCREEN_W;
+        const dy = isScreenPortrait ? SCREEN_W : SCREEN_H;
 
         if (isScreenPortrait) {
             position = {
-                initX: dy - 80,
-                initY: 60,
+                initX: dx-100,
+                initY: 80,
                 topMargin: extraTopHeight,
                 bottomMargin: extraBottomHeight + 100,
-                rightMargin: 100 ,
-                leftMargin:100 ,
-                minX: 5,
+                rightMargin: 20 ,
+                leftMargin:20 ,
+                minX: 1,
                 maxX: dy - 50,
                 minY: extraTopHeight,
                 maxY: dx - extraBottomHeight - 150
             };
         } else {
             position = {
-                initX: extraTopHeight,
+                initX: dx-60,
                 initY: dy / 2 - 60,
                 topMargin: -30,
                 bottomMargin: extraBottomHeight + 100,
@@ -184,7 +184,7 @@ export default class GameMenuButton extends Component {
         TW_Log("isScreenPortrait-----"+isScreenPortrait,position)
         if (this.state.isCollapseInit) {
             if (isScreenPortrait) {
-                animationProps.animation = isCollapse ? "fadeOutRight" : "fadeInRight";
+                animationProps.animation = isCollapse ? "pulse" : "slideInDown";
             } else {
                 animationProps.animation = isCollapse ? "fadeOutLeft" : "fadeInLeft";
             }
@@ -207,7 +207,7 @@ export default class GameMenuButton extends Component {
                 maxY={position.maxY}
                 contentView={
                     isScreenPortrait ? (
-                        <View style={styles.flexRow}>
+                        <View style={{flexDirection:'column'}}>
                             <TCButtonImg btnStyle={styles.viewMenu} imgSource={ isCollapse
                                 ? GAME_ICONS.btnMenu
                                 : GAME_ICONS.btnCollapseRight}  onClick={this.setCollapsibility} imgStyle={styles.imgMainIcon}/>
@@ -237,9 +237,17 @@ export default class GameMenuButton extends Component {
                                             resizeMode="contain"
                                             style={styles.imgIcon}
                                         />
-                                    </TCButton>:<View style={styles.btnIcon}/>
+                                    </TCButton>:null
                                 }
-
+                                <TCButton
+                                    containStyles={styles.btnIcon}
+                                    onClick={() => this.onPressIcon(TYPE.exit)}>
+                                    <Image
+                                        source={GAME_ICONS.btnExit}
+                                        resizeMode="contain"
+                                        style={styles.imgIcon}
+                                    />
+                                </TCButton>
 
                                 <View style={{ marginRight: -7 }}>
                                     {this.props.itransEnabled==='ON' ?
@@ -256,15 +264,6 @@ export default class GameMenuButton extends Component {
                                         </TCButton>
                                     }
 
-                                    <TCButton
-                                        containStyles={styles.btnIcon}
-                                        onClick={() => this.onPressIcon(TYPE.exit)}>
-                                        <Image
-                                            source={GAME_ICONS.btnExit}
-                                            resizeMode="contain"
-                                            style={styles.imgIcon}
-                                        />
-                                    </TCButton>
                                 </View>
                             </Animatable.View>
 
