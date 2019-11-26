@@ -157,16 +157,23 @@ export default class AppInfoStore {
                 TW_Store.dataStore.isAppInited=true;
                 SoundHelper.startBgMusic();
             }else{
-                const  loadingSourceViewExist=   await RNFS.exists(TW_Store.dataStore.originAppDir + "/loading/loading.html");
+                let  loadingSourceViewExist=false
+                if(G_IS_IOS){
+                    loadingSourceViewExist=   await RNFS.exists(TW_Store.dataStore.originAppDir );
+                }else{
+                    loadingSourceViewExist=   await RNFS.existsAssets("gamelobby/loading/loading.html");
+                }
                 TW_Log("checkSavedData======loadingViewExist==="+loadingSourceViewExist+"--ret--"+ret+"--eeeor="+err)
                 if(loadingSourceViewExist){
+                    TW_Store.gameUpateStore.isIncludeLoadView=true;
                     TW_Store.dataStore.copy_assets_to_dir(()=>{SoundHelper.startBgMusic();});
                 }else{
                     TW_Store.gameUpateStore.isIncludeLoadView=false;
                 }
             }
 
-            TW_Data_Store.getItem(TW_DATA_KEY.LobbyReadyOK, (err, ret) => {
+
+        TW_Data_Store.getItem(TW_DATA_KEY.LobbyReadyOK, (err, ret) => {
                 if(TW_Store.dataStore.isAppInited){
                     if(ret){
                         TW_Store.gameUpateStore.isNeedUpdate=`${ret}` == "1" ? false:true;
