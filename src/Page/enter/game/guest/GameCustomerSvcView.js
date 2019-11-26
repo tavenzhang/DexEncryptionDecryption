@@ -10,7 +10,7 @@ import {TCButtonImg} from "../../../../Common/View/button/TCButtonView";
 import PropTypes from "prop-types";
 import LoadingView from "../../LoadingView";
 import { WebView } from 'react-native-webview';
-import Orientation from 'react-native-orientation';
+
 
 @observer
 export default class GameGuestView extends Component {
@@ -35,23 +35,15 @@ export default class GameGuestView extends Component {
     }
 
     componentDidMount() {
-        Orientation.unlockAllOrientations()
-        // this locks the view to Portrait Mode
-        Orientation.lockToPortrait();
+
         TW_Log("Benny: lockToPortrait")
 
-        // this locks the view to Landscape Mode
-        // Orientation.lockToLandscape();
 
-        // this unlocks any previous locks to all Orientations
-        // Orientation.unlockAllOrientations();
-
-        //Orientation.addOrientationListener(this._orientationDidChange);
     }
 
     componentWillMount(): void {
         TW_Log("Benny: Init to Orientation")
-        const init = Orientation.getInitialOrientation();
+
         this.setState({
             init,
             orientation: init,
@@ -66,11 +58,7 @@ export default class GameGuestView extends Component {
     }
 
     componentWillUnmount() {
-        // Orientation.removeOrientationListener(this._updateOrientation);
-        // Orientation.removeSpecificOrientationListener(this._updateSpecificOrientation);
-        Orientation.unlockAllOrientations()
-        // this locks the view to Portrait Mode
-        Orientation.lockToLandscape();
+
     }
 
     render() {
@@ -103,7 +91,7 @@ export default class GameGuestView extends Component {
 
     backToPrevious=()=>{
         TW_Log("Benny: lockToLandscape");
-        Orientation.lockToLandscape();
+     
         TW_Store.gameUIStroe.isShowGuest = false;
     }
 

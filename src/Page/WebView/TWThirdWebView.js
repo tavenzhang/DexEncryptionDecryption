@@ -20,7 +20,7 @@ import TCUserOpenPayApp from "../UserCenter/UserPay/TCUserOpenPayApp";
 import ExitGameAlertView from "../enter/gameMenu/ExitGameAlertView";
 import GameMenuButton from "../enter/gameMenu/GameMenuButton";
 import {withMappedNavigationProps} from 'react-navigation-props-mapper'
-import Orientation from 'react-native-orientation';
+
 @withMappedNavigationProps()
 @observer
 export default class TWThirdWebView extends Component {
@@ -54,7 +54,7 @@ export default class TWThirdWebView extends Component {
 
 
     render() {
-        let {url,isShowReload} = this.props;
+        let {url,isShowReload,backHandle} = this.props;
         let source = {
             uri:url,
         };
@@ -95,7 +95,7 @@ export default class TWThirdWebView extends Component {
                     alignItems: "center", backgroundColor: "transparent"
                 }}>
                 </View>}
-                <GameMenuButton isShowReload={isShowReload} itransEnabled={"ON"}
+                <GameMenuButton isScreenPortrait={true} isShowReload={isShowReload} itransEnabled={"ON"}
                                                 onPressExit={this.onClickMenu}/>
                 {this.state.isShowExitAlertView && <ExitGameAlertView
                     isOpenAddPay={this.state.isOpenAddPay}
@@ -243,6 +243,10 @@ export default class TWThirdWebView extends Component {
     };
 
     onBackHomeJs = (type="") => {
+        let {url,isShowReload,backHandle} = this.props;
+        if(backHandle){
+            backHandle();
+        }
       TW_NavHelp.popToBack()
     }
 }

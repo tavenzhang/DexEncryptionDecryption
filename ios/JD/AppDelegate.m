@@ -13,9 +13,13 @@
 #import <OpenInstallSDK.h>
 #import <SplashScreen.h>
 #import <UMShare/UMShare.h>
+#import "Orientation.h"
 
-//#import <SplashScreen.h>
 @implementation AppDelegate
+
+- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+  return [Orientation getOrientation];
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -26,6 +30,7 @@
   [self loadRootController];
   [self.window makeKeyAndVisible];
   [UIDevice currentDevice].batteryMonitoringEnabled = true;
+  
   
   #ifdef DEBUG
     //do sth.

@@ -1,5 +1,10 @@
-import { NativeModules } from 'react-native';
+import { NativeModules } from 'react-native'
+import Orientation from 'react-native-orientation';
+try{
 
+}catch (e) {
+
+}
 //所有的本地 native 接口聚集到此 方便维护
 global.TN_GetAppInfo = (callBack: func) => {
     if (NativeModules.JXHelper.getAppInfo) {

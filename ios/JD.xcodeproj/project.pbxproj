@@ -67,7 +67,6 @@
 		790086A2B54344E7B1CC350B /* libRCTOpenInstall.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 49CD7F6FFE334A089AD6146E /* libRCTOpenInstall.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		8AE0ECB39EF843F0AF445E81 /* libRNSound.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BEFF0107AB7443494B42405 /* libRNSound.a */; };
-		9501198B21E43927008CB01A /* libRCTOrientation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9501195A21E438C8008CB01A /* libRCTOrientation.a */; };
 		950BD7E623797CE200DA4A7B /* YunCeng.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 950BD7AA23797CE100DA4A7B /* YunCeng.framework */; };
 		950BD7E723797F9000DA4A7B /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C61C60B9222CBF5100E09E95 /* CoreTelephony.framework */; };
 		950BD7E823797F9E00DA4A7B /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 952508D121B6BC7800E78AB2 /* libresolv.tbd */; };
@@ -101,6 +100,7 @@
 		C61C60BA222CBF5100E09E95 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C61C60B9222CBF5100E09E95 /* CoreTelephony.framework */; };
 		C61C60BB222CBF6700E09E95 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2259B7132046BE5F0037370E /* libc++.tbd */; };
 		D0547A7822FBC30900B8A955 /* libRNCNetInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0547A7522FBC2DD00B8A955 /* libRNCNetInfo.a */; };
+		D094F90F238D02FF001602B4 /* libRCTOrientation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D094F90E238D00CB001602B4 /* libRCTOrientation.a */; };
 		FC88C680574088BC55DB6F3E /* Pods_card.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B924D5A8AE1F608BD595A54 /* Pods_card.framework */; };
 /* End PBXBuildFile section */
 
@@ -393,13 +393,6 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
-		9501195921E438C8008CB01A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9501194121E438C8008CB01A /* RCTOrientation.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = RCTOrientation;
-		};
 		95075E882368397E006A84E5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A64BC82211154D06A65315D9 /* RNVectorIcons.xcodeproj */;
@@ -561,6 +554,13 @@
 			remoteGlobalIDString = B5027B1B2237B30F00F1AABA;
 			remoteInfo = "RNCNetInfo-tvOS";
 		};
+		D094F90D238D00CB001602B4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D094F909238D00CA001602B4 /* RCTOrientation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RCTOrientation;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -675,7 +675,6 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		8EA3914555C244DD85E59A89 /* libCodePush.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libCodePush.a; sourceTree = "<group>"; };
 		946BA38B82C34345974FBE3F /* libRNDeviceInfo-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNDeviceInfo-tvOS.a"; sourceTree = "<group>"; };
-		9501194121E438C8008CB01A /* RCTOrientation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTOrientation.xcodeproj; path = "../node_modules/react-native-orientation/iOS/RCTOrientation.xcodeproj"; sourceTree = "<group>"; };
 		9501198921E438DF008CB01A /* libSDWebImage iOS static.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libSDWebImage iOS static.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		950BD7AA23797CE100DA4A7B /* YunCeng.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = YunCeng.framework; sourceTree = "<group>"; };
 		950EE4E1221118750011DBE1 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../android/app/src/main/assets; sourceTree = "<group>"; };
@@ -713,6 +712,7 @@
 		C72C822F9CE64FB08CA129D8 /* libRNDeviceInfo.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNDeviceInfo.a; sourceTree = "<group>"; };
 		D02087C348C0478E8D19424E /* FastImage.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = FastImage.xcodeproj; path = "../node_modules/react-native-fast-image/ios/FastImage.xcodeproj"; sourceTree = "<group>"; };
 		D0547A6F22FBC2DD00B8A955 /* RNCNetInfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNCNetInfo.xcodeproj; path = "../node_modules/@react-native-community/netinfo/ios/RNCNetInfo.xcodeproj"; sourceTree = "<group>"; };
+		D094F909238D00CA001602B4 /* RCTOrientation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTOrientation.xcodeproj; path = "../node_modules/react-native-orientation/iOS/RCTOrientation.xcodeproj"; sourceTree = "<group>"; };
 		DA502F45563A4EF9B1618928 /* CodePush.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = CodePush.xcodeproj; path = "../node_modules/react-native-code-push/ios/CodePush.xcodeproj"; sourceTree = "<group>"; };
 		FDEDCB2E5B6C4AF7AB9EFA40 /* libRNSound-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNSound-tvOS.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -722,6 +722,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D094F90F238D02FF001602B4 /* libRCTOrientation.a in Frameworks */,
 				D0547A7822FBC30900B8A955 /* libRNCNetInfo.a in Frameworks */,
 				9530179322E0329C00164297 /* libRNCCameraRoll.a in Frameworks */,
 				951A7AD022CB024E0033476C /* libRNCWebView.a in Frameworks */,
@@ -742,7 +743,6 @@
 				C61C60B2222CBED700E09E95 /* UShareUI.framework in Frameworks */,
 				C61C60B0222CBEB600E09E95 /* UMShare.framework in Frameworks */,
 				950EE74E221A8C090011DBE1 /* libRNZipArchive.a in Frameworks */,
-				9501198B21E43927008CB01A /* libRCTOrientation.a in Frameworks */,
 				951A04F021D8A65D000EBC62 /* libc++abi.tbd in Frameworks */,
 				9543D1C521C0E948006E51DD /* libcxxreact.a in Frameworks */,
 				952508F921B76BF400E78AB2 /* libRNFS.a in Frameworks */,
@@ -1163,6 +1163,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				D094F909238D00CA001602B4 /* RCTOrientation.xcodeproj */,
 				D0547A6F22FBC2DD00B8A955 /* RNCNetInfo.xcodeproj */,
 				9530176022E031C100164297 /* RNCCameraRoll.xcodeproj */,
 				951A7A8322CB023E0033476C /* RNCWebView.xcodeproj */,
@@ -1172,7 +1173,6 @@
 				95E1B8622248855A00C9CE2E /* KCKeepAwake.xcodeproj */,
 				950EEE59222416390011DBE1 /* RCTBEEPickerManager.xcodeproj */,
 				950EEDBD22214E850011DBE1 /* ReactNativeKeyboardManager.xcodeproj */,
-				9501194121E438C8008CB01A /* RCTOrientation.xcodeproj */,
 				951A04E821D8A541000EBC62 /* RNZipArchive.xcodeproj */,
 				9525080221B6B0D200E78AB2 /* RCTJCoreModule.xcodeproj */,
 				952507BF21B6B02A00E78AB2 /* RCTJPushModule.xcodeproj */,
@@ -1227,14 +1227,6 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* JD.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		9501194221E438C8008CB01A /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				9501195A21E438C8008CB01A /* libRCTOrientation.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1371,6 +1363,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		D094F90A238D00CA001602B4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D094F90E238D00CB001602B4 /* libRCTOrientation.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1491,8 +1491,8 @@
 					ProjectRef = 226A603A6EC4491B86068B3F /* RCTOpenInstall.xcodeproj */;
 				},
 				{
-					ProductGroup = 9501194221E438C8008CB01A /* Products */;
-					ProjectRef = 9501194121E438C8008CB01A /* RCTOrientation.xcodeproj */;
+					ProductGroup = D094F90A238D00CA001602B4 /* Products */;
+					ProjectRef = D094F909238D00CA001602B4 /* RCTOrientation.xcodeproj */;
 				},
 				{
 					ProductGroup = 139105B71AF99BAD00B5F7CC /* Products */;
@@ -1823,13 +1823,6 @@
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		9501195A21E438C8008CB01A /* libRCTOrientation.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTOrientation.a;
-			remoteRef = 9501195921E438C8008CB01A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		95075E892368397E006A84E5 /* libRNVectorIcons.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1989,6 +1982,13 @@
 			fileType = archive.ar;
 			path = "libRNCNetInfo-tvOS.a";
 			remoteRef = D0547A7622FBC2DD00B8A955 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D094F90E238D00CB001602B4 /* libRCTOrientation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTOrientation.a;
+			remoteRef = D094F90D238D00CB001602B4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -2153,6 +2153,7 @@
 					"$(SRCROOT)/../node_modules/react-native-zip-archive/ios",
 					"$(SRCROOT)/../node_modules/openinstall-react-native/ios/RCTOpenInstall/RCTOpenInstall",
 					"$(PROJECT_DIR)/framework/YunCeng.framework/**",
+					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation",
 				);
 				INFOPLIST_FILE = JD/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -2215,6 +2216,7 @@
 					"$(SRCROOT)/../node_modules/react-native-zip-archive/ios",
 					"$(SRCROOT)/../node_modules/openinstall-react-native/ios/RCTOpenInstall/RCTOpenInstall",
 					"$(PROJECT_DIR)/framework/YunCeng.framework/**",
+					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation",
 				);
 				INFOPLIST_FILE = JD/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
