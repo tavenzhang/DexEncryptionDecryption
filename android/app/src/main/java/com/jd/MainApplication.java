@@ -23,11 +23,10 @@ import ca.jaysoo.extradimensions.ExtraDimensionsPackage;
 import com.openinstall.openinstallLibrary.OpeninstallReactPackage;
 import com.corbt.keepawake.KCKeepAwakePackage;
 import com.beefe.picker.PickerViewPackage;
-import com.github.yamill.orientation.OrientationPackage;
 import com.jd.webview.WebViewReactPackage;
 import com.rnziparchive.RNZipArchivePackage;
 import com.umeng.socialize.PlatformConfig;
-
+import org.wonday.orientation.OrientationPackage;
 
 import cn.jpush.reactnativejpush.JPushPackage;
 
@@ -80,6 +79,7 @@ public class MainApplication extends Application implements ReactApplication {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
             new NetInfoPackage(),
+            new OrientationPackage(),
             new CameraRollPackage(),
             new RNCWebViewPackage(),
             new RNViewShotPackage(),
@@ -87,7 +87,6 @@ public class MainApplication extends Application implements ReactApplication {
                     new OpeninstallReactPackage(),
                     new KCKeepAwakePackage(),
                     new PickerViewPackage(),
-                    new OrientationPackage(),
                     new RNZipArchivePackage(),
                     new JPushPackage(false, false),
                     new RNFSPackage(),

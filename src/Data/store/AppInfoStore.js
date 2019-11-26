@@ -2,7 +2,7 @@ import { observable, action } from "mobx";
 import { NativeModules, Alert, Platform } from 'react-native';
 import CodePush from "react-native-code-push";
 import DeviceInfo from 'react-native-device-info';
-import Orientation from 'react-native-orientation';
+import Orientation from 'react-native-orientation-locker';
 import {
     configAppId,
     MyAppName,
@@ -647,16 +647,14 @@ export default class AppInfoStore {
         Orientation.unlockAllOrientations();
         this.isLockToLandscape=false;
         Orientation.lockToPortrait();
-
     }
-
 
     lockToLandscape(){
         this.isLockToLandscape=true;
         //返回横屏
         //Orientation.lockToLandscape()
         if(G_IS_IOS){
-            Orientation.lockToLandscapeRight();
+            Orientation.lockToLandscapeLeft();
         }else{
             Orientation.lockToLandscape()
         };
