@@ -40,7 +40,6 @@ export default class GameUIView extends Component {
         let gameAlertView = TW_Store.gameUIStroe.gameAlertData;
         let isShowUi=gameAlertView.component||TW_Store.gameUIStroe.isShowShare||TW_Store.gameUIStroe.isShowWithDraw
 
-
         return (isShowUi ?  <View style={{position:"absolute",
             height:SCREEN_H,
             width:SCREEN_W,
