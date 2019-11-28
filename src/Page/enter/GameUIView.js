@@ -38,7 +38,7 @@ export default class GameUIView extends Component {
 
     render() {
         let gameAlertView = TW_Store.gameUIStroe.gameAlertData;
-        let isShowUi=gameAlertView.component||TW_Store.gameUIStroe.isShowShare||TW_Store.gameUIStroe.isShowWithDraw
+        let isShowUi=gameAlertView.component||TW_Store.gameUIStroe.isShowShare||TW_Store.gameUIStroe.isShowWithDraw||TW_Store.gameUIStroe.isShowAppGUEST
 
         return (isShowUi ?  <View style={{position:"absolute",
             height:SCREEN_H,
@@ -80,7 +80,7 @@ class SubGameView extends Component {
                     {TW_Store.gameUIStroe.isShowAddPayView ? <GameMoneyInView pointerEvents={isHaveAletView}/> : null}
                     {(gameAlertView&&gameAlertView.component) ?  <View style={{width:SCREEN_W, height:SCREEN_H,backgroundColor: "rgba(10,10,10,0.3)",position:"absolute"}}/>:null}
 
-                    {/*{TW_Store.gameUIStroe.isShowGuest ? <GameGuestView pointerEvents={isHaveAletView}/> : null}*/}
+                    {TW_Store.gameUIStroe.isShowAppGUEST ? <GameGuestView pointerEvents={isHaveAletView}/> : null}
                     {
                         !gameAlertView.isUserAccount&&gameAlertView.component ? <BaseGameAlert title={gameAlertView.title} onClose={() => {
                             TW_Store.gameUIStroe.hideAlertUI();
