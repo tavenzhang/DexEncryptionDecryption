@@ -50,7 +50,8 @@ export default class Enter extends Component {
         Orientation.addOrientationListener(this._onOrientationDidChange);
         TW_Log("_orientationDidChange-----start-lockToLandscapeRight");
         if (G_IS_IOS) {
-            Orientation.lockToLandscapeRight();
+            Orientation.unlockAllOrientations();
+            Orientation.lockToLandscape()
         }
     }
 
@@ -60,7 +61,7 @@ export default class Enter extends Component {
         if (orientation === 'PORTRAIT') {
             if (TW_Store.appStore.isLockToLandscape) {
                 if (G_IS_IOS) {
-                    Orientation.lockToLandscapeRight();
+                    Orientation.lockToLandscape();
                 } else {
                     Orientation.lockToLandscape()
                 }
