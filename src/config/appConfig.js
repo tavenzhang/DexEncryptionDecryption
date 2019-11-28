@@ -3,7 +3,7 @@ import React, {
 } from 'react-native';
 
 export const appDomainBase = {
-    base1: 'http://yundun-qp01-game.513xyz.com',
+    base1: 'http://127.0.0.1',
     base2: 'https://qp01-game.513xyz.com',
     base3: 'https://*.gymjjddjzx.com',
     base4: 'https://yundun-qp01-game.513xyz.com',
@@ -47,7 +47,7 @@ export const YunDunData= {appIosKey:"DpV1sEv2lZyavrD7xIpYOZFlLbV_BEmr5CvA34neuD6
     dip:"chy-test",
     dport:"443",
     token:"",
-    domaims:["https://yundun-qp01-game.513xyz.com"]
+    domaims:[]
 };
 // export const safeguardDomain = [
 //     'https://987645ba00a9b0416b254f33d918ed64.oss-cn-shenzhen.aliyuncs.com',

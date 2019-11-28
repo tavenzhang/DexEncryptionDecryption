@@ -23,8 +23,8 @@ function getAvailableDomain(domains, callback, initDomainCallBack,currentCacheDo
             callback(false, false, false);
         }
     }, 8000)
-
-    TN_yunDunStart((isUseYunDun,port)=>{
+    let isLocalHostDomain=domains.indexOf('http://127.0.0.1')>-1;
+    TN_yunDunStart(isLocalHostDomain,(isUseYunDun,port)=>{
         TW_Store.dataStore.log+="\n---游戏盾-==-"+isUseYunDun+"==port=="+port+"---\n";
         for (let i = 0; i < domains.length; i++) {
             TW_Log('= ' + domains[i]+"--TN_yunDunStart---------isUseYunDun---"+isUseYunDun+"===port==="+port);
@@ -94,7 +94,7 @@ function getAvailableDomain(domains, callback, initDomainCallBack,currentCacheDo
                             netStateCheckAllReady = true
                             if (!err) {
                                 if (content && content.allowAppUpdate) {
-                                    if (isRandomDomain) {
+                                    if (isRandomDomain||isLocalHostDomain) {
                                         //如果是随机域名不能直接使用，重新域名检测 使用缓存域名
                                         initDomainCallBack && initDomainCallBack();
                                     } else {
