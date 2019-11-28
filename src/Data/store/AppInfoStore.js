@@ -662,8 +662,7 @@ export default class AppInfoStore {
         //Orientation.lockToLandscape()
         if(G_IS_IOS){
             Orientation.unlockAllOrientations();
-            Orientation.lockToLandscape()
-           // Orientation.lockToLandscapeLeft();
+            Orientation.lockToLandscapeRight();
         }else{
             Orientation.lockToLandscape()
         };
