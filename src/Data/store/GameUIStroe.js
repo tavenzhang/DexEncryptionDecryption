@@ -17,6 +17,8 @@ export default class GameUIStroe {
 
     @observable
     isShowWithDraw = false;
+    @observable
+    isShowAppGUEST= false;
 
     @observable
     isShowGuest = false;
