@@ -285,6 +285,9 @@ export default class XXWebView extends Component {
                                 SoundHelper.pauseMusic();
                             }
                             break;
+                        case  "playMusicEffect":
+                            SoundHelper.playMusicEffect(message.param);
+                            break;
                         case "wxLogin":
                             TW_Store.gameUIStroe.checkWXInstall((ret)=> {
                                 TW_Store.dataStore.log += "\n\n==> wxLogin checkWXInstall---" + ret;
