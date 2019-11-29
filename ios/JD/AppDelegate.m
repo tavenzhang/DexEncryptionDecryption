@@ -30,8 +30,11 @@
   [self loadRootController];
   [self.window makeKeyAndVisible];
   [UIDevice currentDevice].batteryMonitoringEnabled = true;
-  
-  
+  dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC * 3);
+       dispatch_after(delay, dispatch_get_main_queue(), ^(void){
+            [SplashScreen hide];
+           // do work in the UI thread here
+       });
   #ifdef DEBUG
     //do sth.
   #else
