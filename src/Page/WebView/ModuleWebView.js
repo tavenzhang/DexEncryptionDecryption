@@ -48,12 +48,15 @@ export default class ModuleWebView extends Component {
                         this.onLoadEvalueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.showRecharge));
                     }
                 }
+                
                 if(TW_Store.gameUIStroe.isShowGuest){
+
                     if(this.currentView!=TW_Store.bblStore.ACT_ENUM.isShowGuest){
                         this.currentView=TW_Store.bblStore.ACT_ENUM.isShowGuest;
                         this.onLoadEvalueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.showService));
                     }
                 }
+
             }
             if(this.isFirstShow&&isShowUi){
                 TW_Log("ModuleWebView--start--isFirstShow")
