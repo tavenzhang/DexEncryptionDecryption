@@ -24,6 +24,8 @@ export default class ModuleWebView extends Component {
         TW_OnValueModuleJS = this.onLoadEvalueJS;
         this.currentView="";
         this.isFirstShow=true
+        this.isShowAddPayView=false;
+        this.isShowGuest=false;
     }
 
     render() {
@@ -43,17 +45,20 @@ export default class ModuleWebView extends Component {
         if (this.refs.myView) {
             if(isShowUi){
                 if(TW_Store.gameUIStroe.isShowAddPayView){
-                    if(this.currentView!=TW_Store.bblStore.ACT_ENUM.showRecharge){
+                    if(this.currentView!=TW_Store.bblStore.ACT_ENUM.showRecharge&&!this.isShowAddPayView){
                         this.currentView=TW_Store.bblStore.ACT_ENUM.showRecharge;
                         this.onLoadEvalueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.showRecharge));
+                        this.isShowAddPayView=true;
+
                     }
                 }
 
                 if(TW_Store.gameUIStroe.isShowGuest){
 
-                    if(this.currentView!=TW_Store.bblStore.ACT_ENUM.isShowGuest){
+                    if(this.currentView!=TW_Store.bblStore.ACT_ENUM.isShowGuest&&!this.isShowGuest){
                         this.currentView=TW_Store.bblStore.ACT_ENUM.isShowGuest;
                         this.onLoadEvalueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.showService));
+                        this.isShowGuest=true;
                     }
                 }
 
@@ -101,7 +106,7 @@ export default class ModuleWebView extends Component {
           };
         })()`;
 
-        TW_Log("targetAppDir----ModuleWebView-source==isShowUi-"+isShowUi,source);
+        TW_Log("targetAppDir----ModuleWebView-source==isShowUi-"+isShowUi,TW_Store.gameUIStroe);
         return (
             <View  style={{
                 position: "absolute",
@@ -163,9 +168,12 @@ export default class ModuleWebView extends Component {
                     switch (message.data) {
                         case TW_Store.bblStore.ACT_ENUM.showRecharge: //充值界面
                             TW_Store.gameUIStroe.isShowAddPayView =false;
+                            this.isShowAddPayView=true;
                             break;
                         case TW_Store.bblStore.ACT_ENUM.showService://客服界面
-                             TW_Store.gameUIStroe.isShowGuest=false;
+                            TW_Log("TW_Store.bblStore.ACT_ENUM.showService---close=="+TW_Store.bblStore.ACT_ENUM.showService)
+                           TW_Store.gameUIStroe.isShowGuest=false;
+                            this.isShowGuest=false
                             break;
                     }
                     break;
