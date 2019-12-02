@@ -3,7 +3,8 @@ import React, {Component} from 'react';
 import {
     StyleSheet,
     View,
-    Clipboard
+    Clipboard,
+    BackHandler
 } from 'react-native';
 
 
@@ -49,9 +50,16 @@ export default class TWThirdWebView extends Component {
     componentWillMount() {
        //旋转到竖屏
         TW_Store.appStore.lockToProrit();
+        if (!G_IS_IOS) {
+            BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
+        }
     }
 
-
+    componentWillUnmount(): void {
+        if (!G_IS_IOS) {
+            BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid);
+        }
+    }
 
     render() {
         let {url,isShowReload,backHandle} = this.props;
@@ -114,7 +122,12 @@ export default class TWThirdWebView extends Component {
         );
     }
 
-
+    onBackAndroid = () => {
+        TW_Log("TWThirdWebView--onBackAndroid---", this.navigator);
+        this.onBackHomeJs();
+        TW_Store.appStore.lockToLandscape();
+        this.setState({isShowExitAlertView: false});
+    };
 
     onClickMenu=(btnId)=>{
         switch (btnId) {
@@ -160,7 +173,7 @@ export default class TWThirdWebView extends Component {
         if (message && message.action) {
             switch (message.action) {
                 case "appStatus":
-                    TW_Log("TWWebGameView---appStatus==", message);
+                    TW_Log("TWThirdWebView---appStatus==", message);
                     TW_Store.bblStore.setNetInfo(message);
                     break;
                 case "Log":
@@ -224,17 +237,17 @@ export default class TWThirdWebView extends Component {
 
     onError = (error) => {
         this.onBackHomeJs();
-        TW_Log("TWWebGameView==onError=====TCweb======name====="+this.constructor.name, error.nativeEvent);
+        TW_Log("TWThirdWebView==onError=====TCweb======name====="+this.constructor.name, error.nativeEvent);
     };
 
     onShouldStartLoadWithRequest = (event) => {
-        TW_Log("TWWebGameView==onShouldStartLoadWithRequest=======TWWebGameView====name====="+this.constructor.name, event);
+        TW_Log("TWThirdWebView==onShouldStartLoadWithRequest=======TWWebGameView====name====="+this.constructor.name, event);
         return true;
     };
 
     onNavigationStateChange = (navState) => {
 
-        TW_Log("TWWebGameView===========onNavigationStateChange= +this.constructor.name=="+this.constructor.name , navState);
+        TW_Log("TWThirdWebView===========onNavigationStateChange= +this.constructor.name=="+this.constructor.name , navState);
         if (navState.title == "404 Not Found") {
             this.onBackHomeJs()
         } else {
@@ -260,6 +273,7 @@ const styles = StyleSheet.create({
     },
     webView: {
         marginTop: 0,
+        marginBottom:40,
         flex: 1,
         backgroundColor: "transparent",
         overflow: 'hidden'
