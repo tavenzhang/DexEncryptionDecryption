@@ -4,12 +4,11 @@ import {
     StyleSheet,
     View,
     Clipboard,
-    BackHandler
+    BackHandler,
+    KeyboardAvoidingView
 } from 'react-native';
 
-
 import {WebView} from 'react-native-webview';
-
 
 import {JX_PLAT_INFO} from "../asset";
 
@@ -33,7 +32,7 @@ export default class TWThirdWebView extends Component {
     };
     static defaultProps = {
         title: '',
-        isShowReload:true
+        isShowReload: true
     };
 
     constructor(state) {
@@ -42,13 +41,14 @@ export default class TWThirdWebView extends Component {
             isHide: false,
             isHttpFail: false,
             isShowExitAlertView: false,
-            isOpenAddPay:false
+            isOpenAddPay: false
         };
         this.bblStore = TW_Store.bblStore;
+        this.isShowKeyBoard = false;
     }
 
     componentWillMount() {
-       //旋转到竖屏
+        //旋转到竖屏
         TW_Store.appStore.lockToProrit();
         if (!G_IS_IOS) {
             BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
@@ -62,9 +62,9 @@ export default class TWThirdWebView extends Component {
     }
 
     render() {
-        let {url,isShowReload,backHandle} = this.props;
+        let {url, isShowReload, backHandle} = this.props;
         let source = {
-            uri:url,
+            uri: url,
         };
         TW_Log("TWThirdWebView--------", this.props)
         let injectJs = `(function() {
@@ -73,7 +73,7 @@ export default class TWThirdWebView extends Component {
               };
             })()`;
 
-        let wenConteView =
+        let webContentView =
             <WebView
                 ref="myWebView"
                 originWhitelist={['*']}
@@ -97,28 +97,28 @@ export default class TWThirdWebView extends Component {
                 thirdPartyCookiesEnabled={true}
             />;
         return (
-            <View style={[styles.container]}>
-                {!this.state.isHttpFail ? wenConteView : <View style={{
+            <KeyboardAvoidingView style={styles.container} behavior="padding" enabled={G_IS_IOS ? false : true}>
+                {!this.state.isHttpFail ? webContentView : <View style={{
                     height: JX_PLAT_INFO.SCREEN_H, justifyContent: "center",
                     alignItems: "center", backgroundColor: "transparent"
                 }}>
                 </View>}
                 <GameMenuButton isScreenPortrait={true} isShowReload={isShowReload} itransEnabled={"ON"}
-                                                onPressExit={this.onClickMenu}/>
+                                onPressExit={this.onClickMenu}/>
                 {this.state.isShowExitAlertView && <ExitGameAlertView
                     isOpenAddPay={this.state.isOpenAddPay}
-                    onPressConfirm={()=>{
+                    onPressConfirm={() => {
                         this.onBackHomeJs();
                         TW_Store.appStore.lockToLandscape();
                         this.setState({isShowExitAlertView: false});
-                        if(this.state.isOpenAddPay){
+                        if (this.state.isOpenAddPay) {
                             TW_Store.gameUIStroe.isShowAddPayView = true;
                         }
                     }}
                     onPressCancel={() => this.setState({isShowExitAlertView: false})}
                 />
                 }
-            </View>
+            </KeyboardAvoidingView>
         );
     }
 
@@ -129,13 +129,13 @@ export default class TWThirdWebView extends Component {
         this.setState({isShowExitAlertView: false});
     };
 
-    onClickMenu=(btnId)=>{
+    onClickMenu = (btnId) => {
         switch (btnId) {
             case 2:
-                this.setState({isShowExitAlertView: true,isOpenAddPay:true});
-                 break;
+                this.setState({isShowExitAlertView: true, isOpenAddPay: true});
+                break;
             case 3:
-                this.setState({isShowExitAlertView: true,isOpenAddPay:false});
+                this.setState({isShowExitAlertView: true, isOpenAddPay: false});
                 break;
         }
     };
@@ -163,7 +163,7 @@ export default class TWThirdWebView extends Component {
                 this.onMsgHandle(message);
             }
         } catch (err) {
-            TW_Log("onMessage===========erro==" + err, event.nativeEvent);
+            TW_Log("onMessage===========error==" + err, event.nativeEvent);
         }
     };
 
@@ -215,9 +215,9 @@ export default class TWThirdWebView extends Component {
                     }
                     break;
                 case "logout":
-                       if(TW_Store.gameUpateStore.isInSubGame){
-                           this.onBackHomeJs()
-                       }
+                    if (TW_Store.gameUpateStore.isInSubGame) {
+                        this.onBackHomeJs()
+                    }
                     TW_Store.userStore.exitAppToLoginPage();
                     TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.logout));
                     break;
@@ -237,17 +237,17 @@ export default class TWThirdWebView extends Component {
 
     onError = (error) => {
         this.onBackHomeJs();
-        TW_Log("TWThirdWebView==onError=====TCweb======name====="+this.constructor.name, error.nativeEvent);
+        TW_Log("TWThirdWebView==onError=====TCWeb======name=====" + this.constructor.name, error.nativeEvent);
     };
 
     onShouldStartLoadWithRequest = (event) => {
-        TW_Log("TWThirdWebView==onShouldStartLoadWithRequest=======TWWebGameView====name====="+this.constructor.name, event);
+        TW_Log("TWThirdWebView==onShouldStartLoadWithRequest=======TWWebGameView====name=====" + this.constructor.name, event);
         return true;
     };
 
     onNavigationStateChange = (navState) => {
 
-        TW_Log("TWThirdWebView===========onNavigationStateChange= +this.constructor.name=="+this.constructor.name , navState);
+        TW_Log("TWThirdWebView===========onNavigationStateChange= +this.constructor.name==" + this.constructor.name, navState);
         if (navState.title == "404 Not Found") {
             this.onBackHomeJs()
         } else {
@@ -255,12 +255,12 @@ export default class TWThirdWebView extends Component {
         }
     };
 
-    onBackHomeJs = (type="") => {
-        let {url,isShowReload,backHandle} = this.props;
-        if(backHandle){
+    onBackHomeJs = (type = "") => {
+        let {url, isShowReload, backHandle} = this.props;
+        if (backHandle) {
             backHandle();
         }
-      TW_NavHelp.popToBack()
+        TW_NavHelp.popToBack()
     }
 }
 
