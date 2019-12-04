@@ -84,7 +84,7 @@ export default class TWThirdWebView extends Component {
                 injectedJavaScript={injectJs}
                 automaticallyAdjustContentInsets={true}
                 allowsInlineMediaPlayback={true}
-                style={styles.webView}
+                style={[styles.webView, {marginBottom: G_IS_IOS ? 0 : 40}]}
                 source={source}
                 javaScriptEnabled={true}
                 domStorageEnabled={true}
@@ -100,7 +100,8 @@ export default class TWThirdWebView extends Component {
                 thirdPartyCookiesEnabled={true}
             />;
         return (
-            <KeyboardAvoidingView style={styles.container} behavior="padding" enabled={G_IS_IOS ? false : true}>
+            <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={-40}
+                                  enabled={G_IS_IOS ? false : true}>
                 {!this.state.isHttpFail ? webContentView : <View style={{
                     height: JX_PLAT_INFO.SCREEN_H, justifyContent: "center",
                     alignItems: "center", backgroundColor: "transparent"
@@ -276,7 +277,6 @@ const styles = StyleSheet.create({
     },
     webView: {
         marginTop: 0,
-        marginBottom:40,
         flex: 1,
         backgroundColor: "transparent",
         overflow: 'hidden'
