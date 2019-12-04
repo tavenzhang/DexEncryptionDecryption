@@ -28,11 +28,13 @@ export default class TWThirdWebView extends Component {
     static propTypes = {
         data: PropTypes.func,
         isShow: PropTypes.any,
-        isShowReload: PropTypes.any
+        isShowReload: PropTypes.any,
+        isRotation:PropTypes.any,
     };
     static defaultProps = {
         title: '',
-        isShowReload: true
+        isShowReload: true,
+        isRotation:true
     };
 
     constructor(state) {
@@ -49,16 +51,17 @@ export default class TWThirdWebView extends Component {
 
     componentWillMount() {
         //旋转到竖屏
-        TW_Store.appStore.lockToProrit();
-        if (!G_IS_IOS) {
-            BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
+        TW_Store.gameUIStroe.isShowThirdWebView=true;
+        let {isRotation} = this.props;
+        if(isRotation){
+            TW_Store.appStore.lockToProrit();
         }
+        BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
     }
 
     componentWillUnmount(): void {
-        if (!G_IS_IOS) {
+        TW_Store.gameUIStroe.isShowThirdWebView=false;
             BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid);
-        }
     }
 
     render() {
