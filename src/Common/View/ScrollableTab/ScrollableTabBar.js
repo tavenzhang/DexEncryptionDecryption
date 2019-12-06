@@ -15,7 +15,7 @@ const WINDOW_WIDTH = Dimensions.get('window').width;
 var createReactClass = require('create-react-class');
 
 const ScrollableTabBar = createReactClass({
-    // propTypes: {
+    // propTypes= {
     //     goToPage: React.PropTypes.func,
     //     activeTab: React.PropTypes.number,
     //     tabs: React.PropTypes.array,

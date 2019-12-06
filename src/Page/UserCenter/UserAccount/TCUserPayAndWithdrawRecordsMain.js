@@ -65,7 +65,7 @@ export default class TCUserPayAndWithdrawRecordsMain extends Component {
                             </View>
                         </TouchableOpacity>
                     </View>
-                    {this.state.selectType ==1 ?  <UserAccount  type={this.state.selectType}
+                    {this.state.selectType ==1 ?  <UserAccount    type={this.state.selectType}
                                                                 accountType={accountType}/>:null}
                     {this.state.selectType ==2 ?  <UserAccount  type={this.state.selectType}
                                                                 accountType={accountType}/>:null}

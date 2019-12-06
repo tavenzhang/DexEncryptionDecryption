@@ -161,15 +161,17 @@
 		<string>armv7</string>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
-    	<array>
-    		<string>UIInterfaceOrientationLandscapeRight</string>
-    		<string>UIInterfaceOrientationLandscapeLeft</string>
-    	</array>
+	<array>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>UTImportedTypeDeclarations</key>
 	<array>
 		<dict/>
 	</array>
+		<key>ITSAppUsesNonExemptEncryption</key>
+    	<false/>
 </dict>
 </plist>

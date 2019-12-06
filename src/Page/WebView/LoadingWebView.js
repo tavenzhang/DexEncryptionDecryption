@@ -27,8 +27,9 @@ export default class LoadingWebView extends Component {
 
 
     render() {
+
         let newUrl = TW_Store.dataStore.targetAppDir + "/loading/loading.html";
-        let myParam=`?apihome=${TW_Store.bblStore.getUriConfig().url.apihome}&token=${TW_Store.userStore.access_token}&clientId=${TW_Store.appStore.clindId}&service=${TW_Store.gameUIStroe.gustWebUrl}`
+        let myParam=`?token=${TW_Store.userStore.access_token}&clientId=${TW_Store.appStore.clindId}`
         myParam+=`&debug=${TW_Store.appStore.isSitApp||TW_Store.appStore.clindId=="214"}&isAndroidHack=${TW_Store.appStore.isInAnroidHack}&subType=${TW_Store.appStore.subAppType}`
 
         let source = {
@@ -42,20 +43,19 @@ export default class LoadingWebView extends Component {
                 uri: newUrl + `${myParam}`,
             };
         }
-         let isok=TW_Store.dataStore.isAppInited &&TW_Store.gameUpateStore.isNeedUpdate
+
         //let visible = TW_Store.gameUpateStore.isNeedUpdate||TW_Store.gameUpateStore.isAppDownIng
-        TW_Log("targetAppDir----LoadingWebView-isNeedUpdate==" + TW_Store.gameUpateStore.isNeedUpdate + "---isAppDownIng=" + TW_Store.gameUpateStore.isAppDownIng);
+        TW_Log("targetAppDir----LoadingWebView-isNeedUpdate==" + TW_Store.gameUpateStore.isNeedUpdate + "---isAppDownIng=" + TW_Store.gameUpateStore.isAppDownIng+"--istInit=="+TW_Store.dataStore.isAppInited);
+        let isReady=TW_Store.dataStore.isAppInited
         let visible = TW_Store.gameUpateStore.isNeedUpdate || TW_Store.gameUpateStore.isLoading
-        if (!visible||!isok) {
+        if (!visible||!isReady) {
             return null;
         }
         let injectJs = `window.appData=${JSON.stringify({
             isApp: true,
             taven: "isOk",
             brandID: platInfo.brand,
-            brandUrl: TW_Store.bblStore.getBrandUrl(),
             clientId: TW_Store.appStore.clindId,
-            urlJSON: TW_Store.bblStore.getUriConfig(),
             isAndroidHack: TW_Store.appStore.isInAnroidHack,
             hackData: {filterGameList: ["zjh", "lhd", "bjl", "pg", "jlbsh", "tto", "erbg"]},
             deviceToken: TW_Store.appStore.deviceToken,
@@ -123,7 +123,7 @@ export default class LoadingWebView extends Component {
                 case  "game_custom":
                     TW_Log("onMessage====LoadingWebView======TW_Store.gameUIStroe.showGusetView=", message);
                     if (!TW_Store.appStore.isInAnroidHack) {
-                        TW_Store.gameUIStroe.showGusetView();
+                        TW_Store.gameUIStroe.isShowAppGUEST=true
                     }
                     break;
             }
@@ -151,7 +151,7 @@ export default class LoadingWebView extends Component {
 
     onError = (error) => {
         if (TW_Store.gameUpateStore.isNeedUpdate && TW_Store.appStore.isAppInited) {
-            TW_Store.dataStore.hideLoadingView();
+           TW_Store.dataStore.hideLoadingView();
         }
     }
 
@@ -172,7 +172,7 @@ export default class LoadingWebView extends Component {
     }
 
     onNavigationStateChange = (navState) => {
-
+        TW_Log("navState====LoadingWebView=======onNavigationStateChange=====url==" + navState.url, navState)
 
     };
 

@@ -41,6 +41,7 @@ export default class TCUserPayAndWithdrawRecords extends Component {
         return (
             <View style={styles.container}>
                 <RefreshListView
+                    isAllowRefresh={}
                     isRenderFooter={this.props.accountType !== 1}
                     renderRow={(rowData, sectionID, rowID) => {
                         return this.getRenderRow(rowData, sectionID, rowID)

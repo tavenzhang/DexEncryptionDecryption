@@ -48,7 +48,7 @@ function renderCanvas(canvas) {
 import PropTypes from 'prop-types'
 
 export  default class QRCode extends React.Component {
-    static propTypes: {
+    static propTypes= {
         value: PropTypes.string,
         size: PropTypes.number,
         bgColor: PropTypes.string,

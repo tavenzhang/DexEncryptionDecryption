@@ -2,6 +2,7 @@ import { observable, action } from "mobx";
 import { NativeModules, Alert, Platform } from 'react-native';
 import CodePush from "react-native-code-push";
 import DeviceInfo from 'react-native-device-info';
+import Orientation from 'react-native-orientation';
 import {
     configAppId,
     MyAppName,
@@ -17,6 +18,7 @@ import TCUserOpenPayApp from '../../Page/UserCenter/UserPay/TCUserOpenPayApp';
 import OpeninstallModule from "openinstall-react-native";
 import {SoundHelper} from "../../Common/JXHelper/SoundHelper";
 import JXHelper from "../../Common/JXHelper/JXHelper";
+import RNFS from "react-native-fs";
 /**
  * 用于初始化项目信息
  */
@@ -47,13 +49,16 @@ export default class AppInfoStore {
      */
     @observable
     deviceToken = '';
+
+    @observable
+    yunDunPort = null;
     /**
      * 邀请码
      * @type {string}
      */
     userAffCode = '';
     @observable
-    specialVersionHot = '2';
+    specialVersionHot = '4';
 
     @observable
     versionHotFix = versionHotFix;
@@ -95,13 +100,19 @@ export default class AppInfoStore {
     //openInstallData
     @observable
     openInstallData = { appKey: "", data: null };
-
+  //是否是测试app sit and shApp
     @observable
     isSitApp=false
+    //是否是测试app 包含uat
+    @observable
+    isTestApp=false
 
     openInstallCheckCount = 1;
-
+    //云盾数据
     yunDunData =YunDunData;
+
+    //是否锁定屏幕旋转
+    isLockToLandscape =true
 
     constructor() {
         this.init();
@@ -135,19 +146,41 @@ export default class AppInfoStore {
                     this.checkAppInfoUpdate(null);
                 }
             }
-        });
+        })
+        TW_Data_Store.getItem(TW_DATA_KEY.isInitStore, this.checkSavedData)
 
-        TW_Data_Store.getItem(TW_DATA_KEY.isInitStore, (err, ret) => {
+    }
+
+    async checkSavedData(err, ret) {
+        TW_Log("checkSavedData======loadingViewExist===ret--"+ret+"--eeeor="+err)
             if (`${ret}` == "1") {
                 TW_Store.dataStore.isAppInited=true;
+                SoundHelper.startBgMusic();
+            }else{
+                let  loadingSourceViewExist=false
+                if(G_IS_IOS){
+                    loadingSourceViewExist=   await RNFS.exists(TW_Store.dataStore.originAppDir );
+                }else{
+                    loadingSourceViewExist=   await RNFS.existsAssets("gamelobby/loading/loading.html");
+                }
+                TW_Log("checkSavedData======loadingViewExist==="+loadingSourceViewExist+"--ret--"+ret+"--eeeor="+err)
+                if(loadingSourceViewExist){
+                    TW_Store.gameUpateStore.isIncludeLoadView=true;
+                    TW_Store.dataStore.copy_assets_to_dir(()=>{SoundHelper.startBgMusic();});
+                }else{
+                    TW_Store.gameUpateStore.isIncludeLoadView=false;
+                }
             }
-            SoundHelper.startBgMusic();
-        });
+
 
         TW_Data_Store.getItem(TW_DATA_KEY.LobbyReadyOK, (err, ret) => {
-                TW_Store.gameUpateStore.isNeedUpdate=`${ret}` == "1" ? false:true;
-                TW_Log("TW_DATA_KEY.LobbyReadyOK---"+ret,TW_Store.gameUpateStore.isNeedUpdate)
-        });
+                if(TW_Store.dataStore.isAppInited){
+                    if(ret){
+                        TW_Store.gameUpateStore.isNeedUpdate=`${ret}` == "1" ? false:true;
+                    }
+                    TW_Log("TW_DATA_KEY.LobbyReadyOK---"+ret,TW_Store.gameUpateStore.isNeedUpdate)
+                }
+            });
     }
 
     checkAppInfoUpdate = (oldData = null) => {
@@ -301,6 +334,7 @@ export default class AppInfoStore {
             TN_StartUMeng(this.appInfo.UmengKey, this.appInfo.Affcode);
         }
         this.isSitApp = this.clindId == "1209" || this.clindId == "4";
+        this.isTestApp=this.isSitApp||this.clindId == "214"
         this.emulatorChecking();
     }
 
@@ -499,7 +533,7 @@ export default class AppInfoStore {
         if (this.deviceToken.length === 0) {
             this.deviceToken = await this.initDeviceUniqueID();
             //刷新游戏appNativeData 数据
-            TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appNativeData, { data: TW_Store.bblStore.getAppNativeData()}));
+            //TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appNativeData, { data: TW_Store.bblStore.getAppNativeData()}));
             this.saveDeviceTokenToLocalStore();
         }
         this.yunDunData.token=this.deviceToken;
@@ -614,5 +648,28 @@ export default class AppInfoStore {
                 this.subAppType
                 }`;
         }
+    }
+
+    lockToProrit(){
+        Orientation.unlockAllOrientations();
+        this.isLockToLandscape=false;
+        Orientation.lockToPortrait();
+    }
+
+    lockToLandscape(){
+        this.isLockToLandscape=true;
+        //返回横屏
+        //Orientation.lockToLandscape()
+        if(G_IS_IOS){
+            Orientation.unlockAllOrientations();
+            Orientation.lockToLandscapeRight();
+            setTimeout(()=>{
+                if(this.isLockToLandscape){
+                    Orientation.lockToLandscape();
+                }
+            },2000)
+        }else{
+            Orientation.lockToLandscape()
+        };
     }
 }

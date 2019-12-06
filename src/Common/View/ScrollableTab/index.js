@@ -28,7 +28,7 @@ const ScrollableTabView = createReactClass({
         ScrollableTabBar,
     },
 
-    propTypes: {
+    propTypes= {
         tabBarPosition: PropTypes.oneOf(['top', 'bottom', 'overlayTop', 'overlayBottom',]),
         initialPage: PropTypes.number,
         page: PropTypes.number,

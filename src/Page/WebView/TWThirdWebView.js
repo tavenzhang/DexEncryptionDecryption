@@ -3,12 +3,12 @@ import React, {Component} from 'react';
 import {
     StyleSheet,
     View,
-    Clipboard
+    Clipboard,
+    BackHandler,
+    KeyboardAvoidingView
 } from 'react-native';
 
-
 import {WebView} from 'react-native-webview';
-
 
 import {JX_PLAT_INFO} from "../asset";
 
@@ -20,55 +20,63 @@ import TCUserOpenPayApp from "../UserCenter/UserPay/TCUserOpenPayApp";
 import ExitGameAlertView from "../enter/gameMenu/ExitGameAlertView";
 import GameMenuButton from "../enter/gameMenu/GameMenuButton";
 import {withMappedNavigationProps} from 'react-navigation-props-mapper'
-import Orientation from 'react-native-orientation';
+
 @withMappedNavigationProps()
 @observer
 export default class TWThirdWebView extends Component {
 
     static propTypes = {
         data: PropTypes.func,
-        isShow: PropTypes.any
-    }
+        isShow: PropTypes.any,
+        isShowReload: PropTypes.any,
+        isRotation:PropTypes.any,
+    };
     static defaultProps = {
-        title: ''
+        title: '',
+        isShowReload: true,
+        isRotation:true
     };
 
     constructor(state) {
-        super(state)
+        super(state);
         this.state = {
             isHide: false,
             isHttpFail: false,
             isShowExitAlertView: false,
-            isOpenAddPay:false
-        }
+            isOpenAddPay: false
+        };
         this.bblStore = TW_Store.bblStore;
+        this.isShowKeyBoard = false;
     }
 
     componentWillMount() {
-       //旋转到竖屏
-        Orientation.lockToPortrait();
-        Orientation.getOrientation((err, orientation) => {
-            TW_Log(`Orientation.lockToPortrait()---: ${orientation}`);
-        });
-        TW_Log(" Orientation.lockToPortrait()-------"+Orientation.unlockAllOrientations,Orientation)
+        //旋转到竖屏
+        TW_Store.gameUIStroe.isShowThirdWebView=true;
+        let {isRotation} = this.props;
+        if(isRotation){
+            TW_Store.appStore.lockToProrit();
+        }
+        BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
     }
 
     componentWillUnmount(): void {
-        //返回横屏
+        TW_Store.gameUIStroe.isShowThirdWebView=false;
+            BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid);
     }
 
     render() {
-        let {url} = this.props;
+        let {url, isShowReload, backHandle} = this.props;
         let source = {
-            uri:url,
+            uri: url,
         };
+        TW_Log("TWThirdWebView--------", this.props)
         let injectJs = `(function() {
               window.postMessage = function(data) {
                 window.ReactNativeWebView.postMessage(data);
               };
             })()`;
 
-        let wenConteView =
+        let webContentView =
             <WebView
                 ref="myWebView"
                 originWhitelist={['*']}
@@ -76,7 +84,7 @@ export default class TWThirdWebView extends Component {
                 injectedJavaScript={injectJs}
                 automaticallyAdjustContentInsets={true}
                 allowsInlineMediaPlayback={true}
-                style={styles.webView}
+                style={[styles.webView, {marginBottom: G_IS_IOS ? 0 : 40}]}
                 source={source}
                 javaScriptEnabled={true}
                 domStorageEnabled={true}
@@ -90,46 +98,55 @@ export default class TWThirdWebView extends Component {
                 onMessage={this.onMessage}
                 onLoadEnd={this.onLoadEnd}
                 thirdPartyCookiesEnabled={true}
-            />
+            />;
         return (
-            <View style={[styles.container]}>
-                {!this.state.isHttpFail ? wenConteView : <View style={{
+            <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={-40}
+                                  enabled={G_IS_IOS ? false : true}>
+                {!this.state.isHttpFail ? webContentView : <View style={{
                     height: JX_PLAT_INFO.SCREEN_H, justifyContent: "center",
                     alignItems: "center", backgroundColor: "transparent"
                 }}>
                 </View>}
-                <GameMenuButton itransEnabled={"ON"}
-                                                onPressExit={this.onClickMenu}/>
+                <GameMenuButton isScreenPortrait={true} isShowReload={isShowReload} itransEnabled={"ON"}
+                                onPressExit={this.onClickMenu}/>
                 {this.state.isShowExitAlertView && <ExitGameAlertView
                     isOpenAddPay={this.state.isOpenAddPay}
-                    onPressConfirm={()=>{
-                        this.onBackHomeJs()
-                        this.setState({isShowExitAlertView: false})
-                        if(this.state.isOpenAddPay){
+                    onPressConfirm={() => {
+                        this.onBackHomeJs();
+                        TW_Store.appStore.lockToLandscape();
+                        this.setState({isShowExitAlertView: false});
+                        if (this.state.isOpenAddPay) {
                             TW_Store.gameUIStroe.isShowAddPayView = true;
                         }
                     }}
                     onPressCancel={() => this.setState({isShowExitAlertView: false})}
                 />
                 }
-            </View>
+            </KeyboardAvoidingView>
         );
     }
 
-    onClickMenu=(btnId)=>{
+    onBackAndroid = () => {
+        TW_Log("TWThirdWebView--onBackAndroid---", this.navigator);
+        this.onBackHomeJs();
+        TW_Store.appStore.lockToLandscape();
+        this.setState({isShowExitAlertView: false});
+    };
+
+    onClickMenu = (btnId) => {
         switch (btnId) {
             case 2:
-                this.setState({isShowExitAlertView: true,isOpenAddPay:true})
-                 break;
+                this.setState({isShowExitAlertView: true, isOpenAddPay: true});
+                break;
             case 3:
-                this.setState({isShowExitAlertView: true,isOpenAddPay:false})
+                this.setState({isShowExitAlertView: true, isOpenAddPay: false});
                 break;
         }
-    }
+    };
 
     onLoadEnd = (event) => {
 
-    }
+    };
 
 
     onEvaleJS = (data) => {
@@ -139,7 +156,7 @@ export default class TWThirdWebView extends Component {
             TW_Store.dataStore.log += "\nAppStateChange-sunGame--onEvaleJS\n" + dataStr + "==\n";
             this.refs.myWebView.postMessage(dataStr, "*");
         }
-    }
+    };
 
     onMessage = (event) => {
 
@@ -150,9 +167,9 @@ export default class TWThirdWebView extends Component {
                 this.onMsgHandle(message);
             }
         } catch (err) {
-            TW_Log("onMessage===========erro==" + err, event.nativeEvent);
+            TW_Log("onMessage===========error==" + err, event.nativeEvent);
         }
-    }
+    };
 
     onMsgHandle = (message) => {
         TW_Log("onMessage===========" + this.constructor.name, message);
@@ -160,18 +177,18 @@ export default class TWThirdWebView extends Component {
         if (message && message.action) {
             switch (message.action) {
                 case "appStatus":
-                    TW_Log("TWWebGameView---appStatus==", message);
+                    TW_Log("TWThirdWebView---appStatus==", message);
                     TW_Store.bblStore.setNetInfo(message);
                     break;
                 case "Log":
                     // TW_Log("game---ct=="+message.ct,message.data);
                     break;
                 case "JumpGame":
-                    url = this.handleUrl(message.au)
-                    TW_NavHelp.pushView(JX_Compones.WebView, {url})
+                    url = this.handleUrl(message.au);
+                    TW_NavHelp.pushView(JX_Compones.WebView, {url});
                     break;
                 case "game_back":
-                    this.onBackHomeJs(message.type)
+                    this.onBackHomeJs(message.type);
                     break;
                 case "game_recharge":
                     TW_Store.gameUIStroe.isShowAddPayView = !TW_Store.gameUIStroe.isShowAddPayView;
@@ -180,7 +197,7 @@ export default class TWThirdWebView extends Component {
                     this.onEnterGame();
                     break;
                 case "game_common":
-                    let actions = message.name || message.do
+                    let actions = message.name || message.do;
                     switch (actions) {
                         case "saveToPhone":
                             Tools.onSaveScreenPhone();
@@ -189,7 +206,7 @@ export default class TWThirdWebView extends Component {
                             TW_Store.userStore.exitAppToLoginPage();
                             break;
                         case "openWeb":
-                            TCUserOpenPayApp.linkingWeb(message.param)
+                            TCUserOpenPayApp.linkingWeb(message.param);
                             break;
                         case "copylink":
                             Clipboard.setString(message.param);
@@ -202,16 +219,16 @@ export default class TWThirdWebView extends Component {
                     }
                     break;
                 case "logout":
-                       if(TW_Store.gameUpateStore.isInSubGame){
-                           this.onBackHomeJs()
-                       }
+                    if (TW_Store.gameUpateStore.isInSubGame) {
+                        this.onBackHomeJs()
+                    }
                     TW_Store.userStore.exitAppToLoginPage();
                     TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.logout));
                     break;
 
             }
         }
-    }
+    };
 
 
     handleUrl = (url) => {
@@ -220,21 +237,21 @@ export default class TWThirdWebView extends Component {
         }
         url = TW_Store.bblStore.gameDomain + "/" + url;
         return url
-    }
+    };
 
     onError = (error) => {
-        this.onBackHomeJs()
-        TW_Log("TWWebGameView==onError=====TCweb======name====="+this.constructor.name, error.nativeEvent)
-    }
+        this.onBackHomeJs();
+        TW_Log("TWThirdWebView==onError=====TCWeb======name=====" + this.constructor.name, error.nativeEvent);
+    };
 
     onShouldStartLoadWithRequest = (event) => {
-        TW_Log("TWWebGameView==onShouldStartLoadWithRequest=======TWWebGameView====name====="+this.constructor.name, event);
+        TW_Log("TWThirdWebView==onShouldStartLoadWithRequest=======TWWebGameView====name=====" + this.constructor.name, event);
         return true;
     };
 
     onNavigationStateChange = (navState) => {
 
-        TW_Log("TWWebGameView===========onNavigationStateChange= +this.constructor.name=="+this.constructor.name , navState)
+        TW_Log("TWThirdWebView===========onNavigationStateChange= +this.constructor.name==" + this.constructor.name, navState);
         if (navState.title == "404 Not Found") {
             this.onBackHomeJs()
         } else {
@@ -242,9 +259,12 @@ export default class TWThirdWebView extends Component {
         }
     };
 
-    onBackHomeJs = (type="") => {
-      TW_NavHelp.popToBack()
-
+    onBackHomeJs = (type = "") => {
+        let {url, isShowReload, backHandle} = this.props;
+        if (backHandle) {
+            backHandle();
+        }
+        TW_NavHelp.popToBack()
     }
 }
 

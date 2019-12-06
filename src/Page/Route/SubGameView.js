@@ -17,18 +17,13 @@ export default class SubGameView extends Component {
         this.state = {}
     }
 
-    componentWillMount(): void {
-
-    }
-
-
     render() {
-        let isShow = !TW_Store.bblStore.isShowCircle && TW_Store.bblStore.subGameParams.url != "";
+        let isShow = !TW_Store.bblStore.isShowCircle && TW_Store.bblStore.subGameParams.url != ""&&!TW_Store.gameUIStroe.isShowThirdWebView;
         //pointerEvents={TW_Store.bblStore.subGameParams.url!="" ? "auto":"none"}
         if (this.refs.myView) {
             this.refs.myView.setNativeProps({style: {zIndex: isShow ? 999 : -999}});
         }
-        TW_Log("SubGameView--TW_Store.bblStore.isShowCircle---" + TW_Store.bblStore.isShowCircle, TW_Store.bblStore.subGameParams)
+        TW_Log("SubGameView--TW_Store.bblStore.isShowCircle---" + TW_Store.bblStore.isShowCircle+"--TW_Store.gameUIStroe.isShowGuest=="+TW_Store.gameUIStroe.isShowGuest,isShow)
         return (<View pointerEvents={isShow ? "auto" : "none"} style={{
             position: "absolute", width: SCREEN_W,
             height: SCREEN_H,

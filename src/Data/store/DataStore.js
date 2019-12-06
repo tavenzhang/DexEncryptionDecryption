@@ -46,7 +46,6 @@ export default class DataStore {
 
     @action
     getGameRootDir() {
-        // return G_IS_IOS ? (MainBundlePath + '/assets') : "file:///android_asset";
         if (this.isAppInited) {
             return G_IS_IOS ? DocumentDirectoryPath : `file:///${DocumentDirectoryPath}`;
         } else {
@@ -56,28 +55,28 @@ export default class DataStore {
 
     @action
     async initAppHomeCheck() {
-        const is_lobby_exist =await RNFS.exists(TW_Store.dataStore.originAppDir + "/index.html");
-
-        TW_Store.gameUpateStore.isIncludeLobby = is_lobby_exist;
-        if (this.isAppInited) {
+        if(TW_Store.gameUpateStore.isIncludeLoadView){
+            if (this.isAppInited) {
+                this.loadHomeVerson();
+            } else {
+                setTimeout(this.initAppHomeCheck,1000);
+            }
+            const is_lobby_exist =await RNFS.exists(TW_Store.dataStore.originAppDir + "/index.html");
+            TW_Store.gameUpateStore.isIncludeLobby = is_lobby_exist;
+            this.log += "Url--this.is_lobby_exist----"+is_lobby_exist +"----\n";
+        }else{
             this.loadHomeVerson();
-        } else {
-            this.copy_assets_to_dir();
         }
-        TW_Log("this.isAppInited-----------" + this.isAppInited + "---is_lobby_exist==" + is_lobby_exist,)
+
     }
-
-
-
 
 
 
     async loadHomeVerson() {
         let Url = TW_Store.dataStore.getHomeWebHome() + "/assets/conf/version.json";
-        const target_dir_exist = await RNFS.exists(Url);
+        const target_dir_exist =  await RNFS.exists(Url);
         TW_Log("Url-----home---target_dir_exist=" + target_dir_exist, Url);
-        this.log += "Url-----home---target_dir_exist=" + target_dir_exist;
-        this.log += "\nUrl-----home---target_dir_exist=Url-" + Url;
+        this.log += "\nUrl-----home---target_dir_exist=Url-" + Url+"---target_dir_exist=="+target_dir_exist;
         if (target_dir_exist) {
             RNFS.readFile(Url).then(ret => {
                 let data = ret
@@ -93,7 +92,7 @@ export default class DataStore {
                 this.startCheckZipUpdate(data);
             })
         } else {
-            this.startCheckZipUpdate(null)
+            this.startCheckZipUpdate(null);
         }
     }
 
@@ -119,6 +118,8 @@ export default class DataStore {
         }
         this.log += "-->startCheckZipUpdate----homeVersionM-==-" + JSON.stringify(this.homeVersionM)
     }
+
+
 
     checkHomeZipUpdate = () => {
         TW_Log("TW_DATA_KEY.versionBBL start  http ===> " + rootStore.bblStore.getVersionConfig());
@@ -147,16 +148,17 @@ export default class DataStore {
                 } else {
                     zipSrc = this.content.source_android ? this.content.source_android : zipSrc;
                 }
-
+                this.log += "\nthis.homeVersionM.zipSrc--pressss-" +zipSrc+"---zipSrc.indexOf=="+zipSrc.indexOf("http") +"===\n";
                 if (zipSrc) {
                     //如果config source 是相对路径 加上 config 域名
-                    if (zipSrc.indexOf("http") == -1) {
+                    if (zipSrc.indexOf("http") <= -1) {
                         zipSrc = rootStore.bblStore.getVersionDomain() + "/" + zipSrc;
                     }
                 }
 
-                this.log += "==>TW_Store.dataStore.isAppInited=" + TW_Store.dataStore.isAppInited;
-                this.log += "\nthis.homeVersionM.versionNum---" + this.homeVersionM.versionNum + "content.versionNum=" + content.versionNum;
+                this.log += "\n==>TW_Store.dataStore.isAppInited=" + TW_Store.dataStore.isAppInited+"---domain--"+TW_Store.bblStore.gameDomain+"--\n";
+                this.log += "\nthis.homeVersionM.versionNum---" + this.homeVersionM.versionNum + "--content.versionNum=" + content.versionNum;
+
                 TW_Log("TW_DATA_KEY.versionBBL  this.homeVersionM.versionNum =" + this.homeVersionM.versionNum, content.versionNum);
                 if (this.homeVersionM.versionNum != content.versionNum) {
                     TW_Store.gameUpateStore.isNeedUpdate = true;
@@ -166,6 +168,7 @@ export default class DataStore {
                 } else {
                     this.hideLoadingView();
                 }
+                this.log += "\nthis.homeVersionM.zipSrc--last-" +zipSrc+"--gameUpateStore.isLoading--"+TW_Store.gameUpateStore.isLoading+"===TW_Store.gameUpateStore.isNeedUpdat=="+TW_Store.gameUpateStore.isNeedUpdate+"===\n";
             } else {
                 this.onSaveVersionM({}, true);
                 this.hideLoadingView()
@@ -206,7 +209,8 @@ export default class DataStore {
         this.clearCurrentDownJob();
         this.downloadDest = downloadDest;
         formUrl = formUrl + "?verson=" + (newVersion ? newVersion : Math.random());
-        TW_Log("versionBBL---downloadFile==" + formUrl);
+        this.log +="\nversionBBL---downloadFile==" + formUrl+"--\n";
+        this.log +="\nversionBBL---downloadFile==newVersion==" + newVersion+"--\n";
         const options = {
             fromUrl: formUrl,
             toFile: downloadDest,
@@ -224,13 +228,13 @@ export default class DataStore {
             },
             progress: (res) => {
                 // this.log+="==>progress-="+res;
-                // onProgress({percent:(res.bytesWritten/res.contentLength).toFixed(2),param});
                 let percent = 0;
+                let tempContent = 40000000; //如果读取不到总大小 因为cdn等因素 默认使用18m 到0.99 等待，
                 if (res.contentLength > 0) {
-                    percent = (res.bytesWritten / res.contentLength).toFixed(2);
+                    tempContent=res.contentLength;
+                    percent = (res.bytesWritten / tempContent).toFixed(2);
                 } else {
-                    let tempContent = 35000000; //如果读取不到总大小 因为cdn等因素 默认使用18m 到0.99 等待，
-                    //let tempContent=40000000;
+                    tempContent=40000000;
                     let tempPercent = (res.bytesWritten / tempContent).toFixed(2);
                     percent = tempPercent >= 0.99 ? 0.99 : tempPercent;
                 }
@@ -243,6 +247,15 @@ export default class DataStore {
                             percent
                         }
                     }));
+                }
+                if(!TW_Store.gameUpateStore.isIncludeLoadView){
+                    TW_Store.commonBoxStore.curPecent=percent;
+                    if(!TW_Store.gameUpateStore.isAppDownIng){
+                        TW_Store.commonBoxStore.isShow=true;
+                    }else{
+                        TW_Store.commonBoxStore.isShow=false;
+                    }
+
                 }
 
             },
@@ -298,6 +311,10 @@ export default class DataStore {
                     TW_LoaderOnValueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.game_loading, {data: {do: "loadFinish"}}));
                     TW_Store.gameUpateStore.isLoading = false;
                     TW_Store.gameUpateStore.isTempExist = true;
+                    if(!TW_Store.gameUpateStore.isIncludeLoadView){
+                        TW_Store.commonBoxStore.isShow=false;
+                        this.onSaveCopyState()
+                    }
                     this.onSaveVersionM(this.content, false, () => {
                         this.log += "==>onSaveVersionM--=end";
                     });
@@ -307,28 +324,27 @@ export default class DataStore {
             .catch((error) => {
                 TW_Log("versionBBL  解压失败11", error);
             }).finally(() => {
-
         })
     }
 
 
     @action
-    onSaveCopyState() {
+    onSaveCopyState(callBack) {
         TW_Data_Store.setItem(TW_DATA_KEY.isInitStore, "1", (err) => {
             this.log += "onSavaCoisInitStorepyState---err=" + err + "\n"
             if (err) {
                 TW_Log("versionBBL bbl--- copyFile--onSaveCopyState--error===!", err);
             } else {
-                setTimeout(() => {
                     this.isAppInited = true;
-                    this.loadHomeVerson();
-                }, G_IS_IOS ? 1000 : 2000);
+                    if(callBack){
+                        callBack()
+                    }
             }
             this.log += "onSaveCopyState---  this.isAppInited=" + this.isAppInited + "\n"
         })
     }
 
-    async copy_assets_to_dir() {
+    async   copy_assets_to_dir(callBack) {
         let source_dir = this.originAppDir;
         let target_dir = ""
         TW_Log('andorid--------copy_assets_to_dir--start');
@@ -342,7 +358,7 @@ export default class DataStore {
                     TW_Log("versionBBL bbl--- unlink----target_dir==!" + target_dir_exist, ret);
                     RNFS.copyFile(source_dir, target_dir).then(() => {
                         this.log += "onSaveCopyState---\n"
-                        this.onSaveCopyState();
+                        this.onSaveCopyState(callBack);
                     }).catch((err) => {
                         TW_Log("versionBBL bbl--- 删除文件失败", target_dir_exist);
                     })
@@ -351,7 +367,7 @@ export default class DataStore {
                 // let ret = await RNFS.copyFile(source_dir, target_dir);
                 RNFS.copyFile(source_dir, target_dir).then(() => {
                     this.log += "onSaveCopyState---\n"
-                    this.onSaveCopyState();
+                    this.onSaveCopyState(callBack);
                 }).catch((err) => {
                     this.log += "copyFile-err--" + err
                     //TW_Log("versionBBL bbl--- 删除文件失败", target_dir_exist);
@@ -369,7 +385,7 @@ export default class DataStore {
             for (let i = 0; i < items.length; i++) {
                 const item = items[i];
                 if (item.isDirectory()) {
-                    await this.androdi_copy_assets_to_dir(`${source_dir}/${item.name}`, `${target_dir}/${item.name}`);
+                    await this.androdi_copy_assets_to_dir(`${source_dir}/${item.name}`, `${target_dir}/${item.name}`,callBack);
                 } else {
                     await RNFS.copyFileAssets(`${source_dir}/${item.name}`, `${target_dir}/${item.name}`);
                 }
@@ -377,7 +393,7 @@ export default class DataStore {
         }
     }
 
-    async androdi_copy_assets_to_dir(source_dir: string, target_dir: string) {
+    async androdi_copy_assets_to_dir(source_dir: string, target_dir: string,callBack) {
         const target_dir_exist = await RNFS.exists(target_dir);
         if (!target_dir_exist) {
             await RNFS.mkdir(target_dir);
@@ -394,7 +410,7 @@ export default class DataStore {
                 TW_Log('andorid----androdi_copy_assets-----fileState-== ' + fileState, item);
                 if (item.path && item.path.indexOf("zzzFinish/") > -1) {
                     //　利用zzzFinish来判断是否android拷贝完成
-                    this.onSaveCopyState();
+                    this.onSaveCopyState(callBack);
                 }
             }
         }
@@ -633,7 +649,7 @@ export default class DataStore {
             "appVersion": TW_Store.appStore.versionHotFix,
             "browser": DeviceInfo.getUserAgent(),
             "deviceModel": DeviceInfo.getDeviceName(),
-            "resourceEnum": G_IS_IOS ? 'iphone' : 'android',
+            "resourceEnum": "APP",
             "sysVersion": DeviceInfo.getSystemVersion()
         }
         NetUitls.postUrlAndParamsAndCallback(config.api.gameDeviceInfo, param, (rt) => {
