@@ -202,7 +202,9 @@ export default class DataStore {
     }
 
     onRetartApp = () => {
-        CodePush.restartApp();
+      if(TN_IS_HAVE_CODE_PUSH) {
+          CodePush.restartApp();
+      }
     }
 
     downloadFile = (formUrl, downloadDest, newVersion) => {

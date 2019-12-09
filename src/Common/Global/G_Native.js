@@ -156,5 +156,5 @@ global.TN_yunDunStart = (isLocalHost=false,callBack) => {
             callBack(false);
         }
 }
-
+global.TN_IS_HAVE_CODE_PUSH = NativeModules.CodePush ? true:false;
 global.TN_UMShareModule = NativeModules.UMShareModule;
