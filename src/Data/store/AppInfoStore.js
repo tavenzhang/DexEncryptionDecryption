@@ -506,13 +506,15 @@ export default class AppInfoStore {
 
     //初始化app版本号
     async initAppVersion() {
-        let nativeConfig = await CodePush.getConfiguration();
-        this.appVersion = nativeConfig.appVersion;
-        TW_Store.dataStore.log+="\n---nativeConfig--"+JSON.stringify(nativeConfig)+"---\n";
-        TW_Log(
-            "appInfo----version-nativeConfig--  this.appVersion " + this.appVersion,
-            nativeConfig
-        );
+        if(TN_IS_HAVE_CODE_PUSH){
+            let nativeConfig = await CodePush.getConfiguration();
+            this.appVersion = nativeConfig.appVersion;
+            TW_Store.dataStore.log+="\n---nativeConfig--"+JSON.stringify(nativeConfig)+"---\n";
+            TW_Log(
+                "appInfo----version-nativeConfig--  this.appVersion " + this.appVersion,
+                nativeConfig
+            );
+        }
     }
 
     async initDeviceTokenFromLocalStore() {

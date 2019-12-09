@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
     AppRegistry,
     Text,
@@ -14,13 +14,13 @@ import Moment from 'moment'
 import CodePush from 'react-native-code-push'
 import DeviceInfo from 'react-native-device-info';
 import * as Progress from 'react-native-progress';
-import { observer } from 'mobx-react'
+import {observer} from 'mobx-react'
 import Storage from '../../Common/Global/TCStorage'
 import G_Config from '../../Common/Global/G_Config'
 import App from '../Route/App';
 import Orientation from 'react-native-orientation';
 
-import { width, Size } from '../asset/game/themeComponet'
+import {width, Size} from '../asset/game/themeComponet'
 import StartUpHelper from './StartUpHelper'
 import KeepAwake from 'react-native-keep-awake';
 import ExtraDimensions from 'react-native-extra-dimensions-android';
@@ -29,10 +29,11 @@ let retryTimes = 0;
 let downloadTime = 0
 let alreadyInCodePush = false
 import JXDomainsHelper from "../../Common/JXHelper/JXDomainsHelper";
-import { AppConfig } from "../../config/appConfig";
-import { JX_PLAT_INFO } from "../asset";
-import { SoundHelper } from "../../Common/JXHelper/SoundHelper";
+import {AppConfig} from "../../config/appConfig";
+import {JX_PLAT_INFO} from "../asset";
+import {SoundHelper} from "../../Common/JXHelper/SoundHelper";
 import FileTools from "../../Common/Global/FileTools";
+
 let domainsHelper = new JXDomainsHelper();
 let appInfoStore = TW_Store.appStore;
 @observer
@@ -51,9 +52,9 @@ export default class Enter extends Component {
         TW_Log("_orientationDidChange--22233225--start-lockToLandscapeRight");
         if (G_IS_IOS) {
             Orientation.lockToLandscapeRight();
-            setTimeout(()=>{
+            setTimeout(() => {
                 Orientation.lockToLandscape();
-            },2500)
+            }, 2500)
         }
     }
 
@@ -101,13 +102,12 @@ export default class Enter extends Component {
     }
 
 
-
     _handleAppStateChange = (nextAppState) => {
         if (nextAppState != null && nextAppState === 'active') {
             TW_Store.dataStore.log += "\nAppStateChange-active\n";
             if (this.flage) {
                 if (TW_OnValueJSHome) {
-                    TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 1 }));
+                    TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, {data: 1}));
                 }
                 if (!TW_Store.gameUpateStore.isInSubGame) {
                     let now = new Date().getTime();
@@ -121,7 +121,7 @@ export default class Enter extends Component {
                     TW_Store.dataStore.onFlushGameData();
 
                 } else {
-                    TW_OnValueJSSubGame(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 1 }));
+                    TW_OnValueJSSubGame(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, {data: 1}));
                 }
             }
             if (TW_SubGameDownLoaderData.downList.length > 0) {
@@ -143,7 +143,7 @@ export default class Enter extends Component {
             if (!TW_Store.gameUpateStore.isInSubGame) {
                 SoundHelper.pauseMusic();
             } else {
-                TW_OnValueJSSubGame(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 0 }));
+                TW_OnValueJSSubGame(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, {data: 0}));
             }
             if (TW_SubGameDownLoaderData.isLoading) {
                 FileTools.clearCurrentDownJob();
@@ -165,7 +165,6 @@ export default class Enter extends Component {
         } else {
             appInfoStore.checkAppSubType(this.initDomain);
         }
-
 
 
     }
@@ -223,8 +222,8 @@ export default class Enter extends Component {
             //checkView =this.updateFailView()
             checkView = null
         }
-        return (<View style={{ flex: 1 }}>
-            <App />
+        return (<View style={{flex: 1}}>
+            <App/>
             {checkView}
         </View>)
     }
@@ -250,8 +249,6 @@ export default class Enter extends Component {
             StartUpHelper.getAvailableDomain(AppConfig.domains, this.cacheAttempt, this.initDomain)
         })
     }
-
-
 
 
     //使用默认地址
@@ -295,7 +292,7 @@ export default class Enter extends Component {
                 default:
                     break
             }
-            this.storeLog({ faileMessage: customerMessage });
+            this.storeLog({faileMessage: customerMessage});
             this.hotFixStore.updateFailMsg(customerMessage);
             this.reloadAppDomain()
         } else {
@@ -403,95 +400,99 @@ export default class Enter extends Component {
             }, 5000);
             return;
         }
-        CodePush.checkForUpdate(hotfixDeploymentKey).then((update) => {
-            TW_Log('==checking update=d===hotfixDeploymentKey= =' + hotfixDeploymentKey, update);
-            if (update !== null) {
-                this.hotFixStore.syncMessage = '检测到重要更新,稍后将自动重启!';
-                let versionData = null;
-                try {
-                    //{"jsVersion":5.23,"isWeakUpate":true}  "{"jsVersion":v10.24.1814,"isWeakUpate":false}"
-                    versionData = JSON.parse(update.description);
-                } catch (e) {
-                    versionData = null;
-                }
-                TW_Log("versionData--description==--" + update.description, versionData)
-                if (!isActiveCheck) { //如果是app启动进入热更新检测 并且游戏已经进入大厅，则不使用强制更新提示，下次启动生效
-                    if (versionData) {
-                        this.isWeakUpdate = versionData.isWeakUpate
-                        if (versionData.isWeakUpate) {
-                            this.hotFixStore.isNextAffect = this.isWeakUpdate
-                        } else {
-                            this.hotFixStore.isNextAffect = false;
-                        }
-                        if (`${TW_Store.appStore.specialVersionHot}` == `${versionData.sp}`) {
-                            this.isWeakUpdate = true
-                        } else {
-                            TW_Store.hotFixStore.versionHotFix = TW_Store.hotFixStore.versionHotFix + ": " + versionData.sp
-                        }
+        try {
+            CodePush.checkForUpdate(hotfixDeploymentKey).then((update) => {
+                TW_Log('==checking update=d===hotfixDeploymentKey= =' + hotfixDeploymentKey, update);
+                if (update !== null) {
+                    this.hotFixStore.syncMessage = '检测到重要更新,稍后将自动重启!';
+                    let versionData = null;
+                    try {
+                        //{"jsVersion":5.23,"isWeakUpate":true}  "{"jsVersion":v10.24.1814,"isWeakUpate":false}"
+                        versionData = JSON.parse(update.description);
+                    } catch (e) {
+                        versionData = null;
                     }
-                    if (this.isWeakUpdate) {
-                        this.hotFixStore.isNextAffect = true;
-                    }
-                } else {
-                    //如果是3分钟后台进入前台的热更新检测 使用立即更新
-                    this.hotFixStore.isNextAffect = false;
-                }
-                TW_Log('==checkingupdate====hotfixDeploymentKey= versionData=  this.isWeakUpdate==' + this.isWeakUpdate);
-                this.hotFixStore.updateFinished = false;
-                this.storeLog({ hotfixDomainAccess: true });
-                if (alreadyInCodePush) return
-                alreadyInCodePush = true
-                let updateMode = this.hotFixStore.isNextAffect ? CodePush.InstallMode.ON_NEXT_RESTART : CodePush.InstallMode.IMMEDIATE;
-                if (TW_IS_DEBIG) {
-                    return
-                }
-                update.download(this.codePushDownloadDidProgress.bind(this)).then((localPackage) => {
-                    alreadyInCodePush = false;
-                    if (localPackage) {
-                        this.hotFixStore.syncMessage = '下载完成,开始安装';
-                        this.hotFixStore.progress = false;
-                        downloadTime = Moment().format('X') - downloadTime
-                        this.storeLog({ downloadStatus: true, downloadTime: downloadTime });
-                        this.installCodePush(localPackage, updateMode);
-
+                    TW_Log("versionData--description==--" + update.description, versionData)
+                    if (!isActiveCheck) { //如果是app启动进入热更新检测 并且游戏已经进入大厅，则不使用强制更新提示，下次启动生效
+                        if (versionData) {
+                            this.isWeakUpdate = versionData.isWeakUpate
+                            if (versionData.isWeakUpate) {
+                                this.hotFixStore.isNextAffect = this.isWeakUpdate
+                            } else {
+                                this.hotFixStore.isNextAffect = false;
+                            }
+                            if (`${TW_Store.appStore.specialVersionHot}` == `${versionData.sp}`) {
+                                this.isWeakUpdate = true
+                            } else {
+                                TW_Store.hotFixStore.versionHotFix = TW_Store.hotFixStore.versionHotFix + ": " + versionData.sp
+                            }
+                        }
+                        if (this.isWeakUpdate) {
+                            this.hotFixStore.isNextAffect = true;
+                        }
                     } else {
-                        this.storeLog({ downloadStatus: false, message: '下载失败,请重试...' })
+                        //如果是3分钟后台进入前台的热更新检测 使用立即更新
+                        this.hotFixStore.isNextAffect = false;
+                    }
+                    TW_Log('==checkingupdate====hotfixDeploymentKey= versionData=  this.isWeakUpdate==' + this.isWeakUpdate);
+                    this.hotFixStore.updateFinished = false;
+                    this.storeLog({hotfixDomainAccess: true});
+                    if (alreadyInCodePush) return
+                    alreadyInCodePush = true
+                    let updateMode = this.hotFixStore.isNextAffect ? CodePush.InstallMode.ON_NEXT_RESTART : CodePush.InstallMode.IMMEDIATE;
+                    if (TW_IS_DEBIG) {
+                        return
+                    }
+                    update.download(this.codePushDownloadDidProgress.bind(this)).then((localPackage) => {
+                        alreadyInCodePush = false;
+                        if (localPackage) {
+                            this.hotFixStore.syncMessage = '下载完成,开始安装';
+                            this.hotFixStore.progress = false;
+                            downloadTime = Moment().format('X') - downloadTime
+                            this.storeLog({downloadStatus: true, downloadTime: downloadTime});
+                            this.installCodePush(localPackage, updateMode);
+
+                        } else {
+                            this.storeLog({downloadStatus: false, message: '下载失败,请重试...'})
+                            this.updateFail('下载失败,请重试...')
+                        }
+                    }).catch((ms) => {
+                        this.storeLog({downloadStatus: false, message: '下载失败,请重试...'})
+                        this.updateFail('下载失败,请重试...')
+                    }).finally(() => {
+                        if (!this.hotFixStore.isNextAffect) {
+                            TW_Store.gameUpateStore.isAppDownIng = false;
+                        }
+                    })
+                } else {
+                    this.hotFixStore.skipUpdate()
+                }
+            }).then(() => {
+                setTimeout(() => {
+                    this.setState({
+                        syncMessage: '正在加速更新中...',
+                    })
+                }, 3000)
+            }).then(() => { // here stop
+                this.timer = setTimeout(() => {
+                    if (!this.hotFixStore.progress && !this.hotFixStore.updateFinished) {
+                        this.storeLog({downloadStatus: false, message: '下载失败,请重试...'})
                         this.updateFail('下载失败,请重试...')
                     }
-                }).catch((ms) => {
-                    this.storeLog({ downloadStatus: false, message: '下载失败,请重试...' })
-                    this.updateFail('下载失败,请重试...')
-                }).finally(() => {
-                    if (!this.hotFixStore.isNextAffect) {
-                        TW_Store.gameUpateStore.isAppDownIng = false;
-                    }
-                })
-            }
-            else {
-                this.hotFixStore.skipUpdate()
-            }
-        }).then(() => {
-            setTimeout(() => {
-                this.setState({
-                    syncMessage: '正在加速更新中...',
-                })
-            }, 3000)
-        }).then(() => { // here stop
-            this.timer = setTimeout(() => {
-                if (!this.hotFixStore.progress && !this.hotFixStore.updateFinished) {
-                    this.storeLog({ downloadStatus: false, message: '下载失败,请重试...' })
-                    this.updateFail('下载失败,请重试...')
-                }
-            }, 10 * 1000)
-        }).catch((ms, error) => {
-            this.storeLog({ hotfixDomainAccess: false, message: '更新失败,请重试...' })
-            this.updateFail('更新失败,请重试...')
-        })
+                }, 10 * 1000)
+            }).catch((ms, error) => {
+                this.storeLog({hotfixDomainAccess: false, message: '更新失败,请重试...'})
+                this.updateFail('更新失败,请重试...')
+            })
+        } catch (e) {
+            TW_Log("code-push--error ==description==--" + e, e)
+        }
+
     }
 
     installCodePush = (localPackage, updateMode) => {
         localPackage.install(updateMode).then(() => {
-            this.storeLog({ updateStatus: true });
+            this.storeLog({updateStatus: true});
             //如果正在下载大厅文件，关闭大厅当前的下载
             if (updateMode == CodePush.InstallMode.IMMEDIATE) {
                 TW_Store.dataStore.clearCurrentDownJob();
@@ -508,7 +509,7 @@ export default class Enter extends Component {
             this.appUpdateTimeid = setInterval(this.noticeAppUpdate, 1000);
 
         }).catch((ms) => {
-            this.storeLog({ updateStatus: false, message: '安装失败,请重试...' })
+            this.storeLog({updateStatus: false, message: '安装失败,请重试...'})
             this.updateFail('安装失败,请重试...')
         })
     }
@@ -516,7 +517,7 @@ export default class Enter extends Component {
     noticeAppUpdate = () => {
         if (TW_Store.gameUpateStore.isEnteredGame) {
             clearInterval(this.appUpdateTimeid);
-            TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appUpate, { data: true }));
+            TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appUpate, {data: true}));
         }
     }
 
@@ -534,7 +535,7 @@ export default class Enter extends Component {
         let progressView
         if (this.hotFixStore.progress) {
             progressView = (
-                <Text style={{ color: "#ffcc33", marginVertical: 10 }}>
+                <Text style={{color: "#ffcc33", marginVertical: 10}}>
                     正在下载({parseFloat(this.hotFixStore.progress.receivedBytes / 1024 / 1024).toFixed(2)}M/{parseFloat(this.hotFixStore.progress.totalBytes / 1024 / 1024).toFixed(2)}M) {(parseFloat(this.hotFixStore.progress.receivedBytes / this.hotFixStore.progress.totalBytes).toFixed(2) * 100).toFixed(1)}%</Text>
             )
         } else {
@@ -543,21 +544,29 @@ export default class Enter extends Component {
         return (
             <View pointerEvents={"none"} style={{
                 justifyContent: 'center',
-                alignItems: 'center', width: JX_PLAT_INFO.SCREEN_W, height: JX_PLAT_INFO.SCREEN_H, flex: 1, position: "absolute",
+                alignItems: 'center',
+                width: JX_PLAT_INFO.SCREEN_W,
+                height: JX_PLAT_INFO.SCREEN_H,
+                flex: 1,
+                position: "absolute",
             }}>
                 <View style={{
                     backgroundColor: "rgba(10,10,10,0.5)", paddingHorizontal: 60, paddingVertical: 15,
                     borderRadius: 10
                 }}>
                     <View style={{}}>
-                        <Text style={{ fontSize: Size.font16, color: "#99ffff", fontWeight: "bold" }}>{this.hotFixStore.syncMessage}</Text>
+                        <Text style={{
+                            fontSize: Size.font16,
+                            color: "#99ffff",
+                            fontWeight: "bold"
+                        }}>{this.hotFixStore.syncMessage}</Text>
                     </View>
 
                     {progressView}
                     <Progress.Bar
                         color={"#ffcc33"}
                         progress={(this.hotFixStore.progress.receivedBytes / this.hotFixStore.progress.totalBytes).toFixed(2)}
-                        width={200} />
+                        width={200}/>
                 </View>
             </View>
 
@@ -575,11 +584,14 @@ export default class Enter extends Component {
     }
 }
 
+console.log("TN_IS_HAVE_CODE_PUSH--------------",TN_IS_HAVE_CODE_PUSH)
+//适配没有codePush的情况
+if (TN_IS_HAVE_CODE_PUSH) {
+    Enter = CodePush({
+        checkFrequency: CodePush.CheckFrequency.MANUAL,
+        installMode: CodePush.InstallMode.IMMEDIATE
+    })(Enter);
+}
 
-
-Enter = CodePush({
-    checkFrequency: CodePush.CheckFrequency.MANUAL,
-    installMode: CodePush.InstallMode.IMMEDIATE
-})(Enter);
 
 AppRegistry.registerComponent('BBL', () => Enter);
