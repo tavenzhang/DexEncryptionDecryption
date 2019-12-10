@@ -37,19 +37,18 @@ export const AppConfig = {
 
 export const MyAppName = '博博乐';
 
-export const versionHotFix = 'v4.1206.1327';
+export const versionHotFix = 'v4.1210.1346';
 
 export const MyOwnerPlatName= '博博乐';
 
-// export const YunDunData= {appIosKey:"DpV1sEv2lZyavrD7xIpYOZFlLbV_BEmr5CvA34neuD6A7fXBsiwFPNg4YGbrYjM4-WAYfyghTQLzKYrEC-2QKL08HxKvBpdjpgv5E7iRg7CTZIwb0l_j1XDBrOyQ_z6E4Vrau6kFAF4rUY6faVSzVfCNeDUOJ4rrenTm863rLJQ_CaZEIKXsBgv7JVzhSY5_9BQFSirAs+8ii6qC2oPbOaoZru8rwNM7w8CKzl3knofqQuzQFjdfNR9bUUtgd1JpDLK6--lesHfukrIzPBy3VGln_4g9RmDihkiANIQV1YCeU798-6jtkrYqBFZlPzNwyJu9q+ChRNTZ0BDZlk7NZuf70-EhgBxQCz8YVyvg+l0pCCo5pXtTVeFq3t_FFbFpzSLIZJcdDqAEtp+CqyfQQPrm2P7X8_7nHnA3FrgwTvNtBsP4KV6a6",
-//     appAndroidKey:"DpV1sEv2lZyavrD7xIpYOZFlLbV_BEmr5CvA34neuD6A7fXBsiwFPNg4YGbrYjM4-WAYfyghTQLzKYrEC-2QKL08HxKvBpdjpgv5E7iRg7CTZIwb0l_j1XDBrOyQ_z6E4Vrau6kFAF4rUY6faVSzVfCNeDUOJ4rrenTm863rLJQ_CaZEIKXsBgv7JVzhSY5_9BQFSirAs+8ii6qC2oPbOaoZru8rwNM7w8CKzl3knofqQuzQFjdfNR9bUUtgd1JpDLK6--lesHfukrIzPBy3VGln_4g9RmDihkiANIQV1YCeU798-6jtkrYqBFZlPzNwyJu9q+ChRNTZ0BDZlk7NZuf70-EhgBxQCz8YVyvg+l0pCCo5pXtTVeFq3t_FFbFpzSLIZJcdDqAEtp+CqyfQQPrm2P7X8_7nHnA3FrgwTvNtBsP4KV6a6",
-//     groupname:"Auto139440.ureJ56X0B0.ftnormal01ai.com",
-//     dip:"chy-test",
-//     dport:"443",
-//     token:"",
-//     domaims:[]
-// };
-
+export const YunDunData= {appIosKey:"DpV1sEv2lZyavrD7xIpYOZFlLbV_BEmr5CvA34neuD6A7fXBsiwFPNg4YGbrYjM4-WAYfyghTQLzKYrEC-2QKL08HxKvBpdjpgv5E7iRg7CTZIwb0l_j1XDBrOyQ_z6E4Vrau6kFAF4rUY6faVSzVfCNeDUOJ4rrenTm863rLJQ_CaZEIKXsBgv7JVzhSY5_9BQFSirAs+8ii6qC2oPbOaoZru8rwNM7w8CKzl3knofqQuzQFjdfNR9bUUtgd1JpDLK6--lesHfukrIzPBy3VGln_4g9RmDihkiANIQV1YCeU798-6jtkrYqBFZlPzNwyJu9q+ChRNTZ0BDZlk7NZuf70-EhgBxQCz8YVyvg+l0pCCo5pXtTVeFq3t_FFbFpzSLIZJcdDqAEtp+CqyfQQPrm2P7X8_7nHnA3FrgwTvNtBsP4KV6a6",
+    appAndroidKey:"DpV1sEv2lZyavrD7xIpYOZFlLbV_BEmr5CvA34neuD6A7fXBsiwFPNg4YGbrYjM4-WAYfyghTQLzKYrEC-2QKL08HxKvBpdjpgv5E7iRg7CTZIwb0l_j1XDBrOyQ_z6E4Vrau6kFAF4rUY6faVSzVfCNeDUOJ4rrenTm863rLJQ_CaZEIKXsBgv7JVzhSY5_9BQFSirAs+8ii6qC2oPbOaoZru8rwNM7w8CKzl3knofqQuzQFjdfNR9bUUtgd1JpDLK6--lesHfukrIzPBy3VGln_4g9RmDihkiANIQV1YCeU798-6jtkrYqBFZlPzNwyJu9q+ChRNTZ0BDZlk7NZuf70-EhgBxQCz8YVyvg+l0pCCo5pXtTVeFq3t_FFbFpzSLIZJcdDqAEtp+CqyfQQPrm2P7X8_7nHnA3FrgwTvNtBsP4KV6a6",
+    groupname:"Auto139440.ureJ56X0B0.ftnormal01ai.com",
+    dip:"chy-test",
+    dport:"443",
+    token:"",
+    domaims:[]
+};
 // export const safeguardDomain = [
 //     'https://987645ba00a9b0416b254f33d918ed64.oss-cn-shenzhen.aliyuncs.com',
 //     'https://c40b6e3d664556ab423d3eebc01ab2fd.oss-cn-shenzhen.aliyuncs.com']
