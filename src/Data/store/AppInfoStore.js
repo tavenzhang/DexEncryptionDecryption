@@ -77,7 +77,7 @@ export default class AppInfoStore {
         SUB_TYPE: "0"
     };
     @observable
-    channel = '';
+    channel = 1;
     @observable
     clindId = configAppId;
     callInitFuc = null;
@@ -113,6 +113,8 @@ export default class AppInfoStore {
 
     //是否锁定屏幕旋转
     isLockToLandscape =true
+    //app类型 1为正常的企业包， 8.为上架app商店具有后台开关的包 .9 通用appstore 上架的包
+    appType=1
 
     constructor() {
         this.init();
@@ -274,8 +276,10 @@ export default class AppInfoStore {
         if (url && url.length > 0 && !this.isInAnroidHack) {
             TW_Log("onShowDownAlert-----url==this.APP_DOWNLOAD_VERSION=" + this.APP_DOWNLOAD_VERSION, this.latestNativeVersion);
             let isShowAlert=this.APP_DOWNLOAD_VERSION != this.latestNativeVersion;
+            if(G_IS_IOS){
+                isShowAlert = isShowAlert&&this.channel==1
+            }
             if (isShowAlert) {
-
                 //清除所有的缓存数据 方便app升级
                 TW_Data_Store.clear();
                 Alert.alert(
@@ -303,16 +307,15 @@ export default class AppInfoStore {
         if (!appInfo) {
             appInfo = {PLAT_ID: configAppId, isNative: false};
         } else {
-            appInfo.PLAT_ID = appInfo.PLAT_ID ? appInfo.PLAT_ID : appInfo.PlatId;//兼容某些老的app
+            appInfo.PLAT_ID = configAppId;//兼容某些老的app
             if (!appInfo.PLAT_ID) {
                 appInfo.PLAT_ID = configAppId;
             }
         }
         //所以的clintId 在此重置
-        this.clindId = appInfo.PLAT_ID ? appInfo.PLAT_ID : configAppId;
+        this.clindId = configAppId,
         this.subAppType = appInfo.SUB_TYPE ? appInfo.SUB_TYPE : '0';
-        this.channel = appInfo.PLAT_CH ? appInfo.PLAT_CH : '1';
-
+        this.channel = appInfo.PLAT_CH ?  parseInt(appInfo.PLAT_CH): 1;
         platInfo.platId = this.clindId;
         UpDateHeadAppId(this.clindId);
         this.appInfo = appInfo;
