@@ -322,7 +322,6 @@ export default class AppInfoStore {
         this.isInitPlat = true;
         this.initAppName();
         this.initAppVersion();
-
         /*** 初始化邀请码*/
         this.userAffCode = this.appInfo.Affcode;
         this.callInitFuc = this.callInitFuc ? this.callInitFuc() : null;
