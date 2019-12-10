@@ -352,7 +352,7 @@ export default class AppInfoStore {
         // || (modeList.indexOf(curModel) !== -1);
         TW_Store.dataStore.log += "\n---isEmulator--" + isEmulator + "---TW_IS_DEBIG---" + TW_IS_DEBIG + "---isSitApp---" + this.isSitApp +
             "---model--" + curModel + "--deviceID--" + curDevId + "--deviceName--" + curDevName +"\n---Emulator--" + emulatorChecking;
-        if (emulatorChecking) {
+        if (emulatorChecking&&!G_IS_IOS) {
             if (!this.isSitApp && !TW_IS_DEBIG) {
                 Alert.alert(
                     "本游戏不支持模拟器运行，请使用真机体验！",
