@@ -335,15 +335,17 @@ export default class AppInfoStore {
                 TN_StartJPush(this.appInfo.JPushKey, "1");
                 TN_StartUMeng(this.appInfo.UmengKey, this.appInfo.Affcode);
                 TN_StartOpenInstall(this.appInfo["com.openinstall.APP_KEY"])
-            }else{
-                let appInfo=platInfo.appInfo[`ch_${this.channel}`]  ? platInfo.appInfo[`ch_${this.channel}`]:platInfo.appInfo.ch_8;
-                //let appInfo=platInfo.appInfo.ch_8;
-                TN_StartJPush(appInfo.JPushKey, "1");
-                TN_StartUMeng(appInfo.UmengKey, appInfo.Affcode,appInfo.wxAppKey,appInfo.wxAppSecret);
-                TN_StartOpenInstall(appInfo.openInstallKey);
-                TW_Log("appInfo--TN_StartOpenInstall-------------",appInfo);
+            }else {
+                if (platInfo.appInfo) {
+                    let appInfo = platInfo.appInfo[`ch_${this.channel}`] ? platInfo.appInfo[`ch_${this.channel}`] : platInfo.appInfo.ch_8;
+                    if(appInfo){
+                        TN_StartJPush(appInfo.JPushKey, "1");
+                        TN_StartUMeng(appInfo.UmengKey, appInfo.Affcode, appInfo.wxAppKey, appInfo.wxAppSecret);
+                        TN_StartOpenInstall(appInfo.openInstallKey);
+                    }
+                }
+                TW_Log("appInfo--TN_StartOpenInstall-------------", appInfo);
             }
-
         }
         this.isSitApp = this.clindId == "1209" || this.clindId == "4";
         this.isTestApp=this.isSitApp||this.clindId == "214"
