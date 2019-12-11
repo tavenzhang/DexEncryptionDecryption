@@ -31,14 +31,21 @@ global.TN_StartJPush = (Jkey = '', channel = '') => {
     }
 };
 
-global.TN_StartUMeng = (key = '', channel = '') => {
-    if (G_IS_IOS) {
+global.TN_StartUMeng = (key = '', channel = '',wxAppkey="",wxAppSecret="") => {
         if (NativeModules.JDHelper.startUMeng) {
             NativeModules.JDHelper.startUMeng(key, channel);
         }
-    } else {
+        if (NativeModules.JDHelper.startUMengShare) {
+            NativeModules.JDHelper.startUMengShare(wxAppkey, wxAppSecret);
+        }
+};
+
+global.TN_StartOpenInstall = (installkey = '') => {
+    if (NativeModules.JDHelper.startOpenInstall) {
+        NativeModules.JDHelper.startOpenInstall(installkey);
     }
 };
+
 
 global.TN_CodePush_ASEET = (callBack: func) => {
     if (G_IS_IOS) {

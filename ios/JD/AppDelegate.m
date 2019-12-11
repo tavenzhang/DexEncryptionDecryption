@@ -23,7 +23,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  [OpenInstallSDK initWithDelegate:self];
   application.applicationIconBadgeNumber = 0;
   self.launchOptions = launchOptions;
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -41,30 +40,11 @@
      [SplashScreen show];
   #endif
 
-  
-  
-//   [self testLoadNative];
-  // [self startLog];
+
   return YES;
 }
 
 
--(void)testLoadNative{
-  WKWebViewConfiguration * configuration = [[WKWebViewConfiguration alloc] init];
-  [configuration.preferences setValue:@"TRUE" forKey:@"allowFileAccessFromFileURLs"];
-  WKWebView * web = [[WKWebView alloc] initWithFrame:[UIScreen mainScreen].bounds configuration:configuration];
-  self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-  UIViewController *rootViewController = [UIViewController new];
-  rootViewController.view = web;
-  NSString* url=[[NSBundle mainBundle] pathForResource:@"index" ofType:@"html" inDirectory:@"assets/gamelobby"];
-  NSURL  *nsUrl = [NSURL fileURLWithPath:url];
-  [web loadFileURL:nsUrl allowingReadAccessToURL:nsUrl];
-
-//  NSURLRequest* request =[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.baidu.com"]];
-//  [web loadRequest:request];
-    self.window.rootViewController = rootViewController;
-  [self.window makeKeyAndVisible];
-}
 
 - (UIViewController *)rootController {
 #pragma mark ⚽︎ ❤️❤️❤️ ⚽︎ 替换换成壳的入口 返回一个controller

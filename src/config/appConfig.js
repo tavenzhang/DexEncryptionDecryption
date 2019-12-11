@@ -58,9 +58,27 @@ export const platInfo = {
         release_server: "/game/release/sit"
     },
     platId: configAppId,
-    brand: "sqp01",
-    latestNativeVersion:{ios:"12",android:"12"},//用于强制更新 匹配，与info.plist 还有 gradle.properties. 需要严格一致。否则 会弹窗 强制下载
+    brand: "qp01",
+    latestNativeVersion:{ios:"10",android:"10"},//用于强制更新 匹配，与info.plist 还有 gradle.properties. 需要严格一致。否则 会弹窗 强制下载
+    appInfo : {
+        ch_8:{
+            name:"appstoreWithCodePush",
+            wxAppKey:"wx14a4c6864a801156",
+            wxAppSecret:"06f5151830e538583897772e402ae142",
+            JPushKey: "a09286d3570274effabdab10",
+            UmengKey: "5b9f7642f43e486308000111",
+            openInstallKey: "k9e92p"
+        },
+        ch_9:{
+            name:"appstoreNoCodePush",
+            wxAppKey:"wx14a4c6864a801156",
+            wxAppSecret:"06f5151830e538583897772e402ae142",
+            JPushKey: "a09286d3570274effabdab10",
+            UmengKey: "5b9f7642f43e486308000111",
+            openInstallKey: "k9e92p"
+        },
 
+    }
 }
 
 
