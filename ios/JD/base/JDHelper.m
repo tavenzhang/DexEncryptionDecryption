@@ -14,6 +14,7 @@
 #import <AdSupport/AdSupport.h>
 #import <CodePush.h>
 #import  "YunCeng.h"
+#import <OpenInstallSDK.h>
 @implementation JDHelper
 RCT_EXPORT_MODULE();
 
@@ -148,6 +149,11 @@ RCT_EXPORT_METHOD(startUMengShare:(NSString *)appId
     myApi = api;
   }
   [deleagte registUMengShare:appId:api];
+}
+
+RCT_EXPORT_METHOD(startOpenInstall:(NSString *)appKey) {
+  AppDelegate *deleagte = (AppDelegate *)[UIApplication sharedApplication].delegate;
+  [OpenInstallSDK setAppKey:appKey withDelegate:deleagte];
 }
 
 

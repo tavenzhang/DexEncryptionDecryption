@@ -52,9 +52,9 @@ export default class Enter extends Component {
         TW_Log("_orientationDidChange--22233225--start-lockToLandscapeRight");
         if (G_IS_IOS) {
             Orientation.lockToLandscapeRight();
-            setTimeout(() => {
-                Orientation.lockToLandscape();
-            }, 2500)
+            // setTimeout(() => {
+            //     Orientation.lockToLandscape();
+            // }, 2500)
         }
     }
 
