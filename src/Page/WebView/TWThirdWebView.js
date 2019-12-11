@@ -5,11 +5,11 @@ import {
     View,
     Clipboard,
     BackHandler,
-    KeyboardAvoidingView
+    KeyboardAvoidingView,
 } from 'react-native';
 
 import {WebView} from 'react-native-webview';
-
+import SafeAreaView from 'react-native-safe-area-view';
 import {JX_PLAT_INFO} from "../asset";
 
 import {observer} from "mobx-react";
@@ -20,6 +20,7 @@ import TCUserOpenPayApp from "../UserCenter/UserPay/TCUserOpenPayApp";
 import ExitGameAlertView from "../enter/gameMenu/ExitGameAlertView";
 import GameMenuButton from "../enter/gameMenu/GameMenuButton";
 import {withMappedNavigationProps} from 'react-navigation-props-mapper'
+import {StatusBarHeight} from "../asset/screen";
 
 @withMappedNavigationProps()
 @observer
@@ -100,29 +101,31 @@ export default class TWThirdWebView extends Component {
                 thirdPartyCookiesEnabled={true}
             />;
         return (
-            <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={-40}
-                                  enabled={G_IS_IOS ? false : true}>
-                {!this.state.isHttpFail ? webContentView : <View style={{
-                    height: JX_PLAT_INFO.SCREEN_H, justifyContent: "center",
-                    alignItems: "center", backgroundColor: "transparent"
-                }}>
-                </View>}
-                <GameMenuButton isScreenPortrait={true} isShowReload={isShowReload} itransEnabled={"ON"}
-                                onPressExit={this.onClickMenu}/>
-                {this.state.isShowExitAlertView && <ExitGameAlertView
-                    isOpenAddPay={this.state.isOpenAddPay}
-                    onPressConfirm={() => {
-                        this.onBackHomeJs();
-                        TW_Store.appStore.lockToLandscape();
-                        this.setState({isShowExitAlertView: false});
-                        if (this.state.isOpenAddPay) {
-                            TW_Store.gameUIStroe.isShowAddPayView = true;
-                        }
-                    }}
-                    onPressCancel={() => this.setState({isShowExitAlertView: false})}
-                />
-                }
-            </KeyboardAvoidingView>
+                // <SafeAreaView style={{flex:1, backgroundColor:"rgb(227, 41, 43)"}}  forceInset={{ bottom: 'never' ,}}>
+                <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={-40}
+                                      enabled={G_IS_IOS ? false : true}>
+                    {!this.state.isHttpFail ? webContentView : <View style={{
+                        height: JX_PLAT_INFO.SCREEN_H, justifyContent: "center",
+                        alignItems: "center", backgroundColor: "transparent"
+                    }}>
+                    </View>}
+                    <GameMenuButton isScreenPortrait={true} isShowReload={isShowReload} itransEnabled={"ON"}
+                                    onPressExit={this.onClickMenu}/>
+                    {this.state.isShowExitAlertView && <ExitGameAlertView
+                        isOpenAddPay={this.state.isOpenAddPay}
+                        onPressConfirm={() => {
+                            this.onBackHomeJs();
+                            TW_Store.appStore.lockToLandscape();
+                            this.setState({isShowExitAlertView: false});
+                            if (this.state.isOpenAddPay) {
+                                TW_Store.gameUIStroe.isShowAddPayView = true;
+                            }
+                        }}
+                        onPressCancel={() => this.setState({isShowExitAlertView: false})}
+                    />
+                    }
+                </KeyboardAvoidingView>
+
         );
     }
 
@@ -272,7 +275,8 @@ export default class TWThirdWebView extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "transparent",
+         paddingTop:StatusBarHeight,
+        backgroundColor: "rgb(227, 41, 43)",
         overflow: 'hidden'
     },
     webView: {
