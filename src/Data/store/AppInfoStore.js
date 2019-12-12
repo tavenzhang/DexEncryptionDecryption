@@ -235,6 +235,7 @@ export default class AppInfoStore {
     onOpenInstallCheck = callBack => {
         OpeninstallModule.getInstall(10, res => {
             //TW_Store.dataStore.log+="getInstall----"+JSON.stringify(res);
+            TW_Log("onOpenInstallCheck----res",res)
             TW_Store.dataStore.log += "getInstall---res-" + res;
             if (res && res.data) {
                 //TW_Store.dataStore.log+="getInstall----"+JSON.stringify(res);
@@ -329,11 +330,22 @@ export default class AppInfoStore {
         // TW_Log("TN_GetPlatInfo---versionBBL--TW_DATA_KEY.platDat====appInfo--this.userAffCode--"+this.userAffCode, appInfo);
         if (G_IS_IOS) {
             //ios 动态开启友盟等接口 android 是编译时 决定好了。
-            // TW_Log('JX===  appInfo '+this.appInfo.APP_DOWNLOAD_VERSION+"--appInfo.JPushKey=="+this.appInfo.JPushKey,this.appInfo)
-            TN_StartJPush(this.appInfo.JPushKey, "1");
-            TN_START_Fabric();
-            // TN_START_SHARE("111","222");
-            TN_StartUMeng(this.appInfo.UmengKey, this.appInfo.Affcode);
+            TW_Log('JX===  appInfo '+this.appInfo.APP_DOWNLOAD_VERSION+"--appInfo.this.appInfo.com.openinstall.APP_KEY=="+this.appInfo["com.openinstall.APP_KEY"],this.appInfo)
+            if(this.channel==1){
+                TN_StartJPush(this.appInfo.JPushKey, "1");
+                TN_StartUMeng(this.appInfo.UmengKey, this.appInfo.Affcode);
+                TN_StartOpenInstall(this.appInfo["com.openinstall.APP_KEY"])
+            }else {
+                if (platInfo.appInfo) {
+                    let appInfo = platInfo.appInfo[`ch_${this.channel}`] ? platInfo.appInfo[`ch_${this.channel}`] : platInfo.appInfo.ch_8;
+                    if(appInfo){
+                        TN_StartJPush(appInfo.JPushKey, "1");
+                        TN_StartUMeng(appInfo.UmengKey, appInfo.Affcode, appInfo.wxAppKey, appInfo.wxAppSecret);
+                        TN_StartOpenInstall(appInfo.openInstallKey);
+                    }
+                }
+                TW_Log("appInfo--TN_StartOpenInstall-------------", appInfo);
+            }
         }
         this.isSitApp = this.clindId == "1209" || this.clindId == "4";
         this.isTestApp=this.isSitApp||this.clindId == "214"

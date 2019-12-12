@@ -38,7 +38,7 @@ export const AppConfig = {
 
 export const MyAppName = '博博乐sit';
 
-export const versionHotFix = 'v4.1210.1346';
+export const versionHotFix = 'v4.1211.1652';
 
 export const MyOwnerPlatName= 'sit';
 
@@ -60,7 +60,24 @@ export const platInfo = {
     platId: configAppId,
     brand: "sqp01",
     latestNativeVersion:{ios:"12",android:"12"},//用于强制更新 匹配，与info.plist 还有 gradle.properties. 需要严格一致。否则 会弹窗 强制下载
-
+    appInfo : {
+        ch_8: {
+            name: "appstoreWithCodePush",
+            wxAppKey: "wx26019a5a7de8db15",
+            wxAppSecret: "62ef8d30f3c4e244bde8831dd2f4ec84",
+            JPushKey: "e9f6454032a3f4936d80a82f",
+            UmengKey: "5b9f7642f43e486308000111",
+            openInstallKey: "evna9i"
+        },
+        ch_9: {
+            name: "appstoreNoCodePush",
+            wxAppKey: "wx26019a5a7de8db15",
+            wxAppSecret: "62ef8d30f3c4e244bde8831dd2f4ec84",
+            JPushKey: "e9f6454032a3f4936d80a82f",
+            UmengKey: "5b9f7642f43e486308000111",
+            openInstallKey: "evna9i"
+        },
+    }
 }
 
 
