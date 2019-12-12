@@ -39,7 +39,7 @@ export default class TWThirdWebView extends Component {
         isShowReload: false,
         isRotation:true,
         isPaddingTop:true,
-        urlParam:`heightBar=${StatusBarHeight}`
+        urlParam:`heightBar=${StatusBarHeight+45}`
     };
 
     constructor(state) {
