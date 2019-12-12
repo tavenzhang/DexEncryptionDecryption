@@ -42,7 +42,7 @@ const Components = {
     TCUserMessage: viewRoutHelp(TCUserMessage),
     TCAddUserInfo: viewRoutHelp(TCAddUserInfo),
     TCAddPhoneNumberInfo: viewRoutHelp(TCAddPhoneNumberInfo),
-    UserAcountPay: viewRoutHelp(TCUserPayAndWithdrawRecordsMain),
+    //UserAcountPay: viewRoutHelp(TCUserPayAndWithdrawRecordsMain),
     //UserPayment: viewRoutHelp(UserPayment),
     WxPublicPage: viewRoutHelp(WechatPublicPage),
     //TCUserWithdrawNew: viewRoutHelp(TCUserWithdrawNew),
@@ -73,7 +73,7 @@ import TCUserMessage from "../UserCenter/user/TCUserMessage";
 import TCAddUserInfo from "../UserCenter/user/TCAddUserInfo";
 import TCAddPhoneNumberInfo from "../UserCenter/user/TCAddPhoneNumberInfo";
 
-import TCUserPayAndWithdrawRecordsMain from "../UserCenter/UserAccount/TCUserPayAndWithdrawRecordsMain";
+//import TCUserPayAndWithdrawRecordsMain from "../UserCenter/UserAccount/TCUserPayAndWithdrawRecordsMain";
 //import UserPayment from '../../Page/UserCenter/UserPay/TCUserPayNew'
 import WechatPublicPage from '../../Page/UserCenter/UserPay/WxPublic/TCUserPayWxPublic'
 //import TCUserWithdrawNew from "../UserCenter/UserWithdraw/TCUserWithdraw";
