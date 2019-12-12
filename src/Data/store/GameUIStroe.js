@@ -1,7 +1,7 @@
 import {action, observable} from 'mobx'
 import TCUserPayAndWithdrawRecordsMain from "../../Page/UserCenter/UserAccount/TCUserPayAndWithdrawRecordsMain";
 import React from "react";
-import TCUserBankPayMessageNew from "../../Page/UserCenter/UserPay/TCUserBankPayMessageNew";
+//import TCUserBankPayMessageNew from "../../Page/UserCenter/UserPay/TCUserBankPayMessageNew";
 
 import NetUitls from "../../Common/Network/TCRequestUitls";
 import {config} from "../../Common/Network/TCRequestConfig";
@@ -65,31 +65,31 @@ export default class GameUIStroe {
 
     @action
     showTiXianDetail(isShow = true, onBack = null) {
-        this.gameAlertData = {
-            title: "提现明细",
-            isUserAccount: true,
-            component: TCUserPayAndWithdrawRecordsMain,
-            param: {accountType: 0, isBackToTop: true},
-            onBack
-        }
+        // this.gameAlertData = {
+        //     title: "提现明细",
+        //     isUserAccount: true,
+        //     component: TCUserPayAndWithdrawRecordsMain,
+        //     param: {accountType: 0, isBackToTop: true},
+        //     onBack
+        // }
     }
 
     @action
     showChongZhiDetail(isShow = true, onBack = null) {
-        this.gameAlertData = {
-            title: "充值明细",
-            isUserAccount: true,
-            component: TCUserPayAndWithdrawRecordsMain,
-            param: {accountType: 1, isBackToTop: false},
-            onBack
-        }
+        // this.gameAlertData = {
+        //     title: "充值明细",
+        //     isUserAccount: true,
+        //     component: TCUserPayAndWithdrawRecordsMain,
+        //     param: {accountType: 1, isBackToTop: false},
+        //     onBack
+        // }
     }
 
     @action
     showBankPay(param) {
         this.gameAlertData = {
             title: "银行转账",
-            component: TCUserBankPayMessageNew,
+            component: null,
             param,
         }
     }
@@ -118,14 +118,14 @@ export default class GameUIStroe {
     }
 
 
-    @action
-    showPrompt(isShow = true, onBack = null, param = {}) {
-        this.gameAlertData = {
-            title: "提示",
-            isUserAccount: true,
-            component: GamePromptView,
-            param,
-            onBack
-        }
-    }
+    // @action
+    // showPrompt(isShow = true, onBack = null, param = {}) {
+    //     this.gameAlertData = {
+    //         title: "提示",
+    //         isUserAccount: true,
+    //         component: GamePromptView,
+    //         param,
+    //         onBack
+    //     }
+    // }
 }

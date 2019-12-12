@@ -43,10 +43,10 @@ const Components = {
     TCAddUserInfo: viewRoutHelp(TCAddUserInfo),
     TCAddPhoneNumberInfo: viewRoutHelp(TCAddPhoneNumberInfo),
     UserAcountPay: viewRoutHelp(TCUserPayAndWithdrawRecordsMain),
-    UserPayment: viewRoutHelp(UserPayment),
+    //UserPayment: viewRoutHelp(UserPayment),
     WxPublicPage: viewRoutHelp(WechatPublicPage),
-    TCUserWithdrawNew: viewRoutHelp(TCUserWithdrawNew),
-    TCUserBankPayMessageNew: viewRoutHelp(TCUserBankPayMessageNew)
+    //TCUserWithdrawNew: viewRoutHelp(TCUserWithdrawNew),
+    //TCUserBankPayMessageNew: viewRoutHelp(TCUserBankPayMessageNew)
 }
 
 //为所有组件增加增加routName 配合 JX_Compones  用于 通用 pushtoView 跳转 避免使用纯string
@@ -74,12 +74,12 @@ import TCAddUserInfo from "../UserCenter/user/TCAddUserInfo";
 import TCAddPhoneNumberInfo from "../UserCenter/user/TCAddPhoneNumberInfo";
 
 import TCUserPayAndWithdrawRecordsMain from "../UserCenter/UserAccount/TCUserPayAndWithdrawRecordsMain";
-import UserPayment from '../../Page/UserCenter/UserPay/TCUserPayNew'
+//import UserPayment from '../../Page/UserCenter/UserPay/TCUserPayNew'
 import WechatPublicPage from '../../Page/UserCenter/UserPay/WxPublic/TCUserPayWxPublic'
-import TCUserWithdrawNew from "../UserCenter/UserWithdraw/TCUserWithdraw";
+//import TCUserWithdrawNew from "../UserCenter/UserWithdraw/TCUserWithdraw";
 import GameUIView from "../enter/GameUIView";
 
-import TCUserBankPayMessageNew from "../UserCenter/UserPay/TCUserBankPayMessageNew";
+//import TCUserBankPayMessageNew from "../UserCenter/UserPay/TCUserBankPayMessageNew";
 import KeyboardManager from 'react-native-keyboard-manager'
 import LoadingWebView from "../WebView/LoadingWebView";
 import SubGameView from "./SubGameView";
