@@ -25,7 +25,6 @@ const appStores = {
 }
 import CommonBoxLayer from "../enter/CommonBoxLayer";
 import XXWebView from "../web/XXWebView";
-import TCWebView from "../WebView/TCWebView";
 import OpeninstallModule from 'openinstall-react-native'
 import ExtraDimensions from 'react-native-extra-dimensions-android';
 
@@ -36,7 +35,7 @@ function viewRoutHelp(component) {
 
 const Components = {
     XXWebView: viewRoutHelp(XXWebView),
-    WebView: viewRoutHelp(TCWebView),
+    // WebView: viewRoutHelp(TCWebView),
     TWThirdWebView:viewRoutHelp(TWThirdWebView),
     TCUserDetailMsg: viewRoutHelp(TCUserDetailMsg),
     TCUserMessage: viewRoutHelp(TCUserMessage),
