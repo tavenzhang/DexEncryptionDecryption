@@ -7,10 +7,10 @@ import ListRow from './View/TCUserPayAndWithdrawRowView'
 import Helper from '../../../Common/JXHelper/TCNavigatorHelper'
 import {indexBgColor} from '../../resouce/theme'
 import RefreshListView from '../../../Common/View/RefreshListView/RefreshListView'
-import TransferRow from './View/TCUserTransferRowView'
+//import TransferRow from './View/TCUserTransferRowView'
 import UserAccount from "./TCUserPayAndWithdrawRecordsMain";
-import TCUserTransferDetails from "./TCUserTransferDetails";
-import TCUserAccountBillingDetails from "./TCUserAccountBillingDetails";
+//import TCUserTransferDetails from "./TCUserTransferDetails";
+//import TCUserAccountBillingDetails from "./TCUserAccountBillingDetails";
 import PropTypes from "prop-types";
 
 

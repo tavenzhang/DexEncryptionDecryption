@@ -9,7 +9,7 @@ import {
     View,
     TouchableOpacity
 } from 'react-native';
-import UserAccount from './TCUserPayAndWithdrawRecords'
+//import UserAccount from './TCUserPayAndWithdrawRecords'
 import {ASSET_Images, ASSET_Theme} from "../../asset";
 import TCImage from "../../../Common/View/image/TCImage";
 
@@ -65,12 +65,12 @@ export default class TCUserPayAndWithdrawRecordsMain extends Component {
                             </View>
                         </TouchableOpacity>
                     </View>
-                    {this.state.selectType ==1 ?  <UserAccount    type={this.state.selectType}
-                                                                accountType={accountType}/>:null}
-                    {this.state.selectType ==2 ?  <UserAccount  type={this.state.selectType}
-                                                                accountType={accountType}/>:null}
-                    {this.state.selectType ==3 ?  <UserAccount  type={this.state.selectType}
-                                                                accountType={accountType}/>:null}
+                    {/*{this.state.selectType ==1 ?  <UserAccount    type={this.state.selectType}*/}
+                    {/*                                            accountType={accountType}/>:null}*/}
+                    {/*{this.state.selectType ==2 ?  <UserAccount  type={this.state.selectType}*/}
+                    {/*                                            accountType={accountType}/>:null}*/}
+                    {/*{this.state.selectType ==3 ?  <UserAccount  type={this.state.selectType}*/}
+                    {/*                                            accountType={accountType}/>:null}*/}
 
                 </View>
             </View>

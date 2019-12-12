@@ -33,7 +33,7 @@ export default class TWThirdWebView extends Component {
     };
     static defaultProps = {
         title: '',
-        isShowReload: true,
+        isShowReload: false,
         isRotation:true
     };
 

@@ -14,11 +14,11 @@ import {TCTextInput} from "../../Common/View/TCTextInput";
 import TCText from "../../Common/View/widget/TCText";
 import GameUserInfoView from "./game/GameUserInfoView";
 import {G_LayoutAnimaton} from "../../Common/Global/G_LayoutAnimaton";
-import GameGuestView from "./game/GameGuestView";
-import GameMoneyOutView from "./game/GameMoneyOutView";
-import GameMoneyInView from "./game/GameMoneyInView";
+//import GameGuestView from "./game/GameGuestView";
+//import GameMoneyOutView from "./game/GameMoneyOutView";
+//import GameMoneyInView from "./game/GameMoneyInView";
 import BaseGameAlert from "./game/pay/BaseGameAlert";
-import GameShareView from "./game/GameShareView";
+//import GameShareView from "./game/GameShareView";
 import BaseUserAccAlert from "./game/pay/BaseUserAccountAlert";
 import ShareBox from "./game/pay/ShareBox";
 import LoadingView from "./LoadingView";
@@ -76,11 +76,11 @@ class SubGameView extends Component {
         if(this.state.isShow){
             return (
                 <View style={styles.container}>
-                    {TW_Store.gameUIStroe.isShowWithDraw ? <GameMoneyOutView /> : null}
-                    {TW_Store.gameUIStroe.isShowAddPayView ? <GameMoneyInView pointerEvents={isHaveAletView}/> : null}
+                    {/*{TW_Store.gameUIStroe.isShowWithDraw ? <GameMoneyOutView /> : null}*/}
+                    {/*{TW_Store.gameUIStroe.isShowAddPayView ? <GameMoneyInView pointerEvents={isHaveAletView}/> : null}*/}
                     {(gameAlertView&&gameAlertView.component) ?  <View style={{width:SCREEN_W, height:SCREEN_H,backgroundColor: "rgba(10,10,10,0.3)",position:"absolute"}}/>:null}
 
-                    {TW_Store.gameUIStroe.isShowAppGUEST ? <GameGuestView pointerEvents={isHaveAletView}/> : null}
+                    {/*{TW_Store.gameUIStroe.isShowAppGUEST ? <GameGuestView pointerEvents={isHaveAletView}/> : null}*/}
                     {
                         !gameAlertView.isUserAccount&&gameAlertView.component ? <BaseGameAlert title={gameAlertView.title} onClose={() => {
                             TW_Store.gameUIStroe.hideAlertUI();

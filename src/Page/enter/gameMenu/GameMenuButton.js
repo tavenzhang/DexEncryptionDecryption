@@ -223,21 +223,21 @@ export default class GameMenuButton extends Component {
                                 duration={500}
                                 {...animationProps}>
                                 {
-                                    this.props.isShowReload ?     <TCButton
-                                        containStyles={[
-                                            styles.btnIcon,
-                                            {
-                                                alignSelf: "center",
-                                                marginRight: -10,
-                                            }
-                                        ]}
-                                        onClick={() => this.onPressIcon(TYPE.reload)}>
-                                        <Image
-                                            source={GAME_ICONS.btnReload}
-                                            resizeMode="contain"
-                                            style={styles.imgIcon}
-                                        />
-                                    </TCButton>:null
+                                    // this.props.isShowReload ?     <TCButton
+                                    //     containStyles={[
+                                    //         styles.btnIcon,
+                                    //         {
+                                    //             alignSelf: "center",
+                                    //             marginRight: -10,
+                                    //         }
+                                    //     ]}
+                                    //     onClick={() => this.onPressIcon(TYPE.reload)}>
+                                    //     <Image
+                                    //         source={GAME_ICONS.btnReload}
+                                    //         resizeMode="contain"
+                                    //         style={styles.imgIcon}
+                                    //     />
+                                    // </TCButton>:null
                                 }
                                 <TCButton
                                     containStyles={styles.btnIcon}
@@ -291,11 +291,11 @@ export default class GameMenuButton extends Component {
                                                  imgSource={GAME_ICONS.btnExit} imgStyle={styles.imgIcon}
                                     />
                                 </View>
-                                <TCButtonImg btnStyle={[styles.btnIcon, {
-                                    alignSelf: "center",
-                                    marginLeft: -10
-                                }]} onClick={() => this.onPressIcon(TYPE.reload)}
-                                             imgSource={GAME_ICONS.btnReload} imgStyle={styles.imgIcon}/>
+                                {/*<TCButtonImg btnStyle={[styles.btnIcon, {*/}
+                                {/*    alignSelf: "center",*/}
+                                {/*    marginLeft: -10*/}
+                                {/*}]} onClick={() => this.onPressIcon(TYPE.reload)}*/}
+                                {/*             imgSource={GAME_ICONS.btnReload} imgStyle={styles.imgIcon}/>*/}
 
                             </Animatable.View>
                         </View>
