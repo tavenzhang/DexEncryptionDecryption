@@ -345,7 +345,7 @@ export default class XXWebView extends Component {
                             TW_Store.dataStore.onRetartApp();
                             break;
                         case "customerService":
-                            TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:TW_Store.gameUIStroe.gustWebUrl,isShowReload:false});
+                            TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:TW_Store.gameUIStroe.gustWebUrl,isShowReload:false,type:"guest"});
                             break;
                     }
                     break;

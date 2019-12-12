@@ -209,7 +209,7 @@ export default class ModuleWebView extends Component {
                             TCUserOpenPayApp.getInstance().openAppByType(message.param);
                             break;
                         case "customerService":
-                            TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:TW_Store.gameUIStroe.gustWebUrl,isShowReload:false,backHandle:this.onShowUI});
+                            TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:TW_Store.gameUIStroe.gustWebUrl,isShowReload:false,backHandle:this.onShowUI,type:"guest"});
                             this.onShowUI(false)
                             break;
                     }
