@@ -32,14 +32,16 @@ export default class TWThirdWebView extends Component {
         isShowReload: PropTypes.any,
         isRotation:PropTypes.any,
         isPaddingTop:PropTypes.any,
-        urlParam:PropTypes.any
+        urlParam:PropTypes.any,
+        type:PropTypes.any,
     };
     static defaultProps = {
         title: '',
         isShowReload: false,
         isRotation:true,
         isPaddingTop:true,
-        urlParam:`heightBar=${StatusBarHeight+45}`
+        urlParam:`heightBar=${StatusBarHeight+45}`,
+        type:""
     };
 
     constructor(state) {
@@ -70,7 +72,7 @@ export default class TWThirdWebView extends Component {
     }
 
     render() {
-        let {url, isShowReload, backHandle,isPaddingTop,urlParam} = this.props;
+        let {url, isShowReload,isPaddingTop,urlParam,type} = this.props;
         let myUrl=url;
         if(url.indexOf("?")>-1){
             myUrl = `${myUrl}&${urlParam}`
@@ -95,7 +97,7 @@ export default class TWThirdWebView extends Component {
                 injectedJavaScript={injectJs}
                 automaticallyAdjustContentInsets={true}
                 allowsInlineMediaPlayback={true}
-                style={[styles.webView, {marginBottom: G_IS_IOS ? 0 : 40}]}
+                style={[styles.webView, {marginBottom: !G_IS_IOS&&type=="guest" ? 40 : 0}]}
                 source={source}
                 javaScriptEnabled={true}
                 domStorageEnabled={true}
