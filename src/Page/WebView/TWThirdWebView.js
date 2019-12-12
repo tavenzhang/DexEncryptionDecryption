@@ -31,11 +31,15 @@ export default class TWThirdWebView extends Component {
         isShow: PropTypes.any,
         isShowReload: PropTypes.any,
         isRotation:PropTypes.any,
+        isPaddingTop:PropTypes.any,
+        urlParam:PropTypes.any
     };
     static defaultProps = {
         title: '',
         isShowReload: false,
-        isRotation:true
+        isRotation:true,
+        isPaddingTop:true,
+        urlParam:`heightBar=${StatusBarHeight}`
     };
 
     constructor(state) {
@@ -66,9 +70,15 @@ export default class TWThirdWebView extends Component {
     }
 
     render() {
-        let {url, isShowReload, backHandle} = this.props;
+        let {url, isShowReload, backHandle,isPaddingTop,urlParam} = this.props;
+        let myUrl=url;
+        if(url.indexOf("?")>-1){
+            myUrl = `${myUrl}&${urlParam}`
+        }else{
+            myUrl = `${myUrl}?${urlParam}`
+        }
         let source = {
-            uri: url,
+            uri: myUrl,
         };
         TW_Log("TWThirdWebView--------", this.props)
         let injectJs = `(function() {
@@ -102,7 +112,7 @@ export default class TWThirdWebView extends Component {
             />;
         return (
                 // <SafeAreaView style={{flex:1, backgroundColor:"rgb(227, 41, 43)"}}  forceInset={{ bottom: 'never' ,}}>
-                <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={-40}
+                <KeyboardAvoidingView style={[styles.container,{marginTop:isPaddingTop ? StatusBarHeight:0}]} behavior="padding" keyboardVerticalOffset={-40}
                                       enabled={G_IS_IOS ? false : true}>
                     {!this.state.isHttpFail ? webContentView : <View style={{
                         height: JX_PLAT_INFO.SCREEN_H, justifyContent: "center",
@@ -275,12 +285,10 @@ export default class TWThirdWebView extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-         paddingTop:StatusBarHeight,
-        backgroundColor: "rgb(227, 41, 43)",
+        backgroundColor: "transparent",
         overflow: 'hidden'
     },
     webView: {
-        marginTop: 0,
         flex: 1,
         backgroundColor: "transparent",
         overflow: 'hidden'

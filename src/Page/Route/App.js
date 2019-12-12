@@ -73,8 +73,6 @@ import TCUserMessage from "../UserCenter/user/TCUserMessage";
 import TCAddUserInfo from "../UserCenter/user/TCAddUserInfo";
 import TCAddPhoneNumberInfo from "../UserCenter/user/TCAddPhoneNumberInfo";
 
-//import TCUserPayAndWithdrawRecordsMain from "../UserCenter/UserAccount/TCUserPayAndWithdrawRecordsMain";
-//import UserPayment from '../../Page/UserCenter/UserPay/TCUserPayNew'
 import WechatPublicPage from '../../Page/UserCenter/UserPay/WxPublic/TCUserPayWxPublic'
 //import TCUserWithdrawNew from "../UserCenter/UserWithdraw/TCUserWithdraw";
 import GameUIView from "../enter/GameUIView";

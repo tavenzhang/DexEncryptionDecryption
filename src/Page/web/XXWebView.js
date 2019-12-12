@@ -248,7 +248,7 @@ export default class XXWebView extends Component {
                             TCUserOpenPayApp.linkingWeb(message.param)
                             break;
                         case "openAppWeb":
-                            TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:message.param,isShowReload:true})
+                            TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:message.param,isShowReload:true,isPaddingTop:false})
                             break;
                         case "onGameInit":
                             if (this.timeId) {
