@@ -70,18 +70,22 @@ export default class GameMenuButton extends Component {
             isScreenLandscape=false
         }
         this.setState({ isScreenPortrait: !isScreenLandscape });
-        this.setCollapsibility(true);
+       // this.setCollapsibility(true);
     }
 
     setCollapsibility=(isCollapse)=> {
         TW_Log("setCollapsibility--isCollapse==",isCollapse)
-        this.setState({ isCollapse: isCollapse || !this.state.isCollapse });
-        this.refs.btnDrag && this.refs.btnDrag.onPressHandleViewChange();
-
-        if (!isCollapse) {
-            this.setState({
-                isCollapseInit: true
-            });
+        // this.setState({ isCollapse: isCollapse || !this.state.isCollapse });
+        // this.refs.btnDrag && this.refs.btnDrag.onPressHandleViewChange();
+        //
+        // if (!isCollapse) {
+        //     this.setState({
+        //         isCollapseInit: true
+        //     });
+        // }
+        let {onPressExit}=this.props
+        if (onPressExit) {
+            onPressExit(3);
         }
     }
 
@@ -223,21 +227,21 @@ export default class GameMenuButton extends Component {
                                 duration={500}
                                 {...animationProps}>
                                 {
-                                    // this.props.isShowReload ?     <TCButton
-                                    //     containStyles={[
-                                    //         styles.btnIcon,
-                                    //         {
-                                    //             alignSelf: "center",
-                                    //             marginRight: -10,
-                                    //         }
-                                    //     ]}
-                                    //     onClick={() => this.onPressIcon(TYPE.reload)}>
-                                    //     <Image
-                                    //         source={GAME_ICONS.btnReload}
-                                    //         resizeMode="contain"
-                                    //         style={styles.imgIcon}
-                                    //     />
-                                    // </TCButton>:null
+                                    this.props.isShowReload ?     <TCButton
+                                        containStyles={[
+                                            styles.btnIcon,
+                                            {
+                                                alignSelf: "center",
+                                                marginRight: -10,
+                                            }
+                                        ]}
+                                        onClick={() => this.onPressIcon(TYPE.reload)}>
+                                        <Image
+                                            source={GAME_ICONS.btnReload}
+                                            resizeMode="contain"
+                                            style={styles.imgIcon}
+                                        />
+                                    </TCButton>:null
                                 }
                                 <TCButton
                                     containStyles={styles.btnIcon}

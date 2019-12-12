@@ -229,7 +229,8 @@ export const gameMemu = {
     btnCollapseRight: require("./gameMenu/btnCollapseRight.png"),
     btnConfirm: require("./gameMenu/btnConfirm.png"),
     btnExit: require("./gameMenu/btnExit.png"),
-    btnMenu: require("./gameMenu/btnMenu.png"),
+    // btnMenu: require("./gameMenu/btnMenu.png"),
+    btnMenu: require("./gameMenu/btnExit.png"),
     btnReload: require("./gameMenu/btnReload.png"),
     btnTransfer: require("./gameMenu/btnTransfer.png"),
     dialogInfo: require("./gameMenu/dialogInfo.png")
