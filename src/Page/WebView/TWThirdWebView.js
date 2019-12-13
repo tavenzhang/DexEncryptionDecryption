@@ -97,7 +97,7 @@ export default class TWThirdWebView extends Component {
                 injectedJavaScript={injectJs}
                 automaticallyAdjustContentInsets={true}
                 allowsInlineMediaPlayback={true}
-                style={[styles.webView, {marginBottom: !G_IS_IOS&&type=="guest" ? 40 : 0}]}
+                style={[styles.webView, {marginBottom: !G_IS_IOS ? 40 : 0}]}
                 source={source}
                 javaScriptEnabled={true}
                 domStorageEnabled={true}
