@@ -77,7 +77,7 @@ export const platInfo = {
             wxAppKey: "wx14a4c6864a801156",
             wxAppSecret: "06f5151830e538583897772e402ae142",
             JPushKey: "a09286d3570274effabdab10",
-            UmengKey: "5b9f7642f43e486308000111",
+            UmengKey: "5df352373fc19559210008de",
             openInstallKey: "k9e92p"
         },
         ch_9: {
@@ -85,7 +85,7 @@ export const platInfo = {
             wxAppKey: "wx26019a5a7de8db15",
             wxAppSecret: "62ef8d30f3c4e244bde8831dd2f4ec84",
             JPushKey: "c4584354e9142db46f39e3b7",
-            UmengKey: "5b9f7642f43e486308000111",
+            UmengKey: "5df352373fc19559210008de",
             openInstallKey: "evna9i"
         },
     }
