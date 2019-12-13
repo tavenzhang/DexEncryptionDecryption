@@ -1,26 +1,25 @@
-import React, {Component} from 'react';
-
+import React, { Component } from 'react';
 import {
     StyleSheet,
     View,
     Clipboard,
     BackHandler,
-    KeyboardAvoidingView,
+    KeyboardAvoidingView
 } from 'react-native';
+import { WebView } from 'react-native-webview';
+//import SafeAreaView from 'react-native-safe-area-view';
 
-import {WebView} from 'react-native-webview';
-import SafeAreaView from 'react-native-safe-area-view';
-import {JX_PLAT_INFO} from "../asset";
-
-import {observer} from "mobx-react";
+import { JX_PLAT_INFO } from "../asset";
+import { observer } from "mobx-react";
 import PropTypes from "prop-types";
 import Toast from "../../Common/JXHelper/JXToast";
 import Tools from "../../Common/View/Tools";
 import TCUserOpenPayApp from "../UserCenter/UserPay/TCUserOpenPayApp";
 import ExitGameAlertView from "../enter/gameMenu/ExitGameAlertView";
 import GameMenuButton from "../enter/gameMenu/GameMenuButton";
-import {withMappedNavigationProps} from 'react-navigation-props-mapper'
-import {StatusBarHeight} from "../asset/screen";
+import { withMappedNavigationProps } from 'react-navigation-props-mapper'
+import { StatusBarHeight } from "../asset/screen";
+import { safeAreaTop } from "../../Common/JXHelper/WebviewHelper";
 
 @withMappedNavigationProps()
 @observer
@@ -30,18 +29,19 @@ export default class TWThirdWebView extends Component {
         data: PropTypes.func,
         isShow: PropTypes.any,
         isShowReload: PropTypes.any,
-        isRotation:PropTypes.any,
-        isPaddingTop:PropTypes.any,
-        urlParam:PropTypes.any,
-        type:PropTypes.any,
+        isRotation: PropTypes.any,
+        isPaddingTop: PropTypes.any,
+        urlParam: PropTypes.any,
+        type: PropTypes.any,
     };
     static defaultProps = {
         title: '',
         isShowReload: false,
-        isRotation:true,
-        isPaddingTop:true,
-        urlParam:`heightBar=${StatusBarHeight+45}`,
-        type:""
+        isRotation: true,
+        isPaddingTop: true,
+        //urlParam: `heightBar=${StatusBarHeight + 45}`,
+        urlParam: "",
+        type: ""
     };
 
     constructor(state) {
@@ -58,36 +58,40 @@ export default class TWThirdWebView extends Component {
 
     componentWillMount() {
         //旋转到竖屏
-        TW_Store.gameUIStroe.isShowThirdWebView=true;
-        let {isRotation} = this.props;
-        if(isRotation){
+        TW_Store.gameUIStroe.isShowThirdWebView = true;
+        let { isRotation } = this.props;
+        if (isRotation) {
             TW_Store.appStore.lockToProrit();
         }
         BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
     }
 
     componentWillUnmount(): void {
-        TW_Store.gameUIStroe.isShowThirdWebView=false;
-            BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid);
+        TW_Store.gameUIStroe.isShowThirdWebView = false;
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid);
     }
 
     render() {
-        let {url, isShowReload,isPaddingTop,urlParam,type} = this.props;
-        let myUrl=url;
-        if(url.indexOf("?")>-1){
+        let { url, isShowReload, isPaddingTop, urlParam, type } = this.props;
+        let myUrl = url;
+
+        if (url.indexOf("?") > -1) {
             myUrl = `${myUrl}&${urlParam}`
-        }else{
+        } else {
             myUrl = `${myUrl}?${urlParam}`
         }
+
         let source = {
             uri: myUrl,
         };
-        TW_Log("TWThirdWebView--------", this.props)
+
+        TW_Log("TWThirdWebView--------", this.props);
+
         let injectJs = `(function() {
               window.postMessage = function(data) {
                 window.ReactNativeWebView.postMessage(data);
               };
-            })()`;
+            })(); ${safeAreaTop()}`;
 
         let webContentView =
             <WebView
@@ -97,7 +101,7 @@ export default class TWThirdWebView extends Component {
                 injectedJavaScript={injectJs}
                 automaticallyAdjustContentInsets={true}
                 allowsInlineMediaPlayback={true}
-                style={[styles.webView, {marginBottom: !G_IS_IOS ? 40 : 0}]}
+                style={[styles.webView, { marginBottom: !G_IS_IOS ? 40 : 0 }]}
                 source={source}
                 javaScriptEnabled={true}
                 domStorageEnabled={true}
@@ -113,31 +117,32 @@ export default class TWThirdWebView extends Component {
                 thirdPartyCookiesEnabled={true}
             />;
         return (
-                // <SafeAreaView style={{flex:1, backgroundColor:"rgb(227, 41, 43)"}}  forceInset={{ bottom: 'never' ,}}>
-                <KeyboardAvoidingView style={[styles.container,{marginTop:isPaddingTop ? StatusBarHeight:0}]} behavior="padding" keyboardVerticalOffset={-40}
-                                      enabled={G_IS_IOS ? false : true}>
-                    {!this.state.isHttpFail ? webContentView : <View style={{
-                        height: JX_PLAT_INFO.SCREEN_H, justifyContent: "center",
-                        alignItems: "center", backgroundColor: "transparent"
-                    }}>
-                    </View>}
-                    <GameMenuButton isScreenPortrait={true} isShowReload={isShowReload} itransEnabled={"ON"}
-                                    onPressExit={this.onClickMenu}/>
-                    {this.state.isShowExitAlertView && <ExitGameAlertView
-                        isOpenAddPay={this.state.isOpenAddPay}
-                        onPressConfirm={() => {
-                            this.onBackHomeJs();
-                            TW_Store.appStore.lockToLandscape();
-                            this.setState({isShowExitAlertView: false});
-                            if (this.state.isOpenAddPay) {
-                                TW_Store.gameUIStroe.isShowAddPayView = true;
-                            }
-                        }}
-                        onPressCancel={() => this.setState({isShowExitAlertView: false})}
-                    />
-                    }
-                </KeyboardAvoidingView>
+            // <SafeAreaView style={{flex:1, backgroundColor:"rgb(227, 41, 43)"}}  forceInset={{ bottom: 'never' ,}}>
 
+            <KeyboardAvoidingView style={[styles.container, { marginTop: isPaddingTop ? StatusBarHeight : 0 }]} behavior="padding" keyboardVerticalOffset={-40}
+                enabled={G_IS_IOS ? false : true}>
+                {!this.state.isHttpFail ? webContentView : <View style={{
+                    height: JX_PLAT_INFO.SCREEN_H, justifyContent: "center",
+                    alignItems: "center", backgroundColor: "transparent"
+                }}>
+                </View>}
+
+                <GameMenuButton isScreenPortrait={true} isShowReload={isShowReload} itransEnabled={"ON"}
+                    onPressExit={this.onClickMenu} />
+                {this.state.isShowExitAlertView && <ExitGameAlertView
+                    isOpenAddPay={this.state.isOpenAddPay}
+                    onPressConfirm={() => {
+                        this.onBackHomeJs();
+                        TW_Store.appStore.lockToLandscape();
+                        this.setState({ isShowExitAlertView: false });
+                        if (this.state.isOpenAddPay) {
+                            TW_Store.gameUIStroe.isShowAddPayView = true;
+                        }
+                    }}
+                    onPressCancel={() => this.setState({ isShowExitAlertView: false })}
+                />
+                }
+            </KeyboardAvoidingView>
         );
     }
 
@@ -145,16 +150,16 @@ export default class TWThirdWebView extends Component {
         TW_Log("TWThirdWebView--onBackAndroid---", this.navigator);
         this.onBackHomeJs();
         TW_Store.appStore.lockToLandscape();
-        this.setState({isShowExitAlertView: false});
+        this.setState({ isShowExitAlertView: false });
     };
 
     onClickMenu = (btnId) => {
         switch (btnId) {
             case 2:
-                this.setState({isShowExitAlertView: true, isOpenAddPay: true});
+                this.setState({ isShowExitAlertView: true, isOpenAddPay: true });
                 break;
             case 3:
-                this.setState({isShowExitAlertView: true, isOpenAddPay: false});
+                this.setState({ isShowExitAlertView: true, isOpenAddPay: false });
                 break;
         }
     };
@@ -174,7 +179,6 @@ export default class TWThirdWebView extends Component {
     };
 
     onMessage = (event) => {
-
         let message = null;
         try {
             message = JSON.parse(event.nativeEvent.data);
@@ -200,7 +204,7 @@ export default class TWThirdWebView extends Component {
                     break;
                 case "JumpGame":
                     url = this.handleUrl(message.au);
-                    TW_NavHelp.pushView(JX_Compones.WebView, {url});
+                    TW_NavHelp.pushView(JX_Compones.WebView, { url });
                     break;
                 case "game_back":
                     this.onBackHomeJs(message.type);
@@ -275,7 +279,7 @@ export default class TWThirdWebView extends Component {
     };
 
     onBackHomeJs = (type = "") => {
-        let {url, isShowReload, backHandle} = this.props;
+        let { url, isShowReload, backHandle } = this.props;
         if (backHandle) {
             backHandle();
         }
