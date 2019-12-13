@@ -248,14 +248,13 @@ export default class XXWebView extends Component {
                             TCUserOpenPayApp.linkingWeb(message.param)
                             break;
                         case "openAppWeb":
-                            TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:message.param,isShowReload:true,isPaddingTop:false})
+                            TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:message.param,isShowReload:true,isPaddingTop:false,type:message.type})
                             break;
                         case "onGameInit":
                             if (this.timeId) {
                                 clearTimeout(this.timeId);
                             }
                             TW_SplashScreen_HIDE()
-                            //this.onFlushGameData();
                             if(TW_Store.gameUpateStore.isTempExist){
                                 TW_Store.gameUpateStore.isTempExist=false;
                                 TW_Store.gameUpateStore.isNeedUpdate=false;
