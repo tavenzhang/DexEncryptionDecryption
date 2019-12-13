@@ -287,7 +287,7 @@ export default class TWThirdWebView extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "transparent",
+        backgroundColor: "#000",
         overflow: 'hidden'
     },
     webView: {
