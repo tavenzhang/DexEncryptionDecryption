@@ -278,8 +278,8 @@ export default class TWWebGameView extends Component {
     }
 
     onError = (error) => {
-        this.onBackHomeJs()
-        TW_Log("TWWebGameView==onError=====TCweb======event=====", error.nativeEvent)
+        this.onBackHomeJs();
+        TW_Log("TWWebGameView==onError=====TCweb======event=====", error.nativeEvent);
     }
 
     onShouldStartLoadWithRequest = (event) => {

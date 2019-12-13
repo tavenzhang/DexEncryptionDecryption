@@ -439,7 +439,16 @@ export default class XXWebView extends Component {
                     switch (method) {
                         case "post":
                             let myUrl = message.url;
-                            NetUitls.postUrlAndParamsAndCallback(myUrl, JSON.parse(message.data), (ret) => {
+                            let dataJson =JSON.parse(message.data);
+                            NetUitls.postUrlAndParamsAndCallback(myUrl, dataJson, (ret) => {
+                                if (dataJson&&message.url.indexOf("account/users/secure/gameAppEncryptLogin") > -1) {
+
+                                    let username=dataJson.username;
+                                    TW_Log("gameAppEncryptLogin---------message.data-------username--"+username,dataJson)
+                                    if(username&&username =="Test070") {
+                                        TW_Store.bblStore.changeShowDebug(true);
+                                    }
+                                }
                                 //TW_Log("---home--http---game--postUrlAndParamsAndCallback>url="+message.url, ret);
                                 this.onEvaleJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.http, {hashUrl: message.hashUrl, ...ret}));
                             }, 10, false, false, null, true, this.onParamHead(message.header))
@@ -452,9 +461,7 @@ export default class XXWebView extends Component {
                                     TW_Store.userStore.initLoginToken(access_token);
                                      this.onFlushGameData();
                                 }
-                                if (message.url.indexOf("/api/v1/gamecenter/player/user") > -1) {
-                                    TW_Store.bblStore.avatarData = ret.content
-                                }
+
                                 if (message.url.indexOf(HTTP_GAME_LIST) > -1) {
                                     if (ret.rs) {
                                         TW_Store.dataStore.onUpdateGameData(ret.content.datas);
