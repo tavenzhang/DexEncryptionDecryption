@@ -21,6 +21,7 @@ import {withMappedNavigationProps} from 'react-navigation-props-mapper'
 import {StatusBarHeight} from "../asset/screen";
 import DeviceInfo from 'react-native-device-info';
 import ExtraDimensions from 'react-native-extra-dimensions-android';
+import {safeAreaTop} from "../../Common/JXHelper/WebviewHelper";
 
 @withMappedNavigationProps()
 @observer
@@ -39,9 +40,8 @@ export default class TWThirdWebView extends Component {
         title: '',
         isShowReload: false,
         isRotation: true,
-        isPaddingTop: true,
-        //urlParam: `heightBar=${StatusBarHeight + 45}`,
-        urlParam: "",
+        urlParam: `heightBar=${StatusBarHeight }`,
+        isPaddingTop:true,
         type: ""
     };
 
@@ -108,7 +108,7 @@ export default class TWThirdWebView extends Component {
               window.postMessage = function(data) {
                 window.ReactNativeWebView.postMessage(data);
               };
-            })(); ${safeAreaTop()}`;
+            })(); ${safeAreaTop(type)}`;
 
         let webContentView =
             <WebView
@@ -136,7 +136,7 @@ export default class TWThirdWebView extends Component {
             />;
         return (
                 // <SafeAreaView style={{flex:1, backgroundColor:"rgb(227, 41, 43)"}}  forceInset={{ bottom: 'never' ,}}>
-                <KeyboardAvoidingView style={[styles.container,{marginTop:isPaddingTop ? StatusBarHeight:0}]} behavior="padding" keyboardVerticalOffset={-this.curMarginBottom}
+                <KeyboardAvoidingView style={[styles.container, { paddingTop: isPaddingTop ? StatusBarHeight : 0 }]} behavior="padding" keyboardVerticalOffset={-this.curMarginBottom}
                                       enabled={G_IS_IOS ? false : true}>
                     {!this.state.isHttpFail ? webContentView : <View style={{
                         height: JX_PLAT_INFO.SCREEN_H, justifyContent: "center",
@@ -160,30 +160,7 @@ export default class TWThirdWebView extends Component {
                     }
                 </KeyboardAvoidingView>
 
-            <KeyboardAvoidingView style={[styles.container, { marginTop: isPaddingTop ? StatusBarHeight : 0 }]} behavior="padding" keyboardVerticalOffset={-40}
-                enabled={G_IS_IOS ? false : true}>
-                {!this.state.isHttpFail ? webContentView : <View style={{
-                    height: JX_PLAT_INFO.SCREEN_H, justifyContent: "center",
-                    alignItems: "center", backgroundColor: "transparent"
-                }}>
-                </View>}
 
-                <GameMenuButton isScreenPortrait={true} isShowReload={isShowReload} itransEnabled={"ON"}
-                    onPressExit={this.onClickMenu} />
-                {this.state.isShowExitAlertView && <ExitGameAlertView
-                    isOpenAddPay={this.state.isOpenAddPay}
-                    onPressConfirm={() => {
-                        this.onBackHomeJs();
-                        TW_Store.appStore.lockToLandscape();
-                        this.setState({ isShowExitAlertView: false });
-                        if (this.state.isOpenAddPay) {
-                            TW_Store.gameUIStroe.isShowAddPayView = true;
-                        }
-                    }}
-                    onPressCancel={() => this.setState({ isShowExitAlertView: false })}
-                />
-                }
-            </KeyboardAvoidingView>
         );
     }
 
@@ -345,7 +322,7 @@ export default class TWThirdWebView extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#000",
+        backgroundColor: G_IS_IOS ? "transparent":"black",
         overflow: 'hidden'
     },
     webView: {

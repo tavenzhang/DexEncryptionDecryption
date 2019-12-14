@@ -688,4 +688,6 @@ export default class AppInfoStore {
             Orientation.lockToLandscape()
         };
     }
+
+
 }
