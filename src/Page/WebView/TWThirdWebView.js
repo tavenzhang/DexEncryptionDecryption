@@ -22,6 +22,7 @@ import {StatusBarHeight} from "../asset/screen";
 import DeviceInfo from 'react-native-device-info';
 import ExtraDimensions from 'react-native-extra-dimensions-android';
 import {safeAreaTop} from "../../Common/JXHelper/WebviewHelper";
+import {SoundHelper} from "../../Common/JXHelper/SoundHelper";
 
 @withMappedNavigationProps()
 @observer
@@ -62,7 +63,7 @@ export default class TWThirdWebView extends Component {
     componentWillMount() {
         //旋转到竖屏
         TW_Store.gameUIStroe.isShowThirdWebView = true;
-        let {isRotation} = this.props;
+        let {isRotation,type} = this.props;
         if (isRotation) {
             TW_Store.appStore.lockToProrit();
         }
@@ -81,11 +82,27 @@ export default class TWThirdWebView extends Component {
         this.curMarginBottom = this.validateAndroidModel(deviceModel) ? 0 : ExtraDimensions.getSoftMenuBarHeight();
         TW_Log("TWThirdWebView--model:" + deviceModel + "--SoftMenuBarHeight:" + this.curMarginBottom +
             "--isSoftMenuBarDetected:" + this.state.isSoftMenuBarDetected);
+        if(type!="guest"){
+            if (!TW_Store.gameUpateStore.isInSubGame) {
+                TW_Store.gameUpateStore.isInSubGame = true
+                if (TW_OnValueJSHome) {
+                    TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.enterGame));
+                    TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.stopMusic, {}));
+                    if (TW_Store.dataStore.isAppSound) {
+                        SoundHelper.pauseMusic();
+                    }
+                }
+            }
+        }
     }
 
     componentWillUnmount(): void {
         TW_Store.gameUIStroe.isShowThirdWebView = false;
         BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid);
+        if (TW_Store.dataStore.isAppSound) {
+            SoundHelper.onCheckPalyMusic();
+        }
+        TW_Store.bblStore.quitSubGame();
     }
 
     render() {
@@ -102,7 +119,7 @@ export default class TWThirdWebView extends Component {
             uri: myUrl,
         };
 
-        TW_Log("TWThirdWebView--------", this.props);
+        TW_Log("TWThirdWebView-----render---", this.props);
 
         let injectJs = `(function() {
               window.postMessage = function(data) {
@@ -150,7 +167,7 @@ export default class TWThirdWebView extends Component {
                         onPressConfirm={() => {
                             this.onBackHomeJs();
                             TW_Store.appStore.lockToLandscape();
-                            this.setState({isShowExitAlertView: false});
+                          //  this.setState({isShowExitAlertView: false});
                             if (this.state.isOpenAddPay) {
                                 TW_Store.gameUIStroe.isShowAddPayView = true;
                             }
