@@ -17,9 +17,10 @@ import Tools from "../../Common/View/Tools";
 import TCUserOpenPayApp from "../UserCenter/UserPay/TCUserOpenPayApp";
 import ExitGameAlertView from "../enter/gameMenu/ExitGameAlertView";
 import GameMenuButton from "../enter/gameMenu/GameMenuButton";
-import { withMappedNavigationProps } from 'react-navigation-props-mapper'
-import { StatusBarHeight } from "../asset/screen";
-import { safeAreaTop } from "../../Common/JXHelper/WebviewHelper";
+import {withMappedNavigationProps} from 'react-navigation-props-mapper'
+import {StatusBarHeight} from "../asset/screen";
+import DeviceInfo from 'react-native-device-info';
+import ExtraDimensions from 'react-native-extra-dimensions-android';
 
 @withMappedNavigationProps()
 @observer
@@ -50,20 +51,36 @@ export default class TWThirdWebView extends Component {
             isHide: false,
             isHttpFail: false,
             isShowExitAlertView: false,
-            isOpenAddPay: false
+            isOpenAddPay: false,
+            isSoftMenuBarDetected: false
         };
         this.bblStore = TW_Store.bblStore;
         this.isShowKeyBoard = false;
+        this.curMarginBottom=0;
     }
 
     componentWillMount() {
         //旋转到竖屏
         TW_Store.gameUIStroe.isShowThirdWebView = true;
-        let { isRotation } = this.props;
+        let {isRotation} = this.props;
         if (isRotation) {
             TW_Store.appStore.lockToProrit();
         }
         BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
+
+        TW_Log("TWThirdWebView--ExtraDimensions--getRealWindowHeight--" + ExtraDimensions.getRealWindowHeight(), SCREEN_H);
+        TW_Log("TWThirdWebView--ExtraDimensions--getRealWindowWidth--" + ExtraDimensions.getRealWindowWidth(), SCREEN_W);
+        TW_Log("TWThirdWebView--ExtraDimensions--getStatusBarHeight--" + ExtraDimensions.getStatusBarHeight());
+        TW_Log("TWThirdWebView--ExtraDimensions--getSoftMenuBarHeight--" + ExtraDimensions.getSoftMenuBarHeight());
+        TW_Log("TWThirdWebView--ExtraDimensions--getSmartBarHeight--" + ExtraDimensions.getSmartBarHeight());
+        TW_Log("TWThirdWebView--ExtraDimensions--isSoftMenuBarEnabled--" + ExtraDimensions.isSoftMenuBarEnabled());
+        if (ExtraDimensions.getSoftMenuBarHeight() > 0) {
+            this.setState({isSoftMenuBarDetected: true})
+        }
+        const deviceModel = DeviceInfo.getModel();
+        this.curMarginBottom = this.validateAndroidModel(deviceModel) ? 0 : ExtraDimensions.getSoftMenuBarHeight();
+        TW_Log("TWThirdWebView--model:" + deviceModel + "--SoftMenuBarHeight:" + this.curMarginBottom +
+            "--isSoftMenuBarDetected:" + this.state.isSoftMenuBarDetected);
     }
 
     componentWillUnmount(): void {
@@ -101,7 +118,8 @@ export default class TWThirdWebView extends Component {
                 injectedJavaScript={injectJs}
                 automaticallyAdjustContentInsets={true}
                 allowsInlineMediaPlayback={true}
-                style={[styles.webView, { marginBottom: !G_IS_IOS ? 40 : 0 }]}
+                // 根据softMenuBar的高度
+                style={[styles.webView, {marginBottom: this.state.isSoftMenuBarDetected? ExtraDimensions.getSoftMenuBarHeight():this.curMarginBottom}]}
                 source={source}
                 javaScriptEnabled={true}
                 domStorageEnabled={true}
@@ -117,7 +135,30 @@ export default class TWThirdWebView extends Component {
                 thirdPartyCookiesEnabled={true}
             />;
         return (
-            // <SafeAreaView style={{flex:1, backgroundColor:"rgb(227, 41, 43)"}}  forceInset={{ bottom: 'never' ,}}>
+                // <SafeAreaView style={{flex:1, backgroundColor:"rgb(227, 41, 43)"}}  forceInset={{ bottom: 'never' ,}}>
+                <KeyboardAvoidingView style={[styles.container,{marginTop:isPaddingTop ? StatusBarHeight:0}]} behavior="padding" keyboardVerticalOffset={-this.curMarginBottom}
+                                      enabled={G_IS_IOS ? false : true}>
+                    {!this.state.isHttpFail ? webContentView : <View style={{
+                        height: JX_PLAT_INFO.SCREEN_H, justifyContent: "center",
+                        alignItems: "center", backgroundColor: "transparent"
+                    }}>
+                    </View>}
+                    <GameMenuButton isScreenPortrait={true} isShowReload={isShowReload} itransEnabled={"ON"}
+                                    onPressExit={this.onClickMenu}/>
+                    {this.state.isShowExitAlertView && <ExitGameAlertView
+                        isOpenAddPay={this.state.isOpenAddPay}
+                        onPressConfirm={() => {
+                            this.onBackHomeJs();
+                            TW_Store.appStore.lockToLandscape();
+                            this.setState({isShowExitAlertView: false});
+                            if (this.state.isOpenAddPay) {
+                                TW_Store.gameUIStroe.isShowAddPayView = true;
+                            }
+                        }}
+                        onPressCancel={() => this.setState({isShowExitAlertView: false})}
+                    />
+                    }
+                </KeyboardAvoidingView>
 
             <KeyboardAvoidingView style={[styles.container, { marginTop: isPaddingTop ? StatusBarHeight : 0 }]} behavior="padding" keyboardVerticalOffset={-40}
                 enabled={G_IS_IOS ? false : true}>
@@ -145,6 +186,19 @@ export default class TWThirdWebView extends Component {
             </KeyboardAvoidingView>
         );
     }
+
+    validateAndroidModel = (deviceModel) => {
+        //以后如果有类似的手机，可以再加【...,"Redmi 6 Pro",...】
+        let modeList = ["MI 9"]
+        if (!G_IS_IOS) {
+            if (modeList.indexOf(deviceModel) > -1) {
+                TW_Log("TWThirdWebView--selected device");
+                this.setState({isSoftMenuBarDetected: false})
+                return true
+            }
+        }
+        return false
+    };
 
     onBackAndroid = () => {
         TW_Log("TWThirdWebView--onBackAndroid---", this.navigator);
