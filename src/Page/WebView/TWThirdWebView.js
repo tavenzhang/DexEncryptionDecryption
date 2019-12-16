@@ -56,7 +56,6 @@ export default class TWThirdWebView extends Component {
             isSoftMenuBarDetected: false
         };
         this.bblStore = TW_Store.bblStore;
-        this.isShowKeyBoard = false;
         this.curMarginBottom=0;
     }
 
@@ -69,12 +68,6 @@ export default class TWThirdWebView extends Component {
         }
         BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
 
-        TW_Log("TWThirdWebView--ExtraDimensions--getRealWindowHeight--" + ExtraDimensions.getRealWindowHeight(), SCREEN_H);
-        TW_Log("TWThirdWebView--ExtraDimensions--getRealWindowWidth--" + ExtraDimensions.getRealWindowWidth(), SCREEN_W);
-        TW_Log("TWThirdWebView--ExtraDimensions--getStatusBarHeight--" + ExtraDimensions.getStatusBarHeight());
-        TW_Log("TWThirdWebView--ExtraDimensions--getSoftMenuBarHeight--" + ExtraDimensions.getSoftMenuBarHeight());
-        TW_Log("TWThirdWebView--ExtraDimensions--getSmartBarHeight--" + ExtraDimensions.getSmartBarHeight());
-        TW_Log("TWThirdWebView--ExtraDimensions--isSoftMenuBarEnabled--" + ExtraDimensions.isSoftMenuBarEnabled());
         if (ExtraDimensions.getSoftMenuBarHeight() > 0) {
             this.setState({isSoftMenuBarDetected: true})
         }
