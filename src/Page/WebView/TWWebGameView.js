@@ -256,18 +256,8 @@ export default class TWWebGameView extends Component {
     onEnterGame = () => {
         TW_Log("onLoadEnd=TCweb==========event=====onEnterGame")
         TW_Store.bblStore.lastGameUrl = "";
-        if (!TW_Store.gameUpateStore.isInSubGame) {
-            TW_Store.gameUpateStore.isInSubGame = true
-            clearTimeout(this.timeId)
-            TW_Store.bblStore.showGameCircle(false);
-            if (TW_OnValueJSHome) {
-                TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.enterGame));
-                TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.stopMusic, {}));
-                if (TW_Store.dataStore.isAppSound) {
-                    SoundHelper.pauseMusic();
-                }
-            }
-        }
+        TW_Store.bblStore.enterSubGame();
+        clearTimeout(this.timeId)
     }
     handleUrl = (url) => {
         if (url && url.indexOf("../") > -1) {
@@ -303,9 +293,6 @@ export default class TWWebGameView extends Component {
     };
 
     onBackHomeJs = (message={}) => {
-        if (TW_Store.dataStore.isAppSound) {
-            SoundHelper.onCheckPalyMusic();
-        }
         TW_Store.bblStore.quitSubGame(message);
         clearTimeout(this.timeId);
 

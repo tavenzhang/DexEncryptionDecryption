@@ -4,6 +4,7 @@ import {MainBundlePath, DocumentDirectoryPath} from 'react-native-fs'
 import {platInfo,appDomainBase} from "../../config/appConfig";
 import {config} from "../../Common/Network/TCRequestConfig";
 import NetUitls from "../../Common/Network/TCRequestUitls";
+import {SoundHelper} from "../../Common/JXHelper/SoundHelper";
 
 /**
  *app信息管理
@@ -129,6 +130,25 @@ export  default  class BBLStore {
         }
         this.isShowCircle =isShow;
     }
+
+
+    @action
+    enterSubGame() {
+        if (!TW_Store.gameUpateStore.isInSubGame) {
+            TW_Store.bblStore.lastGameUrl = "";
+            TW_Store.gameUpateStore.isInSubGame = true;
+            this.showGameCircle(false);
+            if (TW_OnValueJSHome) {
+                TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.enterGame));
+                TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.stopMusic, {}));
+                if (TW_Store.dataStore.isAppSound) {
+                    SoundHelper.pauseMusic();
+                }
+            }
+        }
+    }
+
+
     @action
     quitSubGame(message={}) {
         TW_Log("message---quitSubGame--",message)
@@ -141,6 +161,9 @@ export  default  class BBLStore {
             TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lobbyResume,{...message}));
         }
         setTimeout(()=>{ TW_Store.gameUpateStore.isInSubGame = false;},G_IS_IOS ? 500:800)
+        if (TW_Store.dataStore.isAppSound) {
+            SoundHelper.onCheckPalyMusic();
+        }
     }
 
     @action

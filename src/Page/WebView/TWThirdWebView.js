@@ -83,26 +83,17 @@ export default class TWThirdWebView extends Component {
         TW_Log("TWThirdWebView--model:" + deviceModel + "--SoftMenuBarHeight:" + this.curMarginBottom +
             "--isSoftMenuBarDetected:" + this.state.isSoftMenuBarDetected);
         if(type!="guest"){
-            if (!TW_Store.gameUpateStore.isInSubGame) {
-                TW_Store.gameUpateStore.isInSubGame = true
-                if (TW_OnValueJSHome) {
-                    TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.enterGame));
-                    TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.stopMusic, {}));
-                    if (TW_Store.dataStore.isAppSound) {
-                        SoundHelper.pauseMusic();
-                    }
-                }
-            }
+            TW_Store.bblStore.enterSubGame();
         }
     }
 
     componentWillUnmount(): void {
+        let {type} = this.props;
         TW_Store.gameUIStroe.isShowThirdWebView = false;
         BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid);
-        if (TW_Store.dataStore.isAppSound) {
-            SoundHelper.onCheckPalyMusic();
+        if(type!="guest"){
+            TW_Store.bblStore.quitSubGame();
         }
-        TW_Store.bblStore.quitSubGame();
     }
 
     render() {
