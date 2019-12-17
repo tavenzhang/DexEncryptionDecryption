@@ -16,7 +16,7 @@ import { UpDateHeadAppId } from '../../Common/Network/TCRequestConfig';
 import NetUitls from '../../Common/Network/TCRequestUitls';
 import TCUserOpenPayApp from '../../Page/UserCenter/UserPay/TCUserOpenPayApp';
 import OpeninstallModule from "openinstall-react-native";
-import {SoundHelper} from "../../Common/JXHelper/SoundHelper";
+import { SoundHelper } from "../../Common/JXHelper/SoundHelper";
 import JXHelper from "../../Common/JXHelper/JXHelper";
 import RNFS from "react-native-fs";
 /**
@@ -100,30 +100,35 @@ export default class AppInfoStore {
     //openInstallData
     @observable
     openInstallData = { appKey: "", data: null };
-  //是否是测试app sit and shApp
+    //是否是测试app sit and shApp
     @observable
-    isSitApp=false
+    isSitApp = false
     //是否是测试app 包含uat
     @observable
-    isTestApp=false
+    isTestApp = false
 
     openInstallCheckCount = 1;
     //云盾数据
-    yunDunData =YunDunData;
+    yunDunData = YunDunData;
 
     //是否锁定屏幕旋转
-    isLockToLandscape =true
+    isLockToLandscape = true;
+
     //app类型 1为正常的企业包， 8.为上架app商店具有后台开关的包 .9 通用appstore 上架的包
-    appType=1
+    appType = 1;
+
+    isNewOrientation = false;
 
     constructor() {
         this.init();
         this.initDeviceTokenFromLocalStore();
-        if(versionHotFix.indexOf("v")>-1){
-            let subpre=versionHotFix.substr(0,1);
-            this.versionHotFix=`${subpre}${this.specialVersionHot}.${versionHotFix.substr(1)}`
-        }else{
-            this.versionHotFix=`v${this.specialVersionHot}.${versionHotFix}`
+        this.checkIsNewOrientation();
+
+        if (versionHotFix.indexOf("v") > -1) {
+            let subpre = versionHotFix.substr(0, 1);
+            this.versionHotFix = `${subpre}${this.specialVersionHot}.${versionHotFix.substr(1)}`
+        } else {
+            this.versionHotFix = `v${this.specialVersionHot}.${versionHotFix}`
         }
     }
 
@@ -154,35 +159,35 @@ export default class AppInfoStore {
     }
 
     async checkSavedData(err, ret) {
-        TW_Log("checkSavedData======loadingViewExist===ret--"+ret+"--eeeor="+err)
-            if (`${ret}` == "1") {
-                TW_Store.dataStore.isAppInited=true;
-                SoundHelper.startBgMusic();
-            }else{
-                let  loadingSourceViewExist=false
-                if(G_IS_IOS){
-                    loadingSourceViewExist=   await RNFS.exists(TW_Store.dataStore.originAppDir );
-                }else{
-                    loadingSourceViewExist=   await RNFS.existsAssets("gamelobby/loading/loading.html");
-                }
-                TW_Log("checkSavedData======loadingViewExist==="+loadingSourceViewExist+"--ret--"+ret+"--eeeor="+err)
-                if(loadingSourceViewExist){
-                    TW_Store.gameUpateStore.isIncludeLoadView=true;
-                    TW_Store.dataStore.copy_assets_to_dir(()=>{SoundHelper.startBgMusic();});
-                }else{
-                    TW_Store.gameUpateStore.isIncludeLoadView=false;
-                }
+        TW_Log("checkSavedData======loadingViewExist===ret--" + ret + "--eeeor=" + err)
+        if (`${ret}` == "1") {
+            TW_Store.dataStore.isAppInited = true;
+            SoundHelper.startBgMusic();
+        } else {
+            let loadingSourceViewExist = false
+            if (G_IS_IOS) {
+                loadingSourceViewExist = await RNFS.exists(TW_Store.dataStore.originAppDir);
+            } else {
+                loadingSourceViewExist = await RNFS.existsAssets("gamelobby/loading/loading.html");
             }
+            TW_Log("checkSavedData======loadingViewExist===" + loadingSourceViewExist + "--ret--" + ret + "--eeeor=" + err)
+            if (loadingSourceViewExist) {
+                TW_Store.gameUpateStore.isIncludeLoadView = true;
+                TW_Store.dataStore.copy_assets_to_dir(() => { SoundHelper.startBgMusic(); });
+            } else {
+                TW_Store.gameUpateStore.isIncludeLoadView = false;
+            }
+        }
 
 
         TW_Data_Store.getItem(TW_DATA_KEY.LobbyReadyOK, (err, ret) => {
-                if(TW_Store.dataStore.isAppInited){
-                    if(ret){
-                        TW_Store.gameUpateStore.isNeedUpdate=`${ret}` == "1" ? false:true;
-                    }
-                    TW_Log("TW_DATA_KEY.LobbyReadyOK---"+ret,TW_Store.gameUpateStore.isNeedUpdate)
+            if (TW_Store.dataStore.isAppInited) {
+                if (ret) {
+                    TW_Store.gameUpateStore.isNeedUpdate = `${ret}` == "1" ? false : true;
                 }
-            });
+                TW_Log("TW_DATA_KEY.LobbyReadyOK---" + ret, TW_Store.gameUpateStore.isNeedUpdate)
+            }
+        });
     }
 
     checkAppInfoUpdate = (oldData = null) => {
@@ -235,7 +240,7 @@ export default class AppInfoStore {
     onOpenInstallCheck = callBack => {
         OpeninstallModule.getInstall(10, res => {
             //TW_Store.dataStore.log+="getInstall----"+JSON.stringify(res);
-            TW_Log("onOpenInstallCheck----res",res)
+            TW_Log("onOpenInstallCheck----res", res)
             TW_Store.dataStore.log += "getInstall---res-" + res;
             if (res && res.data) {
                 //TW_Store.dataStore.log+="getInstall----"+JSON.stringify(res);
@@ -276,9 +281,9 @@ export default class AppInfoStore {
         //处于渠道验证阶段 不需要检测强更新
         if (url && url.length > 0 && !this.isInAnroidHack) {
             TW_Log("onShowDownAlert-----url==this.APP_DOWNLOAD_VERSION=" + this.APP_DOWNLOAD_VERSION, this.latestNativeVersion);
-            let isShowAlert=this.APP_DOWNLOAD_VERSION != this.latestNativeVersion;
-            if(G_IS_IOS){
-                isShowAlert = isShowAlert&&this.channel==1
+            let isShowAlert = this.APP_DOWNLOAD_VERSION != this.latestNativeVersion;
+            if (G_IS_IOS) {
+                isShowAlert = isShowAlert && this.channel == 1
             }
             if (isShowAlert) {
                 //清除所有的缓存数据 方便app升级
@@ -306,7 +311,7 @@ export default class AppInfoStore {
 
     initData = appInfo => {
         if (!appInfo) {
-            appInfo = {PLAT_ID: configAppId, isNative: false};
+            appInfo = { PLAT_ID: configAppId, isNative: false };
         } else {
             appInfo.PLAT_ID = configAppId;//兼容某些老的app
             if (!appInfo.PLAT_ID) {
@@ -315,8 +320,8 @@ export default class AppInfoStore {
         }
         //所以的clintId 在此重置
         this.clindId = configAppId,
-        this.subAppType = appInfo.SUB_TYPE ? appInfo.SUB_TYPE : '0';
-        this.channel = appInfo.PLAT_CH ?  parseInt(appInfo.PLAT_CH): 1;
+            this.subAppType = appInfo.SUB_TYPE ? appInfo.SUB_TYPE : '0';
+        this.channel = appInfo.PLAT_CH ? parseInt(appInfo.PLAT_CH) : 1;
         platInfo.platId = this.clindId;
         UpDateHeadAppId(this.clindId);
         this.appInfo = appInfo;
@@ -330,15 +335,15 @@ export default class AppInfoStore {
         // TW_Log("TN_GetPlatInfo---versionBBL--TW_DATA_KEY.platDat====appInfo--this.userAffCode--"+this.userAffCode, appInfo);
         if (G_IS_IOS) {
             //ios 动态开启友盟等接口 android 是编译时 决定好了。
-            TW_Log('JX===  appInfo '+this.appInfo.APP_DOWNLOAD_VERSION+"--appInfo.this.appInfo.com.openinstall.APP_KEY=="+this.appInfo["com.openinstall.APP_KEY"],this.appInfo)
-            if(this.channel==1){
+            TW_Log('JX===  appInfo ' + this.appInfo.APP_DOWNLOAD_VERSION + "--appInfo.this.appInfo.com.openinstall.APP_KEY==" + this.appInfo["com.openinstall.APP_KEY"], this.appInfo)
+            if (this.channel == 1) {
                 TN_StartJPush(this.appInfo.JPushKey, "1");
                 TN_StartUMeng(this.appInfo.UmengKey, this.appInfo.Affcode);
                 TN_StartOpenInstall(this.appInfo["com.openinstall.APP_KEY"])
-            }else {
+            } else {
                 if (platInfo.appInfo) {
                     let appInfo = platInfo.appInfo[`ch_${this.channel}`] ? platInfo.appInfo[`ch_${this.channel}`] : platInfo.appInfo.ch_8;
-                    if(appInfo){
+                    if (appInfo) {
                         TN_StartJPush(appInfo.JPushKey, "1");
                         TN_StartUMeng(appInfo.UmengKey, appInfo.Affcode, appInfo.wxAppKey, appInfo.wxAppSecret);
                         TN_StartOpenInstall(appInfo.openInstallKey);
@@ -348,7 +353,7 @@ export default class AppInfoStore {
             }
         }
         this.isSitApp = this.clindId == "1209" || this.clindId == "4";
-        this.isTestApp=this.isSitApp||this.clindId == "214"
+        this.isTestApp = this.isSitApp || this.clindId == "214"
         this.emulatorChecking();
     }
 
@@ -363,8 +368,8 @@ export default class AppInfoStore {
         // || (curDevId.indexOf("unknown") !== -1)
         // || (modeList.indexOf(curModel) !== -1);
         TW_Store.dataStore.log += "\n---isEmulator--" + isEmulator + "---TW_IS_DEBIG---" + TW_IS_DEBIG + "---isSitApp---" + this.isSitApp +
-            "---model--" + curModel + "--deviceID--" + curDevId + "--deviceName--" + curDevName +"\n---Emulator--" + emulatorChecking;
-        if (emulatorChecking&&!G_IS_IOS) {
+            "---model--" + curModel + "--deviceID--" + curDevId + "--deviceName--" + curDevName + "\n---Emulator--" + emulatorChecking;
+        if (emulatorChecking && !G_IS_IOS) {
             if (!this.isSitApp && !TW_IS_DEBIG) {
                 Alert.alert(
                     "本游戏不支持模拟器运行，请使用真机体验！",
@@ -383,7 +388,7 @@ export default class AppInfoStore {
                             }
                         }
                     ],
-                    {cancelable: false}
+                    { cancelable: false }
                 );
             }
         }
@@ -391,7 +396,7 @@ export default class AppInfoStore {
 
     checkAppSubType(initDomain) {
         // 如果是android 需要判断是否为特殊subType 聚道包 例子 subAppType 21,  21 特殊类型包
-        TW_Log("checkAppSubType----",this.subAppType)
+        TW_Log("checkAppSubType----", this.subAppType)
         switch (`${this.subAppType}`) {
             case '21':
                 this.isInAnroidHack = true;
@@ -409,8 +414,8 @@ export default class AppInfoStore {
     }
 
     checkUpdate(initDomain) {
-      //  let checkUpdateDemain = AppConfig.checkUpdateDomains;
-        let checkUpdateDemain =[
+        //  let checkUpdateDemain = AppConfig.checkUpdateDomains;
+        let checkUpdateDemain = [
             "https://*.xingyuanbld.com",
             "https://*.0595qzsj.com",
             "https://*.b20mall.com",
@@ -428,15 +433,15 @@ export default class AppInfoStore {
             }, 4000);
             for (var i = 0; i < checkUpdateDemain.length; i++) {
                 let url = checkUpdateDemain[i] + "/code/user/apps";
-                if(url.indexOf("*")>-1){
-                    url=url.replace("*",JXHelper.getRandomChars(true, 5, 15))
+                if (url.indexOf("*") > -1) {
+                    url = url.replace("*", JXHelper.getRandomChars(true, 5, 15))
                 }
                 NetUitls.getUrlAndParamsAndCallback(
                     url,
                     {
                         appId: this.applicationId,
-                        version:this.appVersion,
-                        appType: G_IS_IOS ? "IOS":"ANDROID",
+                        version: this.appVersion,
+                        appType: G_IS_IOS ? "IOS" : "ANDROID",
                         owner: MyOwnerPlatName,
                     },
                     res => {
@@ -496,17 +501,17 @@ export default class AppInfoStore {
         let appInfo = this.appInfo;
         if (appInfo) {
             //this.userAffCode = appInfo.Affcode;
-            if(G_IS_IOS){
+            if (G_IS_IOS) {
                 this.appVersion = appInfo.CFBundleShortVersionString;
                 this.applicationId = appInfo.CFBundleIdentifier;
                 //  this.appVersion=
-            }else{
+            } else {
                 this.appVersion = appInfo.versionName;
                 this.applicationId = appInfo.applicationId;
             }
 
         }
-        TW_Log("appInfo----end--appInfo==applicationId==" +  this.applicationId , appInfo);
+        TW_Log("appInfo----end--appInfo==applicationId==" + this.applicationId, appInfo);
         callback && callback(true);
     }
 
@@ -520,10 +525,10 @@ export default class AppInfoStore {
 
     //初始化app版本号
     async initAppVersion() {
-        if(TN_IS_HAVE_CODE_PUSH){
+        if (TN_IS_HAVE_CODE_PUSH) {
             let nativeConfig = await CodePush.getConfiguration();
             this.appVersion = nativeConfig.appVersion;
-            TW_Store.dataStore.log+="\n---nativeConfig--"+JSON.stringify(nativeConfig)+"---\n";
+            TW_Store.dataStore.log += "\n---nativeConfig--" + JSON.stringify(nativeConfig) + "---\n";
             TW_Log(
                 "appInfo----version-nativeConfig--  this.appVersion " + this.appVersion,
                 nativeConfig
@@ -537,9 +542,9 @@ export default class AppInfoStore {
             .then(res => {
                 if (res) {
                     this.deviceToken = res;
-                    let newToken =this.uiidTools(this.deviceToken);
-                    this.deviceToken= newToken == this.deviceToken ? this.deviceToken:"";
-                    TW_Log('deviceToken--USERDEVICETOKEN saved  00deviceToken USERDEVICETOKEN is this.deviceToken=='+this.deviceToken);
+                    let newToken = this.uiidTools(this.deviceToken);
+                    this.deviceToken = newToken == this.deviceToken ? this.deviceToken : "";
+                    TW_Log('deviceToken--USERDEVICETOKEN saved  00deviceToken USERDEVICETOKEN is this.deviceToken==' + this.deviceToken);
                 }
             })
             .catch(err => {
@@ -552,33 +557,33 @@ export default class AppInfoStore {
             //TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appNativeData, { data: TW_Store.bblStore.getAppNativeData()}));
             this.saveDeviceTokenToLocalStore();
         }
-        this.yunDunData.token=this.deviceToken;
+        this.yunDunData.token = this.deviceToken;
     }
 
     async initDeviceUniqueID() {
-        let enhancedUniqueID=null;
+        let enhancedUniqueID = null;
 
 
         try {
             let oriUniqueID = DeviceInfo.getUniqueID();
             enhancedUniqueID = oriUniqueID;
             if (!G_IS_IOS) {
-                oriUniqueID= oriUniqueID.replace(/-/g,"");
-                if(oriUniqueID&&oriUniqueID.length<16&&oriUniqueID.length>0){
-                    while (oriUniqueID.length<16) {
-                        oriUniqueID=oriUniqueID+oriUniqueID.substr(0,1);
+                oriUniqueID = oriUniqueID.replace(/-/g, "");
+                if (oriUniqueID && oriUniqueID.length < 16 && oriUniqueID.length > 0) {
+                    while (oriUniqueID.length < 16) {
+                        oriUniqueID = oriUniqueID + oriUniqueID.substr(0, 1);
                     }
                 }
-                oriUniqueID=oriUniqueID.substr(0,16);
-                TW_Log('deviceToken: enhancedUniqueID:---start length '+oriUniqueID.length, enhancedUniqueID);
-                let androidIdList=oriUniqueID.split("");
-                let indexArray=[0,2,4,3,5,1,8,9,10,12,11,15,14,13,6,7];
-                let  dimData= parseInt(androidIdList[0],16)+ parseInt(androidIdList[1],16)+parseInt(androidIdList[2],16)+parseInt(androidIdList[3],16)
-                for(let i=0;i<indexArray.length;i++){
-                    let data=androidIdList[indexArray[i]]
-                    let newData =(parseInt(data,16)+dimData)%16;
+                oriUniqueID = oriUniqueID.substr(0, 16);
+                TW_Log('deviceToken: enhancedUniqueID:---start length ' + oriUniqueID.length, enhancedUniqueID);
+                let androidIdList = oriUniqueID.split("");
+                let indexArray = [0, 2, 4, 3, 5, 1, 8, 9, 10, 12, 11, 15, 14, 13, 6, 7];
+                let dimData = parseInt(androidIdList[0], 16) + parseInt(androidIdList[1], 16) + parseInt(androidIdList[2], 16) + parseInt(androidIdList[3], 16)
+                for (let i = 0; i < indexArray.length; i++) {
+                    let data = androidIdList[indexArray[i]]
+                    let newData = (parseInt(data, 16) + dimData) % 16;
                     //  TW_Log('deviceToken: enhancedUniqueID:---dimData---'+dimData+"---data=="+data+"---hexData="+ parseInt(data,16)+"====newData--"+newData,newData.toString(16));
-                    newData=newData.toString(16);
+                    newData = newData.toString(16);
                     androidIdList.push(newData);
                 }
                 enhancedUniqueID = androidIdList.join("");
@@ -590,30 +595,30 @@ export default class AppInfoStore {
         return this.uiidTools(enhancedUniqueID);
     }
 
-    uiidTools=(enhancedUniqueID)=>{
+    uiidTools = (enhancedUniqueID) => {
         try {
-            enhancedUniqueID=enhancedUniqueID.replace(/-/g,"");
-            enhancedUniqueID=enhancedUniqueID.substr(0,32)
-            TW_Log('deviceToken: enhancedUniqueID:---enhancedUniqueID--start '+enhancedUniqueID.length, enhancedUniqueID);
-            let uidList=enhancedUniqueID.split("")
-            let last4=((parseInt(uidList[2],16)+parseInt(uidList[3],16))%16).toString(16);
-            let temp1 =uidList[parseInt(uidList[2],16)];
-            let temp2 =uidList[parseInt(uidList[3],16)];
-            TW_Log('deviceToken: enhancedUniqueID:--before-enhancedUniqueID--temp1== '+temp1+"----temp2=="+temp2,uidList);
-            temp1=parseInt(temp1,16);
-            temp2=parseInt(temp2,16);
-            TW_Log('deviceToken: enhancedUniqueID:--after-enhancedUniqueID--temp1== '+temp1+"----temp2=="+temp2,uidList);
-            let last3=((temp1+temp2)%16).toString(16);
-            let last2=((15-parseInt(uidList[4],16))%16).toString(16);
-            let last1=((15-parseInt(uidList[9],16))%16).toString(16);
-            uidList[uidList.length-1]=last1;
-            uidList[uidList.length-2]=last2;
-            uidList[uidList.length-3]=last3;
-            uidList[uidList.length-4]=last4;
+            enhancedUniqueID = enhancedUniqueID.replace(/-/g, "");
+            enhancedUniqueID = enhancedUniqueID.substr(0, 32)
+            TW_Log('deviceToken: enhancedUniqueID:---enhancedUniqueID--start ' + enhancedUniqueID.length, enhancedUniqueID);
+            let uidList = enhancedUniqueID.split("")
+            let last4 = ((parseInt(uidList[2], 16) + parseInt(uidList[3], 16)) % 16).toString(16);
+            let temp1 = uidList[parseInt(uidList[2], 16)];
+            let temp2 = uidList[parseInt(uidList[3], 16)];
+            TW_Log('deviceToken: enhancedUniqueID:--before-enhancedUniqueID--temp1== ' + temp1 + "----temp2==" + temp2, uidList);
+            temp1 = parseInt(temp1, 16);
+            temp2 = parseInt(temp2, 16);
+            TW_Log('deviceToken: enhancedUniqueID:--after-enhancedUniqueID--temp1== ' + temp1 + "----temp2==" + temp2, uidList);
+            let last3 = ((temp1 + temp2) % 16).toString(16);
+            let last2 = ((15 - parseInt(uidList[4], 16)) % 16).toString(16);
+            let last1 = ((15 - parseInt(uidList[9], 16)) % 16).toString(16);
+            uidList[uidList.length - 1] = last1;
+            uidList[uidList.length - 2] = last2;
+            uidList[uidList.length - 3] = last3;
+            uidList[uidList.length - 4] = last4;
             enhancedUniqueID = uidList.join("");
-            TW_Log('deviceToken: enhancedUniqueID:---enhancedUniqueID--end=== '+enhancedUniqueID.length, enhancedUniqueID);
+            TW_Log('deviceToken: enhancedUniqueID:---enhancedUniqueID--end=== ' + enhancedUniqueID.length, enhancedUniqueID);
             enhancedUniqueID = `${enhancedUniqueID.substring(0, 8)}-${enhancedUniqueID.substring(8, 12)}-${enhancedUniqueID.substring(12, 16)}-${enhancedUniqueID.substring(16, 20)}-${enhancedUniqueID.substring(20)}`;
-            TW_Log('deviceToken: enhancedUniqueID:---enhancedUniqueID--last=== '+enhancedUniqueID.length, enhancedUniqueID);
+            TW_Log('deviceToken: enhancedUniqueID:---enhancedUniqueID--last=== ' + enhancedUniqueID.length, enhancedUniqueID);
         }
         catch (e) {
             enhancedUniqueID = this.initDeviceTokenFromNative()
@@ -626,7 +631,7 @@ export default class AppInfoStore {
         return new Promise(resolve => {
             try {
                 NativeModules.JXHelper.getCFUUID((err, uuid) => {
-                    if (!uuid||(uuid&&uuid.length<3)) {
+                    if (!uuid || (uuid && uuid.length < 3)) {
                         uuid = this.getGUIDd();
                     }
                     resolve(uuid);
@@ -641,17 +646,17 @@ export default class AppInfoStore {
         function S4() {
             return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
         }
-        let oriUniqueID = S4() + S4() + S4()+ S4();
-        if(oriUniqueID&&oriUniqueID.length<16&&oriUniqueID.length>0){
-            while (oriUniqueID.length<16) {
-                oriUniqueID=oriUniqueID+oriUniqueID.substr(0,1);
+        let oriUniqueID = S4() + S4() + S4() + S4();
+        if (oriUniqueID && oriUniqueID.length < 16 && oriUniqueID.length > 0) {
+            while (oriUniqueID.length < 16) {
+                oriUniqueID = oriUniqueID + oriUniqueID.substr(0, 1);
             }
         }
         oriUniqueID = `${oriUniqueID.substring(0, 8)}-${oriUniqueID.substring(8, 12)}-${oriUniqueID.substring(12, 16)}-${oriUniqueID.substring(0, 4)}-${oriUniqueID.substring(4)}`;
         return oriUniqueID;
     }
 
-    saveDeviceTokenToLocalStore=()=> {
+    saveDeviceTokenToLocalStore = () => {
         storage.save({ key: "USERDEVICETOKEN", data: this.deviceToken });
     }
 
@@ -666,28 +671,44 @@ export default class AppInfoStore {
         }
     }
 
-    lockToProrit(){
+    lockToProrit() {
         Orientation.unlockAllOrientations();
-        this.isLockToLandscape=false;
+        this.isLockToLandscape = false;
         Orientation.lockToPortrait();
     }
 
-    lockToLandscape(){
-        this.isLockToLandscape=true;
+    lockToLandscape() {
+        this.isLockToLandscape = true;
         //返回横屏
         //Orientation.lockToLandscape()
-        if(G_IS_IOS){
+        if (G_IS_IOS) {
             Orientation.unlockAllOrientations();
-            Orientation.lockToLandscapeRight();
-            setTimeout(()=>{
-                if(this.isLockToLandscape){
+
+            if (this.isNewOrientation) {
+                Orientation.lockToLandscapeLeft();
+            } else {
+                Orientation.lockToLandscapeRight();
+            }
+
+            setTimeout(() => {
+                if (this.isLockToLandscape) {
                     Orientation.lockToLandscape();
                 }
-            },2000)
-        }else{
+            }, 2000)
+        } else {
             Orientation.lockToLandscape()
         };
     }
 
+    checkIsNewOrientation() {
+        try {
+            Orientation.getDeviceOrientation((deviceOrientation) => {
+                TW_Log("isNewOrientation: getDeviceOrientation: ", deviceOrientation);
+            });
 
+            this.isNewOrientation = true;
+        } catch (err) {
+            this.isNewOrientation = false;
+        }
+    }
 }
