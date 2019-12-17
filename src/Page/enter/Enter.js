@@ -48,9 +48,6 @@ export default class Enter extends Component {
         this.flage = false
         this.isWeakUpdate = false;
 
-    
-        TW_Log("danferd: TW_Store.appStore.isNewOrientation: ", TW_Store.appStore.isNewOrientation);
-
         Orientation.addOrientationListener(this._onOrientationDidChange);
         TW_Log("_orientationDidChange--22233225--start-lockToLandscapeRight");
 
