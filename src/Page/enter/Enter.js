@@ -48,22 +48,19 @@ export default class Enter extends Component {
         this.flage = false
         this.isWeakUpdate = false;
 
-    
-        TW_Log("danferd: TW_Store.appStore.isNewOrientation: ", TW_Store.appStore.isNewOrientation);
-
         Orientation.addOrientationListener(this._onOrientationDidChange);
         TW_Log("_orientationDidChange--22233225--start-lockToLandscapeRight");
 
         if (G_IS_IOS) {
-            if (TW_Store.appStore.isNewOrientation) {
-                Orientation.lockToLandscapeLeft();
+            //if (TW_Store.appStore.isNewOrientation) {
+            //    Orientation.lockToLandscapeLeft();
 
-                setTimeout(() => {
-                    Orientation.lockToLandscape();
-                }, 2000);
-            } else {
+            //    setTimeout(() => {
+            //        Orientation.lockToLandscape();
+            //    }, 2000);
+            //} else {
                 Orientation.lockToLandscapeRight();
-            }
+            //}
         }
     }
 
@@ -72,15 +69,15 @@ export default class Enter extends Component {
 
         if (orientation === 'PORTRAIT') {
             if (TW_Store.appStore.isLockToLandscape) {
-                if (TW_Store.appStore.isNewOrientation) {
-                    Orientation.lockToLandscape();
-                } else {
+                //if (TW_Store.appStore.isNewOrientation) {
+                //    Orientation.lockToLandscape();
+                //} else {
                     if (G_IS_IOS) {
                         Orientation.lockToLandscapeRight();
                     } else {
                         Orientation.lockToLandscape();
                     }
-                }
+                //}
             }
         }
     }
