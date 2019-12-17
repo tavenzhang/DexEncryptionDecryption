@@ -122,7 +122,7 @@ export default class AppInfoStore {
     constructor() {
         this.init();
         this.initDeviceTokenFromLocalStore();
-        //this.checkIsNewOrientation();
+        this.checkIsNewOrientation();
 
         if (versionHotFix.indexOf("v") > -1) {
             let subpre = versionHotFix.substr(0, 1);
@@ -700,7 +700,6 @@ export default class AppInfoStore {
         };
     }
 
-    /*
     checkIsNewOrientation() {
         try {
             Orientation.getDeviceOrientation((deviceOrientation) => {
@@ -712,5 +711,4 @@ export default class AppInfoStore {
             this.isNewOrientation = false;
         }
     }
-    */
 }
