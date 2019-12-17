@@ -42,6 +42,8 @@ export default class DataStore {
         this.onSaveCopyState = this.onSaveCopyState.bind(this);
         this.initAppHomeCheck = this.initAppHomeCheck.bind(this);
         this.androdi_copy_assets_to_dir = this.androdi_copy_assets_to_dir.bind(this);
+        this.content=null;
+        this.retryTime=0
     }
 
     @action
@@ -131,7 +133,11 @@ export default class DataStore {
                 this.isCheckRequesting = false;
                 this.hideLoadingView();
                 this.log += "\n==>TW_Store.dataStore.this.isCheckRequesting" + this.isCheckRequesting;
+                if(!this.content){
+                    this.checkHomeZipUpdate();
+                }
                 TW_SplashScreen_HIDE();
+
             }
         }, 3000);
         NetUitls.getUrlAndParamsAndCallback(rootStore.bblStore.getVersionConfig(), null, (rt) => {
@@ -139,7 +145,7 @@ export default class DataStore {
             this.isCheckRequesting = false;
             TW_Log("TW_DATA_KEY.versionBBL http results== ", rt);
             TW_SplashScreen_HIDE();
-            if (rt.rs) {
+            if (rt.rs&&!this.content) {
                 let content = rt.content;
                 this.content = content;
                 let zipSrc = this.content.source;
@@ -155,10 +161,8 @@ export default class DataStore {
                         zipSrc = rootStore.bblStore.getVersionDomain() + "/" + zipSrc;
                     }
                 }
-
-                this.log += "\n==>TW_Store.dataStore.isAppInited=" + TW_Store.dataStore.isAppInited+"---domain--"+TW_Store.bblStore.gameDomain+"--\n";
+               // this.log += "\n==>TW_Store.dataStore.isAppInited=" + TW_Store.dataStore.isAppInited+"---domain--"+TW_Store.bblStore.gameDomain+"--\n";
                 this.log += "\nthis.homeVersionM.versionNum---" + this.homeVersionM.versionNum + "--content.versionNum=" + content.versionNum;
-
                 TW_Log("TW_DATA_KEY.versionBBL  this.homeVersionM.versionNum =" + this.homeVersionM.versionNum, content.versionNum);
                 if (this.homeVersionM.versionNum != content.versionNum) {
                     TW_Store.gameUpateStore.isNeedUpdate = true;
@@ -172,6 +176,10 @@ export default class DataStore {
             } else {
                 this.onSaveVersionM({}, true);
                 this.hideLoadingView()
+                if(!this.content&&this.retryTime<3){
+                    this.retryTime+=1;
+                    this.checkHomeZipUpdate();
+                }
             }
         })
     }
