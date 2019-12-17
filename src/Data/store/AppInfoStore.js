@@ -117,7 +117,7 @@ export default class AppInfoStore {
     //app类型 1为正常的企业包， 8.为上架app商店具有后台开关的包 .9 通用appstore 上架的包
     appType = 1;
 
-    isNewOrientation = true;
+    isNewOrientation = false;
 
     constructor() {
         this.init();
@@ -683,7 +683,12 @@ export default class AppInfoStore {
         //Orientation.lockToLandscape()
         if (G_IS_IOS) {
             Orientation.unlockAllOrientations();
-            Orientation.lockToLandscapeLeft();
+
+            if (this.isNewOrientation) {
+                Orientation.lockToLandscapeLeft();
+            } else {
+                Orientation.lockToLandscapeRight();
+            }
 
             setTimeout(() => {
                 if (this.isLockToLandscape) {
@@ -697,11 +702,13 @@ export default class AppInfoStore {
 
     checkIsNewOrientation() {
         try {
-            Orientation.getSpecificOrientation();
+            Orientation.getDeviceOrientation((deviceOrientation) => {
+                TW_Log("isNewOrientation: getDeviceOrientation: ", deviceOrientation);
+            });
 
-            this.isNewOrientation = false;
-        } catch (err) {
             this.isNewOrientation = true;
+        } catch (err) {
+            this.isNewOrientation = false;
         }
     }
 }
