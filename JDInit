@@ -22,8 +22,13 @@ cp -rf ./Init/CodePushConfig.m  ${scriptPath}/node_modules/react-native-code-pus
 
 cp -rf ./Init/RN_Fetch_fs.js  ${scriptPath}/node_modules/react-native-fetch-blob/fs.js
 
-
 #cp -rf ./Init/MKTouchableManager.m  ${scriptPath}/node_modules/react-native-material-kit/iOS/RCTMaterialKit/MKTouchableManager.m
+
+#react-native-orientation 替换覆盖
+cp -rf ./Init/rn_orientation/index.js  ${scriptPath}/node_modules/react-native-orientation/index.js
+cp -rf ./Init/rn_orientation/Orientation.h  ${scriptPath}/node_modules/react-native-orientation/iOS/RCTOrientation/Orientation.h
+cp -rf ./Init/rn_orientation/Orientation.m  ${scriptPath}/node_modules/react-native-orientation/iOS/RCTOrientation/Orientation.m
+cp -rf ./Init/rn_orientation/OrientationModule.java  ${scriptPath}/node_modules/react-native-orientation/android/src/main/java/com/github/yamill/orientation/OrientationModule.java
 
 npx jetify
 
