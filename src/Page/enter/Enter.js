@@ -53,11 +53,7 @@ export default class Enter extends Component {
 
         if (G_IS_IOS) {
             if (TW_Store.appStore.isNewOrientation) {
-                Orientation.lockToLandscapeLeft();
-
-                setTimeout(() => {
-                    Orientation.lockToLandscape();
-                }, 2000);
+                Orientation.lockToLandscape();
             } else {
                 Orientation.lockToLandscapeRight();
             }
@@ -66,18 +62,14 @@ export default class Enter extends Component {
 
     _onOrientationDidChange = (orientation) => {
         TW_Log("_orientationDidChange-----orientation-PORTRAIT---lockToLandscape", orientation);
-
         if (orientation === 'PORTRAIT') {
             if (TW_Store.appStore.isLockToLandscape) {
-                if (TW_Store.appStore.isNewOrientation) {
-                    Orientation.lockToLandscape();
-                } else {
                     if (G_IS_IOS) {
-                        Orientation.lockToLandscapeRight();
+                        TW_Store.appStore.isNewOrientation ?    Orientation.lockToLandscape():Orientation.lockToLandscapeRight();
+
                     } else {
                         Orientation.lockToLandscape();
                     }
-                }
             }
         }
     }

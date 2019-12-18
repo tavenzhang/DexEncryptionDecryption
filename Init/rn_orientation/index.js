@@ -10,8 +10,8 @@
 import React, {Component} from "react";
 
 const OrientationNative = require("react-native").NativeModules.Orientation;
-const {NativeEventEmitter, Platform} = require("react-native");
-const LocalEventEmitter = new NativeEventEmitter(OrientationNative);
+const {NativeEventEmitter,DeviceEventEmitter, Platform} = require("react-native");
+//const LocalEventEmitter = new NativeEventEmitter(OrientationNative);
 
 var listeners = {};
 
@@ -81,7 +81,7 @@ export default class Orientation {
 
     static addOrientationListener = cb => {
         var key = getKey(cb);
-        listeners[key] = LocalEventEmitter.addListener(
+        listeners[key] = DeviceEventEmitter.addListener(
             "orientationDidChange",
             body => {
                 cb(body.orientation);
@@ -100,7 +100,7 @@ export default class Orientation {
 
     static addDeviceOrientationListener = cb => {
         var key = getKey(cb);
-        listeners[key] = LocalEventEmitter.addListener(
+        listeners[key] = DeviceEventEmitter.addListener(
             "deviceOrientationDidChange",
             body => {
                 cb(body.deviceOrientation);
@@ -119,7 +119,7 @@ export default class Orientation {
 
     static addLockListener = cb => {
         var key = getKey(cb);
-        listeners[key] = LocalEventEmitter.addListener(
+        listeners[key] = DeviceEventEmitter.addListener(
             "lockDidChange",
             body => {
                 cb(body.orientation);
