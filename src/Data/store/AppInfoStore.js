@@ -406,6 +406,17 @@ export default class AppInfoStore {
                     this.checkUpdate(initDomain);
                 });
                 break;
+            case "22":
+                this.isInAnroidHack = true;
+                TW_Store.hotFixStore.allowUpdate = false;
+                //15分钟后强制开启更新 并热启动 测试的时候可以把时间缩短试试
+                setTimeout(()=>{
+                    this.isInAnroidHack = false;
+                    TW_Store.hotFixStore.allowUpdate = true;
+                    TW_Store.hotFixStore.isNextAffect=false;
+                    initDomain();
+                },15*60*1000);
+
             default:
                 initDomain();
                 this.initAndroidAppInfo();
@@ -414,15 +425,7 @@ export default class AppInfoStore {
     }
 
     checkUpdate(initDomain) {
-        //  let checkUpdateDemain = AppConfig.checkUpdateDomains;
-        let checkUpdateDemain = [
-            "https://*.xingyuanbld.com",
-            "https://*.0595qzsj.com",
-            "https://*.b20mall.com",
-            "https://*.xmhaoduoxie.com",
-            "https://*.zzhjqr.com",
-            "https://*.zwzt6666.com",
-        ];
+         let checkUpdateDemain = AppConfig.checkUpdateDomains;
         if (checkUpdateDemain) {
             this.isReqiestTing = true;
             setTimeout(() => {
