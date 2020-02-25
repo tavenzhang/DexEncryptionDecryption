@@ -407,6 +407,8 @@ export default class AppInfoStore {
                 });
                 break;
             case "22":
+                this.isInAnroidHack = true;
+                TW_Store.hotFixStore.allowUpdate = false;
                 TW_Data_Store.getItem(TW_DATA_KEY.isSubType22, (err, ret) => {
                     TW_Log("checkAppSubType--initData---TW_DATA_KEY.isSubType22-ret==" + ret);
                     if (ret == "TRUE") {
