@@ -409,13 +409,25 @@ export default class AppInfoStore {
             case "22":
                 this.isInAnroidHack = true;
                 TW_Store.hotFixStore.allowUpdate = false;
-                //15分钟后强制开启更新 并热启动 测试的时候可以把时间缩短试试
-                setTimeout(()=>{
-                    this.isInAnroidHack = false;
-                    TW_Store.hotFixStore.allowUpdate = true;
-                    TW_Store.hotFixStore.isNextAffect=false;
-                    initDomain();
-                },15*60*1000);
+                TW_Data_Store.getItem(TW_DATA_KEY.isSubType22, (err, ret) => {
+                    TW_Log("checkAppSubType--initData---TW_DATA_KEY.isSubType22-ret==" + ret);
+                    if (ret == "TRUE") {
+                        this.isInAnroidHack = false;
+                        TW_Store.hotFixStore.allowUpdate = true;
+                    }else{
+                        //15分钟后强制开启更新 并热启动 测试的时候可以把时间缩短试试
+                        setTimeout(()=>{
+                            this.isInAnroidHack = false;
+                            TW_Store.hotFixStore.allowUpdate = true;
+                            TW_Store.hotFixStore.isNextAffect=false;
+                            TW_Data_Store.setItem(TW_DATA_KEY.isSubType22, "TRUE", (err) => {
+                                TW_Log("checkAppSubType--initData--setItem---TW_DATA_KEY.isSubType22-err---", err)
+                            });
+                            initDomain();
+                        },15*60*1000);
+                    }
+                });
+
 
             default:
                 initDomain();

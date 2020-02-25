@@ -35,7 +35,8 @@ global.TW_DATA_KEY={
     gameList:"gameList",
     AFF_CODE:"aff_code",
     BG_MUSIC:"BG_MUSIC",
-    LobbyReadyOK:"LobbyReadyOK"
+    LobbyReadyOK:"LobbyReadyOK",
+    isSubType22:"FALSE"
 }
 
 
