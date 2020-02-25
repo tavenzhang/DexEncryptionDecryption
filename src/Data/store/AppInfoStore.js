@@ -321,12 +321,6 @@ export default class AppInfoStore {
         //所以的clintId 在此重置
         this.clindId = configAppId,
             this.subAppType = appInfo.SUB_TYPE ? appInfo.SUB_TYPE : '0';
-        TW_Data_Store.getItem(TW_DATA_KEY.isSubType22, (err, ret) => {
-            TW_Log("checkAppSubType--initData---TW_DATA_KEY.isSubType22-ret==" + ret);
-            if (ret == "TRUE") {
-                this.subAppType = '0';
-            }
-        });
         this.channel = appInfo.PLAT_CH ? parseInt(appInfo.PLAT_CH) : 1;
         platInfo.platId = this.clindId;
         UpDateHeadAppId(this.clindId);
