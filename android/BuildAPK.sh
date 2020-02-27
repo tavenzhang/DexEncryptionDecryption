@@ -27,14 +27,23 @@ if [[ $channel == "1" ]]; then
     ./gradlew assembleTavenRelease
     mv "./app/build/outputs/apk/taven/release/release.apk" "./app/build/outputs/apk/taven/release/${platName}_release_20.apk"
 
+    sed 's/SUB_TYPE=20/SUB_TYPE=22/g' gradle.properties > changed.txt && mv changed.txt gradle.properties
+    ./gradlew assembleTavenRelease
+    mv "./app/build/outputs/apk/taven/release/release.apk" "./app/build/outputs/apk/taven/release/${platName}_release_22.apk"
+
     ant build
 
+    ./gradlew assembleTavenRelease
+    mv "./app/build/outputs/apk/taven/release/release.apk" "./app/build/outputs/apk/taven/release/${platName}_release_22_ant.apk"
+
+    sed 's/SUB_TYPE=22/SUB_TYPE=20/g' gradle.properties > changed.txt && mv changed.txt gradle.properties
     ./gradlew assembleTavenRelease
     mv "./app/build/outputs/apk/taven/release/release.apk" "./app/build/outputs/apk/taven/release/${platName}_release_20_ant.apk"
 
     sed 's/SUB_TYPE=20/SUB_TYPE=21/g' gradle.properties > changed.txt && mv changed.txt gradle.properties
     ./gradlew assembleTavenRelease
     mv "./app/build/outputs/apk/taven/release/release.apk" "./app/build/outputs/apk/taven/release/${platName}_release_21_ant.apk"
+
     echo ${platName}渠道包生成完毕
     sed 's/SUB_TYPE=21/SUB_TYPE=0/g' gradle.properties > changed.txt && mv changed.txt gradle.properties
 else
