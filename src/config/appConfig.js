@@ -3,17 +3,17 @@ import React, {
 } from 'react-native';
 
 export const appDomainBase = {
-    base1: 'http://sqp01game.sit03.com',
-    base2: 'http://sqp01game.sit03.com',
-    base3: 'http://sqp01game.sit03.com',
-    base4: 'http://sqp01game.sit03.com',
-    base5: 'http://sqp01game.sit03.com',
-    base6: 'http://sqp01game.sit03.com',
-    base7: 'http://sqp01game.sit03.com',
+    base1: 'https://sit03-qp01app1a.yss52.com',
+    base2: 'https://sit03-qp01app1b.yss52.com',
+    base3: 'https://sit03-qp01app1c.yss52.com',
+    base4: 'https://sit03-qp01app2a.yss52.com',
+    base5: 'https://sit03-qp01app2b.yss52.com',
+    base6: 'https://sit03-qp01app2c.yss52.com',
+    base7: 'https://sit03-qp01app2c.yss52.com',
 }
 
 
-export let configAppId = "1209"
+export let configAppId = "5"
 
 
 export const AppConfig = {
@@ -36,9 +36,9 @@ export const AppConfig = {
 }
 
 
-export const MyAppName = '博博乐sit';
+export const MyAppName = '棋牌sit';
 
-export const versionHotFix = 'v5.0312.0355';
+export const versionHotFix = 'v5.0325.2225';
 
 export const MyOwnerPlatName= 'sit';
 
@@ -51,14 +51,14 @@ export const safeguardKey = 'eyJkIjogWyJodHRwczovLzk4NzY0NWJhMDBhOWIwNDE2YjI1NGY
 
 export const platInfo = {
 
-    downDomain:"https://download.jinkuangjia.com",
+    downDomain:"https://download.sufangxingwanshisanjiao.com",
 
     zipCheckServer: {
         debug_server: "http://192.168.14.70:8888",
         release_server: "/game/release/sit"
     },
     platId: configAppId,
-    brand: "sqp01",
+    brand: "qp01",
     latestNativeVersion:{ios:"12",android:"12"},//用于强制更新 匹配，与info.plist 还有 gradle.properties. 需要严格一致。否则 会弹窗 强制下载
     appInfo : {
         ch_8: {
