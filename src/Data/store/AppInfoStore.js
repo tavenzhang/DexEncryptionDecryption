@@ -15,7 +15,6 @@ import {
 import { UpDateHeadAppId } from '../../Common/Network/TCRequestConfig';
 import NetUitls from '../../Common/Network/TCRequestUitls';
 import TCUserOpenPayApp from '../../Page/UserCenter/UserPay/TCUserOpenPayApp';
-import OpeninstallModule from "openinstall-react-native";
 import { SoundHelper } from "../../Common/JXHelper/SoundHelper";
 import JXHelper from "../../Common/JXHelper/JXHelper";
 import RNFS from "react-native-fs";
@@ -238,43 +237,8 @@ export default class AppInfoStore {
     };
 
     onOpenInstallCheck = callBack => {
-        OpeninstallModule.getInstall(10, res => {
-            //TW_Store.dataStore.log+="getInstall----"+JSON.stringify(res);
-            TW_Log("onOpenInstallCheck----res", res)
-            TW_Store.dataStore.log += "getInstall---res-" + res;
-            if (res && res.data) {
-                //TW_Store.dataStore.log+="getInstall----"+JSON.stringify(res);
-                let map = null;
-                if (typeof res.data === "object") {
-                    map = res.data;
-                } else {
-                    map = JSON.parse(res.data);
-                }
-                if (map) {
-                    this.openInstallData.data = map;
-                    if (map && map.affCode) {
-                        this.userAffCode = map.affCode;
-                        TW_Data_Store.setItem(TW_DATA_KEY.AFF_CODE, this.userAffCode);
-                        TW_OnValueJSHome(
-                            TW_Store.bblStore.getWebAction(
-                                TW_Store.bblStore.ACT_ENUM.affcode,
-                                { data: this.userAffCode }
-                            )
-                        );
-                        TW_Store.dataStore.log +=
-                            "\ngetInstall---affCode=TW_OnValueJSHome--userAffCode-" +
-                            this.userAffCode;
-                    }
-                }
-            } else {
-                if (callBack) {
-                    if (this.openInstallCheckCount <= 3) {
-                        this.openInstallCheckCount += 1;
-                        callBack(this.onOpenInstallCheck);
-                    }
-                }
-            }
-        });
+
+
     };
 
     onShowDownAlert = url => {

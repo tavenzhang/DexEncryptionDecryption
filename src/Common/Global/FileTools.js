@@ -5,7 +5,7 @@ import {unzip, zip,} from 'react-native-zip-archive'
 import RNFS from "react-native-fs";
 import Toast from "../JXHelper/JXToast";
 import RNFetchBlob from 'react-native-fetch-blob';
-import * as RNShot from "react-native-view-shot";
+
 import Base64 from "../JXHelper/Base64";
 import CameraRoll from "@react-native-community/cameraroll";
 export default class FileTools {
@@ -201,35 +201,35 @@ export default class FileTools {
     static onSaveScreen(isSavePhoto = false,captureRefName=null) {
         if(captureRefName){
             try {
-                RNShot.captureRef(captureRefName,{
-                    format: "jpg",
-                    quality: 0.8,
-                }).then(
-                    uri => {
-                        if (isSavePhoto) {
-                            FileTools.onSaveCameraRoll(uri, null, null,false);
-                        }
-                        TW_Log("Image saved to--captureRef", uri)
-                    },
-                    error => TW_Log("Image saved Oops, snapshot failed", error)
-                );
+                // RNShot.captureRef(captureRefName,{
+                //     format: "jpg",
+                //     quality: 0.8,
+                // }).then(
+                //     uri => {
+                //         if (isSavePhoto) {
+                //             FileTools.onSaveCameraRoll(uri, null, null,false);
+                //         }
+                //         TW_Log("Image saved to--captureRef", uri)
+                //     },
+                //     error => TW_Log("Image saved Oops, snapshot failed", error)
+                // );
 
             } catch (e) {
             }
         }else{
             try {
-                RNShot.captureScreen({
-                    format: "jpg",
-                    quality: 0.8,
-                }).then(
-                    uri => {
-                        if (isSavePhoto) {
-                            FileTools.onSaveCameraRoll(uri, null, null,false);
-                        }
-                        TW_Log("Image saved to--captureScreen", uri)
-                    },
-                    error => TW_Log("Image saved Oops, snapshot failed", error)
-                );
+                // RNShot.captureScreen({
+                //     format: "jpg",
+                //     quality: 0.8,
+                // }).then(
+                //     uri => {
+                //         if (isSavePhoto) {
+                //             FileTools.onSaveCameraRoll(uri, null, null,false);
+                //         }
+                //         TW_Log("Image saved to--captureScreen", uri)
+                //     },
+                //     error => TW_Log("Image saved Oops, snapshot failed", error)
+                // );
             } catch (e) {
 
 

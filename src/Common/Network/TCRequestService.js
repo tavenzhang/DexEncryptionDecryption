@@ -480,7 +480,7 @@ export function getUserCollects(callback) {
 }
 
 /**
- * 收藏彩票
+ * 收藏
  * @param params
  * @param callback
  */

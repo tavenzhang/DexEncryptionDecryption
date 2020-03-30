@@ -77,7 +77,7 @@ project.ext.react = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
-apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
+//apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -133,7 +133,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.xxcard"
+        applicationId "com.new.test"
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
@@ -264,43 +264,25 @@ android {
 }
 
 dependencies {
-    implementation project(':@react-native-community_netinfo')
-    implementation project(':@react-native-community_cameraroll')
-    implementation project(':react-native-webview')
-    compile project(':react-native-view-shot')
-    compile project(':react-native-extra-dimensions-android')
-    compile project(':openinstall-react-native')
-    compile project(':react-native-keep-awake')
-    compile project(':react-native-picker')
-    compile project(':react-native-zip-archive')
-    compile project(':react-native-splash-screen')
-    compile project(':react-native-sound')
-    compile project(':react-native-fs')
-    compile project(':react-native-fetch-blob')
-    compile project(':react-native-fast-image')
-    compile project(':react-native-device-info')
-    compile project(':react-native-code-push')
-    compile project(':jpush-react-native')
-    compile project(':react-native-orientation')
-    implementation project(':react-native-zip-archive')
+    //implementation project(':@react-native-community_netinfo')
+   // implementation project(':@react-native-community_cameraroll')
+  //  implementation project(':react-native-webview')
+    //compile project(':react-native-code-push')
     implementation 'com.android.support:multidex:1.0.3'
-    implementation project(':react-native-fs')
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation project(':jpush-react-native')
-    implementation project(':jcore-react-native')
+  //  implementation fileTree(include: ['*.jar'], dir: 'libs')
+   // implementation project(':jcore-react-native')
     //implementation 'com.android.support:appcompat-v7:26.1.1'
-    implementation 'com.umeng.sdk:common:latest.integration'
-    implementation 'com.umeng.sdk:analytics:latest.integration'
+//    implementation 'com.umeng.sdk:common:latest.integration'
+  //  implementation 'com.umeng.sdk:analytics:latest.integration'
     implementation 'com.facebook.react:react-native:+'
     // From node_modules
     //implementation project(':ReactAndroid')            //添加React-native项目
     implementation 'com.zhy:okhttputils:2.6.2'
-    implementation project(':react-native-code-push')
-    implementation project(':react-native-splash-screen')
-    implementation project(':react-native-sound')
-    implementation project(':react-native-fetch-blob')
-    implementation project(':react-native-device-info')
-    implementation project(':react-native-fast-image')
+ //   implementation project(':react-native-code-push')
+   // implementation project(':react-native-splash-screen')
+   // implementation project(':react-native-sound')
+  //  implementation project(':react-native-fetch-blob')
+   // implementation project(':react-native-fast-image')
     implementation 'com.jakewharton:butterknife:10.1.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
     /*
@@ -318,7 +300,7 @@ dependencies {
     } else {
         ementation jscFlavor
     }
-    implementation files('libs/yunceng.jar')
+    //implementation files('libs/yunceng.jar')
 }
 
 // Run this once to be able to run the application with BUCK

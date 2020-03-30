@@ -130,7 +130,7 @@ export default class TCUserDetailMsg extends Component {
     getPrizeGroup() {
         if (TW_Store.userStore.prizeGroup) {
             return (<View style={styles.setItem}>
-                <Text style={styles.itemTxt}>彩票返点</Text>
+                <Text style={styles.itemTxt}>返点</Text>
                 <Text style={styles.itemRightTxt}>{TW_Store.userStore.prizeGroup}</Text>
             </View>)
         }
