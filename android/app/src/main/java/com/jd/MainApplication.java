@@ -9,34 +9,48 @@ import android.content.res.Resources;
 import android.os.Handler;
 import android.util.Log;
 
+import com.dylanvann.fastimage.FastImageViewPackage;
 import com.jd.invokenative.DplusReactPackage;
 import com.jd.invokenative.RNUMConfigure;
 
 import com.facebook.react.ReactApplication;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
-//import com.reactnativecommunity.cameraroll.CameraRollPackage;
+import com.reactnativecommunity.cameraroll.CameraRollPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
-//import com.jd.webviewSplashScreen.WebViewReactPackage;
-//import com.umeng.socialize.PlatformConfig;
+import fr.greweb.reactnativeviewshot.RNViewShotPackage;
+import com.RNFetchBlob.RNFetchBlobPackage;
+import ca.jaysoo.extradimensions.ExtraDimensionsPackage;
+import com.openinstall.openinstallLibrary.OpeninstallReactPackage;
+import com.corbt.keepawake.KCKeepAwakePackage;
+import com.beefe.picker.PickerViewPackage;
+import com.jd.webview.WebViewReactPackage;
+import com.rnziparchive.RNZipArchivePackage;
+import com.umeng.socialize.PlatformConfig;
+import com.github.yamill.orientation.OrientationPackage;
 
+import cn.jpush.reactnativejpush.JPushPackage;
 
+import com.rnfs.RNFSPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-//import com.jd.audio.RNAudioPackage;
+import com.jd.audio.RNAudioPackage;
 import com.jd.crash.CrashHandler;
-//import com.jd.jxhelper.JXHelperPackage;
+import com.jd.jxhelper.JXHelperPackage;
 import com.jd.marqueeLabel.RCTMarqueeLabelPackage;
 import com.jd.openapp.OpenAppPackage;
 import com.jd.util.AppUtil;
-//mport com.microsoft.codepush.react.CodePush;
-//import com.umeng.commonsdk.UMConfigure;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.microsoft.codepush.react.CodePush;
+import com.umeng.commonsdk.UMConfigure;
+import com.zmxv.RNSound.RNSoundPackage;
+import org.devio.rn.splashscreen.SplashScreenReactPackage;
 
 import java.util.Arrays;
 import java.util.List;
 
-//import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.JPushInterface;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -52,7 +66,7 @@ public class MainApplication extends Application implements ReactApplication {
 
         @Override
         protected String getJSBundleFile() {
-            return "";
+            return CodePush.getJSBundleFile();
         }
 
         @Override
@@ -63,24 +77,31 @@ public class MainApplication extends Application implements ReactApplication {
         @Override
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
-                //    new MainReactPackage()
-           // new NetInfoPackage(),
-           // new CameraRollPackage(),
-          //  new RNCWebViewPackage(),
-
-           // new ExtraDimensionsPackage(),
-
-                   // new CodePush(getResources().getString(R.string.deploymentKey), getApplicationContext(), BuildConfig.DEBUG, "", getSpecialCodeVersion()),
-                 //   new SplashScreenReactPackage(),
-                   // new RNSoundPackage(),
-                  //  new RNDeviceInfo(),
-                   // new FastImageViewPackage(),
-                  //  new RCTMarqueeLabelPackage(),
-                 //   new JXHelperPackage(),
-                //    new OpenAppPackage(),
-                   // new RNAudioPackage(),
-                 //   new DplusReactPackage(),
-                //    new WebViewReactPackage()
+                    new MainReactPackage(),
+            new NetInfoPackage(),
+            new OrientationPackage(),
+            new CameraRollPackage(),
+            new RNCWebViewPackage(),
+            new RNViewShotPackage(),
+            new ExtraDimensionsPackage(),
+                    new OpeninstallReactPackage(),
+                    new KCKeepAwakePackage(),
+                    new PickerViewPackage(),
+                    new RNZipArchivePackage(),
+                    new JPushPackage(false, false),
+                    new RNFSPackage(),
+                    new CodePush(getResources().getString(R.string.deploymentKey), getApplicationContext(), BuildConfig.DEBUG, "", getSpecialCodeVersion()),
+                    new SplashScreenReactPackage(),
+                    new RNSoundPackage(),
+                    new RNFetchBlobPackage(),
+                    new RNDeviceInfo(),
+                    new FastImageViewPackage(),
+                    new RCTMarqueeLabelPackage(),
+                    new JXHelperPackage(),
+                    new OpenAppPackage(),
+                    new RNAudioPackage(),
+                    new DplusReactPackage(),
+                    new WebViewReactPackage()
             );
 
         }
@@ -126,14 +147,14 @@ public class MainApplication extends Application implements ReactApplication {
     public void onCreate() {
         super.onCreate();
 
-        //AppUtil.updateLocalAFFCode(this);
-      //  CrashHandler.getInstance().init(this);
-        // ????????????
-       // JPushInterface.setDebugMode(BuildConfig.DEBUG);
-        //JPushInterface.init(this);
-        // ????????????
-      //  initUmeng();
-       // SoLoader.init(this, /* native exopackage */ false);
+        AppUtil.updateLocalAFFCode(this);
+        CrashHandler.getInstance().init(this);
+        // 极光配置
+        JPushInterface.setDebugMode(BuildConfig.DEBUG);
+        JPushInterface.init(this);
+        // 友盟配置
+        initUmeng();
+        SoLoader.init(this, /* native exopackage */ false);
     }
 
     @Override
@@ -153,12 +174,12 @@ public class MainApplication extends Application implements ReactApplication {
         String wechatSecretKey = BuildConfig.WECHAT_SECRET_KEY;
 
 //        RNUMConfigure.init(this, umengKey, "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
-//        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, null);
-//        UMConfigure.setLogEnabled(BuildConfig.DEBUG);
-//        UMConfigure.setEncryptEnabled(true);
+        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, null);
+        UMConfigure.setLogEnabled(BuildConfig.DEBUG);
+        UMConfigure.setEncryptEnabled(true);
 
-    //    PlatformConfig.setWeixin(wechatKey, wechatSecretKey);
-//        ??????RENREN???????????????????????????????????????
+        PlatformConfig.setWeixin(wechatKey, wechatSecretKey);
+//        豆瓣RENREN平台目前只能在服务器端配置
 //        PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad", "http://sns.whalecloud.com");
 //        PlatformConfig.setYixin("yxc0614e80c9304c11b0391514d09f13bf");
 //        PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");

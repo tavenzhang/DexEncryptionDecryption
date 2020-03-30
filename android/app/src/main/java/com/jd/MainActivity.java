@@ -13,12 +13,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 
-
+import com.jd.invokenative.ShareModule;
 import com.facebook.react.ReactActivity;
-//import com.umeng.analytics.MobclickAgent;
-//import com.umeng.socialize.UMShareAPI;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.socialize.UMShareAPI;
 
-//import org.devio.rn.splashscreen.SplashScreen;
+import org.devio.rn.splashscreen.SplashScreen;
 
 public class MainActivity extends ReactActivity {
 
@@ -31,7 +31,7 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "NEWQP";
+        return "BBL";
     }
 
     @Override
@@ -56,18 +56,65 @@ public class MainActivity extends ReactActivity {
     @Override
     protected void onResume() {
         super.onResume();
-       // MobclickAgent.onResume(this);
+        MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-      //  MobclickAgent.onPause(this);
+        MobclickAgent.onPause(this);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= 28) {
+            WindowManager.LayoutParams lp = getWindow().getAttributes();
+            lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+            getWindow().setAttributes(lp);
+        }
+        initUmeng();
+
+        // 设置透明状态栏
+        if (Build.VERSION.SDK_INT >= 21) {
+            View decorView = getWindow().getDecorView();
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            decorView.setSystemUiVisibility(option);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
+
+        // 设置透明状态栏和透明导航栏
+        if (Build.VERSION.SDK_INT >= 21) {
+            View decorView = getWindow().getDecorView();
+             int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+            decorView.setSystemUiVisibility(uiOptions);
+            getWindow().setNavigationBarColor(Color.BLACK);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+            //  getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
+        instance = this;
+        mainContent = getApplicationContext();
+        String subType = readMetaDataByTag("SUB_TYPE");
+        subType = subType.trim();
+        if (subType != null && !subType.equals("0") && !subType.equals("")) {
+            SplashScreen.show(this,false);  // here
+        } else {
+            SplashScreen.show(this, true);  // here
+        }
+//        if (Build.VERSION.SDK_INT == 26) {
+//            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+//        } else {
+//            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+//        }
+        //this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     }
 
 
@@ -85,13 +132,13 @@ public class MainActivity extends ReactActivity {
     }
 
     private void initUmeng() {
-       // ShareModule.initSocialSDK(this);
-        //MobclickAgent.setSessionContinueMillis(1000);
+        ShareModule.initSocialSDK(this);
+        MobclickAgent.setSessionContinueMillis(1000);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-       // UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 }
