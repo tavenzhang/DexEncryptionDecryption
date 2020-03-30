@@ -38,7 +38,7 @@ public class TCOpenOtherAppHelper extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void openWeiXin() {
-        openApp("com.tencent.mm", "微信");
+        openApp("com.tencent.mm", "??????");
     }
 
     @ReactMethod
@@ -48,7 +48,7 @@ public class TCOpenOtherAppHelper extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void openAlipay() {
-        openApp("com.eg.android.AlipayGphone", "支付宝");
+        openApp("com.eg.android.AlipayGphone", "?????????");
     }
 
     @ReactMethod
@@ -58,7 +58,7 @@ public class TCOpenOtherAppHelper extends ReactContextBaseJavaModule {
             Intent intent = packageManager.getLaunchIntentForPackage(appPackage);
             context.startActivity(intent);
         } catch (Exception e) {
-            Toast.makeText(context, "请安装" + appName + "应用!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "?????????" + appName + "??????!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -70,9 +70,9 @@ public class TCOpenOtherAppHelper extends ReactContextBaseJavaModule {
         Bitmap bitmap = Bitmap.createBitmap(dView.getDrawingCache());
         if (bitmap != null) {
             try {
-                // 获取内置SD卡路径
+                // ????????????SD?????????
                 String sdCardPath = Environment.getExternalStorageDirectory().getPath();
-                // 图片文件路径
+                // ??????????????????
                 String filePath = sdCardPath + File.separator + "screenshot.png";
                 File file = new File(filePath);
                 FileOutputStream os = new FileOutputStream(file);
@@ -81,13 +81,13 @@ public class TCOpenOtherAppHelper extends ReactContextBaseJavaModule {
                 os.close();
                 String mUri = MediaStore.Images.Media.insertImage(context.getContentResolver(), file.getPath(), "screenshot", null);
                 if (mUri != null) {
-                    // 最后通知图库更新
+                    // ????????????????????????
                     Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                     Uri uri = Uri.fromFile(new File(mUri));
                     intent.setData(uri);
                     context.sendBroadcast(intent);
                 }
-                Log.d("a7888", "存储完成");
+                Log.d("a7888", "????????????");
             } catch (Exception e) {
             }
         }

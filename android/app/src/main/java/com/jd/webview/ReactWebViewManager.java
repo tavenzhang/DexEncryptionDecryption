@@ -548,7 +548,7 @@ public class ReactWebViewManager extends SimpleViewManager<WebView> implements A
       settings.setAllowFileAccessFromFileURLs(false);
       setAllowUniversalAccessFromFileURLs(webView, false);
     }
-      //修改
+      //??????
            settings.setAllowFileAccess(true);
             settings.setJavaScriptEnabled(true);
               settings.setAllowFileAccessFromFileURLs(true);
@@ -572,9 +572,9 @@ public class ReactWebViewManager extends SimpleViewManager<WebView> implements A
   }
 
   private void showPopSelectPic(final ThemedReactContext Context) {
-    String[] items = new String[]{ "相册"};
+    String[] items = new String[]{ "??????"};
     AlertDialog.Builder builder = new AlertDialog.Builder(Context);
-    builder.setTitle("提示")
+    builder.setTitle("??????")
             .setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
               @Override
               public void onClick(DialogInterface dialog, int which) {
@@ -610,7 +610,7 @@ public class ReactWebViewManager extends SimpleViewManager<WebView> implements A
       Intent intent = new Intent("android.intent.action.GET_CONTENT");
       intent.setType("image/*");
       Activity currentActivity = reactApplicationContext.getCurrentActivity();
-      currentActivity.startActivityForResult(intent, CHOOSE_PHOTO); // 打开相册
+      currentActivity.startActivityForResult(intent, CHOOSE_PHOTO); // ????????????
     }
 
 

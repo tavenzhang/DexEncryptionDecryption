@@ -35,13 +35,13 @@ public class RootUtil {
         BufferedReader in = new BufferedReader(new InputStreamReader(localProcess.getInputStream()));
         try {
             while ((line = in.readLine()) != null) {
-//                Log.i(LOG_TAG, "–> Line received: " + line);
+//                Log.i(LOG_TAG, "???> Line received: " + line);
                 fullResponse.add(line);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        Log.i(LOG_TAG, "–> Full response was: " + fullResponse);
+//        Log.i(LOG_TAG, "???> Full response was: " + fullResponse);
         return fullResponse;
     }
 
@@ -91,7 +91,7 @@ public class RootUtil {
     }
 
     /**
-     * 写文件
+     * ?????????
      */
     public static Boolean writeFile(String fileName, String message) {
         try {
@@ -107,7 +107,7 @@ public class RootUtil {
     }
 
     /**
-     * 读文件
+     * ?????????
      */
     public static String readFile(String fileName) {
         File file = new File(fileName);

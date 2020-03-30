@@ -22,7 +22,7 @@ public class DplusReactPackage implements ReactPackage {
     }
 
     /**
-     * 如需要添加本地方法，只需在这里add
+     * ?????????????????????????????????????????????add
      *
      * @param reactContext
      * @return
@@ -31,7 +31,7 @@ public class DplusReactPackage implements ReactPackage {
     public List<NativeModule> createNativeModules(
         ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
-        modules.add(new ShareModule(reactContext));
+       // modules.add(new ShareModule(reactContext));
 //        modules.add(new PushModule(reactContext));
         modules.add(new AnalyticsModule(reactContext));
         return modules;

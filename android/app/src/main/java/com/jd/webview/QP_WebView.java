@@ -25,13 +25,13 @@ import android.widget.RelativeLayout;
 import com.jd.R;
 import com.jd.util.CommonDialog;
 import com.jd.util.JXDragView;
-import com.umeng.analytics.MobclickAgent;
+//import com.umeng.analytics.MobclickAgent;
 
 
 /**
  * Created by allen-jx on 2017/7/10.
  */
-public class JXGameWebView extends Activity {
+public class QP_WebView extends Activity {
 
     private WebView webView;
     private ProgressBar mProgressBar;
@@ -127,16 +127,16 @@ public class JXGameWebView extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        MobclickAgent.onResume(this);
+        //MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        MobclickAgent.onPause(this);
+      //  MobclickAgent.onPause(this);
     }
 
-    // 捕捉"回退"按键，让WebView能回退到上一页，而不是直接关闭Activity。
+    // ??????"??????"????????????WebView?????????????????????????????????????????????Activity???
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -187,7 +187,7 @@ public class JXGameWebView extends Activity {
                 @Override
                 public void onClick(View v) {
                     mExitDialog.dismiss();
-                    JXGameWebView.this.finish();
+                    QP_WebView.this.finish();
                 }
             });
             mExitDialog.setPositiveBtn(getString(R.string.exit_game_dialog_right_btn_title), new View.OnClickListener() {

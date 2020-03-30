@@ -14,7 +14,6 @@ import android.util.Log;
 
 import androidx.core.content.ContextCompat;
 
-import com.aliyun.security.yunceng.android.sdk.YunCeng;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.JSApplicationIllegalArgumentException;
@@ -25,17 +24,13 @@ import com.facebook.react.bridge.WritableMap;
 import com.jd.MainActivity;
 import com.jd.util.AppUtil;
 import com.jd.util.UpdateManager;
-import com.jd.webview.JXGameWebView;
+import com.jd.webview.QP_WebView;
 import com.jd.webview.JXWebView;
 
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
-import com.microsoft.codepush.react.CodePush;
-import cn.jpush.android.api.JPushInterface;
-import cn.jpush.android.data.JPushLocalNotification;
+//import com.microsoft.codepush.react.CodePush;
 
 
 public class JXHelper extends ReactContextBaseJavaModule {
@@ -79,24 +74,24 @@ public class JXHelper extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void getCodePushBundleURL(Callback resultCallback) {
-        resultCallback.invoke(CodePush.getJSBundleFile());
+       // resultCallback.invoke(CodePush.getJSBundleFile());
     }
 
     @ReactMethod
     public void notification(String title, String content) {
-        JPushLocalNotification ln = new JPushLocalNotification();
-        ln.setBuilderId(0);
-        ln.setContent(content);
-        ln.setTitle(title);
-        ln.setNotificationId(System.currentTimeMillis()) ;
-        ln.setBroadcastTime(System.currentTimeMillis() + 1000*1);
-        Map<String , Object> map = new HashMap<String, Object>() ;
-        map.put("name", "thomas") ;
-        map.put("data", "test") ;
-        JSONObject json = new JSONObject(map) ;
-        ln.setExtras(json.toString()) ;
-       // JPushInterface.addLocalNotification(MainActivity.mainContent, ln);
-        JPushInterface.addLocalNotification(this.context, ln);
+//        JPushLocalNotification ln = new JPushLocalNotification();
+//        ln.setBuilderId(0);
+//        ln.setContent(content);
+//        ln.setTitle(title);
+//        ln.setNotificationId(System.currentTimeMillis()) ;
+//        ln.setBroadcastTime(System.currentTimeMillis() + 1000*1);
+//        Map<String , Object> map = new HashMap<String, Object>() ;
+//        map.put("name", "thomas") ;
+//        map.put("data", "test") ;
+//        JSONObject json = new JSONObject(map) ;
+//        ln.setExtras(json.toString()) ;
+//       // JPushInterface.addLocalNotification(MainActivity.mainContent, ln);
+//        JPushInterface.addLocalNotification(this.context, ln);
     }
 
     @ReactMethod
@@ -202,7 +197,7 @@ public class JXHelper extends ReactContextBaseJavaModule {
             currentActivity.startActivity(intent);
         } catch (Exception e) {
             throw new JSApplicationIllegalArgumentException(
-                    "不能打开Activity : " + e.getMessage());
+                    "????????????Activity : " + e.getMessage());
         }
     }
 
@@ -210,14 +205,14 @@ public class JXHelper extends ReactContextBaseJavaModule {
     public void openGameWebViewFromJs(String url, String title, String platform) {
         try {
             Activity currentActivity = getCurrentActivity();
-            Intent intent = new Intent(currentActivity, JXGameWebView.class);
+            Intent intent = new Intent(currentActivity, QP_WebView.class);
             intent.putExtra("url", url);
             intent.putExtra("title", title);
             intent.putExtra("platform", platform);
             currentActivity.startActivity(intent);
         } catch (Exception e) {
             throw new JSApplicationIllegalArgumentException(
-                    "不能打开Activity : " + e.getMessage());
+                    "????????????Activity : " + e.getMessage());
         }
     }
 
@@ -253,33 +248,33 @@ public class JXHelper extends ReactContextBaseJavaModule {
     @ReactMethod
     public void yunDunStart(String keyStr, String groupId, String tokenStr,String ddomain, String portS,Callback callback) {
         Log.d("YunCeng", "starr===");
-        String resultStr = null;
-        try {
-            int ret = 0;
-            StringBuffer target_ip = new StringBuffer();
-            StringBuffer targer_port = new StringBuffer();
-
-            // 初始化
-            ret = YunCeng.initEx(keyStr, tokenStr);
-            Log.d("YunCeng--keyStr--keyStr", "ret==="+ret+"====keyStr=="+keyStr+"---ddomain="+ddomain);
-            if (0 == ret) {
-                Log.d("YunCeng--keyStr--keyStr", "groupId==="+groupId);
-                // 获取IP
-                ret = YunCeng.getProxyTcpByDomain(tokenStr, groupId, ddomain, portS, target_ip, targer_port);
-                Log.d("YunCeng", "Get IP failed: " + ret);
-                if (0 == ret) {
-                    resultStr = target_ip.toString() + "_" + targer_port.toString();
-                } else {
-                    Log.d("YunCeng", "Get IP failed: " + ret);
-                }
-            } else {
-                Log.d("YunCeng", "SDK init failed: " + ret);
-            }
-            callback.invoke(resultStr);
-        } catch (Exception e) {
-            Log.d("YunCeng", e.getMessage());
-             callback.invoke(resultStr);
-        }
+//         String resultStr = null;
+//         try {
+//             int ret = 0;
+//             StringBuffer target_ip = new StringBuffer();
+//             StringBuffer targer_port = new StringBuffer();
+//
+//             // ?????????
+//             ret = YunCeng.initEx(keyStr, tokenStr);
+//             Log.d("YunCeng--keyStr--keyStr", "ret==="+ret+"====keyStr=="+keyStr+"---ddomain="+ddomain);
+//             if (0 == ret) {
+//                 Log.d("YunCeng--keyStr--keyStr", "groupId==="+groupId);
+//                 // ??????IP
+//                 ret = YunCeng.getProxyTcpByDomain(tokenStr, groupId, ddomain, portS, target_ip, targer_port);
+//                 Log.d("YunCeng", "Get IP failed: " + ret);
+//                 if (0 == ret) {
+//                     resultStr = target_ip.toString() + "_" + targer_port.toString();
+//                 } else {
+//                     Log.d("YunCeng", "Get IP failed: " + ret);
+//                 }
+//             } else {
+//                 Log.d("YunCeng", "SDK init failed: " + ret);
+//             }
+//             callback.invoke(resultStr);
+//         } catch (Exception e) {
+//             Log.d("YunCeng", e.getMessage());
+//              callback.invoke(resultStr);
+//         }
     }
 
     public String getAffCode() {

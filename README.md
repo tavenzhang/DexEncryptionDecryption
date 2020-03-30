@@ -1,11 +1,11 @@
-##博博乐棋牌-官方包app下载地址规则
+##博博乐-官方包app下载地址规则
 iOS：
 https://download.{业主下载域名}/ios/{业主品牌代号}/app.html?app=1&sub=bbl
 android：
 https://download.{业主下载域名}/bbl/{业主品牌代号}_bbl_release.apk
 
 例如
-超会赢棋牌
+超会赢
 iOS： https://download.jinkuangjia.com/ios/chyqp/app.html?app=1&sub=bbl
 安卓：https://download.jinkuangjia.com/bbl/chyqp_bbl_release.apk
 
@@ -73,7 +73,7 @@ export const MyAppName = '博博乐';
 export const versionHotFix = 'bbl_3_25';
 
 //配合渠道域名 用来 获取 热更新的开关等参数
-export const MyOwnerPlatName= 'uat彩票';
+export const MyOwnerPlatName= 'uat';
 
 //备份域名 用来获取  备份的  热更新和游戏域名
 export const safeguardDomain = [
@@ -94,7 +94,7 @@ export const platInfo = {
     latestNativeVersion:"2.0",//用于强制更新 匹配，与info.plist 还有 gradle.properties. 需要严格一致。否则 会弹窗 强制下载
 }
 
-//邀请码默认配置  从彩票app 遗漏下来  暂不使用
+//邀请码默认配置  从app 遗漏下来  暂不使用
 export const affCodeList = {
     ios: {
         '2.9.6': 'uat_ios'

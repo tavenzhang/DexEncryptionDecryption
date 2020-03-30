@@ -1,9 +1,10 @@
 package com.jd.wxapi;
 
-import com.umeng.socialize.weixin.view.WXCallbackActivity;
+
+import com.facebook.react.ReactActivity;
 
 /**
  * Created by wangfei on 17/8/28.
  */
 
-public class WXEntryActivity extends WXCallbackActivity {}
+public class WXEntryActivity extends ReactActivity {}
