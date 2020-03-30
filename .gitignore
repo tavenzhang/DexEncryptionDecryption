@@ -60,3 +60,5 @@ ios/Pods
 ios/bundle
 android/bundle
 src/Page/web/gamelobby
+/android/app/taven/release/release.apk
+/android/app/taven/release/output.json
