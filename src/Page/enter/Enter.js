@@ -11,51 +11,53 @@ import {
 } from 'react-native';
 
 import Moment from 'moment'
-// import CodePush from 'react-native-code-push'
-// import DeviceInfo from 'react-native-device-info';
+import CodePush from 'react-native-code-push'
+import DeviceInfo from 'react-native-device-info';
+import * as Progress from 'react-native-progress';
 import { observer } from 'mobx-react'
-//import Storage from '../../Common/Global/TCStorage'
-//import G_Config from '../../Common/Global/G_Config'
-// import App from '../Route/App';
-// import Orientation from 'react-native-orientation';
-//
-// import { width, Size } from '../asset/game/themeComponet'
-// import StartUpHelper from './StartUpHelper'
-// import ExtraDimensions from 'react-native-extra-dimensions-android';
-//
-// let retryTimes = 0;
-// let downloadTime = 0
-// let alreadyInCodePush = false
-// import JXDomainsHelper from "../../Common/JXHelper/JXDomainsHelper";
-// import { AppConfig } from "../../config/appConfig";
-// import { JX_PLAT_INFO } from "../asset";
-// import { SoundHelper } from "../../Common/JXHelper/SoundHelper";
-// import FileTools from "../../Common/Global/FileTools";
-//
-// let domainsHelper = new JXDomainsHelper();
-// let appInfoStore = TW_Store.appStore;
+import Storage from '../../Common/Global/TCStorage'
+import G_Config from '../../Common/Global/G_Config'
+import App from '../Route/App';
+import Orientation from 'react-native-orientation';
+
+import { width, Size } from '../asset/game/themeComponet'
+import StartUpHelper from './StartUpHelper'
+import KeepAwake from 'react-native-keep-awake';
+import ExtraDimensions from 'react-native-extra-dimensions-android';
+
+let retryTimes = 0;
+let downloadTime = 0
+let alreadyInCodePush = false
+import JXDomainsHelper from "../../Common/JXHelper/JXDomainsHelper";
+import { AppConfig } from "../../config/appConfig";
+import { JX_PLAT_INFO } from "../asset";
+import { SoundHelper } from "../../Common/JXHelper/SoundHelper";
+import FileTools from "../../Common/Global/FileTools";
+
+let domainsHelper = new JXDomainsHelper();
+let appInfoStore = TW_Store.appStore;
 @observer
 export default class Enter extends Component {
 
     constructor() {
         super();
-        // this.hotFixStore = TW_Store.hotFixStore;
-        // this.handleAppStateChange = this.handleAppStateChange.bind(this);
-        // this.initDomain = this.initDomain.bind(this);
-        // TW_Store.appStore.regCallInitFuc(this.onInitAllData);
-        // this.flage = false
-        // this.isWeakUpdate = false;
-        //
-        // Orientation.addOrientationListener(this._onOrientationDidChange);
-        // TW_Log("_orientationDidChange--22233225--start-lockToLandscapeRight");
-        //
-        // if (G_IS_IOS) {
-        //     if (TW_Store.appStore.isNewOrientation) {
-        //         Orientation.lockToLandscape();
-        //     } else {
-        //         Orientation.lockToLandscapeRight();
-        //     }
-        // }
+        this.hotFixStore = TW_Store.hotFixStore;
+        this.handleAppStateChange = this.handleAppStateChange.bind(this);
+        this.initDomain = this.initDomain.bind(this);
+        TW_Store.appStore.regCallInitFuc(this.onInitAllData);
+        this.flage = false
+        this.isWeakUpdate = false;
+
+        Orientation.addOrientationListener(this._onOrientationDidChange);
+        TW_Log("_orientationDidChange--22233225--start-lockToLandscapeRight");
+
+        if (G_IS_IOS) {
+            if (TW_Store.appStore.isNewOrientation) {
+                Orientation.lockToLandscape();
+            } else {
+                Orientation.lockToLandscapeRight();
+            }
+        }
     }
 
     _onOrientationDidChange = (orientation) => {
@@ -594,4 +596,4 @@ if (TN_IS_HAVE_CODE_PUSH) {
 }
 
 
-AppRegistry.registerComponent('NEWQP', () => Enter);
+AppRegistry.registerComponent('BBL', () => Enter);

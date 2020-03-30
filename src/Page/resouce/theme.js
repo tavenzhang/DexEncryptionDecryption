@@ -77,7 +77,7 @@ export const baseColor = {
     tabUnSelectTxt: '#7c7c7c', //tab字体未选中
     tabSelectedTxt: '#4292cd', //选中
     waitOpen: '#51CFAF', //等待开奖
-    cpDetailTitle: '#66CCFF', //详情投注号码标题
+    cpDetailTitle: '#66CCFF', //彩票详情投注号码标题
     blue: '#39c7ff',
     txtInput: '#ffffff',
     lightGray: '#cccccc',
@@ -119,12 +119,12 @@ export const indexTxtColor = {
         '#18a53d',
         '#e79811'
     ], //彩种标题
-    cpDescription: fontColor.minorTxt, //描述
-    cpTitle: fontColor.mainTxt, //标题
+    cpDescription: fontColor.minorTxt, //彩票描述
+    cpTitle: fontColor.mainTxt, //彩票标题
     winnerTitle: fontColor.mainTxt, //中奖榜标题
     winner: fontColor.mainTxt, //中奖用户名
     winnerMoney: fontColor.strong, //中奖金额
-    winnerCpName: fontColor.mainTxt, //类型
+    winnerCpName: fontColor.mainTxt, //彩票类型
     bottomMenuTitleNormal: baseColor.tabUnSelectTxt, //底部菜单未选中
     bottomMenuTitlePressed: baseColor.tabSelectedTxt, //底部菜单选中
     updateTip: fontColor.mainTxt, //更新提示
@@ -221,24 +221,24 @@ export const shoppingTxtColor = {
     tabTitleNormal: fontColor.minorTxt, //tab未选中
     tabTitlePressed: fontColor.strong, //tab选中
     tabLine: fontColor.strong, //指示条
-    cpTitle: fontColor.mainTxt, //标题
-    cpNum: fontColor.strong, //开奖号码
-    cpLastIssueNumber: fontColor.issue, //最新期号
-    cpTipTxt: fontColor.minorTxt, //提示
-    cpTime: fontColor.minorTxt, //倒计时
+    cpTitle: fontColor.mainTxt, //彩票标题
+    cpNum: fontColor.strong, //彩票开奖号码
+    cpLastIssueNumber: fontColor.issue, //彩票最新期号
+    cpTipTxt: fontColor.minorTxt, //彩票提示
+    cpTime: fontColor.minorTxt, //彩票倒计时
     cpLotteryTip: fontColor.waitOpen //正在开奖提示
 };
 
 //开奖大厅
 export const lotteryTxtColor = {
-    cpTitle: moduleBasedColor.lottery.mainTxt, //标题
-    cpTime: moduleBasedColor.lottery.minorTxt, //倒计时
-    cpLastIssueNumber: moduleBasedColor.lottery.minorTxt, //最新期号
-    cpDate: moduleBasedColor.lottery.minorTxt, //日期
-    cpNum: baseColor.white, //号码
+    cpTitle: moduleBasedColor.lottery.mainTxt, //彩票标题
+    cpTime: moduleBasedColor.lottery.minorTxt, //彩票倒计时
+    cpLastIssueNumber: moduleBasedColor.lottery.minorTxt, //彩票最新期号
+    cpDate: moduleBasedColor.lottery.minorTxt, //彩票日期
+    cpNum: baseColor.white, //彩票号码
     waitTxt: baseColor.white, //等待开奖
     operator: moduleBasedColor.lottery.mainTxt, //操作符号
-    cpTip: moduleBasedColor.lottery.mainTxt //提示
+    cpTip: moduleBasedColor.lottery.mainTxt //彩票提示
 };
 
 export const lotterBgColor = {
@@ -607,7 +607,7 @@ export const agentCenter = {
     accountTypeTxtSelected: baseColor.cpDetailTitle,
     accountTypeSelectBorder: baseColor.cpDetailTitle,
     accountTypeTxtUnSelected: fontColor.mainTxt,
-    title: fontColor.mainTxt, //用户名，余额，返点
+    title: fontColor.mainTxt, //用户名，余额，彩票返点
     titleName: fontColor.mainTxt,
     content: fontColor.minorTxt,
     btnBorder: baseColor.cpDetailTitle,
