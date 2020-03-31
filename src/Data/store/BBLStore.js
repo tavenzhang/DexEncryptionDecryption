@@ -95,7 +95,7 @@ export  default  class BBLStore {
         }
         let path= platInfo.zipCheckServer.release_server
         let versionDomain = TW_Store.bblStore.gameDomain+platInfo.zipCheckServer.release_server;
-        if(TW_Store.appStore.isSitApp){
+        if(TW_Store.appStore.isSitApp||TW_Store.appStore.clindId == "214"){
             versionDomain=platInfo.downDomain+path;
         }else{
             if(path.indexOf("bbl_lobby")==-1){

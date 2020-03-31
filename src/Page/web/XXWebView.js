@@ -289,10 +289,11 @@ export default class XXWebView extends Component {
                             break;
                         case "wxLogin":
                             TW_Store.gameUIStroe.checkWXInstall((ret)=> {
+                                TW_Log(" wxLogin checkWXInstall--",ret)
                                 TW_Store.dataStore.log += "\n\n==> wxLogin checkWXInstall---" + ret;
                                 if (ret) {
                                     TN_WechatAuth((code, result, message) => {
-                                        TW_Store.dataStore.log += "\n==> wxLogin message---" + JSON.stringify(result) + "---\n--code====" + code + "===message==" + message;
+                                        //TW_Store.dataStore.log += "\n==> wxLogin message---" + JSON.stringify(result) + "---\n--code====" + code + "===message==" + message;
                                         TW_Log("wxLogin code----" + code + "---message---" + message, result);
                                         if (result) {
                                             if (code == 200 || code == 0) {
