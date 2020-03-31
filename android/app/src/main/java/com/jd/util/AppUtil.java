@@ -21,7 +21,7 @@ public class AppUtil {
     public static final String JX_AFF_PATH = JX_PATH + "/aff";
 
     /**
-     * ??????????????????MetaData??????
+     * 获取应用指定MetaData数据
      */
     public static String getAppMetaDataString(@NonNull Context context, String key) {
         String value = null;
@@ -41,14 +41,14 @@ public class AppUtil {
     }
 
     /**
-     * ????????????ApplicationId
+     * 获取应用ApplicationId
      */
     private static String getApplicationId(@NonNull Context context) {
         return context.getPackageName();
     }
 
     /**
-     * ???????????????????????????
+     * 更新本地缓存邀请码
      */
     public static void updateLocalAFFCode(@NonNull Context context) {
         String applicationId = getApplicationId(context);
@@ -61,7 +61,7 @@ public class AppUtil {
     }
 
     /**
-     * ??????????????????????????????
+     * 从本地缓存获取邀请码
      */
     public static String getAFFCode(@NonNull Context context) {
         String applicationId = getApplicationId(context);

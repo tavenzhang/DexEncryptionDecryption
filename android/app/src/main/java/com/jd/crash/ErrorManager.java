@@ -6,7 +6,7 @@ import android.text.TextUtils;
 
 import com.jd.MainApplication;
 import com.jd.util.FileUtil;
-//import com.umeng.analytics.MobclickAgent;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
 
@@ -57,7 +57,7 @@ public class ErrorManager {
         if (TextUtils.isEmpty(error)) {
             return;
         }
-       // MobclickAgent.reportError(MainApplication.getInstance(), error);
+        MobclickAgent.reportError(MainApplication.getInstance(), error);
         FileUtil.deleteFile(file);
     }
 

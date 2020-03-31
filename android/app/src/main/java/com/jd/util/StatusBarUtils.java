@@ -18,7 +18,7 @@ import android.view.WindowManager;
 public class StatusBarUtils {
 
     /**
-     * ??????????????????????????? FitsSystemWindows ??????
+     * 设置页面最外层布局 FitsSystemWindows 属性
      *
      * @param activity
      * @param value
@@ -98,7 +98,7 @@ public class StatusBarUtils {
         if (OSUtils.isMiui()) {
             Log.e("nav", "vheight:" + getInternalDimensionSize(activity.getResources()));
             if (Settings.Global.getInt(activity.getContentResolver(), "force_fsg_nav_bar", 0) != 0) {
-                //?????????????????????????????????
+                //开启手势，不显示虚拟键
                 return false;
             }
         }
