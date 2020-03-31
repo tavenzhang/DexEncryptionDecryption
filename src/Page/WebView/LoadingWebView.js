@@ -122,9 +122,9 @@ export default class LoadingWebView extends Component {
                     break;
                 case  "game_custom":
                     TW_Log("onMessage====LoadingWebView======TW_Store.gameUIStroe.showGusetView=", message);
-                    if (!TW_Store.appStore.isInAnroidHack) {
-                        TW_Store.gameUIStroe.isShowAppGUEST=true
-                    }
+                    //if (!TW_Store.appStore.isInAnroidHack) {
+                        TW_Store.gameUIStroe.isShowAppGUEST=true;
+                   // }
                     break;
             }
         }
