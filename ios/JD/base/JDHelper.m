@@ -5,12 +5,14 @@
 //  Created by Sam on 10/03/2018.
 //  Copyright © 2018 JD. All rights reserved.
 //
+#import "CodePush.h"
 #import "JDHelper.h"
 #import <React/RCTConvert.h>
 #import <React/RCTEventDispatcher.h>
 #import "AppDelegate.h"
 #import "AppDelegate+JDBase.h"
 #import <AdSupport/AdSupport.h>
+#import <CodePush.h>
 #import  "YunCeng.h"
 #import <OpenInstallSDK.h>
 @implementation JDHelper
@@ -72,12 +74,12 @@ RCT_EXPORT_METHOD(getAffCode:(RCTResponseSenderBlock)callback)
 }
 
 
-//RCT_EXPORT_METHOD(getCodePushBundleURL:(RCTResponseSenderBlock)callback)
-//{
-//    //NSString * bundleAssetsPath =  [CodePush bundleAssetsPath];
-//    NSString* bundleURL=[[CodePush bundleURL] path];
-//    callback(@[bundleURL]);
-//}
+RCT_EXPORT_METHOD(getCodePushBundleURL:(RCTResponseSenderBlock)callback)
+{
+    //NSString * bundleAssetsPath =  [CodePush bundleAssetsPath];
+    NSString* bundleURL=[[CodePush bundleURL] path];
+    callback(@[bundleURL]);
+}
 
 + (NSString *)getAffCode{
   NSDictionary *tempInfoDict = [[NSBundle mainBundle] infoDictionary];
@@ -205,14 +207,14 @@ RCT_EXPORT_METHOD(exitApp) {
   exit(0);
 }
 
-//RCT_EXPORT_METHOD(setCodePushConfig:(NSString *)server:(NSString *)appVersion){
-//  if (server) {
-//    [[CodePushConfig current]setServerURL:server];
-//  }
-//  if(appVersion){
-//     // [[CodePushConfig current] setAppVersion:appVersion];
-//  }
-//}
+RCT_EXPORT_METHOD(setCodePushConfig:(NSString *)server:(NSString *)appVersion){
+  if (server) {
+    [[CodePushConfig current]setServerURL:server];
+  }
+  if(appVersion){
+     // [[CodePushConfig current] setAppVersion:appVersion];
+  }
+}
 
 RCT_EXPORT_METHOD(yunDunStart:(NSString*)keyStr:(NSString *)groupId:(NSString *)tokenStr:(NSString *)ddomain:(NSString *)portS back:(RCTResponseSenderBlock)callback)
 {
