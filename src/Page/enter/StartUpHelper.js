@@ -51,7 +51,7 @@ function getAvailableDomain(domains, callback, initDomainCallBack,currentCacheDo
             }
             NetUitls.getUrlAndParamsAndCallback(`${requestDomain}/api/v1/ip/user/checkIpInfoDomainsEncrypte?clientId=${TW_Store.appStore.clindId}&platform=CG`, null, (rt) => {
                 if (rt.rs) {
-                    if (!isFinish) {
+                    if (!isFinish&&rt.content) {
                         isFinish = true;
                         // TW_Log('大王来巡山--content ',rt.content.data);
                         var decodepk64 = base64.decode(pk64)

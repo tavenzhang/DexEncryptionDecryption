@@ -3,7 +3,7 @@ import React, {
 } from 'react-native';
 
 export const appDomainBase = {
-    base1: 'http://127.0.0.1',
+    base1: 'https://qp01-game.513xyz.com',
     base2: 'https://qp01-game.513xyz.com',
     base3: 'https://*.gymjjddjzx.com',
     base4: 'https://yundun-qp01-game.513xyz.com',
