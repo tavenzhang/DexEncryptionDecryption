@@ -7,6 +7,7 @@ import {
 import {WebView} from 'react-native-webview';
 import {observer} from "mobx-react";
 import {platInfo} from "../../config/appConfig";
+import Tools from "../../Common/View/Tools";
 
 @observer
 export default class LoadingWebView extends Component {
@@ -73,7 +74,7 @@ export default class LoadingWebView extends Component {
         })()`;
         TW_Log("targetAppDir----LoadingWebView-source==" + newUrl, source);
         return (
-            <View style={[styles.container, {width: TW_Store.appStore.screenW}]}>
+            <View style={[styles.container, {width: TW_Store.appStore.screenW}]} ref="myView">
                 <WebView
                     ref="myWebView"
                     useWebKit={true}
@@ -120,16 +121,24 @@ export default class LoadingWebView extends Component {
                 case "Log":
                     // TW_Log("game---ct=="+message.ct,message.data);
                     break;
-                case  "game_custom":
-                    TW_Log("onMessage====LoadingWebView======TW_Store.gameUIStroe.showGusetView=", message);
-                    //if (!TW_Store.appStore.isInAnroidHack) {
-                        TW_Store.gameUIStroe.isShowAppGUEST=true;
-                   // }
-                    break;
+                case  "game_common":
+                    let actions = message.name || message.do;
+                    TW_Log("switch==actions====actions");
+                    switch (actions) {
+                        case "customerService":
+                            if (!TW_Store.appStore.isInAnroidHack) {
+                                TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:TW_Store.gameUIStroe.gustWebUrl,isShowReload:false,backHandle:this.onShowUI,type:"guest"});
+                                this.onShowUI(false)
+                            }
+                            break;
+                    }
             }
         }
     }
+    onShowUI=(isShowUi=true)=>{
 
+        this.refs.myView.setNativeProps({style: {zIndex: isShowUi ?  10001:-888}});
+    }
 
     onLoadEnd = () => {
         if (G_IS_IOS) {
