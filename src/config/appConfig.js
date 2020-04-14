@@ -10,7 +10,7 @@ export const appDomainBase = {
     base5: 'https://yundun-qp01-game.513xyz.com',
     base6: 'https://yundun-qp01-game.513xyz.com',
 }
-
+//'https://127.0.0.1',
 
 export let configAppId = "214"
 
@@ -37,7 +37,7 @@ export const AppConfig = {
 
 export const MyAppName = '博博乐';
 
-export const versionHotFix = 'v5.0413.2030';
+export const versionHotFix = 'v5.0414.1732';
 
 export const MyOwnerPlatName= '博博乐';
 
