@@ -37,7 +37,7 @@ export const AppConfig = {
 
 export const MyAppName = '博博乐';
 
-export const versionHotFix = 'v5.0414.1732';
+export const versionHotFix = 'v5.0415.1506';
 
 export const MyOwnerPlatName= '博博乐';
 
@@ -62,7 +62,7 @@ export const safeguardKey = 'eyJkIjogWyJodHRwczovLzk4NzY0NWJhMDBhOWIwNDE2YjI1NGY
 
 export const platInfo = {
 
-    downDomain:"https://download.jwyxw.net",
+    downDomain:"https://download.jinkuangjia.com",
 
     zipCheckServer: {
         debug_server: "http://192.168.14.70:8888",
