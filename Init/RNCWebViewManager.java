@@ -180,16 +180,18 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
       new LayoutParams(LayoutParams.MATCH_PARENT,
         LayoutParams.MATCH_PARENT));
 
-    if (ReactBuildConfig.DEBUG && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-      WebView.setWebContentsDebuggingEnabled(true);
-    }
-
     //修改 备注
     settings.setAllowFileAccess(true);
     settings.setJavaScriptEnabled(true);
     settings.setAllowFileAccessFromFileURLs(true);
-
     settings.setAllowUniversalAccessFromFileURLs(true);
+    
+    if (ReactBuildConfig.DEBUG && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+      WebView.setWebContentsDebuggingEnabled(true);
+    }
+
+
+
     webView.setDownloadListener(new DownloadListener() {
       public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
         RNCWebViewModule module = getModule(reactContext);
