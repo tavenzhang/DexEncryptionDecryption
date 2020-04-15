@@ -58,7 +58,7 @@ export default class AppInfoStore {
      */
     userAffCode = '';
     @observable
-    specialVersionHot = '5';
+    specialVersionHot = '6';
 
     @observable
     versionHotFix = versionHotFix;
