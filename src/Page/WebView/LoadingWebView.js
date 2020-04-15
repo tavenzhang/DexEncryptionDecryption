@@ -136,7 +136,6 @@ export default class LoadingWebView extends Component {
         }
     }
     onShowUI=(isShowUi=true)=>{
-
         this.refs.myView.setNativeProps({style: {zIndex: isShowUi ?  10001:-888}});
     }
 
@@ -182,7 +181,6 @@ export default class LoadingWebView extends Component {
 
     onNavigationStateChange = (navState) => {
         TW_Log("navState====LoadingWebView=======onNavigationStateChange=====url==" + navState.url, navState)
-
     };
 
 

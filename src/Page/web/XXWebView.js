@@ -141,7 +141,7 @@ export default class XXWebView extends Component {
 
 
     render() {
-        TW_Log("TW_DATA_KEY.gameList-FileTools--==err=flash=this.state.flash--isLoading="+TW_Store.gameUpateStore.isLoading+"---TW_Store.bblStore.gameDomain.length--");
+        TW_Log("TW_DATA_KEY.gameList--isLoading="+TW_Store.gameUpateStore.isLoading+"---TW_Store.bblStore.gameDomain.length--"+TW_Store.bblStore.gameDomain.length);
         let news = TW_Store.gameUpateStore.isLoading || !TW_Store.dataStore.isAppInited||TW_Store.bblStore.gameDomain.length<4;
         if (news) {
             return null
@@ -221,8 +221,9 @@ export default class XXWebView extends Component {
 
 
     onMessage = (event) => {
-        let message = JSON.parse(event.nativeEvent.data);
-        this.onMsgHandle(message);
+        TW_Log("onMessage====",event)
+       let message = JSON.parse(event.nativeEvent.data);
+       this.onMsgHandle(message);
     }
 
     onMsgHandle = (message) => {
@@ -405,7 +406,6 @@ export default class XXWebView extends Component {
                 case "showGame":
                     TW_Store.gameUpateStore.isEnteredGame = true;
                    // this.onEvaleJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appNativeData, { data: TW_Store.bblStore.getAppNativeData()}));
-                    TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK,'1');
                     if (TW_Store.dataStore.isAppSound) {
                         this.onEvaleJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.stopMusic));
                     }

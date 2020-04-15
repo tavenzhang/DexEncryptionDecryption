@@ -44,6 +44,7 @@ export default class DataStore {
         this.androdi_copy_assets_to_dir = this.androdi_copy_assets_to_dir.bind(this);
         this.content=null;
         this.retryTime=0
+        this.onZipTryTimes=0
     }
 
     @action
@@ -201,7 +202,6 @@ export default class DataStore {
                 callFunc(ret);
             }
         });
-
     }
 
     clearCurrentDownJob = () => {
@@ -217,18 +217,19 @@ export default class DataStore {
 
     downloadFile = (formUrl, downloadDest, newVersion) => {
         this.clearCurrentDownJob();
-        this.downloadDest = downloadDest;
         formUrl = formUrl + "?verson=" + (newVersion ? newVersion : Math.random());
-        this.log +="\nversionBBL---downloadFile==" + formUrl+"--\n";
-        this.log +="\nversionBBL---downloadFile==newVersion==" + newVersion+"--\n";
+        this.log +="\nversionBBL---downloadFile==" + formUrl+"newVersion==="+newVersion+"--\n";
+        TW_Log("downloadFile---formUrl=="+formUrl,newVersion)
         const options = {
             fromUrl: formUrl,
             toFile: downloadDest,
             background: G_IS_IOS ? false : true,
             begin: (res) => {
                 TW_Log('versionBBL--begin', res);
+                this.downState = "begin";
                 // this.log+="==>downloadFile--begin="+res;
                 //{statusCode: 404, headers: {…}, jobId: 1, contentLength: 153
+                TW_Log("downloadFile---------begin---", res);
                 if (res.statusCode != 404) {
                     TW_Store.gameUpateStore.isLoading = true;
                 } else {
@@ -249,7 +250,7 @@ export default class DataStore {
                     percent = tempPercent >= 0.99 ? 0.99 : tempPercent;
                 }
 
-                // TW_Log("downloadFile--------progress-TW_Store.gameUpateStore.isNeedUpdate=-",percent);
+                //TW_Log("downloadFile--------progress-TW_Store.gameUpateStore.isNeedUpdate=-",percent);
                 if (!TW_Store.gameUpateStore.isAppDownIng) {
                     TW_LoaderOnValueJS(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.game_loading, {
                         data: {
@@ -277,6 +278,21 @@ export default class DataStore {
             this.log += "==>downloadFile-=" + options;
             this.currentDownId = ret ? ret.jobId : 0;
             TW_Log("downloadFile---------start- this.currentDownId-" + this.currentDownId, ret);
+            setTimeout(()=>{
+                if(this.downState=="start"){
+                    if(this.onZipTryTimes<=3){
+                        this.onZipTryTimes+=1;
+                        TW_Log("downloadFile---------redown-"+this.onZipTryTimes);
+                        this.downloadFile(formUrl, downloadDest, false)
+                    }else{
+                        //如果尝试3次都是失败 则听着loading 下载
+                        TW_Store.gameUpateStore.isLoading = false;
+                        this.hideLoadingView();
+                        this.clearCurrentDownJob();
+                    }
+                }
+               },1500);
+            this.downState = "start";
             ret.promise.then(res => {
                 TW_Log("downloadFile---------start-lastest---", ret);
                 TW_Log('versionBBL---downloadFile---sucess file://' + downloadDest, res);
@@ -303,10 +319,12 @@ export default class DataStore {
     }
 
 
+
     //解压
     unzipNewCourse = (downloadDest) => {
         TW_Log(`versionBBL unzip start------ ${downloadDest}` + "--   TW_Store.gameUpateStore.isLoading==" + TW_Store.gameUpateStore.isLoading);
         this.log += "==>unzipNewCourse--=" + downloadDest;
+        return;
         unzip(downloadDest, rootStore.bblStore.storeDir)
             .then((path) => {
                 TW_Log(`versionBBL unzip completed at------ ${path}`);
@@ -328,6 +346,7 @@ export default class DataStore {
                     this.onSaveVersionM(this.content, false, () => {
                         this.log += "==>onSaveVersionM--=end";
                     });
+                    TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK,'1');
                 }, G_IS_IOS ? 500 : 5000)
 
             })
