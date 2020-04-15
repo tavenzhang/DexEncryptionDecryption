@@ -16,7 +16,6 @@ import android.os.Environment;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import android.text.TextUtils;
-import android.view.MotionEvent;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +31,7 @@ import android.webkit.URLUtil;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -58,6 +58,7 @@ import com.facebook.react.uimanager.events.ContentSizeChangeEvent;
 import com.facebook.react.uimanager.events.Event;
 import com.facebook.react.uimanager.events.EventDispatcher;
 import com.reactnativecommunity.webview.events.TopLoadingErrorEvent;
+import com.reactnativecommunity.webview.events.TopHttpErrorEvent;
 import com.reactnativecommunity.webview.events.TopLoadingFinishEvent;
 import com.reactnativecommunity.webview.events.TopLoadingProgressEvent;
 import com.reactnativecommunity.webview.events.TopLoadingStartEvent;
@@ -105,6 +106,7 @@ import javax.annotation.Nullable;
 @ReactModule(name = RNCWebViewManager.REACT_CLASS)
 public class RNCWebViewManager extends SimpleViewManager<WebView> {
 
+  public static String activeUrl = null;
   public static final int COMMAND_GO_BACK = 1;
   public static final int COMMAND_GO_FORWARD = 2;
   public static final int COMMAND_RELOAD = 3;
@@ -113,6 +115,12 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
   public static final int COMMAND_INJECT_JAVASCRIPT = 6;
   public static final int COMMAND_LOAD_URL = 7;
   public static final int COMMAND_FOCUS = 8;
+
+  // android commands
+  public static final int COMMAND_CLEAR_FORM_DATA = 1000;
+  public static final int COMMAND_CLEAR_CACHE = 1001;
+  public static final int COMMAND_CLEAR_HISTORY = 1002;
+
   protected static final String REACT_CLASS = "RNCWebView";
   protected static final String HTML_ENCODING = "UTF-8";
   protected static final String HTML_MIME_TYPE = "text/html";
@@ -183,12 +191,11 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
     if (ReactBuildConfig.DEBUG && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
       WebView.setWebContentsDebuggingEnabled(true);
     }
-
-  //修改
-    settings.setAllowFileAccess(true);
-    settings.setJavaScriptEnabled(true);
-    settings.setAllowFileAccessFromFileURLs(true);
-    settings.setAllowUniversalAccessFromFileURLs(true);
+      //修改
+        settings.setAllowFileAccess(true);
+        settings.setJavaScriptEnabled(true);
+        settings.setAllowFileAccessFromFileURLs(true);
+        settings.setAllowUniversalAccessFromFileURLs(true);
 
 
     webView.setDownloadListener(new DownloadListener() {
@@ -207,7 +214,6 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
           String baseUrl = urlObj.getProtocol() + "://" + urlObj.getHost();
           String cookie = CookieManager.getInstance().getCookie(baseUrl);
           request.addRequestHeader("Cookie", cookie);
-          System.out.println("Got cookie for DownloadManager: " + cookie);
         } catch (MalformedURLException e) {
           System.out.println("Error getting cookie for DownloadManager: " + e.toString());
           e.printStackTrace();
@@ -262,12 +268,31 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
     }
   }
 
+  @ReactProp(name = "cacheMode")
+  public void setCacheMode(WebView view, String cacheModeString) {
+    Integer cacheMode;
+    switch (cacheModeString) {
+      case "LOAD_CACHE_ONLY":
+        cacheMode = WebSettings.LOAD_CACHE_ONLY;
+        break;
+      case "LOAD_CACHE_ELSE_NETWORK":
+        cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK;
+        break;
+      case "LOAD_NO_CACHE":
+        cacheMode = WebSettings.LOAD_NO_CACHE;
+        break;
+      case "LOAD_DEFAULT":
+      default:
+        cacheMode = WebSettings.LOAD_DEFAULT;
+        break;
+    }
+    view.getSettings().setCacheMode(cacheMode);
+  }
+
   @ReactProp(name = "androidHardwareAccelerationDisabled")
   public void setHardwareAccelerationDisabled(WebView view, boolean disabled) {
     if (disabled) {
       view.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-    } else {
-      view.setLayerType(View.LAYER_TYPE_NONE, null);
     }
   }
 
@@ -350,6 +375,11 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
   @ReactProp(name = "mediaPlaybackRequiresUserAction")
   public void setMediaPlaybackRequiresUserAction(WebView view, boolean requires) {
     view.getSettings().setMediaPlaybackRequiresUserGesture(requires);
+  }
+
+  @ReactProp(name = "allowFileAccessFromFileURLs")
+  public void setAllowFileAccessFromFileURLs(WebView view, boolean allow) {
+    view.getSettings().setAllowFileAccessFromFileURLs(allow);
   }
 
   @ReactProp(name = "allowUniversalAccessFromFileURLs")
@@ -519,23 +549,26 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
     export.put(TopLoadingProgressEvent.EVENT_NAME, MapBuilder.of("registrationName", "onLoadingProgress"));
     export.put(TopShouldStartLoadWithRequestEvent.EVENT_NAME, MapBuilder.of("registrationName", "onShouldStartLoadWithRequest"));
     export.put(ScrollEventType.getJSEventName(ScrollEventType.SCROLL), MapBuilder.of("registrationName", "onScroll"));
+    export.put(TopHttpErrorEvent.EVENT_NAME, MapBuilder.of("registrationName", "onHttpError"));
     return export;
   }
 
   @Override
   public @Nullable
   Map<String, Integer> getCommandsMap() {
-    Map map = MapBuilder.of(
-      "goBack", COMMAND_GO_BACK,
-      "goForward", COMMAND_GO_FORWARD,
-      "reload", COMMAND_RELOAD,
-      "stopLoading", COMMAND_STOP_LOADING,
-      "postMessage", COMMAND_POST_MESSAGE,
-      "injectJavaScript", COMMAND_INJECT_JAVASCRIPT,
-      "loadUrl", COMMAND_LOAD_URL
-    );
-    map.put("requestFocus", COMMAND_FOCUS);
-    return map;
+    return MapBuilder.<String, Integer>builder()
+      .put("goBack", COMMAND_GO_BACK)
+      .put("goForward", COMMAND_GO_FORWARD)
+      .put("reload", COMMAND_RELOAD)
+      .put("stopLoading", COMMAND_STOP_LOADING)
+      .put("postMessage", COMMAND_POST_MESSAGE)
+      .put("injectJavaScript", COMMAND_INJECT_JAVASCRIPT)
+      .put("loadUrl", COMMAND_LOAD_URL)
+      .put("requestFocus", COMMAND_FOCUS)
+      .put("clearFormData", COMMAND_CLEAR_FORM_DATA)
+      .put("clearCache", COMMAND_CLEAR_CACHE)
+      .put("clearHistory", COMMAND_CLEAR_HISTORY)
+      .build();
   }
 
   @Override
@@ -586,6 +619,16 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
       case COMMAND_FOCUS:
         root.requestFocus();
         break;
+      case COMMAND_CLEAR_FORM_DATA:
+        root.clearFormData();
+        break;
+      case COMMAND_CLEAR_CACHE:
+        boolean includeDiskFiles = args != null && args.getBoolean(0);
+        root.clearCache(includeDiskFiles);
+        break;
+      case COMMAND_CLEAR_HISTORY:
+        root.clearHistory();
+        break;
     }
   }
 
@@ -604,6 +647,11 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
     if (mAllowsFullscreenVideo) {
       int initialRequestedOrientation = reactContext.getCurrentActivity().getRequestedOrientation();
       mWebChromeClient = new RNCWebChromeClient(reactContext, webView) {
+        @Override
+        public Bitmap getDefaultVideoPoster() {
+          return Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888);
+        }
+
         @Override
         public void onShowCustomView(View view, CustomViewCallback callback) {
           if (mVideoView != null) {
@@ -656,7 +704,12 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
       if (mWebChromeClient != null) {
         mWebChromeClient.onHideCustomView();
       }
-      mWebChromeClient = new RNCWebChromeClient(reactContext, webView);
+      mWebChromeClient = new RNCWebChromeClient(reactContext, webView) {
+        @Override
+        public Bitmap getDefaultVideoPoster() {
+          return Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888);
+        }
+      };
       webView.setWebChromeClient(mWebChromeClient);
     }
   }
@@ -694,6 +747,7 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
 
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
+      activeUrl = url;
       dispatchEvent(
         view,
         new TopShouldStartLoadWithRequestEvent(
@@ -730,6 +784,25 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
       dispatchEvent(
         webView,
         new TopLoadingErrorEvent(webView.getId(), eventData));
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    public void onReceivedHttpError(
+      WebView webView,
+      WebResourceRequest request,
+      WebResourceResponse errorResponse) {
+      super.onReceivedHttpError(webView, request, errorResponse);
+
+      if (request.isForMainFrame()) {
+        WritableMap eventData = createWebViewEvent(webView, request.getUrl().toString());
+        eventData.putInt("statusCode", errorResponse.getStatusCode());
+        eventData.putString("description", errorResponse.getReasonPhrase());
+
+        dispatchEvent(
+          webView,
+          new TopHttpErrorEvent(webView.getId(), eventData));
+      }
     }
 
     protected void emitFinishEvent(WebView webView, String url) {
@@ -792,6 +865,7 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
     }
 
     // Fix WebRTC permission request error.
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onPermissionRequest(final PermissionRequest request) {
       String[] requestedResources = request.getResources();
@@ -829,9 +903,18 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
     @Override
     public void onProgressChanged(WebView webView, int newProgress) {
       super.onProgressChanged(webView, newProgress);
+      final String url = webView.getUrl();
+      if (
+        url != null
+        && activeUrl != null
+        && !url.equals(activeUrl)
+      ) {
+        return;
+      }
       WritableMap event = Arguments.createMap();
       event.putDouble("target", webView.getId());
       event.putString("title", webView.getTitle());
+      event.putString("url", url);
       event.putBoolean("canGoBack", webView.canGoBack());
       event.putBoolean("canGoForward", webView.canGoForward());
       event.putDouble("progress", (float) newProgress / 100);
@@ -919,23 +1002,6 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event){
-
-      // Allow scrolling inside ScrollView
-      if (event.findPointerIndex(0) == -1) {
-        return super.onTouchEvent(event);
-      }
-
-      if (event.getPointerCount() >= 1) {
-        requestDisallowInterceptTouchEvent(true);
-      } else {
-        requestDisallowInterceptTouchEvent(false);
-      }
-
-      return super.onTouchEvent(event);
-    }
-
-    @Override
     public void onHostResume() {
       // do nothing
     }
@@ -969,7 +1035,9 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
     @Override
     public void setWebViewClient(WebViewClient client) {
       super.setWebViewClient(client);
-      mRNCWebViewClient = (RNCWebViewClient) client;
+      if (client instanceof RNCWebViewClient) {
+        mRNCWebViewClient = (RNCWebViewClient) client;
+      }
     }
 
     public @Nullable
