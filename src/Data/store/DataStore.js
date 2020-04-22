@@ -280,7 +280,7 @@ export default class DataStore {
             TW_Log("downloadFile---------start- this.currentDownId-" + this.currentDownId, ret);
             setTimeout(()=>{
                 if(this.downState=="start"){
-                    if(this.onZipTryTimes<=3){
+                    if(this.onZipTryTimes<3){
                         this.onZipTryTimes+=1;
                         TW_Log("downloadFile---------redown-"+this.onZipTryTimes);
                         this.downloadFile(formUrl, downloadDest, false)
@@ -291,7 +291,7 @@ export default class DataStore {
                         this.clearCurrentDownJob();
                     }
                 }
-               },1500);
+               },2000);
             this.downState = "start";
             ret.promise.then(res => {
                 TW_Log("downloadFile---------start-lastest---", ret);
