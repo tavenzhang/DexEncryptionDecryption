@@ -59,6 +59,7 @@ export default class XXWebView extends Component {
             Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
             Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
         }
+        this.onFlushGameData();
     }
 
 
@@ -459,7 +460,6 @@ export default class XXWebView extends Component {
                                 let access_token = TW_GetQueryString("access_token", message.url);
                                 if (ret.rs && access_token && access_token != "") {
                                     TW_Store.userStore.initLoginToken(access_token);
-                                     this.onFlushGameData();
                                 }
 
                                 if (message.url.indexOf(HTTP_GAME_LIST) > -1) {

@@ -447,9 +447,8 @@ export default class DataStore {
     @action
     onFlushGameData() {
         NetUitls.getUrlAndParamsAndCallback(TW_Store.bblStore.gameDomain + "/game.json" + "?rom=" + Math.random(), null, (rt) => {
-
             let newList = rt.content && !TW_Store.appStore.isSitApp ? rt.content : [];
-            let gameM = TW_Store.dataStore.appGameListM;
+            let gameM = TW_Store.dataStore.appGameListM ? TW_Store.dataStore.appGameListM:[];
             let lastList = [];
             for (let item of newList) {
                 let saveItem = gameM[`${item.name}`];
