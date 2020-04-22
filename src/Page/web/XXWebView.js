@@ -48,6 +48,7 @@ export default class XXWebView extends Component {
                 if (res) {
                     TW_Store.dataStore.appGameListM = res;
                 }
+                this.onFlushGameData();
             }
         });
         // TW_Log("(_keyboard-TW_DATA_KEY.gameList-FileTools--==G_IS_IOS== middle" + G_IS_IOS,Keyboard.addListener);
@@ -59,7 +60,7 @@ export default class XXWebView extends Component {
             Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
             Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
         }
-        this.onFlushGameData();
+
     }
 
 
@@ -465,7 +466,9 @@ export default class XXWebView extends Component {
                                 if (message.url.indexOf(HTTP_GAME_LIST) > -1) {
                                     if (ret.rs) {
                                         TW_Store.dataStore.onUpdateGameData(ret.content.datas);
+                                        this.onFlushGameData();
                                     }
+
                                 }
                                 if (message.url.indexOf(HTTP_ACCOUNT) > -1) {
                                     if (ret.rs) {
