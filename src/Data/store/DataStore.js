@@ -134,11 +134,11 @@ export default class DataStore {
                 this.isCheckRequesting = false;
                 this.hideLoadingView();
                 this.log += "\n==>TW_Store.dataStore.this.isCheckRequesting" + this.isCheckRequesting;
-                if(!this.content){
+                if(!this.content&&this.retryTime<3){
+                    this.retryTime+=1;
                     this.checkHomeZipUpdate();
                 }
                 TW_SplashScreen_HIDE();
-
             }
         }, 3000);
         NetUitls.getUrlAndParamsAndCallback(rootStore.bblStore.getVersionConfig(), null, (rt) => {
@@ -176,7 +176,6 @@ export default class DataStore {
                 this.log += "\nthis.homeVersionM.zipSrc--last-" +zipSrc+"--gameUpateStore.isLoading--"+TW_Store.gameUpateStore.isLoading+"===TW_Store.gameUpateStore.isNeedUpdat=="+TW_Store.gameUpateStore.isNeedUpdate+"===\n";
             } else {
                 this.onSaveVersionM({}, true);
-                this.hideLoadingView()
                 if(!this.content&&this.retryTime<3){
                     this.retryTime+=1;
                     this.checkHomeZipUpdate();
@@ -186,10 +185,11 @@ export default class DataStore {
     }
 
     @action
-    async hideLoadingView() {
+    async hideLoadingView(callBack) {
         const isExist = await RNFS.exists(TW_Store.dataStore.targetAppDir + "/index.html");
         if(isExist){
             TW_Store.gameUpateStore.isNeedUpdate = false;
+            this.clearCurrentDownJob();
         }
     }
 
@@ -285,13 +285,11 @@ export default class DataStore {
                         TW_Log("downloadFile---------redown-"+this.onZipTryTimes);
                         this.downloadFile(formUrl, downloadDest, false)
                     }else{
-                        //如果尝试3次都是失败 则听着loading 下载
-                        TW_Store.gameUpateStore.isLoading = false;
+                        //如果尝试3次都是失败 如果大厅已经下载了 则停止loading 下载
                         this.hideLoadingView();
-                        this.clearCurrentDownJob();
                     }
                 }
-               },2000);
+               },G_IS_IOS ? 4000:2000);
             this.downState = "start";
             ret.promise.then(res => {
                 TW_Log("downloadFile---------start-lastest---", ret);
