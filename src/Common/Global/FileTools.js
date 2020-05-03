@@ -93,9 +93,9 @@ export default class FileTools {
         unzip(srcZip, destDir)
             .then((path) => {
                 if (onSucFuc) {
-                    if(!TW_Store.gameUpateStore.isInSubGame){
-                        Toast.showShortCenter(param.gameName + " 准备完成");
-                    }
+                    // if(!TW_Store.gameUpateStore.isInSubGame){
+                    //     Toast.showShortCenter(param.gameName + " 准备完成");
+                    // }
                     onSucFuc({rs: true, param})
                 }
                 TW_Log(`FileTools-- unzip completed at------ ${path}`);
