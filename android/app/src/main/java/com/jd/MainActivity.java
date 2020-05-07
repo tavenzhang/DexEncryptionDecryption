@@ -141,4 +141,12 @@ public class MainActivity extends ReactActivity {
         super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
+
+
+    public void startNewGame(){
+      Intent intent = new Intent(this , MainActivity.class);
+         startActivity(intent);
+    }
+
+
 }

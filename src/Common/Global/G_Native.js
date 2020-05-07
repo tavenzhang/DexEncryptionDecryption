@@ -113,6 +113,14 @@ global.TN_WechatShare = (text, image, url, title, isPyq,callBack) => {
     );
 };
 
+global.TN_OpenHome = (data) => {
+    if (G_IS_IOS) {
+        NativeModules.JDHelper.openNewHome(data);
+    } else {
+        NativeModules.JXHelper.openNewHome(data);
+    }
+};
+
 global.TN_ExitApp = () => {
     if (G_IS_IOS) {
         NativeModules.JDHelper.exitApp();

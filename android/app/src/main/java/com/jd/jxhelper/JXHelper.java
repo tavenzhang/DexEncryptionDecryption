@@ -37,6 +37,7 @@ import com.jd.webview.QP_WebView;
 import com.microsoft.codepush.react.CodePush;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.data.JPushLocalNotification;
+import demo.GameActivity;
 
 
 public class JXHelper extends ReactContextBaseJavaModule {
@@ -206,6 +207,20 @@ public class JXHelper extends ReactContextBaseJavaModule {
                     "不能打开Activity : " + e.getMessage());
         }
     }
+
+    @ReactMethod
+    public void openNewHome(String homeData) {
+        try {
+            Activity currentActivity = getCurrentActivity();
+            Intent intent = new Intent(currentActivity, GameActivity.class);
+            intent.putExtra("homeData", homeData);
+            currentActivity.startActivity(intent);
+        } catch (Exception e) {
+            throw new JSApplicationIllegalArgumentException(
+                    "不能打开Activity : " + e.getMessage());
+        }
+    }
+
 
     @ReactMethod
     public void openGameWebViewFromJs(String url, String title, String platform) {

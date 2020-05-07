@@ -1,0 +1,20 @@
+{
+    "isAndroidHack": false,
+    "isDebug": false,
+    "hackData": "",
+    "IS_NATIVE_APP": false,
+    "clientId": "4",
+    "brandID": "qp01",
+    "gameDomain": "",
+    "loginDomain": "",
+    "urlJSON": "",
+    "specialVersionHot": 2,
+    "isNewApp": false,
+    "affCode": "",
+    "deviceToken": "",
+    "isAppSound": false,
+    "appVersion": "",
+    "apihome": "https://qp01-game.513xyz.com/api/v1",
+    "sit": "214,1209",
+    "uat": "4"
+}

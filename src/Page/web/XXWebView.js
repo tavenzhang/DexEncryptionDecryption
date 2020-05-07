@@ -348,7 +348,8 @@ export default class XXWebView extends Component {
                             TW_Store.dataStore.onRetartApp();
                             break;
                         case "customerService":
-                            TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:TW_Store.gameUIStroe.gustWebUrl,isShowReload:false,type:"guest"});
+                            TN_OpenHome("test")
+                           // TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:TW_Store.gameUIStroe.gustWebUrl,isShowReload:false,type:"guest"});
                             break;
                     }
                     break;
@@ -413,7 +414,8 @@ export default class XXWebView extends Component {
                     }
                     break;
                 case  "game_custom":
-                    TW_Store.gameUIStroe.showGusetView(!TW_Store.gameUIStroe.isShowGuest);
+                   // TW_Store.gameUIStroe.showGusetView(!TW_Store.gameUIStroe.isShowGuest);
+                    TN_OpenHome("test")
                     break;
                 case "game_redraw":
                     TW_Log("onMessage----custom---exitAppToLoginPage--SystemSetting.setVolume-")

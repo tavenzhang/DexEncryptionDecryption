@@ -119,6 +119,7 @@ def enableHermes = project.ext.react.get("enableHermes", true);
 android {
 
     compileSdkVersion 28
+    useLibrary 'org.apache.http.legacy'
     //buildToolsVersion '28.0.3'
 
     /*
@@ -171,7 +172,9 @@ android {
     }
 
     flavorDimensions "color"
-
+    sourceSets.main{
+        jniLibs.srcDir 'libs'
+    }
     productFlavors {
         taven {
             applicationId APP_ID
@@ -289,7 +292,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':jpush-react-native')
     implementation project(':jcore-react-native')
-    //implementation 'com.android.support:appcompat-v7:26.1.1'
+    implementation 'com.android.support:appcompat-v7:22.1.1'
     implementation 'com.umeng.sdk:common:latest.integration'
     implementation 'com.umeng.sdk:analytics:latest.integration'
     implementation 'com.facebook.react:react-native:+'

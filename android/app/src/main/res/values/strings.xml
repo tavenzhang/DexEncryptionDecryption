@@ -16,4 +16,6 @@
     <string name="exit_game_dialog_left_btn_title">退出游戏</string>
     <string name="exit_game_dialog_right_btn_title">继续完会</string>
     <string name="umeng_sharebutton_custom">自定义分享按钮</string>
+    <string name="on_back_pressed">再次点击后退键退出游戏!</string>
+    <string name="alert_dialog_title">提示</string>
 </resources>

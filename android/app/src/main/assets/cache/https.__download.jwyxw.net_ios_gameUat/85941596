@@ -1,0 +1,21 @@
+{
+    "desc": "预加载资源配置表",
+    "list": [
+        "./assets/conf/textconf.json",
+        "./assets/conf/urls.json",
+        "./assets/conf/config.json",
+        "./assets/animation/loading/xiaoLoding.sk",
+        "./assets/animation/loading/xiaoLoding.png",
+        "res/atlas/ui/lobby.atlas",
+        "res/atlas/ui/common.atlas",
+        "res/atlas/ui/lobby/menu.atlas",
+        "res/atlas/ui/panel_common.atlas",
+        "res/atlas/ui/bitFont/goldFont.atlas",
+        "res/atlas/ui/headList.atlas",
+        "res/atlas/ui/bitFont/notice.atlas",
+        "res/atlas/ui/paomadeng.atlas",
+        "res/atlas/ui/lobby/chessMenu.atlas",
+        "res/atlas/ui/lobby/chessMenu/bgmov.atlas",
+        "res/atlas/ui/lobby/chessMenu/btnmov.atlas"
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "desc": "list-预加载资源配置表",
+    "list": [
+        "assets/anim/xiaoLoding.sk",
+        "assets/anim/xiaoLoding.png",
+        "res/atlas/ui/common.atlas",
+        "res/atlas/ui/panel_common.atlas",
+        "res/atlas/ui/pay.atlas",
+        "res/atlas/ui/service.atlas"
+    ],
+    "cmd": {
+        "currentInfo": "/account/webapi/account/users/current",
+        "payList": "/cashmgt/me/payments/name",
+        "payment": "/cashmgt/me/transfer/topups/payment/listV2",
+        "banktransfers": "/cashmgt/me/transfer/topups/banktransfers/banklist/v2",
+        "payByBankList": "/cashmgt/me/transfer/topups/banktransfers/v4",
+        "payByListV2": "/cashmgt/me/transfer/topups",
+        "payHistory": "/cashmgt/me/transfer/orderhistory",
+        "onlineBankList": "/cashmgt/me/paymentbanklist",
+        "getAgentList": "/account/webapi/topupAgent/list",
+        "getVipTopup": "/cashmgt/me/payments/vipTopup"
+    },
+    "test": {
+        "token": "8a468497-291b-4e47-af3f-773bb9fbb37b",
+        "apihome": "https://sit03-qp01app1c.yss52.com/api/v1",
+        "clientId": "qp01",
+        "serviceUrl": "https://vc6981.livejoy.net/chat/chatClient/chatbox.jsp?companyID=80000469&configID=853"
+    }
+}

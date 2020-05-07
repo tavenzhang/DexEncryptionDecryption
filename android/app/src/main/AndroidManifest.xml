@@ -60,7 +60,9 @@
         <meta-data
             android:name="JPUSH_CHANNEL"
             android:value="${JPUSH_CHANNEL}" />
-
+        <activity
+            android:name="demo.GameActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".webview.JXWebView"
             android:screenOrientation="portrait"
@@ -130,5 +132,8 @@
 		<meta-data
 			android:name="com.openinstall.APP_KEY"
 			android:value="${OPEN_INSTALL_KEY}"/>
+        <uses-library
+                android:name="org.apache.http.legacy"
+                android:required="false" />
     </application>
 </manifest>

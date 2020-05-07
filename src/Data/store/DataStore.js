@@ -317,7 +317,6 @@ export default class DataStore {
     }
 
 
-
     //解压
     unzipNewCourse = (downloadDest) => {
         TW_Log(`versionBBL unzip start------ ${downloadDest}` + "--   TW_Store.gameUpateStore.isLoading==" + TW_Store.gameUpateStore.isLoading);
