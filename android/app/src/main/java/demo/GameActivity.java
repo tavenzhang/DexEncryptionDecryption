@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.ValueCallback;
+import android.widget.Toast;
 
 
 public class GameActivity extends Activity{
@@ -29,6 +30,7 @@ public class GameActivity extends Activity{
     boolean isExit=false;
     public static SplashDialog mSplashDialog;
     public static GameActivity mainInstance =null;
+    public static String appData="";
     @Override    
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,8 +43,11 @@ public class GameActivity extends Activity{
         /*
          * 如果不想使用更新流程，可以屏蔽checkApkUpdate函数，直接打开initEngine函数
          */
-        checkApkUpdate(this);
-        //initEngine();
+        //checkApkUpdate(this);
+        initEngine();
+        Intent intent=getIntent();
+		appData=intent.getStringExtra("homeData");
+        Toast.makeText(GameActivity.mainInstance,appData ,Toast.LENGTH_SHORT).show();
     }
     public void initEngine()
     {

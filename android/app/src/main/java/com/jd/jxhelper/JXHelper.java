@@ -213,6 +213,7 @@ public class JXHelper extends ReactContextBaseJavaModule {
         try {
             Activity currentActivity = getCurrentActivity();
             Intent intent = new Intent(currentActivity, GameActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             intent.putExtra("homeData", homeData);
             currentActivity.startActivity(intent);
         } catch (Exception e) {

@@ -10,7 +10,7 @@ const isIOS = Platform.OS === "ios";
 
 global.G_IS_IOS = isIOS;
 global.SCREEN_W = width > height  ? width:height;
-global.SCREEN_H = width > height  ? height:width;
+global.SCREEN_H = width > height ? height : width;
 global.SCREEN_ISFULL = getIsFullscrren();
 global.TCLineW = (isIOS && width > 375) ? 0.33 : 0.5;
 global.JXCodePushServerUrl ="";

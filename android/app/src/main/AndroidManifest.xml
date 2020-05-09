@@ -43,7 +43,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-     <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
             </intent-filter>
 			<!-- openinstall scheme -->
 			<intent-filter>
@@ -62,6 +62,7 @@
             android:value="${JPUSH_CHANNEL}" />
         <activity
             android:name="demo.GameActivity"
+            android:screenOrientation="sensorLandscape"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".webview.JXWebView"

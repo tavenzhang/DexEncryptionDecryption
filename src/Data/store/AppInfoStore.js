@@ -154,15 +154,15 @@ export default class AppInfoStore {
                 }
             }
         })
-        TW_Data_Store.getItem(TW_DATA_KEY.isInitStore, this.checkSavedData)
+        //TW_Data_Store.getItem(TW_DATA_KEY.isInitStore, this.checkSavedData)
 
     }
 
     async checkSavedData(err, ret) {
         TW_Log("checkSavedData======loadingViewExist===ret--" + ret + "--eeeor=" + err)
         if (`${ret}` == "1") {
-            TW_Store.dataStore.isAppInited = true;
-            SoundHelper.startBgMusic();
+            //TW_Store.dataStore.isAppInited = true;
+           // SoundHelper.startBgMusic();
         } else {
             let loadingSourceViewExist = false
             if (G_IS_IOS) {
@@ -171,12 +171,6 @@ export default class AppInfoStore {
                 loadingSourceViewExist = await RNFS.existsAssets("gamelobby/loading/loading.html");
             }
             TW_Log("checkSavedData======loadingViewExist===" + loadingSourceViewExist + "--ret--" + ret + "--eeeor=" + err)
-            if (loadingSourceViewExist) {
-                TW_Store.gameUpateStore.isIncludeLoadView = true;
-                TW_Store.dataStore.copy_assets_to_dir(() => { SoundHelper.startBgMusic(); });
-            } else {
-                TW_Store.gameUpateStore.isIncludeLoadView = false;
-            }
         }
 
 

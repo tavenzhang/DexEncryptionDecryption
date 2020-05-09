@@ -29,7 +29,7 @@ let retryTimes = 0;
 let downloadTime = 0
 let alreadyInCodePush = false
 import JXDomainsHelper from "../../Common/JXHelper/JXDomainsHelper";
-import { AppConfig } from "../../config/appConfig";
+import {AppConfig, platInfo} from "../../config/appConfig";
 import { JX_PLAT_INFO } from "../asset";
 import { SoundHelper } from "../../Common/JXHelper/SoundHelper";
 import FileTools from "../../Common/Global/FileTools";
@@ -47,10 +47,8 @@ export default class Enter extends Component {
         TW_Store.appStore.regCallInitFuc(this.onInitAllData);
         this.flage = false
         this.isWeakUpdate = false;
-
         Orientation.addOrientationListener(this._onOrientationDidChange);
         TW_Log("_orientationDidChange--22233225--start-lockToLandscapeRight");
-
         if (G_IS_IOS) {
             if (TW_Store.appStore.isNewOrientation) {
                 Orientation.lockToLandscape();
@@ -66,7 +64,6 @@ export default class Enter extends Component {
             if (TW_Store.appStore.isLockToLandscape) {
                     if (G_IS_IOS) {
                         TW_Store.appStore.isNewOrientation ?    Orientation.lockToLandscape():Orientation.lockToLandscapeRight();
-
                     } else {
                         Orientation.lockToLandscape();
                     }
@@ -99,7 +96,6 @@ export default class Enter extends Component {
         } catch (e) {
             TW_Store.dataStore.log += "\nExtraDimensions--error" + e;
         }
-
         AppState.addEventListener('change', this._handleAppStateChange);
     }
 
@@ -167,8 +163,6 @@ export default class Enter extends Component {
         } else {
             appInfoStore.checkAppSubType(this.initDomain);
         }
-
-
     }
 
 
@@ -212,7 +206,6 @@ export default class Enter extends Component {
         this.timer2 && clearTimeout(this.timer2)
         AppState.removeEventListener('change', this.handleAppStateChange);
         //Orientation && this.orientationDidChange && Orientation.removeOrientationListener(this.orientationDidChange);
-
         Orientation.removeOrientationListener(this._onOrientationDidChange);
     }
 
@@ -313,7 +306,6 @@ export default class Enter extends Component {
             this.httpResInit()
         }
         if (success && allowUpdate && this.hotFixStore.allowUpdate) {
-
             this.gotoUpdate();
         } else if (!success && this.hotFixStore.allowUpdate) {//缓存地址不可用,使用默认地址
             StartUpHelper.getAvailableDomain(AppConfig.domains, (success, allowUpdate, message) => this.firstAttempt(success, allowUpdate, message), this.initDomain);
@@ -323,9 +315,30 @@ export default class Enter extends Component {
     }
 
     httpResInit = () => {
-        TW_Store.dataStore.initAppHomeCheck();
-        TW_Store.dataStore.onFlushGameData()
-        TW_Store.bblStore.getAppData();
+       // TW_Store.dataStore.initAppHomeCheck();
+       // TW_Store.dataStore.onFlushGameData()
+       // TW_Store.bblStore.getAppData();
+        let appDataStr=JSON.stringify({
+            isApp: true,
+            taven: "isOk",
+            brandID:platInfo.brand,
+            brandUrl:TW_Store.bblStore.getBrandUrl(),
+            clientId: TW_Store.appStore.clindId,
+            urlJSON: TW_Store.bblStore.getUriConfig(),
+            isAndroidHack: TW_Store.appStore.isInAnroidHack,
+            hackData:{filterGameList:["zjh","lhd","bjl","pg","jlbsh","tto","erbg"]},
+            deviceToken: TW_Store.appStore.deviceToken,
+            loginDomain: TW_Store.bblStore.loginDomain + "/api/v1/account",
+            gameDomain: TW_Store.bblStore.gameDomain + "/api/v1/gamecenter",
+            affCode: TW_Store.appStore.userAffCode,
+            isDebug: TW_IS_DEBIG,
+            appVersion: TW_Store.appStore.versionHotFix+(!G_IS_IOS&&TW_Store.appStore.subAppType!="0" ? ` - ${TW_Store.appStore.subAppType}`:""),
+            isAppSound: TW_Store.dataStore.isAppSound,
+            specialVersionHot:parseInt(TW_Store.appStore.specialVersionHot),
+            isNewApp: G_IS_IOS ? true : false
+        })
+        TN_OpenHome(appDataStr);
+        setTimeout(TW_SplashScreen_HIDE,2000);
 
     }
 
@@ -563,7 +576,6 @@ export default class Enter extends Component {
                             fontWeight: "bold"
                         }}>{this.hotFixStore.syncMessage}</Text>
                     </View>
-
                     {progressView}
                     <Progress.Bar
                         color={"#ffcc33"}

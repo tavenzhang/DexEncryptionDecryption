@@ -22,7 +22,7 @@ import {StatusBarHeight} from "../asset/screen";
 import DeviceInfo from 'react-native-device-info';
 import ExtraDimensions from 'react-native-extra-dimensions-android';
 import {safeAreaTop} from "../../Common/JXHelper/WebviewHelper";
-import {SoundHelper} from "../../Common/JXHelper/SoundHelper";
+
 
 @withMappedNavigationProps()
 @observer
