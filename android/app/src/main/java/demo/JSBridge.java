@@ -90,9 +90,21 @@ public class JSBridge {
                                 Toast.makeText(GameActivity.mainInstance,postMessage ,Toast.LENGTH_SHORT).show();
                                 JSONObject json_test = new JSONObject(postMessage);
                                 String action=json_test.getString("action");
+                                switch(action){
+                                    case "nativeStart":
+                                          String appCallStr="nativeInitData(\'"+GameActivity.appData+"\')";
+                                                ConchJNI.RunJS(appCallStr);
+                                   break;
+                                case "JumpGame":
+
+                                   break;
+                                case "JumpThirdGame"://跳转第三方游戏
+
+                                   break;
+                                }
                                 String alertStr="alert(\'"+action+"\')";
                                 //ConchJNI.RunJS(alertStr);
-                                ConchJNI.RunJS("nativeMessage('{action:\"popTip\",data:\"mytest\"}')");
+                              //  ConchJNI.RunJS("nativeMessage('{action:\"popTip\",data:\"mytest\"}')");
 
                             }catch (Exception e) {
                                 Logger.getLogger("error",e.toString());
@@ -100,6 +112,14 @@ public class JSBridge {
                         }
                     });
         }
+
+
+         public static void postToGame(final String actionData) {
+                      String postAction="nativeMessage(\'"+actionData+"\')";
+                      ConchJNI.RunJS(postAction);
+         }
+
+
 
         
 }

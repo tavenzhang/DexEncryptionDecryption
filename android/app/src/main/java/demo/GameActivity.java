@@ -4,6 +4,7 @@ import layaair.autoupdateversion.AutoUpdateAPK;
 import layaair.game.IMarket.IPlugin;
 import layaair.game.IMarket.IPluginRuntimeProxy;
 import layaair.game.Market.GameEngine;
+import layaair.game.browser.ConchJNI;
 import layaair.game.config.config;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -47,7 +48,7 @@ public class GameActivity extends Activity{
         initEngine();
         Intent intent=getIntent();
 		appData=intent.getStringExtra("homeData");
-        Toast.makeText(GameActivity.mainInstance,appData ,Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(GameActivity.mainInstance,appData ,Toast.LENGTH_SHORT).show();
     }
     public void initEngine()
     {
@@ -60,6 +61,7 @@ public class GameActivity extends Activity{
         View gameView = mPlugin.game_plugin_get_view();
         this.setContentView(gameView);
         isLoad=true;
+
     }
     public  boolean isOpenNetwork(Context context)
     {

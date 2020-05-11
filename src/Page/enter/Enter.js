@@ -335,16 +335,15 @@ export default class Enter extends Component {
             appVersion: TW_Store.appStore.versionHotFix+(!G_IS_IOS&&TW_Store.appStore.subAppType!="0" ? ` - ${TW_Store.appStore.subAppType}`:""),
             isAppSound: TW_Store.dataStore.isAppSound,
             specialVersionHot:parseInt(TW_Store.appStore.specialVersionHot),
-            isNewApp: G_IS_IOS ? true : false
+            apihome: `${TW_Store.bblStore.gameDomain}/api/v1`
         })
-        TN_OpenHome(appDataStr);
+         TN_OpenHome(appDataStr);
         setTimeout(TW_SplashScreen_HIDE,2000);
 
     }
 
     //使用从服务器获取的更新地址更新app
     gotoUpdate() {
-
         AsyncStorage.getItem('cacheDomain').then((response) => {
             TW_Log("JXCodePushServerUrl----getItem")
             TW_Store.dataStore.log += "\ncacheDomain-----" + response + "---\n";
