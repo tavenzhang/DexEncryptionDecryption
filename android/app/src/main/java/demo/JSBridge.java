@@ -1,16 +1,19 @@
 package demo;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.widget.Toast;
+
+import com.jd.MainActivity;
+import com.jd.jxhelper.JXHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.logging.Logger;
 
 import layaair.game.browser.ConchJNI;
 
@@ -87,7 +90,9 @@ public class JSBridge {
                     new Runnable() {
                         public void run() {
                             try {
-                                Toast.makeText(GameActivity.mainInstance,postMessage ,Toast.LENGTH_SHORT).show();
+                                Log.d("postMessage====",postMessage);
+                                JXHelper.instance.sendEvent(postMessage);
+                               // Toast.makeText(GameActivity.mainInstance,postMessage ,Toast.LENGTH_SHORT).show();
                                 JSONObject json_test = new JSONObject(postMessage);
                                 String action=json_test.getString("action");
                                 switch(action){
@@ -96,10 +101,10 @@ public class JSBridge {
                                                 ConchJNI.RunJS(appCallStr);
                                    break;
                                 case "JumpGame":
-
+                                   JSBridge.jumpRN("");
                                    break;
                                 case "JumpThirdGame"://跳转第三方游戏
-
+                                    JSBridge.jumpRN("");
                                    break;
                                 }
                                 String alertStr="alert(\'"+action+"\')";
@@ -107,7 +112,7 @@ public class JSBridge {
                               //  ConchJNI.RunJS("nativeMessage('{action:\"popTip\",data:\"mytest\"}')");
 
                             }catch (Exception e) {
-                                Logger.getLogger("error",e.toString());
+                                Log.e("Exception==",e.toString());
                             }
                         }
                     });
@@ -118,6 +123,23 @@ public class JSBridge {
                       String postAction="nativeMessage(\'"+actionData+"\')";
                       ConchJNI.RunJS(postAction);
          }
+
+
+        public static void jumpRN(final String data) {
+            Activity currentActivity =GameActivity.mainInstance;
+            Intent intent = new Intent(currentActivity, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            currentActivity.startActivity(intent);
+        }
+
+        public static void jumpHome(final String data) {
+            Activity currentActivity =MainActivity.instance;
+            Intent intent = new Intent(currentActivity, GameActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            currentActivity.startActivity(intent);
+        }
 
 
 

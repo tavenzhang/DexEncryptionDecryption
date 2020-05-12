@@ -120,6 +120,22 @@ global.TN_OpenHome = (data) => {
         NativeModules.JXHelper.openNewHome(data);
     }
 };
+global.TN_MSG_TO_GAME=(data)=>{
+    if (G_IS_IOS) {
+        NativeModules.JDHelper.msgToGame(JSON.stringify(data));
+    } else {
+        NativeModules.JXHelper.msgToGame(JSON.stringify(data));
+    }
+}
+
+global.TN_JUMP_HOME=(data)=>{
+    if (G_IS_IOS) {
+        NativeModules.JDHelper.backToHome(data);
+    } else {
+        NativeModules.JXHelper.backToHome(data);
+    }
+}
+
 
 global.TN_ExitApp = () => {
     if (G_IS_IOS) {

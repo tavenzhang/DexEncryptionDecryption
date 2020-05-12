@@ -115,17 +115,17 @@ export default class Enter extends Component {
                         this.hotFix(TW_Store.hotFixStore.currentDeployKey, true);
                         TW_Store.dataStore.loadHomeVerson();
                     }
-                    SoundHelper.onCheckPalyMusic();
-                    TW_Store.dataStore.onFlushGameData();
+                  //  SoundHelper.onCheckPalyMusic();
+                   // TW_Store.dataStore.onFlushGameData();
 
                 } else {
                     TW_OnValueJSSubGame(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 1 }));
                 }
             }
-            if (TW_SubGameDownLoaderData.downList.length > 0) {
+          //  if (TW_SubGameDownLoaderData.downList.length > 0) {
                 TW_Log("TW_SubGameDownLoaderData-----Active-", TW_SubGameDownLoaderData)
-                TW_Store.dataStore.startLoadGame();
-            }
+              //  TW_Store.dataStore.startLoadGame();
+           // }
             if (TW_Store.gameUIStroe.wxShareHandle.isShareIng) {
                 if (TW_Store.gameUIStroe.wxShareHandle.callback) {
                     TW_Store.gameUIStroe.wxShareHandle.callback();
@@ -333,11 +333,13 @@ export default class Enter extends Component {
             affCode: TW_Store.appStore.userAffCode,
             isDebug: TW_IS_DEBIG,
             appVersion: TW_Store.appStore.versionHotFix+(!G_IS_IOS&&TW_Store.appStore.subAppType!="0" ? ` - ${TW_Store.appStore.subAppType}`:""),
-            isAppSound: TW_Store.dataStore.isAppSound,
             specialVersionHot:parseInt(TW_Store.appStore.specialVersionHot),
-            apihome: `${TW_Store.bblStore.gameDomain}/api/v1`
+            apihome: `${TW_Store.bblStore.gameDomain}/api/v1`,
+            sit:"5",
+            uat:"214",
         })
          TN_OpenHome(appDataStr);
+        TW_Store.bblStore.getAppData();
         setTimeout(TW_SplashScreen_HIDE,2000);
 
     }

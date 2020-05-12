@@ -63,14 +63,11 @@ export default class TWWebGameView extends Component {
         if (isThirdGame) {
             newUrl = homePre
         } else {
-            TW_Log("homePre.lastIndexOf-" + homePre.lastIndexOf("/"), lastStr)
-            if (lastStr != "/") {
-                homePre += "/";
-            }
-            newUrl = homePre + "index.html";
-            if (TW_Store.appStore.isSitApp) {
-                myParam += "&time=" + Math.random() * 9999;
-            }
+            TW_Log("homePre.lastIndexOf-" + homePre.lastIndexOf("/"), homePre)
+            newUrl = homePre
+            // if (TW_Store.appStore.isSitApp) {
+            //     myParam += "&time=" + Math.random() * 9999;
+            // }
         }
 
 

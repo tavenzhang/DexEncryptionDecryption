@@ -22,6 +22,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.jd.MainActivity;
 import com.jd.util.AppUtil;
 import com.jd.util.UpdateManager;
@@ -38,19 +39,21 @@ import com.microsoft.codepush.react.CodePush;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.data.JPushLocalNotification;
 import demo.GameActivity;
+import demo.JSBridge;
 
 
 public class JXHelper extends ReactContextBaseJavaModule {
     private static final String KEY_UUID = "uuid";
-    Context context;
+    ReactApplicationContext context;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
-
+   public static JXHelper instance=null;
     public JXHelper(ReactApplicationContext reactContext) {
         super(reactContext);
         this.context = reactContext;
         pref = context.getSharedPreferences("Device", 0);
         editor = pref.edit();
+        instance=this;
     }
 
     @Override
@@ -211,9 +214,10 @@ public class JXHelper extends ReactContextBaseJavaModule {
     @ReactMethod
     public void openNewHome(String homeData) {
         try {
-            Activity currentActivity = getCurrentActivity();
+            Activity currentActivity = MainActivity.instance;
             Intent intent = new Intent(currentActivity, GameActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             intent.putExtra("homeData", homeData);
             currentActivity.startActivity(intent);
         } catch (Exception e) {
@@ -304,5 +308,23 @@ public class JXHelper extends ReactContextBaseJavaModule {
     }
     public String getVersionCode() {
         return getPackageInfo(context).versionName;
+    }
+
+    public void sendEvent(String onMessage) {
+        WritableMap params = Arguments.createMap();
+        params.putString("NAME", onMessage);
+        context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                .emit("onMessage", params);
+    }
+
+
+    @ReactMethod
+    public void msgToGame(String onMessage){
+        JSBridge.postToGame(onMessage);
+    }
+
+    @ReactMethod
+    public void backToHome(String msg){
+        JSBridge.jumpHome(msg);
     }
 }

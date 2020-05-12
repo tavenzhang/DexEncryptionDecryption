@@ -162,60 +162,10 @@ export default class XXWebView extends Component {
             };
         }
 
-
         TW_Log("targetAppDir----MainBundlePath-TW_Store.dataStore.isAppInited-----",source);
-
-
-        let injectJs = `window.appData=${JSON.stringify({
-            isApp: true,
-            taven: "isOk",
-            brandID:platInfo.brand,
-            brandUrl:TW_Store.bblStore.getBrandUrl(),
-            clientId: TW_Store.appStore.clindId,
-            urlJSON: TW_Store.bblStore.getUriConfig(),
-            isAndroidHack: TW_Store.appStore.isInAnroidHack,
-            hackData:{filterGameList:["zjh","lhd","bjl","pg","jlbsh","tto","erbg"]},
-            deviceToken: TW_Store.appStore.deviceToken,
-            loginDomain: TW_Store.bblStore.loginDomain + "/api/v1/account",
-            gameDomain: TW_Store.bblStore.gameDomain + "/api/v1/gamecenter",
-            affCode: TW_Store.appStore.userAffCode,
-            isDebug: TW_IS_DEBIG,
-            appVersion: TW_Store.appStore.versionHotFix+(!G_IS_IOS&&TW_Store.appStore.subAppType!="0" ? ` - ${TW_Store.appStore.subAppType}`:""),
-            isAppSound: TW_Store.dataStore.isAppSound,
-            specialVersionHot:parseInt(TW_Store.appStore.specialVersionHot),
-            isNewApp: G_IS_IOS ? true : false
-                })},(function() {
-          window.postMessage = function(data) {
-            window.ReactNativeWebView.postMessage(data);
-          };
-        })()`;
-        // TW_Log("targetAppDir-33---isWechatEnabled-his.state--"+(sharedUrl&&isShowSharebox)+"--sharedUrl=="+sharedUrl+"-isShowSharebox-"+isShowSharebox,this.state);
         return (
             <View style={[styles.container, {width: TW_Store.appStore.screenW}]}>
-                <View style={[styles.webView, {width: TW_Store.appStore.screenW}]} ref="myView" collapsable={false}>
-                    <WebView
-                        collapsable={false}
-                        originWhitelist={['*']}
-                        ref="myWebView"
-                        automaticallyAdjustContentInsets={true}
-                        style={[styles.webView, {width: TW_Store.appStore.screenW}]}
-                        source={source}
-                        mediaPlaybackRequiresUserAction={false}
-                        injectedJavaScript={injectJs}
-                        javaScriptEnabled={true}
-                        domStorageEnabled={true}
-                        decelerationRate="normal"
-                        thirdPartyCookiesEnabled={true}
-                        // startInLoadingState={true}
-                        // renderLoading={this.onRenderLoadingView}
-                        onNavigationStateChange={this.onNavigationStateChange}
-                        onLoadStart={this.onShouldStartLoadWithRequest}
-                        allowFileAccess={true}
-                        onError={this.onError}
-                        onMessage={this.onMessage}
-                        onLoadEnd={this.onLoadEnd}
-                    />
-                </View>
+
             </View>
         );
     }
@@ -277,19 +227,6 @@ export default class XXWebView extends Component {
                         case  "saveImage":
                             FileTools.onSaveCameraRoll(message.param);
                             break;
-                        case "playBgMusic":
-                            TW_Data_Store.setItem(TW_DATA_KEY.BG_MUSIC, message.param ? "1" : "0", (err) => {
-                                TW_Log("playBgMusic---TW_DATA_KEY.AFF_CODE-err---" + message.param, err)
-                            });
-                            if (message.param) {
-                                SoundHelper.playMusic();
-                            } else {
-                                SoundHelper.pauseMusic();
-                            }
-                            break;
-                        case  "playMusicEffect":
-                            SoundHelper.playMusicEffect(message.param);
-                            break;
                         case "wxLogin":
                             TW_Store.gameUIStroe.checkWXInstall((ret)=> {
                                 TW_Log(" wxLogin checkWXInstall--",ret)
@@ -318,7 +255,6 @@ export default class XXWebView extends Component {
                                 message.param = TW_Store.bblStore.appShareUrl+"&affCode="+message.affcode;
                             }
                             TW_Store.gameUIStroe.shareData = message;
-
                             let shareData = message;
                             let isFast = shareData.isfast =="1"||shareData.type;
                             if(isFast){
@@ -348,17 +284,9 @@ export default class XXWebView extends Component {
                             TW_Store.dataStore.onRetartApp();
                             break;
                         case "customerService":
-                            TN_OpenHome("test")
+                           // TN_OpenHome("test")
                            // TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:TW_Store.gameUIStroe.gustWebUrl,isShowReload:false,type:"guest"});
                             break;
-                    }
-                    break;
-                case "startUpdate":
-                    //{action: "startUpdate", gameId: 28, alias: "xywz"}
-                    gameData=TW_Store.dataStore.getStoreGameDataByAlias(message.alias)
-                    TW_Log(`startUpdate-----`,gameData);
-                    if (gameData&&gameData.bupdate) {
-                        TW_Store.dataStore.startLoadGame(gameData);
                     }
                     break;
                 case "JumpGame":
@@ -414,8 +342,8 @@ export default class XXWebView extends Component {
                     }
                     break;
                 case  "game_custom":
-                   // TW_Store.gameUIStroe.showGusetView(!TW_Store.gameUIStroe.isShowGuest);
-                    TN_OpenHome("test")
+                    TW_Store.gameUIStroe.showGusetView(!TW_Store.gameUIStroe.isShowGuest);
+                   // TN_OpenHome("test")
                     break;
                 case "game_redraw":
                     TW_Log("onMessage----custom---exitAppToLoginPage--SystemSetting.setVolume-")

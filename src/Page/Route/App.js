@@ -7,11 +7,12 @@ import {
     View,
     ToastAndroid,
     BackHandler,
+    DeviceEventEmitter,
     ScrollView,
     Alert,
     Modal,
     TouchableWithoutFeedback,
-    PermissionsAndroid
+    PermissionsAndroid,
 } from 'react-native';
 import {Provider} from 'mobx-react'
 import NavigationService from './NavigationService'
@@ -73,17 +74,14 @@ import TCAddUserInfo from "../UserCenter/user/TCAddUserInfo";
 import TCAddPhoneNumberInfo from "../UserCenter/user/TCAddPhoneNumberInfo";
 
 import WechatPublicPage from '../../Page/UserCenter/UserPay/WxPublic/TCUserPayWxPublic'
-//import TCUserWithdrawNew from "../UserCenter/UserWithdraw/TCUserWithdraw";
 import GameUIView from "../enter/GameUIView";
 
-//import TCUserBankPayMessageNew from "../UserCenter/UserPay/TCUserBankPayMessageNew";
 import KeyboardManager from 'react-native-keyboard-manager'
 import LoadingWebView from "../WebView/LoadingWebView";
 import SubGameView from "./SubGameView";
 import GameLogView from "./GameLogView";
 import ModuleWebView from "../WebView/ModuleWebView";
 import TWThirdWebView from "../WebView/TWThirdWebView";
-
 
 
 @observer
@@ -97,6 +95,11 @@ export default class App extends Component {
         if (KeyboardManager && KeyboardManager.setToolbarPreviousNextButtonEnable) {
             KeyboardManager.setToolbarPreviousNextButtonEnable(true);
         }
+        DeviceEventEmitter.addListener('onMessage', function (e: Event) {
+            TW_Store.bblStore.onMsgHandle(e.NAME);
+        });
+        TW_OnValueJSHome=TN_MSG_TO_GAME
+
         StatusBar.setHidden(true);
         if (!G_IS_IOS) {
             BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
@@ -121,12 +124,12 @@ export default class App extends Component {
             <Provider  {...rootStore} >
                 <View style={{flex: 1, backgroundColor: "black"}}>
                     {this.addStatusBar()}
-                    <MainStackNavigator
-                        ref={navigatorRef => {
-                            NavigationService.setTopLevelNavigator(navigatorRef)
-                            this.navigator = navigatorRef;
-                        }}
-                    />
+                    {/*<MainStackNavigator*/}
+                    {/*    ref={navigatorRef => {*/}
+                    {/*        NavigationService.setTopLevelNavigator(navigatorRef)*/}
+                    {/*        this.navigator = navigatorRef;*/}
+                    {/*    }}*/}
+                    {/*/>*/}
                     <SubGameView/>
                      {/*<LoadingWebView/>*/}
                      <ModuleWebView/>
