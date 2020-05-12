@@ -130,9 +130,17 @@ global.TN_MSG_TO_GAME=(data)=>{
 
 global.TN_JUMP_HOME=(data)=>{
     if (G_IS_IOS) {
-        NativeModules.JDHelper.backToHome(data);
+        NativeModules.JDHelper.jumpToHome(data);
     } else {
-        NativeModules.JXHelper.backToHome(data);
+        NativeModules.JXHelper.jumpToHome(data);
+    }
+}
+
+global.TN_JUMP_RN=(data)=>{
+    if (G_IS_IOS) {
+        NativeModules.JDHelper.jumpToRN(data);
+    } else {
+        NativeModules.JXHelper.jumpToRN(data);
     }
 }
 

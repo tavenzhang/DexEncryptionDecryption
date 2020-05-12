@@ -358,7 +358,7 @@ export default class BBLStore {
                             TCUserOpenPayApp.linkingWeb(message.param);
                             break;
                         case "openAppWeb":
-                            //TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:message.param,isShowReload:true,type:message.type,isPaddingTop:false})
+                            TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:message.param,isShowReload:true,type:message.type,isPaddingTop:false})
                             break;
                         case "copylink":
                             Clipboard.setString(message.param);
@@ -456,7 +456,8 @@ export default class BBLStore {
                             TW_Store.dataStore.onRetartApp();
                             break;
                         case "customerService":
-                            // TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:TW_Store.gameUIStroe.gustWebUrl,isShowReload:false,type:"guest"});
+                            TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:TW_Store.gameUIStroe.gustWebUrl,isShowReload:false,type:"guest"});
+                            TN_JUMP_RN();
                             break;
                     }
                     break;
@@ -485,10 +486,6 @@ export default class BBLStore {
                         };
                     }
                     break;
-                case "game_account":
-                    TW_Store.gameUIStroe.isShowUserInfo = !TW_Store.gameUIStroe
-                        .isShowUserInfo;
-                    break;
                 case "game_custom":
                     TW_Store.gameUIStroe.showGusetView(!TW_Store.gameUIStroe.isShowGuest);
                     break;
@@ -500,9 +497,7 @@ export default class BBLStore {
                     TW_Store.userStore.exitAppToLoginPage();
                     TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.logout));
                     break;
-                case "game_recharge":
-                    TW_Store.gameUIStroe.isShowAddPayView = !TW_Store.gameUIStroe.isShowAddPayView;
-                    break;
+
             }
         }
     };

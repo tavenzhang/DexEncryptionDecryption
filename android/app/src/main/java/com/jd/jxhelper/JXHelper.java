@@ -324,7 +324,13 @@ public class JXHelper extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void backToHome(String msg){
+    public void jumpToHome(String msg){
         JSBridge.jumpHome(msg);
+    }
+
+
+    @ReactMethod
+    public void jumpToRN(String msg){
+        JSBridge.jumpRN(msg);
     }
 }

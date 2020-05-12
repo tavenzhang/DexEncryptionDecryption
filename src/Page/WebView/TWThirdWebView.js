@@ -87,6 +87,7 @@ export default class TWThirdWebView extends Component {
         if(type!="guest"){
             TW_Store.bblStore.quitSubGame();
         }
+        TN_JUMP_HOME("")
     }
 
     render() {

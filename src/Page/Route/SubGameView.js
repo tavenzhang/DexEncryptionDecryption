@@ -5,7 +5,6 @@ import {
 } from 'react-native'
 import {observer} from 'mobx-react';
 import TWWebGameView from "../WebView/TWWebGameView";
-import TCButtonView from "../../Common/View/button/TCButtonView";
 import PhoneStateView from "../Route/PhoneStateView";
 
 

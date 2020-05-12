@@ -34,8 +34,13 @@ function viewRoutHelp(component) {
     return {screen: component}
 }
 
+import SubGameView from "./SubGameView";
+import GameLogView from "./GameLogView";
+import ModuleWebView from "../WebView/ModuleWebView";
+import TWThirdWebView from "../WebView/TWThirdWebView";
+
 const Components = {
-    XXWebView: viewRoutHelp(XXWebView),
+    SubGameView:viewRoutHelp(SubGameView),
     // WebView: viewRoutHelp(TCWebView),
     TWThirdWebView:viewRoutHelp(TWThirdWebView),
     TCUserDetailMsg: viewRoutHelp(TCUserDetailMsg),
@@ -77,11 +82,7 @@ import WechatPublicPage from '../../Page/UserCenter/UserPay/WxPublic/TCUserPayWx
 import GameUIView from "../enter/GameUIView";
 
 import KeyboardManager from 'react-native-keyboard-manager'
-import LoadingWebView from "../WebView/LoadingWebView";
-import SubGameView from "./SubGameView";
-import GameLogView from "./GameLogView";
-import ModuleWebView from "../WebView/ModuleWebView";
-import TWThirdWebView from "../WebView/TWThirdWebView";
+
 
 
 @observer
@@ -124,16 +125,16 @@ export default class App extends Component {
             <Provider  {...rootStore} >
                 <View style={{flex: 1, backgroundColor: "black"}}>
                     {this.addStatusBar()}
-                    {/*<MainStackNavigator*/}
-                    {/*    ref={navigatorRef => {*/}
-                    {/*        NavigationService.setTopLevelNavigator(navigatorRef)*/}
-                    {/*        this.navigator = navigatorRef;*/}
-                    {/*    }}*/}
-                    {/*/>*/}
-                    <SubGameView/>
-                     <ModuleWebView/>
-                     <GameUIView/>
-                     {/*<GameLogView/>*/}
+                    <MainStackNavigator
+                        ref={navigatorRef => {
+                            NavigationService.setTopLevelNavigator(navigatorRef)
+                            this.navigator = navigatorRef;
+                        }}
+                    />
+                     <SubGameView/>
+                     {/*<ModuleWebView/>*/}
+                     {/*<GameUIView/>*/}
+                     <GameLogView/>
                      <CommonBoxLayer/>
                 </View>
             </Provider>
