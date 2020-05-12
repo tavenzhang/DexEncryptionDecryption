@@ -456,7 +456,6 @@ export default class BBLStore {
                             TW_Store.dataStore.onRetartApp();
                             break;
                         case "customerService":
-                            // TN_OpenHome("test")
                             // TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:TW_Store.gameUIStroe.gustWebUrl,isShowReload:false,type:"guest"});
                             break;
                     }

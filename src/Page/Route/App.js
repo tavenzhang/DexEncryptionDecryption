@@ -131,7 +131,6 @@ export default class App extends Component {
                     {/*    }}*/}
                     {/*/>*/}
                     <SubGameView/>
-                     {/*<LoadingWebView/>*/}
                      <ModuleWebView/>
                      <GameUIView/>
                      {/*<GameLogView/>*/}
