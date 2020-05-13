@@ -457,7 +457,6 @@ export default class BBLStore {
                             break;
                         case "customerService":
                             TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:TW_Store.gameUIStroe.gustWebUrl,isShowReload:false,type:"guest"});
-                            TN_JUMP_RN();
                             break;
                     }
                     break;
@@ -497,10 +496,63 @@ export default class BBLStore {
                     TW_Store.userStore.exitAppToLoginPage();
                     TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.logout));
                     break;
+                case "http":
+                    let method = message.metod;
+                    method = method ? method.toLowerCase() : "get";
+                    switch (method) {
+                        case "post":
+                            let myUrl = message.url;
+                            let dataJson =JSON.parse(message.data);
+                            NetUitls.postUrlAndParamsAndCallback(myUrl, dataJson, (ret) => {
+                                if (dataJson&&message.url.indexOf("account/users/secure/gameAppEncryptLogin") > -1) {
 
+                                    let username=dataJson.username;
+                                    TW_Log("gameAppEncryptLogin---------message.data-------username--"+username,dataJson)
+                                    if(username&&username =="Test070") {
+                                        TW_Store.bblStore.changeShowDebug(true);
+                                    }
+                                }
+                                //TW_Log("---home--http---game--postUrlAndParamsAndCallback>url="+message.url, ret);
+                                TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.http, {hashUrl: message.hashUrl, ...ret}));
+                            }, 10, false, false, null, true, this.onParamHead(message.header))
+                            break
+                        case "get":
+                            NetUitls.getUrlAndParamsAndCallback(message.url, JSON.parse(message.data), (ret) => {
+                                TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.http, {hashUrl: message.hashUrl, ...ret}));
+                                let access_token = TW_GetQueryString("access_token", message.url);
+                                if (ret.rs && access_token && access_token != "") {
+                                    TW_Store.userStore.initLoginToken(access_token);
+                                }
+                            }, 10, false, false, true, this.onParamHead(message.header));
+                            break;
+                        case "put":
+                            NetUitls.putUrlAndParamsAndCallback(message.url, JSON.parse(message.data), (ret) => {
+                                TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.http, {hashUrl: message.hashUrl, ...ret}));
+                            }, 10, false, true, this.onParamHead(message.header));
+                            break;
+                        case "delete":
+                            NetUitls.deleteUrlAndParamsAndCallback(message.url, JSON.parse(message.data), (ret) => {
+                                TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.http, {hashUrl: message.hashUrl, ...ret}));
+                            }, 10, false, true, this.onParamHead(message.header));
+                            break;
+                    }
             }
         }
     };
+
+    onParamHead = (headDataList) => {
+        let header = null;
+        if (headDataList && headDataList.length > 0) {
+            header = {}
+            for (let i = 0; i < headDataList.length; i++) {
+                if (i % 2 == 0 && headDataList[i + 1]) {
+                    header[`${headDataList[i]}`] = headDataList[i + 1];
+                }
+            }
+            TW_Log("onParamHead----" + headDataList.length, header)
+        }
+        return header
+    }
 
     getJumpData = data => {
         TW_Log(' TW_Store.bblStore.jumpData==pre', data);

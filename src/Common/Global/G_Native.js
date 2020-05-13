@@ -124,7 +124,9 @@ global.TN_MSG_TO_GAME=(data)=>{
     if (G_IS_IOS) {
         NativeModules.JDHelper.msgToGame(JSON.stringify(data));
     } else {
-        NativeModules.JXHelper.msgToGame(JSON.stringify(data));
+        let str =JSON.stringify(data);
+        TW_Log("TN_MSG_TO_GAME---str====",str);
+        NativeModules.JXHelper.msgToGame(str);
     }
 }
 

@@ -70,7 +70,7 @@ public class JSBridge {
         m_Handler.post(
                 new Runnable() {
                     public void run() {
-                        GameActivity.mSplashDialog.setPercent((int)percent);
+                        GameActivity.mSplashDialog.setPercent((int) percent);
                     }
                 });
     }
@@ -85,63 +85,61 @@ public class JSBridge {
     }
 
 
-      public static void postMessage(final String postMessage) {
-            m_Handler.post(
-                    new Runnable() {
-                        public void run() {
-                            try {
-                                Log.d("postMessage====",postMessage);
-                                JXHelper.instance.sendEvent(postMessage);
-                               // Toast.makeText(GameActivity.mainInstance,postMessage ,Toast.LENGTH_SHORT).show();
-                                JSONObject json_test = new JSONObject(postMessage);
-                                String action=json_test.getString("action");
-                                switch(action){
-                                    case "nativeStart":
-                                          String appCallStr="nativeInitData(\'"+GameActivity.appData+"\')";
-                                                ConchJNI.RunJS(appCallStr);
-                                   break;
+    public static void postMessage(final String postMessage) {
+        m_Handler.post(
+                new Runnable() {
+                    public void run() {
+                        try {
+                            Log.d("postMessage====", postMessage);
+                            JXHelper.instance.sendEvent(postMessage);
+                            JSONObject json_test = new JSONObject(postMessage);
+                            String action = json_test.getString("action");
+                            switch (action) {
+                                case "nativeStart":
+                                    String appCallStr = "nativeInitData(" + GameActivity.appData + ")";
+                                    ConchJNI.RunJS(appCallStr);
+                                    break;
                                 case "JumpGame":
-                                   JSBridge.jumpRN("");
-                                   break;
+                                    JSBridge.jumpRN("");
+                                    break;
                                 case "JumpThirdGame"://跳转第三方游戏
                                     JSBridge.jumpRN("");
-                                   break;
-                                }
-                                String alertStr="alert(\'"+action+"\')";
-                                //ConchJNI.RunJS(alertStr);
-                              //  ConchJNI.RunJS("nativeMessage('{action:\"popTip\",data:\"mytest\"}')");
-
-                            }catch (Exception e) {
-                                Log.e("Exception==",e.toString());
+                                    break;
                             }
+                            String alertStr = "alert(\'" + action + "\')";
+                            //ConchJNI.RunJS(alertStr);
+                            //  ConchJNI.RunJS("nativeMessage('{action:\"popTip\",data:\"mytest\"}')");
+
+                        } catch (Exception e) {
+                            Log.e("Exception==", e.toString());
                         }
-                    });
-        }
+                    }
+                });
+    }
 
 
-         public static void postToGame(final String actionData) {
-                      String postAction="nativeMessage(\'"+actionData+"\')";
-                      ConchJNI.RunJS(postAction);
-         }
+    public static void postToGame(final String actionData) {
+        String postAction = "nativeMessage(" + actionData + ")";
+        ConchJNI.RunJS(postAction);
+      //  Toast.makeText(GameActivity.mainInstance, postAction, Toast.LENGTH_SHORT).show();
+    }
 
 
-        public static void jumpRN(final String data) {
-            Activity currentActivity =GameActivity.mainInstance;
-            Intent intent = new Intent(currentActivity, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            currentActivity.startActivity(intent);
-        }
+    public static void jumpRN(final String data) {
+        Activity currentActivity = GameActivity.mainInstance;
+        Intent intent = new Intent(currentActivity, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        currentActivity.startActivity(intent);
+    }
 
-        public static void jumpHome(final String data) {
-            Activity currentActivity =MainActivity.instance;
-            Intent intent = new Intent(currentActivity, GameActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            currentActivity.startActivity(intent);
-        }
+    public static void jumpHome(final String data) {
+        Activity currentActivity = MainActivity.instance;
+        Intent intent = new Intent(currentActivity, GameActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        currentActivity.startActivity(intent);
+    }
 
 
-
-        
 }

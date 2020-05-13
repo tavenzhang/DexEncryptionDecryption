@@ -392,20 +392,6 @@ export default class XXWebView extends Component {
                                 if (ret.rs && access_token && access_token != "") {
                                     TW_Store.userStore.initLoginToken(access_token);
                                 }
-
-                                if (message.url.indexOf(HTTP_GAME_LIST) > -1) {
-                                    if (ret.rs) {
-                                        TW_Store.dataStore.onUpdateGameData(ret.content.datas);
-                                        this.onFlushGameData();
-                                    }
-
-                                }
-                                if (message.url.indexOf(HTTP_ACCOUNT) > -1) {
-                                    if (ret.rs) {
-                                        TW_Store.userStore.saveUserInfo(ret.content)
-                                    }
-                                }
-
                             }, 10, false, false, true, this.onParamHead(message.header));
                             break;
                         case "put":

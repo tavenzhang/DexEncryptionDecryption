@@ -78,6 +78,7 @@ export default class TWThirdWebView extends Component {
         if(type!="guest"){
             TW_Store.bblStore.enterSubGame();
         }
+        TN_JUMP_RN();
     }
 
     componentWillUnmount(): void {

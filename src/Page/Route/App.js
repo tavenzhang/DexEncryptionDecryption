@@ -83,8 +83,6 @@ import GameUIView from "../enter/GameUIView";
 
 import KeyboardManager from 'react-native-keyboard-manager'
 
-
-
 @observer
 export default class App extends Component {
     constructor(state) {
