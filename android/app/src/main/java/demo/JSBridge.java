@@ -100,10 +100,10 @@ public class JSBridge {
                                     ConchJNI.RunJS(appCallStr);
                                     break;
                                 case "JumpGame":
-                                    JSBridge.jumpRN("");
+                                   // JSBridge.jumpRN("");
                                     break;
                                 case "JumpThirdGame"://跳转第三方游戏
-                                    JSBridge.jumpRN("");
+                                   // JSBridge.jumpRN("");
                                     break;
                             }
                             String alertStr = "alert(\'" + action + "\')";

@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.jd.R;
+import com.jd.jxhelper.JXHelper;
 
 //import com.tiwo.game.R;
 
@@ -139,6 +140,7 @@ public class GameEngine implements IPlugin {
 		@Override
 		public void ExitGame() {
 			Log.i("=======", "======exit");
+			JXHelper.instance.exitApp();
 			activity.finish();
 			activity = null;
 			//mLayaEngine.onDestroy();

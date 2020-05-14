@@ -138,7 +138,7 @@ global.TN_JUMP_HOME=(data)=>{
     }
 }
 
-global.TN_JUMP_RN=(data)=>{
+global.TN_JUMP_RN=(data="")=>{
     if (G_IS_IOS) {
         NativeModules.JDHelper.jumpToRN(data);
     } else {
@@ -148,10 +148,11 @@ global.TN_JUMP_RN=(data)=>{
 
 
 global.TN_ExitApp = () => {
+    TW_Log("TN_ExitApp-----");
     if (G_IS_IOS) {
         NativeModules.JDHelper.exitApp();
     } else {
-        NativeModules.TCOpenOtherAppHelper.exitApp()
+        NativeModules.JXHelper.exitApp()
     }
 };
 global.TN_SetCodePushConifg = (serverUrl,appVersion="2.2.2") => {

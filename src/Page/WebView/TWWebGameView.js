@@ -65,9 +65,6 @@ export default class TWWebGameView extends Component {
         } else {
             TW_Log("homePre.lastIndexOf-" + homePre.lastIndexOf("/"), homePre)
             newUrl = homePre
-            // if (TW_Store.appStore.isSitApp) {
-            //     myParam += "&time=" + Math.random() * 9999;
-            // }
         }
 
 
@@ -156,16 +153,18 @@ export default class TWWebGameView extends Component {
     }
 
     onLoadEnd = (event) => {
-
         let {url, isOrigan} = this.props;
-        if (url && url.length > 0) {
-            if (!isOrigan) {
-                this.timeId = setTimeout(this.onEnterGame, G_IS_IOS ? 2000 : 4000)
-            } else {
-                this.timeId = setTimeout(this.onEnterGame, G_IS_IOS ? 500 : 1000)
-            }
-        }
-        TW_Log("onLoadEnd=TCweb==========event===== TW_Store.bblStore.isLoading--" + TW_Store.bblStore.isLoading, event)
+        // if (url && url.length > 0) {
+        //     if (!isOrigan) {
+        //         this.timeId = setTimeout(this.onEnterGame, G_IS_IOS ? 2000 : 4000)
+        //     } else {
+        //         setTimeout(this.onEnterGame, 1000)
+        //         TN_JUMP_RN();
+        //     }
+        // }
+        // TW_Log("onLoadEnd=TCweb==========event===== TW_Store.bblStore.isOrigan--" + isOrigan, url)
+        this.onEnterGame();
+      ;
     }
 
 
@@ -251,7 +250,7 @@ export default class TWWebGameView extends Component {
     }
 
     onEnterGame = () => {
-        TW_Log("onLoadEnd=TCweb==========event=====onEnterGame")
+        TW_Log("onEnterGame=TCweb==============onEnterGame")
         TW_Store.bblStore.lastGameUrl = "";
         TW_Store.bblStore.enterSubGame();
         clearTimeout(this.timeId)
@@ -290,6 +289,7 @@ export default class TWWebGameView extends Component {
     };
 
     onBackHomeJs = (message={}) => {
+        TW_Log("onBackHomeJs-----------------")
         TW_Store.bblStore.quitSubGame(message);
         clearTimeout(this.timeId);
 

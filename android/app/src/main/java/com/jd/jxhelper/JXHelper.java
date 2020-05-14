@@ -333,4 +333,10 @@ public class JXHelper extends ReactContextBaseJavaModule {
     public void jumpToRN(String msg){
         JSBridge.jumpRN(msg);
     }
+
+    @ReactMethod
+    public void exitApp(){
+       MainActivity.instance.finish();
+       GameActivity.mainInstance.finish();
+    }
 }

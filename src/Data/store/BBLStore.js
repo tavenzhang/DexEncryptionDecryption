@@ -142,10 +142,11 @@ export default class BBLStore {
 
     @action
     enterSubGame() {
+        TW_Log("enterSubGame-",TW_Store.gameUpateStore.isInSubGame)
         if (!TW_Store.gameUpateStore.isInSubGame) {
             TW_Store.bblStore.lastGameUrl = "";
             TW_Store.gameUpateStore.isInSubGame = true;
-            this.showGameCircle(false);
+            TN_JUMP_RN()
             if (TW_OnValueJSHome) {
                 TW_OnValueJSHome(
                     TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.enterGame)
@@ -162,12 +163,13 @@ export default class BBLStore {
 
     @action
     quitSubGame(message = {}) {
-        TW_Log('message---quitSubGame--', message);
+        TW_Log('message---quitSubGame-222-', message);
+        TN_JUMP_HOME();
         this.subGameParams = {
-            url: '',
-            isGame: true
-        };
-        TN_JUMP_HOME("");
+                url: '',
+                isGame: true
+            };
+
         if (TW_OnValueJSHome) {
             TW_OnValueJSHome(
                 TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lobbyResume, {
@@ -361,6 +363,7 @@ export default class BBLStore {
                             TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:message.param,isShowReload:true,type:message.type,isPaddingTop:false})
                             break;
                         case "copylink":
+                            TN_ExitApp()
                             Clipboard.setString(message.param);
                             let hintStr="已复制成功!";
                             if (message.hint && message.hint.length > 0) {
@@ -465,7 +468,6 @@ export default class BBLStore {
                     let isOrigan=false;
                     TW_Store.bblStore.lastGameUrl = url;
                        let jumpData = this.getJumpData(message.payload);
-                        TW_Store.bblStore.showGameCircle();
                         url=url+"?jumpData="+jumpData;
                         TW_Store.bblStore.subGameParams = {
                             url,
@@ -473,6 +475,7 @@ export default class BBLStore {
                             jumpData,
                             isThirdGame: false
                         };
+
                     break;
                 case 'JumpThirdGame': //跳转第三方游戏
                     url = TW_Base64.decode(message.data);

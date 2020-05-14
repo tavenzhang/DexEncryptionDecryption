@@ -43,15 +43,10 @@ const Components = {
     SubGameView:viewRoutHelp(SubGameView),
     // WebView: viewRoutHelp(TCWebView),
     TWThirdWebView:viewRoutHelp(TWThirdWebView),
-    TCUserDetailMsg: viewRoutHelp(TCUserDetailMsg),
-    TCUserMessage: viewRoutHelp(TCUserMessage),
-    TCAddUserInfo: viewRoutHelp(TCAddUserInfo),
-    TCAddPhoneNumberInfo: viewRoutHelp(TCAddPhoneNumberInfo),
-    //UserAcountPay: viewRoutHelp(TCUserPayAndWithdrawRecordsMain),
-    //UserPayment: viewRoutHelp(UserPayment),
-    //WxPublicPage: viewRoutHelp(WechatPublicPage),
-    //TCUserWithdrawNew: viewRoutHelp(TCUserWithdrawNew),
-    //TCUserBankPayMessageNew: viewRoutHelp(TCUserBankPayMessageNew)
+    // TCUserDetailMsg: viewRoutHelp(TCUserDetailMsg),
+    // TCUserMessage: viewRoutHelp(TCUserMessage),
+    // TCAddUserInfo: viewRoutHelp(TCAddUserInfo),
+    // TCAddPhoneNumberInfo: viewRoutHelp(TCAddPhoneNumberInfo),
 }
 
 //为所有组件增加增加routName 配合 JX_Compones  用于 通用 pushtoView 跳转 避免使用纯string
@@ -72,14 +67,6 @@ const MainStackNavigator = StackNavigator({
         gesturesEnabled: false
     }
 })
-
-import TCUserDetailMsg from "../UserCenter/user/TCUserDetailMsg";
-import TCUserMessage from "../UserCenter/user/TCUserMessage";
-import TCAddUserInfo from "../UserCenter/user/TCAddUserInfo";
-import TCAddPhoneNumberInfo from "../UserCenter/user/TCAddPhoneNumberInfo";
-
-import WechatPublicPage from '../../Page/UserCenter/UserPay/WxPublic/TCUserPayWxPublic'
-import GameUIView from "../enter/GameUIView";
 
 import KeyboardManager from 'react-native-keyboard-manager'
 
@@ -150,6 +137,7 @@ export default class App extends Component {
         }
         let now = new Date().getTime();
         if (now - this.lastClickTime < 2500) {//2.5秒内点击后退键两次推出应用程序
+            // TN_ExitApp();
             return false;//控制权交给原生
         }
         this.lastClickTime = now;

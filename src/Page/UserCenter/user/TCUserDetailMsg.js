@@ -119,7 +119,7 @@ export default class TCUserDetailMsg extends Component {
             Toast.showShortCenter('如需修改请联系客服！')
             return;
         }
-        TW_NavHelp.pushView(JX_Compones.TCAddPhoneNumberInfo)
+       // TW_NavHelp.pushView(JX_Compones.TCAddPhoneNumberInfo)
 
     }
 

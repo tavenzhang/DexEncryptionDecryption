@@ -24,6 +24,9 @@ import android.view.WindowManager;
 import android.webkit.ValueCallback;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class GameActivity extends Activity{
     public static final int AR_CHECK_UPDATE = 1;
@@ -47,9 +50,14 @@ public class GameActivity extends Activity{
          * 如果不想使用更新流程，可以屏蔽checkApkUpdate函数，直接打开initEngine函数
          */
         //checkApkUpdate(this);
-        initEngine();
         Intent intent=getIntent();
-		appData=intent.getStringExtra("homeData");
+        appData=intent.getStringExtra("homeData");
+        try {
+            initEngine();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
       //  Toast.makeText(GameActivity.mainInstance,appData ,Toast.LENGTH_SHORT).show();
 
         // 设置透明状态栏
@@ -78,13 +86,14 @@ public class GameActivity extends Activity{
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
     }
-    public void initEngine()
-    {
+    public void initEngine() throws JSONException {
+        JSONObject jsonObj = new JSONObject(appData);
+        String url =jsonObj.getString("gameUrl");
         mProxy = new RuntimeProxy(this);
         mPlugin = new GameEngine(this);
         mPlugin.game_plugin_set_runtime_proxy(mProxy);
         mPlugin.game_plugin_set_option("localize","false");
-        mPlugin.game_plugin_set_option("gameUrl", "https://download.jwyxw.net/ios/gameUat/index.js");
+        mPlugin.game_plugin_set_option("gameUrl", url);
         mPlugin.game_plugin_init(3);
         View gameView = mPlugin.game_plugin_get_view();
         this.setContentView(gameView);
@@ -163,7 +172,11 @@ public class GameActivity extends Activity{
             @Override
             public void onReceiveValue(Integer integer) {
                 if (integer.intValue() == 1) {
-                    initEngine();
+                    try {
+                        initEngine();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     finish();
                 }
@@ -197,11 +210,21 @@ public class GameActivity extends Activity{
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)
     {
-
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            return true;
+        }
         return super.onKeyDown(keyCode, event);
     }
 
 
+ @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event)
+    {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            return true;
+        }
+        return super.onKeyUp(keyCode, event);
+    }
 
 
 
