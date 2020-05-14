@@ -29,6 +29,9 @@ export default class BBLStore {
     @observable
     isDebugApp = false;
 
+    @observable
+    isSubGameRecharge=false
+
     storeDir = DocumentDirectoryPath;
 
     tempZipDir = `${DocumentDirectoryPath}/home.zip`;
@@ -222,7 +225,8 @@ export default class BBLStore {
         showRecharge: 'showRecharge',
         showService: 'showService',
         showWithdraw: 'showWithdraw',
-        appUpate: 'appUpate'
+        appUpate: 'appUpate',
+        game_recharge:"game_recharge"
     };
 
     //bgm.mp3 click.mp3 close.mp3 flopleft.mp3 flopright.mp3 recharge.mp3 rightbottomclose.mp3 showlogo.mp3
@@ -363,7 +367,6 @@ export default class BBLStore {
                             TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:message.param,isShowReload:true,type:message.type,isPaddingTop:false})
                             break;
                         case "copylink":
-                            TN_ExitApp()
                             Clipboard.setString(message.param);
                             let hintStr="已复制成功!";
                             if (message.hint && message.hint.length > 0) {
@@ -431,9 +434,7 @@ export default class BBLStore {
                             }
                             TW_Store.gameUIStroe.shareData = message;
                             let shareData = message;
-                            let isFast = shareData.isfast == '1' || shareData.type;
-                            if (isFast) {
-                                try {
+                            try {
                                     switch (shareData.type) {
                                         case "friend":
                                             TCUserOpenPayApp.onWXShare();
@@ -445,9 +446,6 @@ export default class BBLStore {
                                 } catch (e) {
                                     TW_Store.gameUIStroe.checkWXInstall();
                                 }
-                            } else {
-                                TW_Store.gameUIStroe.isShowShare = true;
-                            }
                             break;
                         case "closeApp":
                             TN_ExitApp();
@@ -460,6 +458,12 @@ export default class BBLStore {
                             break;
                         case "customerService":
                             TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:TW_Store.gameUIStroe.gustWebUrl,isShowReload:false,type:"guest"});
+                            break;
+                        case "closeRecharge":
+                            if(TW_Store.bblStore.isSubGameRecharge) {
+                                TW_Store.bblStore.isSubGameRecharge=false;
+                                TN_JUMP_RN();
+                            }
                             break;
                     }
                     break;
@@ -488,17 +492,7 @@ export default class BBLStore {
                         };
                     }
                     break;
-                case "game_custom":
-                    TW_Store.gameUIStroe.showGusetView(!TW_Store.gameUIStroe.isShowGuest);
-                    break;
-                case "game_redraw":
-                    TW_Store.gameUIStroe.isShowWithDraw = !TW_Store.gameUIStroe.isShowWithDraw;
-                    break;
-                case "game_back":
-                    TW_Log('custom---exitAppToLoginPage');
-                    TW_Store.userStore.exitAppToLoginPage();
-                    TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.logout));
-                    break;
+
                 case "http":
                     let method = message.metod;
                     method = method ? method.toLowerCase() : "get";

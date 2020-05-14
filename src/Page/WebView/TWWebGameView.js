@@ -210,7 +210,9 @@ export default class TWWebGameView extends Component {
                     this.onBackHomeJs(message)
                     break;
                 case "game_recharge":
-                    TW_Store.gameUIStroe.isShowAddPayView = !TW_Store.gameUIStroe.isShowAddPayView;
+                    TW_Store.bblStore.isSubGameRecharge=true;
+                    TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.game_recharge));
+                    TN_JUMP_HOME()
                     break;
                 case "game_start": //子游戏准备ok
                     this.onEnterGame();
@@ -221,19 +223,16 @@ export default class TWWebGameView extends Component {
                         case "saveToPhone":
                             Tools.onSaveScreenPhone();
                             break;
-                        case "loginout":
-                            TW_Store.userStore.exitAppToLoginPage();
-                            break;
                         case "openWeb":
                             TCUserOpenPayApp.linkingWeb(message.param)
                             break;
                         case "copylink":
                             Clipboard.setString(message.param);
+                            let hintStr="已复制成功!";
                             if (message.hint && message.hint.length > 0) {
-                                Toast.showShortCenter(message.hint);
-                            } else {
-                                Toast.showShortCenter("已复制成功!");
+                                hintStr = message.hint;
                             }
+                            TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.popTip, {data: hintStr}));
                             break;
                     }
                     break;
@@ -253,7 +252,7 @@ export default class TWWebGameView extends Component {
         TW_Log("onEnterGame=TCweb==============onEnterGame")
         TW_Store.bblStore.lastGameUrl = "";
         TW_Store.bblStore.enterSubGame();
-        clearTimeout(this.timeId)
+
     }
     handleUrl = (url) => {
         if (url && url.indexOf("../") > -1) {
