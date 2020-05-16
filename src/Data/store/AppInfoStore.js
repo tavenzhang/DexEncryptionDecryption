@@ -14,7 +14,7 @@ import {
 
 import { UpDateHeadAppId } from '../../Common/Network/TCRequestConfig';
 import NetUitls from '../../Common/Network/TCRequestUitls';
-import TCUserOpenPayApp from '../../Page/UserCenter/UserPay/TCUserOpenPayApp';
+import TCUserOpenPayApp from '../../Data/TCUserOpenPayApp';
 import OpeninstallModule from "openinstall-react-native";
 import { SoundHelper } from "../../Common/JXHelper/SoundHelper";
 import JXHelper from "../../Common/JXHelper/JXHelper";

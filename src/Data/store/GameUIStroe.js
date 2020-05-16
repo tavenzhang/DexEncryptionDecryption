@@ -1,12 +1,8 @@
 import {action, observable} from 'mobx'
-//import TCUserPayAndWithdrawRecordsMain from "../../Page/UserCenter/UserAccount/TCUserPayAndWithdrawRecordsMain";
-import React from "react";
-//import TCUserBankPayMessageNew from "../../Page/UserCenter/UserPay/TCUserBankPayMessageNew";
 
-import NetUitls from "../../Common/Network/TCRequestUitls";
-import {config} from "../../Common/Network/TCRequestConfig";
-import TCUserOpenPayApp from "../../Page/UserCenter/UserPay/TCUserOpenPayApp";
-import GamePromptView from "../../Page/enter/game/GamePromptView";
+import React from "react";
+
+import TCUserOpenPayApp from "../../Data/TCUserOpenPayApp";
 export default class GameUIStroe {
 
     @observable

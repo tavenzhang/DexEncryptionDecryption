@@ -122,7 +122,6 @@ export default class App extends Component {
 
     onBackAndroid = () => {
         TW_Log("onBackAndroid---", this.navigator);
-        // return false;
         if (TW_Store.gameUpateStore.isInSubGame) {
             if (TW_OnBackHomeJs) {
                 TW_OnBackHomeJs()

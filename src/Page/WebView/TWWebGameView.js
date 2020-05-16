@@ -17,7 +17,7 @@ import PropTypes from "prop-types";
 import {SoundHelper} from "../../Common/JXHelper/SoundHelper";
 import Toast from "../../Common/JXHelper/JXToast";
 import Tools from "../../Common/View/Tools";
-import TCUserOpenPayApp from "../UserCenter/UserPay/TCUserOpenPayApp";
+import TCUserOpenPayApp from "../../Data/TCUserOpenPayApp";
 import ExitGameAlertView from "../enter/gameMenu/ExitGameAlertView";
 import GameMenuButton from "../enter/gameMenu/GameMenuButton";
 

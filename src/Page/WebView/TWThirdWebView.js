@@ -7,14 +7,13 @@ import {
     KeyboardAvoidingView
 } from 'react-native';
 import { WebView } from 'react-native-webview';
-//import SafeAreaView from 'react-native-safe-area-view';
 
 import { JX_PLAT_INFO } from "../asset";
 import { observer } from "mobx-react";
 import PropTypes from "prop-types";
 import Toast from "../../Common/JXHelper/JXToast";
 import Tools from "../../Common/View/Tools";
-import TCUserOpenPayApp from "../UserCenter/UserPay/TCUserOpenPayApp";
+import TCUserOpenPayApp from "../../Data/TCUserOpenPayApp";
 import ExitGameAlertView from "../enter/gameMenu/ExitGameAlertView";
 import GameMenuButton from "../enter/gameMenu/GameMenuButton";
 import {withMappedNavigationProps} from 'react-navigation-props-mapper'

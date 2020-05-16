@@ -7,7 +7,7 @@ import {
 import {WebView} from 'react-native-webview';
 import {observer} from "mobx-react";
 import Tools from "../../Common/View/Tools";
-import TCUserOpenPayApp from "../UserCenter/UserPay/TCUserOpenPayApp";
+import TCUserOpenPayApp from "../../Data/TCUserOpenPayApp";
 import Toast from "../../Common/JXHelper/JXToast";
 import FileTools from "../../Common/Global/FileTools";
 import {platInfo} from "../../config/appConfig";

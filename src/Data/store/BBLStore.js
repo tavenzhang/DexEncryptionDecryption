@@ -3,11 +3,9 @@ import {MainBundlePath, DocumentDirectoryPath} from 'react-native-fs';
 import {platInfo, appDomainBase} from "../../config/appConfig";
 import {config} from "../../Common/Network/TCRequestConfig";
 import NetUitls from "../../Common/Network/TCRequestUitls";
-import {SoundHelper} from "../../Common/JXHelper/SoundHelper";
 import Tools from "../../Common/View/Tools";
-import TCUserOpenPayApp from "../../Page/UserCenter/UserPay/TCUserOpenPayApp";
+import TCUserOpenPayApp from "../../Data/TCUserOpenPayApp";
 import {Clipboard,} from "react-native";
-import Toast from "../../Common/JXHelper/JXToast";
 import FileTools from "../../Common/Global/FileTools";
 
 /**

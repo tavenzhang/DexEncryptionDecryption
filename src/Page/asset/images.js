@@ -51,4 +51,16 @@ export const phoneState = {
     mb4G:require('./phone_state/xh_4G.png'),
 }
 
+export const gameMemu = {
+    btnCancel: require("./gameMenu/btnCancel.png"),
+    btnCollapseLeft: require("./gameMenu/btnCollapseLeft.png"),
+    btnCollapseRight: require("./gameMenu/btnCollapseRight.png"),
+    btnConfirm: require("./gameMenu/btnConfirm.png"),
+    btnExit: require("./gameMenu/btnExit.png"),
+    // btnMenu: require("./gameMenu/btnMenu.png"),
+    btnMenu: require("./gameMenu/btnExit.png"),
+    btnReload: require("./gameMenu/btnReload.png"),
+    btnTransfer: require("./gameMenu/btnTransfer.png"),
+    dialogInfo: require("./gameMenu/dialogInfo.png")
+}
 

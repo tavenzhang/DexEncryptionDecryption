@@ -339,10 +339,9 @@ export default class Enter extends Component {
             sit:"5",
             uat:"214",
         })
-         TN_OpenHome(appDataStr);
-        TW_Store.bblStore.getAppData();
-        setTimeout(TW_SplashScreen_HIDE,2000);
+       //  TN_OpenHome(appDataStr);
 
+        TW_Store.bblStore.getAppData();
     }
 
     //使用从服务器获取的更新地址更新app

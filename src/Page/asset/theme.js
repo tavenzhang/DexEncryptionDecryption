@@ -1,5 +1,5 @@
 //常用容器或者组件样式
-import {indexBgColor, width} from "./game/themeComponet";
+import {indexBgColor, width} from "../resouce/theme";
 import {bottomNavHeight} from '../asset/screen'
 import {JX_PLAT_INFO, NavBarHeaderHeight, NavBarHeight, StatusBarHeight} from "./screen";
 
