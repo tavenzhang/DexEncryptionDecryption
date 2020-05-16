@@ -339,8 +339,7 @@ export default class Enter extends Component {
             sit:"5",
             uat:"214",
         })
-       //  TN_OpenHome(appDataStr);
-
+        TN_OpenHome(appDataStr);
         TW_Store.bblStore.getAppData();
     }
 
