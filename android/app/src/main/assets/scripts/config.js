@@ -106,7 +106,7 @@ if(window.loadingView)
     window.loadingView.loadingAutoClose=true;//true代表当动画播放完毕，自动进入游戏。false为开发者手动控制
     window.loadingView.bgColor("#000000");//设置背景颜色
     window.loadingView.setFontColor("#ffffff");//设置字体颜色
-    window.loadingView.setTips(["游戏正在加载中!"]);//设置tips数组，会随机出现
+    window.loadingView.setTips(["游戏正在加载中..."]);//设置tips数组，会随机出现
 }
 window.onLayaInitError=function(e)
 {
