@@ -339,7 +339,7 @@ export default class Enter extends Component {
             sit:"5",
             uat:"214",
         })
-        TN_OpenHome(appDataStr);
+        //TN_OpenHome(appDataStr);
         TW_Store.bblStore.getAppData();
     }
 
@@ -405,16 +405,7 @@ export default class Enter extends Component {
         this.setState({
             syncMessage: '检测更新中....',
             updateStatus: 0
-
         });
-        if (!TW_Store.dataStore.isAppInited) {
-            //如果是第一次启动app  并且游戏资源拷贝到document 还未完成，5秒后进行重新热更新检测 直接退出函数
-            this.hotFixStore.syncMessage = 'app大厅初始化...'; //防止进入reloadAppDomain
-            setTimeout(() => {
-                this.hotFix(TW_Store.hotFixStore.currentDeployKey);
-            }, 5000);
-            return;
-        }
         try {
             CodePush.checkForUpdate(hotfixDeploymentKey).then((update) => {
                 TW_Log('==checking update=d===hotfixDeploymentKey= =' + hotfixDeploymentKey, update);
