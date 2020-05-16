@@ -10,6 +10,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -109,6 +110,7 @@ public class MainActivity extends ReactActivity {
         } else {
             SplashScreen.show(this, true);  // here
         }
+        Log.v("MainActivity", "onCreate");
 //        if (Build.VERSION.SDK_INT == 26) {
 //            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 //        } else {

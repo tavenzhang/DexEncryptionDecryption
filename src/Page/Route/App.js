@@ -116,7 +116,7 @@ export default class App extends Component {
                             this.navigator = navigatorRef;
                         }}
                     />
-                     <SubGameView/>
+                     {/*<SubGameView/>*/}
                      {/*<ModuleWebView/>*/}
                      {/*<GameUIView/>*/}
                      <GameLogView/>
