@@ -4,8 +4,8 @@ import {
     Platform
 } from 'react-native'
 
-import Toast from '../../../Common/JXHelper/JXToast';
-import {MyAppName} from "../../../config/appConfig";
+import Toast from '../Common/JXHelper/JXToast';
+import {MyAppName} from "../config/appConfig";
 /**
  * 打开用户支付App
  */

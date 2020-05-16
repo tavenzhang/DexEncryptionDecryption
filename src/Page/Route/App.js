@@ -43,10 +43,6 @@ const Components = {
     SubGameView:viewRoutHelp(SubGameView),
     // WebView: viewRoutHelp(TCWebView),
     TWThirdWebView:viewRoutHelp(TWThirdWebView),
-    // TCUserDetailMsg: viewRoutHelp(TCUserDetailMsg),
-    // TCUserMessage: viewRoutHelp(TCUserMessage),
-    // TCAddUserInfo: viewRoutHelp(TCAddUserInfo),
-    // TCAddPhoneNumberInfo: viewRoutHelp(TCAddPhoneNumberInfo),
 }
 
 //为所有组件增加增加routName 配合 JX_Compones  用于 通用 pushtoView 跳转 避免使用纯string

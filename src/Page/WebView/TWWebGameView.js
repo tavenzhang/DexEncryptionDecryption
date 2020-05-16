@@ -51,6 +51,7 @@ export default class TWWebGameView extends Component {
 
     render() {
         let {isOrigan, url, isThirdGame} = this.props;
+
         let myUrl = url;
         if (url == "") {
             return null
@@ -145,7 +146,7 @@ export default class TWWebGameView extends Component {
         switch (btnId) {
             case 2:
                 this.setState({isShowExitAlertView: true,isOpenAddPay:true})
-                 break;
+                break;
             case 3:
                 this.setState({isShowExitAlertView: true,isOpenAddPay:false})
                 break;
@@ -164,7 +165,7 @@ export default class TWWebGameView extends Component {
         // }
         // TW_Log("onLoadEnd=TCweb==========event===== TW_Store.bblStore.isOrigan--" + isOrigan, url)
         this.onEnterGame();
-      ;
+        ;
     }
 
 
@@ -237,9 +238,9 @@ export default class TWWebGameView extends Component {
                     }
                     break;
                 case "logout":
-                       if(TW_Store.gameUpateStore.isInSubGame){
-                           this.onBackHomeJs()
-                       }
+                    if(TW_Store.gameUpateStore.isInSubGame){
+                        this.onBackHomeJs()
+                    }
                     TW_Store.userStore.exitAppToLoginPage();
                     TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.logout));
                     break;
@@ -252,7 +253,6 @@ export default class TWWebGameView extends Component {
         TW_Log("onEnterGame=TCweb==============onEnterGame")
         TW_Store.bblStore.lastGameUrl = "";
         TW_Store.bblStore.enterSubGame();
-
     }
     handleUrl = (url) => {
         if (url && url.indexOf("../") > -1) {
