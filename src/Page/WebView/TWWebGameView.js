@@ -155,17 +155,12 @@ export default class TWWebGameView extends Component {
 
     onLoadEnd = (event) => {
         let {url, isOrigan} = this.props;
-        // if (url && url.length > 0) {
-        //     if (!isOrigan) {
-        //         this.timeId = setTimeout(this.onEnterGame, G_IS_IOS ? 2000 : 4000)
-        //     } else {
-        //         setTimeout(this.onEnterGame, 1000)
-        //         TN_JUMP_RN();
-        //     }
-        // }
+        if (url && url.length > 0) {
+            TW_SplashScreen_HIDE();
+        }
         // TW_Log("onLoadEnd=TCweb==========event===== TW_Store.bblStore.isOrigan--" + isOrigan, url)
         this.onEnterGame();
-        ;
+
     }
 
 

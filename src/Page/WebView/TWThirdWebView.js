@@ -198,7 +198,7 @@ export default class TWThirdWebView extends Component {
     };
 
     onLoadEnd = (event) => {
-
+        TW_SplashScreen_HIDE()
     };
 
 
