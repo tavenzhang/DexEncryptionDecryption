@@ -20,7 +20,7 @@ import G_Config from '../../Common/Global/G_Config'
 import App from '../Route/App';
 import Orientation from 'react-native-orientation';
 
-import { width, Size } from '../asset/game/themeComponet'
+import {Size } from '../resouce/theme'
 import StartUpHelper from './StartUpHelper'
 import KeepAwake from 'react-native-keep-awake';
 import ExtraDimensions from 'react-native-extra-dimensions-android';
