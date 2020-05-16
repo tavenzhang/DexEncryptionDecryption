@@ -25,7 +25,6 @@ const appStores = {
     // commonBoxStore: rootStore.commonBoxStore,
 }
 import CommonBoxLayer from "../enter/CommonBoxLayer";
-import XXWebView from "../web/XXWebView";
 import OpeninstallModule from 'openinstall-react-native'
 import ExtraDimensions from 'react-native-extra-dimensions-android';
 
@@ -36,7 +35,6 @@ function viewRoutHelp(component) {
 
 import SubGameView from "./SubGameView";
 import GameLogView from "./GameLogView";
-import ModuleWebView from "../WebView/ModuleWebView";
 import TWThirdWebView from "../WebView/TWThirdWebView";
 
 const Components = {
