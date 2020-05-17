@@ -303,30 +303,18 @@ export default class Enter extends Component {
     }
 
     httpResInit = () => {
-        let appDataStr=JSON.stringify({
-            isApp: true,
-            taven: "isOk",
-            brandID:platInfo.brand,
-            brandUrl:TW_Store.bblStore.getBrandUrl(),
-            clientId: TW_Store.appStore.clindId,
-            urlJSON: TW_Store.bblStore.getUriConfig(),
-            isAndroidHack: TW_Store.appStore.isInAnroidHack,
-            hackData:{filterGameList:["zjh","lhd","bjl","pg","jlbsh","tto","erbg"]},
-            deviceToken: TW_Store.appStore.deviceToken,
-            loginDomain: TW_Store.bblStore.loginDomain + "/api/v1/account",
-            gameDomain: TW_Store.bblStore.gameDomain + "/api/v1/gamecenter",
-            affCode: TW_Store.appStore.userAffCode,
-            isDebug: TW_IS_DEBIG,
-            appVersion: TW_Store.appStore.versionHotFix+(!G_IS_IOS&&TW_Store.appStore.subAppType!="0" ? ` - ${TW_Store.appStore.subAppType}`:""),
-            specialVersionHot:parseInt(TW_Store.appStore.specialVersionHot),
-            apihome: `${TW_Store.bblStore.gameDomain}/api/v1`,
-            gameUrl:"https://download.jwyxw.net/ios/gameUat/index.js",
-            sit:"5",
-            uat:"214",
-        })
+        let appDataStr= JSON.stringify( TW_Store.bblStore.getAPPJsonData());
         TN_OpenHome(appDataStr);
         TW_Store.bblStore.getAppData();
-        setTimeout(TW_SplashScreen_HIDE,6000)
+        setTimeout(()=>{
+            TW_SplashScreen_HIDE();
+            TN_MSG_TO_GAME(
+                TW_Store.bblStore.getWebAction(
+                    TW_Store.bblStore.ACT_ENUM.appNativeData,
+                    {data: TW_Store.bblStore.getAPPJsonData()}
+                )
+            );
+        },6000)
     }
 
     //使用从服务器获取的更新地址更新app
@@ -426,6 +414,7 @@ export default class Enter extends Component {
                         //如果是3分钟后台进入前台的热更新检测 使用立即更新
                         this.hotFixStore.isNextAffect = false;
                     }
+                  
                     TW_Log('==checkingupdate====hotfixDeploymentKey= versionData=  this.isWeakUpdate==' + this.isWeakUpdate);
                     this.hotFixStore.updateFinished = false;
                     this.storeLog({ hotfixDomainAccess: true });
@@ -479,7 +468,6 @@ export default class Enter extends Component {
         } catch (e) {
             TW_Log("code-push--error ==description==--" + e, e)
         }
-
     }
 
     installCodePush = (localPackage, updateMode) => {

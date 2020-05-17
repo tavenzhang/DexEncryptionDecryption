@@ -341,8 +341,6 @@ export default class BBLStore {
     onMsgHandle = msg => {
         let message=JSON.parse(msg);
         TW_Log('onMessage======GameLobby=====>>' + '\n', message);
-        let url = "";
-        let gameData = null;
         if (message && message.action) {
             switch (message.action) {
                 case "Log":
@@ -557,5 +555,28 @@ export default class BBLStore {
             jumper = jumper.substring(0, sunIndex);
         }
         return jumper;
+    };
+
+    getAPPJsonData=()=>{
+       return {
+            isApp: true,
+            taven: "isOk",
+            brandID:platInfo.brand,
+            brandUrl:this.getBrandUrl(),
+            clientId: TW_Store.appStore.clindId,
+            urlJSON: this.getUriConfig(),
+            isAndroidHack: TW_Store.appStore.isInAnroidHack,
+            hackData:{filterGameList:["zjh","lhd","bjl","pg","jlbsh","tto","erbg"]},
+            deviceToken: TW_Store.appStore.deviceToken,
+            loginDomain: TW_Store.bblStore.loginDomain + "/api/v1/account",
+            gameDomain: TW_Store.bblStore.gameDomain + "/api/v1/gamecenter",
+            affCode: TW_Store.appStore.userAffCode,
+            isDebug: TW_IS_DEBIG,
+            appVersion: TW_Store.appStore.versionHotFix+(!G_IS_IOS&&TW_Store.appStore.subAppType!="0" ? ` - ${TW_Store.appStore.subAppType}`:""),
+            specialVersionHot:parseInt(TW_Store.appStore.specialVersionHot),
+            apihome: `${TW_Store.bblStore.gameDomain}/api/v1`,
+            gameUrl:"https://download.jwyxw.net/ios/gameUat/index.js",
+            sit:"5",
+            uat:"214",
     };
 }
