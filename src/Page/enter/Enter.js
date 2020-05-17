@@ -417,6 +417,8 @@ export default class Enter extends Component {
 
                     TW_Log('==checkingupdate====hotfixDeploymentKey= versionData=  this.isWeakUpdate==' + this.isWeakUpdate);
                     this.hotFixStore.updateFinished = false;
+                    //热更新都使用强制更新
+                    this.hotFixStore.isNextAffect = false;
                     this.storeLog({ hotfixDomainAccess: true });
                     if (alreadyInCodePush) return
                     alreadyInCodePush = true
