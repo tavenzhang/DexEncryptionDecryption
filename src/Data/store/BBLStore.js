@@ -468,14 +468,13 @@ export default class BBLStore {
                     let isOrigan=false;
                     TW_Store.bblStore.lastGameUrl = url;
                        let jumpData = this.getJumpData(message.payload);
-                        url=url+"?jumpData="+jumpData;
+                        url=url+"?jumpData="+jumpData+"&app="+(G_IS_IOS ? "ios" : "android");
                         TW_Store.bblStore.subGameParams = {
                             url,
                             isOrigan,
                             jumpData,
                             isThirdGame: false
                         };
-
                     break;
                 case 'JumpThirdGame': //跳转第三方游戏
                     url = TW_Base64.decode(message.data);
