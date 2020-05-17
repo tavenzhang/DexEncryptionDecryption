@@ -487,7 +487,9 @@ export default class BBLStore {
                         };
                     }
                     break;
-
+                case "showGame":
+                    TW_SplashScreen_HIDE();
+                    break;
                 case "http":
                     let method = message.metod;
                     method = method ? method.toLowerCase() : "get";

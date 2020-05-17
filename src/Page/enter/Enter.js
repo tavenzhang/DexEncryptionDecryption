@@ -307,14 +307,13 @@ export default class Enter extends Component {
         TN_OpenHome(appDataStr);
         TW_Store.bblStore.getAppData();
         setTimeout(()=>{
-            TW_SplashScreen_HIDE();
             TN_MSG_TO_GAME(
                 TW_Store.bblStore.getWebAction(
                     TW_Store.bblStore.ACT_ENUM.appNativeData,
                     {data: TW_Store.bblStore.getAPPJsonData()}
                 )
             );
-        },6000)
+        },5000)
     }
 
     //使用从服务器获取的更新地址更新app
