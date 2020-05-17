@@ -107,25 +107,20 @@ export default class Enter extends Component {
                 if (TW_OnValueJSHome) {
                     TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 1 }));
                 }
+                TW_Log("TW_Store.gameUpateStore.isInSubGame==="+TW_Store.gameUpateStore.isInSubGame);
                 if (!TW_Store.gameUpateStore.isInSubGame) {
                     let now = new Date().getTime();
                     let dim = now - this.lastClickTime;
                     TW_Log("lastClickTime----" + this.lastClickTime + "---dim", dim)
                     if (dim >= 180000) { //从后台进入前台间隔大于3分钟 才进行大厅与app 更新检测
                         this.hotFix(TW_Store.hotFixStore.currentDeployKey, true);
-                        TW_Store.dataStore.loadHomeVerson();
                     }
-                  //  SoundHelper.onCheckPalyMusic();
-                   // TW_Store.dataStore.onFlushGameData();
-
+                    TN_JUMP_HOME();
                 } else {
                     TW_OnValueJSSubGame(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 1 }));
                 }
             }
-          //  if (TW_SubGameDownLoaderData.downList.length > 0) {
-                TW_Log("TW_SubGameDownLoaderData-----Active-", TW_SubGameDownLoaderData)
-              //  TW_Store.dataStore.startLoadGame();
-           // }
+
             if (TW_Store.gameUIStroe.wxShareHandle.isShareIng) {
                 if (TW_Store.gameUIStroe.wxShareHandle.callback) {
                     TW_Store.gameUIStroe.wxShareHandle.callback();
@@ -139,17 +134,11 @@ export default class Enter extends Component {
             let now = new Date().getTime();
             this.lastClickTime = now;
             if (!TW_Store.gameUpateStore.isInSubGame) {
-                SoundHelper.pauseMusic();
+
             } else {
                 TW_OnValueJSSubGame(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 0 }));
             }
-            if (TW_SubGameDownLoaderData.isLoading) {
-                FileTools.clearCurrentDownJob();
-                TW_SubGameDownLoaderData.downList.unshift(TW_SubGameDownLoaderData.currentDownData);
-                TW_SubGameDownLoaderData.currentDownData = null;
-                TW_SubGameDownLoaderData.isLoading = false
-                TW_Log("TW_SubGameDownLoaderData-----unActive-", TW_SubGameDownLoaderData)
-            }
+
         }
     }
 
@@ -225,7 +214,6 @@ export default class Enter extends Component {
 
 
     initDomain = () => {
-
         //如果不是处于android 特殊检测开关 强制开启this.hotFixStore.allowUpdate 开关
         if (!TW_Store.appStore.isInAnroidHack) {
             if (!this.hotFixStore.allowUpdate) {
@@ -315,9 +303,6 @@ export default class Enter extends Component {
     }
 
     httpResInit = () => {
-       // TW_Store.dataStore.initAppHomeCheck();
-       // TW_Store.dataStore.onFlushGameData()
-       // TW_Store.bblStore.getAppData();
         let appDataStr=JSON.stringify({
             isApp: true,
             taven: "isOk",
@@ -341,7 +326,7 @@ export default class Enter extends Component {
         })
         TN_OpenHome(appDataStr);
         TW_Store.bblStore.getAppData();
-        setTimeout(TW_SplashScreen_HIDE,4000)
+        setTimeout(TW_SplashScreen_HIDE,6000)
     }
 
     //使用从服务器获取的更新地址更新app
