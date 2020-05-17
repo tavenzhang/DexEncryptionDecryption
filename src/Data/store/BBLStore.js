@@ -229,17 +229,17 @@ export default class BBLStore {
 
     //bgm.mp3 click.mp3 close.mp3 flopleft.mp3 flopright.mp3 recharge.mp3 rightbottomclose.mp3 showlogo.mp3
     SOUND_ENUM = {
-        bgm: 'bgm.mp3',
-        click: 'click.mp3',
-        close: 'close.mp3',
-        flopleft: 'flopleft.mp3',
-        flopright: 'flopright.mp3',
-        recharge: 'recharge.mp3',
-        rightbottomclose: 'rightbottomclose.mp3',
-        showlogo: 'showlogo.mp3',
-        enterPanelClick: 'enterPanelClick.mp3',
-        sfx_click: 'sfx_click.mp3',
-        returnLobbyClick: 'returnLobbyClick.mp3'
+        bgm: 'bgm.ogg',
+        click: 'click.ogg',
+        close: 'close.ogg',
+        flopleft: 'flopleft.ogg',
+        flopright: 'flopright.ogg',
+        recharge: 'recharge.ogg',
+        rightbottomclose: 'rightbottomclose.ogg',
+        showlogo: 'showlogo.ogg',
+        enterPanelClick: 'enterPanelClick.ogg',
+        sfx_click: 'sfx_click.ogg',
+        returnLobbyClick: 'returnLobbyClick.ogg'
     };
 
     @action
