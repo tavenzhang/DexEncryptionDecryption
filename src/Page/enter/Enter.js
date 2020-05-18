@@ -313,7 +313,8 @@ export default class Enter extends Component {
                     {data: TW_Store.bblStore.getAPPJsonData()}
                 )
             );
-        },5000)
+        },2000)
+        TW_Log("appDataStr=======",appDataStr);
     }
 
     //使用从服务器获取的更新地址更新app

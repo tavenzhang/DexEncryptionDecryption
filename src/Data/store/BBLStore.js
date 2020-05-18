@@ -576,7 +576,7 @@ export default class BBLStore {
             appVersion: TW_Store.appStore.versionHotFix + (!G_IS_IOS && TW_Store.appStore.subAppType != "0" ? ` - ${TW_Store.appStore.subAppType}` : ""),
             specialVersionHot: parseInt(TW_Store.appStore.specialVersionHot),
             apihome: `${TW_Store.bblStore.gameDomain}/api/v1`,
-            gameUrl: "https://download.jwyxw.net/ios/gameUat/index.js",
+            gameUrl:  `${this.getVersionDomain()}/index.js`,
             sit: "5",
             uat: "214",
         }
