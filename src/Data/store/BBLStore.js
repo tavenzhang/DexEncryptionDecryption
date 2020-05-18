@@ -30,8 +30,7 @@ export default class BBLStore {
     @observable
     isSubGameRecharge=false
 
-    @observable
-    isOpenThirdWebView=false
+
 
     storeDir = DocumentDirectoryPath;
 
@@ -50,8 +49,11 @@ export default class BBLStore {
     @observable
     subGameParams = {
         url: '',
-        isGame: true
+        isGame: true,
+        isOpenThirdWebView:false,
     };
+
+
     @observable
     isShowCircle = false;
 
@@ -179,11 +181,6 @@ export default class BBLStore {
             );
         }
         TW_Store.gameUpateStore.isInSubGame = false;
-    }
-
-    @action
-    isInSubGame() {
-        return this.subGameParams.url && this.subGameParams.url.length > 0;
     }
 
     @observable
@@ -359,8 +356,24 @@ export default class BBLStore {
                             TCUserOpenPayApp.linkingWeb(message.param);
                             break;
                         case "openAppWeb":
-                            this.isOpenThirdWebView=true;
-                            TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:message.param,isShowReload:true,type:message.type,isPaddingTop:false})
+                           // TN_JUMP_RN();
+                            TW_Store.bblStore.subGameParams = {
+                                url:message.param,
+                                isShowReload:true,
+                                type:message.type,
+                                isOpenThirdWebView: true,
+                                isPaddingTop:false
+                            };
+                            //TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:message.param,isShowReload:true,type:message.type,isPaddingTop:false})
+                            break;
+                        case "customerService":
+                            TW_Store.bblStore.subGameParams = {
+                                url:TW_Store.gameUIStroe.gustWebUrl,
+                                isShowReload:false,
+                                type:message.type,
+                                isOpenThirdWebView: true,
+                            };
+                            //TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:TW_Store.gameUIStroe.gustWebUrl,isShowReload:false,type:"guest"});
                             break;
                         case "copylink":
                             Clipboard.setString(message.param);
@@ -452,10 +465,7 @@ export default class BBLStore {
                         case "appUpate":
                             TW_Store.dataStore.onRetartApp();
                             break;
-                        case "customerService":
-                            this.isOpenThirdWebView=true;
-                            TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:TW_Store.gameUIStroe.gustWebUrl,isShowReload:false,type:"guest"});
-                            break;
+
                         case "closeRecharge":
                             if(TW_Store.bblStore.isSubGameRecharge) {
                                 TW_Store.bblStore.isSubGameRecharge=false;
@@ -465,7 +475,6 @@ export default class BBLStore {
                     }
                     break;
                 case "JumpGame":
-
                     let url=message.gamePath;
                     let isOrigan=false;
                     TW_Store.bblStore.lastGameUrl = url;

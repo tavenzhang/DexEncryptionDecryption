@@ -6,6 +6,7 @@ import {
 import {observer} from 'mobx-react';
 import TWWebGameView from "../WebView/TWWebGameView";
 import PhoneStateView from "../Route/PhoneStateView";
+import TWVerWebView from "../WebView/TWVerWebView";
 
 
 @observer
@@ -17,17 +18,19 @@ export default class SubGameView extends Component {
     }
 
     render() {
-        let isShow = TW_Store.bblStore.subGameParams.url != ""&&!TW_Store.bblStore.isOpenThirdWebView;
-        //pointerEvents={TW_Store.bblStore.subGameParams.url!="" ? "auto":"none"}
+        let subGameParams=TW_Store.bblStore.subGameParams;
+        let isShow =subGameParams.url != "";
+        let isOpenVderWebView=subGameParams.isOpenThirdWebView;
         if (this.refs.myView) {
             this.refs.myView.setNativeProps({style: {zIndex: isShow ? 999 : -999}});
         }
-        TW_Log("SubGameView--TW_Store.bblStore.isShowCircle---" + TW_Store.bblStore.isShowCircle+"--TW_Store.gameUIStroe.isShowGuest=="+TW_Store.gameUIStroe.isShowGuest,isShow)
-        return (<View pointerEvents={isShow ? "auto" : "none"} style={{
+
+        TW_Log("SubGameView--TW_Store.bblStore.isShowCircle---" + TW_Store.bblStore.isShowCircle+"--TW_Store.gameUIStroe.isShowGuest=="+TW_Store.gameUIStroe.isShowGuest,isOpenVderWebView)
+        return (<View  style={{
             position: "absolute", width: SCREEN_W,
             height: SCREEN_H,
-            backgroundColor: "rgba(10,10,10,0.3)", zIndex: -999}} ref={"myView"}>
-            <TWWebGameView  {...TW_Store.bblStore.subGameParams}/>
+            backgroundColor: "rgba(10,10,10,0.3)", zIndex: 999}} ref={"myView"}>
+            {isOpenVderWebView ?  <TWVerWebView {...TW_Store.bblStore.subGameParams} />:<TWWebGameView  {...TW_Store.bblStore.subGameParams}/>}
             <PhoneStateView/>
         </View>)
     }

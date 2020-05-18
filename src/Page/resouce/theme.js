@@ -70,8 +70,8 @@ export const bottomNavHeight = Platform.OS == 'ios' ? (isIphoneX() ? 83 : 50) : 
 export const baseColor = {
     white: '#FFFFFF',
     black: 'black',
-    mainBg: '#F5F5F5', //主背景
-    itemBg: '#FFFFFF', //次背景
+    mainBg: '#000', //主背景
+    itemBg: '#000', //次背景
     strong: 'red', //强调色
     tabBarBg: '#f5f5f5', //tabbar背景
     tabUnSelectTxt: '#7c7c7c', //tab字体未选中

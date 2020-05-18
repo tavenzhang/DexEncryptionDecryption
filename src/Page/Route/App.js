@@ -35,12 +35,12 @@ function viewRoutHelp(component) {
 
 import SubGameView from "./SubGameView";
 import GameLogView from "./GameLogView";
-import TWThirdWebView from "../WebView/TWThirdWebView";
+import TWVerWebView from "../WebView/TWVerWebView";
 
 const Components = {
     SubGameView:viewRoutHelp(SubGameView),
     // WebView: viewRoutHelp(TCWebView),
-    TWThirdWebView:viewRoutHelp(TWThirdWebView),
+    TWThirdWebView:viewRoutHelp(TWVerWebView),
 }
 
 //为所有组件增加增加routName 配合 JX_Compones  用于 通用 pushtoView 跳转 避免使用纯string
@@ -86,7 +86,6 @@ export default class App extends Component {
            // this.requestCameraPermission()
         }
     }
-
 
 
     componentWillUnmount(): void {

@@ -4,6 +4,7 @@ import {
     View,
     Clipboard,
     BackHandler,
+    Alert,
     KeyboardAvoidingView
 } from 'react-native';
 import { WebView } from 'react-native-webview';
@@ -21,11 +22,10 @@ import {StatusBarHeight} from "../asset/screen";
 import DeviceInfo from 'react-native-device-info';
 import ExtraDimensions from 'react-native-extra-dimensions-android';
 import {safeAreaTop} from "../../Common/JXHelper/WebviewHelper";
+import ExitVerViewAlert from "../enter/gameMenu/ExitVerViewAlert";
 
-
-@withMappedNavigationProps()
 @observer
-export default class TWThirdWebView extends Component {
+export default class TWVerWebView extends Component {
 
     static propTypes = {
         data: PropTypes.func,
@@ -56,14 +56,12 @@ export default class TWThirdWebView extends Component {
         };
         this.bblStore = TW_Store.bblStore;
         this.curMarginBottom=0;
+        TW_Store.appStore.lockToProrit();
     }
 
     componentWillMount() {
         //旋转到竖屏
-        let {isRotation,type} = this.props;
-        if (isRotation) {
-            TW_Store.appStore.lockToProrit();
-        }
+
         BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
 
         if (ExtraDimensions.getSoftMenuBarHeight() > 0) {
@@ -129,7 +127,7 @@ export default class TWThirdWebView extends Component {
             />;
         return (
                 // <SafeAreaView style={{flex:1, backgroundColor:"rgb(227, 41, 43)"}}  forceInset={{ bottom: 'never' ,}}>
-                <KeyboardAvoidingView style={[styles.container, { paddingTop: isPaddingTop ? StatusBarHeight : 0 }]} behavior="padding" keyboardVerticalOffset={-this.curMarginBottom}
+                <KeyboardAvoidingView style={[styles.container, { paddingTop: isPaddingTop ? StatusBarHeight : 0  ,height:JX_PLAT_INFO.SCREEN_W, width:JX_PLAT_INFO.SCREEN_H}]} behavior="padding" keyboardVerticalOffset={-this.curMarginBottom}
                                       enabled={G_IS_IOS ? false : true}>
                     {!this.state.isHttpFail ? webContentView : <View style={{
                         height: JX_PLAT_INFO.SCREEN_H, justifyContent: "center",
@@ -138,19 +136,18 @@ export default class TWThirdWebView extends Component {
                     </View>}
                     <GameMenuButton isScreenPortrait={true} isShowReload={isShowReload} itransEnabled={"ON"}
                                     onPressExit={this.onClickMenu}/>
-                    {this.state.isShowExitAlertView && <ExitGameAlertView
-                        isOpenAddPay={this.state.isOpenAddPay}
-                        onPressConfirm={() => {
-                            this.onBackHomeJs();
-                            TW_Store.appStore.lockToLandscape();
-                          //  this.setState({isShowExitAlertView: false});
-                            if (this.state.isOpenAddPay) {
-                                TW_Store.gameUIStroe.isShowAddPayView = true;
-                            }
-                        }}
-                        onPressCancel={() => this.setState({isShowExitAlertView: false})}
-                    />
-                    }
+                    {/*{this.state.isShowExitAlertView && <ExitVerViewAlert*/}
+                    {/*    isOpenAddPay={this.state.isOpenAddPay}*/}
+                    {/*    onPressConfirm={() => {*/}
+                    {/*        this.onBackHomeJs();*/}
+                    {/*        this.setState({isShowExitAlertView: false});*/}
+                    {/*        if (this.state.isOpenAddPay) {*/}
+                    {/*            TW_Store.gameUIStroe.isShowAddPayView = true;*/}
+                    {/*        }*/}
+                    {/*    }}*/}
+                    {/*    onPressCancel={() => this.setState({isShowExitAlertView: false})}*/}
+                    {/*/>*/}
+                    {/*}*/}
                 </KeyboardAvoidingView>
 
 
@@ -174,19 +171,20 @@ export default class TWThirdWebView extends Component {
     onBackAndroid = () => {
         TW_Log("TWThirdWebView--onBackAndroid---", this.navigator);
         this.onBackHomeJs();
-        TW_Store.appStore.lockToLandscape();
-        this.setState({ isShowExitAlertView: false });
+
     };
 
+
     onClickMenu = (btnId) => {
-        switch (btnId) {
-            case 2:
-                this.setState({ isShowExitAlertView: true, isOpenAddPay: true });
-                break;
-            case 3:
-                this.setState({ isShowExitAlertView: true, isOpenAddPay: false });
-                break;
-        }
+        this.onBackHomeJs();
+        // switch (btnId) {
+        //     case 2:
+        //         this.setState({ isShowExitAlertView: true, isOpenAddPay: true });
+        //         break;
+        //     case 3:
+        //         this.setState({ isShowExitAlertView: true, isOpenAddPay: false });
+        //         break;
+        // }
     };
 
     onLoadEnd = (event) => {
@@ -304,21 +302,24 @@ export default class TWThirdWebView extends Component {
         if (backHandle) {
             backHandle();
         }
+        TW_Store.appStore.lockToLandscape();
         TW_Store.bblStore.quitSubGame();
-
+        this.setState({ isShowExitAlertView: false });
     }
 }
 
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        height:JX_PLAT_INFO.SCREEN_W,
+        width:JX_PLAT_INFO.SCREEN_H,
         backgroundColor: G_IS_IOS ? "transparent":"black",
         overflow: 'hidden'
     },
     webView: {
-        flex: 1,
-        backgroundColor: "transparent",
+        height:JX_PLAT_INFO.SCREEN_W,
+        width:JX_PLAT_INFO.SCREEN_H,
+        backgroundColor: "black",
         overflow: 'hidden'
     }
 });

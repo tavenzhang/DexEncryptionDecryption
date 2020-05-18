@@ -108,7 +108,7 @@ export default class Enter extends Component {
                     TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 1 }));
                 }
                 TW_Log("AppStateChange-active-----TW_Store.gameUpateStore.isInSubGame==="+TW_Store.gameUpateStore.isInSubGame);
-                if (!TW_Store.gameUpateStore.isInSubGame&&!TW_Store.bblStore.isOpenThirdWebView) {
+                if (!TW_Store.gameUpateStore.isInSubGame) {
                     let now = new Date().getTime();
                     let dim = now - this.lastClickTime;
                     TW_Log("lastClickTime----" + this.lastClickTime + "---dim", dim)
@@ -208,7 +208,7 @@ export default class Enter extends Component {
             //checkView =this.updateFailView()
             checkView = null
         }
-        return (<View style={{ flex: 1 }}>
+        return (<View style={{ flex: 1 ,background:"black"}}>
             <App />
             {checkView}
         </View>)
