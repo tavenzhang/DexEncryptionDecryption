@@ -30,6 +30,9 @@ export default class BBLStore {
     @observable
     isSubGameRecharge=false
 
+    @observable
+    isOpenThirdWebView=false
+
     storeDir = DocumentDirectoryPath;
 
     tempZipDir = `${DocumentDirectoryPath}/home.zip`;
@@ -86,10 +89,7 @@ export default class BBLStore {
     @action
     setNetInfo(payload) {
         //console.log('setNetInfo: payload', payload);
-
         this.netInfo = payload;
-
-        //console.log('setNetInfo: netInfo', this.netInfo);
     }
 
     @action
@@ -348,7 +348,6 @@ export default class BBLStore {
                     break;
                 case "game_common":
                     let actions = message.name || message.do;
-                    TW_Log('game---ct==', message);
                     switch (actions) {
                         case "saveToPhone":
                             Tools.onSaveScreenPhone();
@@ -360,6 +359,7 @@ export default class BBLStore {
                             TCUserOpenPayApp.linkingWeb(message.param);
                             break;
                         case "openAppWeb":
+                            this.isOpenThirdWebView=true;
                             TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:message.param,isShowReload:true,type:message.type,isPaddingTop:false})
                             break;
                         case "copylink":
@@ -453,6 +453,7 @@ export default class BBLStore {
                             TW_Store.dataStore.onRetartApp();
                             break;
                         case "customerService":
+                            this.isOpenThirdWebView=true;
                             TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:TW_Store.gameUIStroe.gustWebUrl,isShowReload:false,type:"guest"});
                             break;
                         case "closeRecharge":
@@ -464,6 +465,7 @@ export default class BBLStore {
                     }
                     break;
                 case "JumpGame":
+
                     let url=message.gamePath;
                     let isOrigan=false;
                     TW_Store.bblStore.lastGameUrl = url;

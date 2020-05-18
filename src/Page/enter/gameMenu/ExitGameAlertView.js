@@ -10,9 +10,9 @@ const ALERT_VIEW_SIZE = {
 };
 
 const propTypes = {
-    onPressConfirm: PropTypes.func.isRequired,
-    onPressCancel: PropTypes.func.isRequired,
-    isOpenAddPay:PropTypes.func.isRequired,
+    onPressConfirm: PropTypes.any,
+    onPressCancel: PropTypes.any,
+    isOpenAddPay:PropTypes.any,
 };
 
 const defaultProps = {

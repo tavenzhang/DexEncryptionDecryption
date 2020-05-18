@@ -60,7 +60,6 @@ export default class TWThirdWebView extends Component {
 
     componentWillMount() {
         //旋转到竖屏
-        TW_Store.gameUIStroe.isShowThirdWebView = true;
         let {isRotation,type} = this.props;
         if (isRotation) {
             TW_Store.appStore.lockToProrit();
@@ -74,20 +73,12 @@ export default class TWThirdWebView extends Component {
         this.curMarginBottom = this.validateAndroidModel(deviceModel) ? 0 : ExtraDimensions.getSoftMenuBarHeight();
         TW_Log("TWThirdWebView--model:" + deviceModel + "--SoftMenuBarHeight:" + this.curMarginBottom +
             "--isSoftMenuBarDetected:" + this.state.isSoftMenuBarDetected);
-        if(type!="guest"){
-            TW_Store.bblStore.enterSubGame();
-        }
-        TN_JUMP_RN();
     }
 
     componentWillUnmount(): void {
         let {type} = this.props;
-        TW_Store.gameUIStroe.isShowThirdWebView = false;
+        TW_Store.bblStore.isOpenThirdWebView=false;
         BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid);
-        if(type!="guest"){
-            TW_Store.bblStore.quitSubGame();
-        }
-        TN_JUMP_HOME("")
     }
 
     render() {
@@ -177,6 +168,7 @@ export default class TWThirdWebView extends Component {
             }
         }
         return false
+
     };
 
     onBackAndroid = () => {
@@ -198,18 +190,12 @@ export default class TWThirdWebView extends Component {
     };
 
     onLoadEnd = (event) => {
-        TW_SplashScreen_HIDE()
+        TW_SplashScreen_HIDE();
+        TW_Store.bblStore.enterSubGame();
     };
 
 
-    onEvaleJS = (data) => {
-        let dataStr = JSON.stringify(data);
-        dataStr = dataStr ? dataStr : "";
-        if (this.refs.myWebView) {
-            TW_Store.dataStore.log += "\nAppStateChange-sunGame--onEvaleJS\n" + dataStr + "==\n";
-            this.refs.myWebView.postMessage(dataStr, "*");
-        }
-    };
+
 
     onMessage = (event) => {
         let message = null;
@@ -311,12 +297,15 @@ export default class TWThirdWebView extends Component {
         }
     };
 
+
     onBackHomeJs = (type = "") => {
         let { url, isShowReload, backHandle } = this.props;
+        TW_NavHelp.popToBack();
         if (backHandle) {
             backHandle();
         }
-        TW_NavHelp.popToBack()
+        TW_Store.bblStore.quitSubGame();
+
     }
 }
 

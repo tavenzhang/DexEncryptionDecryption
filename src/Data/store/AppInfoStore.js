@@ -158,31 +158,6 @@ export default class AppInfoStore {
 
     }
 
-    async checkSavedData(err, ret) {
-        TW_Log("checkSavedData======loadingViewExist===ret--" + ret + "--eeeor=" + err)
-        if (`${ret}` == "1") {
-            //TW_Store.dataStore.isAppInited = true;
-           // SoundHelper.startBgMusic();
-        } else {
-            let loadingSourceViewExist = false
-            if (G_IS_IOS) {
-                loadingSourceViewExist = await RNFS.exists(TW_Store.dataStore.originAppDir);
-            } else {
-                loadingSourceViewExist = await RNFS.existsAssets("gamelobby/loading/loading.html");
-            }
-            TW_Log("checkSavedData======loadingViewExist===" + loadingSourceViewExist + "--ret--" + ret + "--eeeor=" + err)
-        }
-
-
-        TW_Data_Store.getItem(TW_DATA_KEY.LobbyReadyOK, (err, ret) => {
-            if (TW_Store.dataStore.isAppInited) {
-                if (ret) {
-                    TW_Store.gameUpateStore.isNeedUpdate = `${ret}` == "1" ? false : true;
-                }
-                TW_Log("TW_DATA_KEY.LobbyReadyOK---" + ret, TW_Store.gameUpateStore.isNeedUpdate)
-            }
-        });
-    }
 
     checkAppInfoUpdate = (oldData = null) => {
         TN_GetAppInfo(data => {

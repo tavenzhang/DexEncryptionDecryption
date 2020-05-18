@@ -17,7 +17,7 @@ export default class SubGameView extends Component {
     }
 
     render() {
-        let isShow = TW_Store.bblStore.subGameParams.url != ""&&!TW_Store.gameUIStroe.isShowThirdWebView;
+        let isShow = TW_Store.bblStore.subGameParams.url != ""&&!TW_Store.bblStore.isOpenThirdWebView;
         //pointerEvents={TW_Store.bblStore.subGameParams.url!="" ? "auto":"none"}
         if (this.refs.myView) {
             this.refs.myView.setNativeProps({style: {zIndex: isShow ? 999 : -999}});

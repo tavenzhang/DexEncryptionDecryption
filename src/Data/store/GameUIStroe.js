@@ -27,8 +27,6 @@ export default class GameUIStroe {
     @observable
     isShowResLoading = false;
 
-    @observable //是否显示第三方独立web页面，
-    isShowThirdWebView = false;
 
     @observable
     gustWebUrl = "";

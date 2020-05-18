@@ -107,8 +107,8 @@ export default class Enter extends Component {
                 if (TW_OnValueJSHome) {
                     TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 1 }));
                 }
-                TW_Log("TW_Store.gameUpateStore.isInSubGame==="+TW_Store.gameUpateStore.isInSubGame);
-                if (!TW_Store.gameUpateStore.isInSubGame) {
+                TW_Log("AppStateChange-active-----TW_Store.gameUpateStore.isInSubGame==="+TW_Store.gameUpateStore.isInSubGame);
+                if (!TW_Store.gameUpateStore.isInSubGame&&!TW_Store.bblStore.isOpenThirdWebView) {
                     let now = new Date().getTime();
                     let dim = now - this.lastClickTime;
                     TW_Log("lastClickTime----" + this.lastClickTime + "---dim", dim)
@@ -127,9 +127,11 @@ export default class Enter extends Component {
                     TW_Store.gameUIStroe.wxShareHandle.isShareIng = false;
                 }
             }
+
             this.flage = false;
         } else if (nextAppState != null && nextAppState === 'background') {
             TW_Store.dataStore.log += "\nAppStateChange-background\n";
+            TW_Log("AppStateChange-background--------nextAppState",nextAppState)
             this.flage = true;
             let now = new Date().getTime();
             this.lastClickTime = now;
