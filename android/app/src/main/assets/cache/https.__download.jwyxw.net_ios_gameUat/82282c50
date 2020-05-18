@@ -1,1 +1,0 @@
-window.screenOrientation="sensor_landscape",loadLib("libthird/qr.cb.js"),loadLib("libthird/vconsole.min.js"),loadLib("libs/laya.core.js"),loadLib("libs/laya.ani.js"),loadLib("libs/laya.ui.js"),loadLib("js/bundle.js");
