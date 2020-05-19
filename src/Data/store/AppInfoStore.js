@@ -348,7 +348,7 @@ export default class AppInfoStore {
         TW_Store.dataStore.log += "\n---isEmulator--" + isEmulator + "---TW_IS_DEBIG---" + TW_IS_DEBIG + "---isSitApp---" + this.isSitApp +
             "---model--" + curModel + "--deviceID--" + curDevId + "--deviceName--" + curDevName + "\n---Emulator--" + emulatorChecking;
         if (emulatorChecking && !G_IS_IOS) {
-            if (!this.isSitApp && !TW_IS_DEBIG) {
+            if (!this.isSitApp && !TW_IS_DEBIG&&this.clindId!="214") {
                 Alert.alert(
                     "本游戏不支持模拟器运行，请使用真机体验！",
                     "",
