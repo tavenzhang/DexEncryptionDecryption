@@ -255,6 +255,7 @@ export default class AppInfoStore {
                 isShowAlert = isShowAlert && this.channel == 1
             }
             if (isShowAlert) {
+                TN_JUMP_RN();
                 //清除所有的缓存数据 方便app升级
                 TW_Data_Store.clear();
                 Alert.alert(
