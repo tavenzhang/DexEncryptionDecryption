@@ -118,6 +118,10 @@ export default class AppInfoStore {
     appType = 1;
 
     isNewOrientation = false;
+    @observable
+    appSaveData = null;
+
+
 
     constructor() {
         this.init();
@@ -154,7 +158,21 @@ export default class AppInfoStore {
                 }
             }
         })
-        //TW_Data_Store.getItem(TW_DATA_KEY.isInitStore, this.checkSavedData)
+        TW_Data_Store.getItem(TW_DATA_KEY.LobbyReadyOK, (err, dataStr)=>{
+
+            this.appSaveData=dataStr;
+            let gameData=null
+            try {
+                gameData=JSON.parse(dataStr)
+            }catch (e) {
+                gameData=null
+            }
+            TW_Log("TW_DATA_KEY.LobbyReadyOK==err-"+err+"--data==",gameData);
+            if(gameData){
+                this.appSaveData=gameData;
+                TW_Store.bblStore.enterGameLobby(gameData,true);
+            }
+        })
 
     }
 
@@ -555,7 +573,6 @@ export default class AppInfoStore {
 
     async initDeviceUniqueID() {
         let enhancedUniqueID = null;
-
 
         try {
             let oriUniqueID = DeviceInfo.getUniqueID();

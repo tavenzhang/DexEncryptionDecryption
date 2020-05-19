@@ -302,19 +302,14 @@ export default class Enter extends Component {
     }
 
     httpResInit = () => {
-        TW_SplashScreen_HIDE();
-        let appDataStr= JSON.stringify( TW_Store.bblStore.getAPPJsonData());
-       TN_OpenHome(appDataStr);
-        TW_Store.bblStore.getAppData();
-        setTimeout(()=>{
-            TN_MSG_TO_GAME(
-                TW_Store.bblStore.getWebAction(
-                    TW_Store.bblStore.ACT_ENUM.appNativeData,
-                    {data: TW_Store.bblStore.getAPPJsonData()}
-                )
-            );
-        },2000)
-        TW_Log("appDataStr=======",appDataStr);
+        let saveAppData=TW_Store.appStore.appSaveData;
+       let newAppData=TW_Store.bblStore.getAPPJsonData();
+        TW_Store.bblStore.enterGameLobby(newAppData);
+        if(saveAppData){
+            if(newAppData.gameDomain!=saveAppData.gameDomain){
+                TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(newAppData));
+            }
+        }
     }
 
     //使用从服务器获取的更新地址更新app

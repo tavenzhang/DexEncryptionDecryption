@@ -30,7 +30,7 @@ var storage = new Storage({
 
 global.TW_DATA_KEY={
     versionBBL:"versionBBL",
-    isInitStore:"isInitStore",
+    isDownedLobby:"isInitStore",
     platData:"platData",
     gameList:"gameList",
     AFF_CODE:"aff_code",
