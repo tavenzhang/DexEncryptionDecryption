@@ -355,7 +355,7 @@ export default class DataStore {
 
     @action
     onSaveCopyState(callBack) {
-        TW_Data_Store.setItem(TW_DATA_KEY.isInitStore, "1", (err) => {
+        TW_Data_Store.setItem(TW_DATA_KEY.isDownedLobby, "1", (err) => {
             this.log += "onSavaCoisInitStorepyState---err=" + err + "\n"
             if (err) {
                 TW_Log("versionBBL bbl--- copyFile--onSaveCopyState--error===!", err);

@@ -492,6 +492,7 @@ export default class BBLStore {
                     break;
                 case "showGame":
                     TW_SplashScreen_HIDE();
+                    TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(this.getAPPJsonData()));
                     break;
                 case "http":
                     let method = message.metod;
@@ -575,7 +576,7 @@ export default class BBLStore {
             loginDomain: TW_Store.bblStore.loginDomain + "/api/v1/account",
             gameDomain: TW_Store.bblStore.gameDomain + "/api/v1/gamecenter",
             affCode: TW_Store.appStore.userAffCode,
-            isDebug: TW_IS_DEBIG,
+            ver: TW_Store.appStore.appVersion,
             appVersion: TW_Store.appStore.versionHotFix + (!G_IS_IOS && TW_Store.appStore.subAppType != "0" ? ` - ${TW_Store.appStore.subAppType}` : ""),
             specialVersionHot: parseInt(TW_Store.appStore.specialVersionHot),
             apihome: `${TW_Store.bblStore.gameDomain}/api/v1`,
@@ -584,4 +585,26 @@ export default class BBLStore {
             uat: "214",
         }
     };
+
+
+   @action
+    enterGameLobby=(appData,isSaveDate=false)=>{
+        TW_Log("appDataStr===enterGameLobby====",appData);
+        TW_SplashScreen_HIDE();
+        let appDataStr= JSON.stringify(appData);
+        TN_OpenHome(appDataStr);
+        this.getAppData();
+        if(!isSaveDate){
+            setTimeout(()=>{
+                TN_MSG_TO_GAME(
+                    TW_Store.bblStore.getWebAction(
+                        TW_Store.bblStore.ACT_ENUM.appNativeData,
+                        {data: appData}
+                    )
+                );
+            },2000);
+        }
+    }
+
+
 }
