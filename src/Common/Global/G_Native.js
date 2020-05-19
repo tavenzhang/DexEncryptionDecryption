@@ -139,10 +139,11 @@ global.TN_JUMP_HOME=(data)=>{
 }
 
 global.TN_JUMP_RN=(data="")=>{
+    let dataStr=data ? data:""
     if (G_IS_IOS) {
-        NativeModules.JDHelper.jumpToRN(data);
+        NativeModules.JDHelper.jumpToRN(dataStr);
     } else {
-        NativeModules.JXHelper.jumpToRN(data);
+        NativeModules.JXHelper.jumpToRN(dataStr);
     }
 }
 

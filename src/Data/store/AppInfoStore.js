@@ -255,30 +255,37 @@ export default class AppInfoStore {
                 isShowAlert = isShowAlert && this.channel == 1
             }
             if (isShowAlert) {
-               // TW_Store.gameUpateStore.isInSubGame=true;
-             //   TN_JUMP_RN();
+                TW_SplashScreen_HIDE();
+               TW_Store.gameUpateStore.isForeAppUpate=true;
+               TN_JUMP_RN("");
+               TW_Log("isShowAlert===="+isShowAlert)
                 //清除所有的缓存数据 方便app升级
-                TW_Data_Store.clear();
-                Alert.alert(
-                    "检测到版本升级，请重新下载安装！",
-                    "",
-                    [
-                        {
-                            text: "前往下载",
-                            onPress: () => {
-                                TCUserOpenPayApp.linkingWeb(url);
-                                TW_Log("onShowDownAlert-----url==" + url);
-                                setTimeout(() => {
-                                    this.onShowDownAlert(url);
-                                }, 1000);
+                // TW_Data_Store.clear();
+                setTimeout(()=>{
+                    TW_Log("isShowAlert===Alert.alert="+isShowAlert)
+                    Alert.alert(
+                        "检测到版本升级，请前往下载安装最新版本！",
+                        "",
+                        [
+                            {
+                                text: "前往下载",
+                                onPress: () => {
+                                    TCUserOpenPayApp.linkingWeb(url);
+                                    setTimeout(() => {
+                                        this.onShowDownAlert(url);
+                                    }, 1000);
+                                }
                             }
-                        }
-                    ],
-                    { cancelable: false }
-                );
+                        ],
+                        { cancelable: false }
+                    );
+                },1000);
+
+
             }
         }
     };
+
 
     initData = appInfo => {
         if (!appInfo) {

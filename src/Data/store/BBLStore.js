@@ -301,18 +301,10 @@ export default class BBLStore {
                     this.shareURL.android = this.shareData.androidShareUrl
                         ? this.shareData.androidShareUrl
                         : ' ';
-                    downUrl = G_IS_IOS
-                        ? this.shareData.iosDownloadUrl
-                        : this.shareData.androidDownloadUrl;
-                    downUrl = downUrl ? downUrl : '';
-                    if (downUrl.indexOf('?') > -1) {
-                        downUrl = downUrl + '&random=' + Math.random();
-                    } else {
-                        downUrl = downUrl + '?random=' + Math.random();
-                    }
-                    TW_Store.appStore.onShowDownAlert(downUrl);
-                    TW_Store.gameUIStroe.gustWebUrl = this.shareData.customerServiceUrl;
                     this.appShareUrl = this.shareData.appShareUrl;
+                    TW_Store.appStore.onShowDownAlert(this.appShareUrl+"&isFore=1");
+                    TW_Store.gameUIStroe.gustWebUrl = this.shareData.customerServiceUrl;
+
                 }
                 //let downUrl =  iosDownloadUrl
                 TW_Log(
