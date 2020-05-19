@@ -103,6 +103,10 @@ export default class Enter extends Component {
     _handleAppStateChange = (nextAppState) => {
         if (nextAppState != null && nextAppState === 'active') {
             TW_Store.dataStore.log += "\nAppStateChange-active\n";
+            //如果属于强制更新状态 不触发active判断
+            if(TW_Store.gameUpateStore.isForeAppUpate){
+                return;
+            }
             if (this.flage) {
                 if (TW_OnValueJSHome) {
                     TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 1 }));
@@ -184,18 +188,12 @@ export default class Enter extends Component {
     }
 
 
-    handleAppStateChange = (nextAppState) => {
-        if (nextAppState === 'active' && this.hotFixStore.allowUpdate) {
-            if (TW_Store.hotFixStore.currentDeployKey) {
-                this.hotFix(TW_Store.hotFixStore.currentDeployKey);
-            }
-        }
-    }
+
 
     componentWillUnmount() {
         this.timer && clearTimeout(this.timer)
         this.timer2 && clearTimeout(this.timer2)
-        AppState.removeEventListener('change', this.handleAppStateChange);
+        AppState.removeEventListener('change', this._handleAppStateChange);
         //Orientation && this.orientationDidChange && Orientation.removeOrientationListener(this.orientationDidChange);
         Orientation.removeOrientationListener(this._onOrientationDidChange);
     }
@@ -306,7 +304,7 @@ export default class Enter extends Component {
 
     httpResInit = () => {
         let appDataStr= JSON.stringify( TW_Store.bblStore.getAPPJsonData());
-        TN_OpenHome(appDataStr);
+       TN_OpenHome(appDataStr);
         TW_Store.bblStore.getAppData();
         setTimeout(()=>{
             TN_MSG_TO_GAME(
