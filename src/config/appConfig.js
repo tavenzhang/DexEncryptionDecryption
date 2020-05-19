@@ -38,7 +38,7 @@ export const AppConfig = {
 
 export const MyAppName = '棋牌sit';
 
-export const versionHotFix = 'v5.0519.1340';
+export const versionHotFix = 'v5.0519.1349';
 
 export const MyOwnerPlatName= 'sit';
 
@@ -51,7 +51,7 @@ export const safeguardKey = 'eyJkIjogWyJodHRwczovLzk4NzY0NWJhMDBhOWIwNDE2YjI1NGY
 
 export const platInfo = {
 
-    downDomain:"https://download.jinkuangjia.com",
+    downDomain:"https://download.sufangxingwanshisanjiao.com",
 
     zipCheckServer: {
         debug_server: "http://192.168.14.70:8888",
@@ -59,7 +59,7 @@ export const platInfo = {
     },
     platId: configAppId,
     brand: "qp01",
-    latestNativeVersion:{ios:"10",android:"11"},//用于强制更新 匹配，与info.plist 还有 gradle.properties. 需要严格一致。否则 会弹窗 强制下载
+    latestNativeVersion:{ios:"11",android:"11"},//用于强制更新 匹配，与info.plist 还有 gradle.properties. 需要严格一致。否则 会弹窗 强制下载
     appInfo : {
         ch_8: {
             name: "appstoreWithCodePush",

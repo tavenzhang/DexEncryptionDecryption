@@ -39,7 +39,7 @@
 	<key>PLAT_CH</key>
 	<string>1</string>
 	<key>APP_DOWNLOAD_VERSION</key>
-	<string>12</string>
+	<string>11</string>
 	<key>Affcode</key>
 	<string></string>
 	<key>JPushKey</key>
@@ -49,7 +49,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>SIT-NEW</string>
+	<string>SIT-Native</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
