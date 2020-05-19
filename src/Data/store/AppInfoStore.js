@@ -260,7 +260,7 @@ export default class AppInfoStore {
                TN_JUMP_RN("");
                TW_Log("isShowAlert===="+isShowAlert)
                 //清除所有的缓存数据 方便app升级
-                // TW_Data_Store.clear();
+                TW_Data_Store.clear();
                 setTimeout(()=>{
                     TW_Log("isShowAlert===Alert.alert="+isShowAlert)
                     Alert.alert(

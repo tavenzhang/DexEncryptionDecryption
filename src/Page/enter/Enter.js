@@ -42,7 +42,6 @@ export default class Enter extends Component {
     constructor() {
         super();
         this.hotFixStore = TW_Store.hotFixStore;
-        this.handleAppStateChange = this.handleAppStateChange.bind(this);
         this.initDomain = this.initDomain.bind(this);
         TW_Store.appStore.regCallInitFuc(this.onInitAllData);
         this.flage = false
@@ -303,6 +302,7 @@ export default class Enter extends Component {
     }
 
     httpResInit = () => {
+        TW_SplashScreen_HIDE();
         let appDataStr= JSON.stringify( TW_Store.bblStore.getAPPJsonData());
        TN_OpenHome(appDataStr);
         TW_Store.bblStore.getAppData();
@@ -363,7 +363,7 @@ export default class Enter extends Component {
         })
     }
 
-    codePushDownloadDidProgress(progress) {
+    codePushDownloadDidProgress=(progress)=> {
         if (downloadTime === 0) {
             downloadTime = Moment().format('X')
         }
@@ -374,7 +374,7 @@ export default class Enter extends Component {
         }
     }
 
-    hotFix(hotfixDeploymentKey, isActiveCheck = false) {
+    hotFix=(hotfixDeploymentKey, isActiveCheck = false)=> {
 
         this.setState({
             syncMessage: '检测更新中....',
@@ -426,7 +426,7 @@ export default class Enter extends Component {
                     if (TW_IS_DEBIG) {
                         return
                     }
-                    update.download(this.codePushDownloadDidProgress.bind(this)).then((localPackage) => {
+                    update.download(this.codePushDownloadDidProgress).then((localPackage) => {
                         alreadyInCodePush = false;
                         if (localPackage) {
                             this.hotFixStore.syncMessage = '下载完成,开始安装';
