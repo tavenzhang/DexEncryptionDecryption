@@ -471,7 +471,11 @@ export default class BBLStore {
                     let isOrigan=false;
                     TW_Store.bblStore.lastGameUrl = url;
                        let jumpData = this.getJumpData(message.payload);
-                        url=url+"?jumpData="+jumpData+"&app="+(G_IS_IOS ? "ios" : "android");
+                       if(url.indexOf("?")>-1){
+                           url=url+"&jumpData="+jumpData+"&app="+(G_IS_IOS ? "ios" : "android");
+                       }else{
+                           url=url+"?jumpData="+jumpData+"&app="+(G_IS_IOS ? "ios" : "android");
+                       }
                         TW_Store.bblStore.subGameParams = {
                             url,
                             isOrigan,
