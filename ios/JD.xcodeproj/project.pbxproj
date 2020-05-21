@@ -88,6 +88,15 @@
 		9543D1C521C0E948006E51DD /* libcxxreact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA91DF850E9000B6D8A /* libcxxreact.a */; };
 		95E1B8AD2248856700C9CE2E /* libKCKeepAwake.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95E1B86C2248855A00C9CE2E /* libKCKeepAwake.a */; };
 		95FFA4E621B402F700E25995 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
+		ABD45A7224769E5700469B26 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ABD45A6A24769E5700469B26 /* Default-568h@2x.png */; };
+		ABD45A7324769E5700469B26 /* cache in Resources */ = {isa = PBXBuildFile; fileRef = ABD45A6B24769E5700469B26 /* cache */; };
+		ABD45A7424769E5700469B26 /* font in Resources */ = {isa = PBXBuildFile; fileRef = ABD45A6C24769E5700469B26 /* font */; };
+		ABD45A7524769E5700469B26 /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = ABD45A6D24769E5700469B26 /* scripts */; };
+		ABD45A7624769E5700469B26 /* config.ini in Resources */ = {isa = PBXBuildFile; fileRef = ABD45A6E24769E5700469B26 /* config.ini */; };
+		ABD45A7724769E5700469B26 /* app.json in Resources */ = {isa = PBXBuildFile; fileRef = ABD45A6F24769E5700469B26 /* app.json */; };
+		ABD45A7824769E5700469B26 /* libconchRuntime.bundle in Resources */ = {isa = PBXBuildFile; fileRef = ABD45A7024769E5700469B26 /* libconchRuntime.bundle */; };
+		ABD45A7924769E5700469B26 /* ca in Resources */ = {isa = PBXBuildFile; fileRef = ABD45A7124769E5700469B26 /* ca */; };
+		ABD45A7E2476A0BA00469B26 /* libconch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABD45A7B2476A0BA00469B26 /* libconch.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		C3164721FC0749E089E9FCC2 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EA3914555C244DD85E59A89 /* libCodePush.a */; };
 		C6073E87222E1276001E64D0 /* libSocialWeChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C6073E86222E1275001E64D0 /* libSocialWeChat.a */; };
@@ -697,6 +706,17 @@
 		95E1B8622248855A00C9CE2E /* KCKeepAwake.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KCKeepAwake.xcodeproj; path = "../node_modules/react-native-keep-awake/ios/KCKeepAwake.xcodeproj"; sourceTree = "<group>"; };
 		9B924D5A8AE1F608BD595A54 /* Pods_card.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_card.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A64BC82211154D06A65315D9 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
+		ABD45A6A24769E5700469B26 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		ABD45A6B24769E5700469B26 /* cache */ = {isa = PBXFileReference; lastKnownFileType = folder; path = cache; sourceTree = "<group>"; };
+		ABD45A6C24769E5700469B26 /* font */ = {isa = PBXFileReference; lastKnownFileType = folder; path = font; sourceTree = "<group>"; };
+		ABD45A6D24769E5700469B26 /* scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = scripts; sourceTree = "<group>"; };
+		ABD45A6E24769E5700469B26 /* config.ini */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.ini; sourceTree = "<group>"; };
+		ABD45A6F24769E5700469B26 /* app.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = app.json; sourceTree = "<group>"; };
+		ABD45A7024769E5700469B26 /* libconchRuntime.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = libconchRuntime.bundle; sourceTree = "<group>"; };
+		ABD45A7124769E5700469B26 /* ca */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ca; sourceTree = "<group>"; };
+		ABD45A7B2476A0BA00469B26 /* libconch.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libconch.a; sourceTree = "<group>"; };
+		ABD45A7C2476A0BA00469B26 /* conchRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = conchRuntime.h; sourceTree = "<group>"; };
+		ABD45A7D2476A0BA00469B26 /* conchConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = conchConfig.h; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		B865BAA8F48A48F5A5082F52 /* libRNViewShot.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNViewShot.a; sourceTree = "<group>"; };
 		C6073E86222E1275001E64D0 /* libSocialWeChat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSocialWeChat.a; path = JD/base/umeng/UMShare/SocialLibraries/WeChat/libSocialWeChat.a; sourceTree = "<group>"; };
@@ -769,6 +789,7 @@
 				7894BF08E024487FACA676F3 /* libFastImage.a in Frameworks */,
 				22B3BD0D204FB4CF00B6B7FF /* Bugly.framework in Frameworks */,
 				57EDE1CA3ED24C6D990DDCCC /* libRNDeviceInfo.a in Frameworks */,
+				ABD45A7E2476A0BA00469B26 /* libconch.a in Frameworks */,
 				8AE0ECB39EF843F0AF445E81 /* libRNSound.a in Frameworks */,
 				40670F5A2596462D957F644A /* libSplashScreen.a in Frameworks */,
 				22B3BD10204FB4CF00B6B7FF /* UMAnalytics.framework in Frameworks */,
@@ -934,6 +955,7 @@
 		22B3BCA0204E850500B6B7FF /* base */ = {
 			isa = PBXGroup;
 			children = (
+				ABD45A7A2476A0BA00469B26 /* LayaRuntime */,
 				22C7777B205613A000F8E8C6 /* SafeGuard */,
 				22C777502053D20900F8E8C6 /* AFNetworking */,
 				22B3BD0A204FB4CF00B6B7FF /* talkingData */,
@@ -1144,13 +1166,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		693FB899FE8C4D8D943572B4 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Resources;
-			sourceTree = "<group>";
-		};
 		78C398B11ACF4ADC00677621 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1209,13 +1224,13 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				ABD45A4524769E4800469B26 /* resource */,
 				950BD7A923797CE100DA4A7B /* framework */,
 				13B07FAE1A68108700A75B9A /* JD */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				22836199202DA1C90075881C /* Recovered References */,
-				693FB899FE8C4D8D943572B4 /* Resources */,
 				200C7AE8A06D360621154140 /* Pods */,
 			);
 			indentWidth = 2;
@@ -1343,6 +1358,31 @@
 				95E1B86C2248855A00C9CE2E /* libKCKeepAwake.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		ABD45A4524769E4800469B26 /* resource */ = {
+			isa = PBXGroup;
+			children = (
+				ABD45A6F24769E5700469B26 /* app.json */,
+				ABD45A7124769E5700469B26 /* ca */,
+				ABD45A6B24769E5700469B26 /* cache */,
+				ABD45A6E24769E5700469B26 /* config.ini */,
+				ABD45A6A24769E5700469B26 /* Default-568h@2x.png */,
+				ABD45A6C24769E5700469B26 /* font */,
+				ABD45A7024769E5700469B26 /* libconchRuntime.bundle */,
+				ABD45A6D24769E5700469B26 /* scripts */,
+			);
+			path = resource;
+			sourceTree = "<group>";
+		};
+		ABD45A7A2476A0BA00469B26 /* LayaRuntime */ = {
+			isa = PBXGroup;
+			children = (
+				ABD45A7B2476A0BA00469B26 /* libconch.a */,
+				ABD45A7C2476A0BA00469B26 /* conchRuntime.h */,
+				ABD45A7D2476A0BA00469B26 /* conchConfig.h */,
+			);
+			path = LayaRuntime;
 			sourceTree = "<group>";
 		};
 		ADBDB9201DFEBF0600ED6528 /* Products */ = {
@@ -1999,9 +2039,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				950EE4E2221118750011DBE1 /* assets in Resources */,
+				ABD45A7624769E5700469B26 /* config.ini in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				ABD45A7824769E5700469B26 /* libconchRuntime.bundle in Resources */,
+				ABD45A7724769E5700469B26 /* app.json in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				ABD45A7924769E5700469B26 /* ca in Resources */,
+				ABD45A7324769E5700469B26 /* cache in Resources */,
+				ABD45A7424769E5700469B26 /* font in Resources */,
+				ABD45A7224769E5700469B26 /* Default-568h@2x.png in Resources */,
 				22C777B0205613A000F8E8C6 /* README.markdown in Resources */,
+				ABD45A7524769E5700469B26 /* scripts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2163,6 +2211,9 @@
 					"$(PROJECT_DIR)/JD/base/talkingData",
 					"$(PROJECT_DIR)/JD/base/umeng/UMShare/SocialLibraries/WeChat",
 					"$(PROJECT_DIR)/JD/base/LayaRuntime",
+					"$(PROJECT_DIR)/JD/base/umeng/UMShare/SocialLibraries/WeChat/WechatSDK",
+					"$(PROJECT_DIR)/JD/base/umeng/UMShare/SocialLibraries/Sina",
+					"$(PROJECT_DIR)/JD/base/umeng/UMShare/SocialLibraries/QQ",
 				);
 				MARKETING_VERSION = 2.8.8;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2227,6 +2278,9 @@
 					"$(PROJECT_DIR)/JD/base/talkingData",
 					"$(PROJECT_DIR)/JD/base/umeng/UMShare/SocialLibraries/WeChat",
 					"$(PROJECT_DIR)/JD/base/LayaRuntime",
+					"$(PROJECT_DIR)/JD/base/umeng/UMShare/SocialLibraries/WeChat/WechatSDK",
+					"$(PROJECT_DIR)/JD/base/umeng/UMShare/SocialLibraries/Sina",
+					"$(PROJECT_DIR)/JD/base/umeng/UMShare/SocialLibraries/QQ",
 				);
 				MARKETING_VERSION = 2.8.8;
 				ONLY_ACTIVE_ARCH = NO;
