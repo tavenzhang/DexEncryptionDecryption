@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import <React/RCTRootView.h>
+#import "LaunchView.h"
 
 static NSString * const JDNight = @"12night";
 
@@ -17,6 +18,8 @@ static NSString * const JDNight = @"12night";
 @property(nonatomic,strong) RCTRootView *rootView;
 @property(nonatomic,assign) BOOL isLoadForJS;
 @property(nonatomic,assign) BOOL isLoad;
+
+@property (strong, nonatomic) LaunchView *launchView;
 
 - (UIViewController *)rootController;
 - (void *)registAppPush:(NSString *)jkey:(NSString *)channel;
