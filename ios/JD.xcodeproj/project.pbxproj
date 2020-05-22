@@ -112,6 +112,7 @@
 		ABD45AAC2476B88C00469B26 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = ABD45AAB2476B88C00469B26 /* main.mm */; };
 		ABD45AB12476BA8500469B26 /* libconch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABD45AAE2476BA8500469B26 /* libconch.a */; };
 		ABD45AB32476BB9600469B26 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABD45AB22476BB9600469B26 /* CoreMotion.framework */; };
+		ABD45AB62476DB3600469B26 /* ModuleWithEmitter.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD45AB52476DB3600469B26 /* ModuleWithEmitter.m */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		C3164721FC0749E089E9FCC2 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EA3914555C244DD85E59A89 /* libCodePush.a */; };
 		C6073E87222E1276001E64D0 /* libSocialWeChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C6073E86222E1275001E64D0 /* libSocialWeChat.a */; };
@@ -744,6 +745,8 @@
 		ABD45AAF2476BA8500469B26 /* conchRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = conchRuntime.h; sourceTree = "<group>"; };
 		ABD45AB02476BA8500469B26 /* conchConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = conchConfig.h; sourceTree = "<group>"; };
 		ABD45AB22476BB9600469B26 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		ABD45AB42476DB3600469B26 /* ModuleWithEmitter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModuleWithEmitter.h; sourceTree = "<group>"; };
+		ABD45AB52476DB3600469B26 /* ModuleWithEmitter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ModuleWithEmitter.m; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		B865BAA8F48A48F5A5082F52 /* libRNViewShot.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNViewShot.a; sourceTree = "<group>"; };
 		C6073E86222E1275001E64D0 /* libSocialWeChat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSocialWeChat.a; path = JD/base/umeng/UMShare/SocialLibraries/WeChat/libSocialWeChat.a; sourceTree = "<group>"; };
@@ -1004,6 +1007,8 @@
 				224E350E21511FA100A438A8 /* JXKeyChain.m */,
 				9533A2C8224DC27B00816807 /* MyViewController.h */,
 				9533A2C9224DC27B00816807 /* MyViewController.m */,
+				ABD45AB42476DB3600469B26 /* ModuleWithEmitter.h */,
+				ABD45AB52476DB3600469B26 /* ModuleWithEmitter.m */,
 			);
 			name = base;
 			path = JD/base;
@@ -2166,6 +2171,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				22C777BC205613A000F8E8C6 /* NSMutableDictionary+WTSafe.m in Sources */,
+				ABD45AB62476DB3600469B26 /* ModuleWithEmitter.m in Sources */,
 				22B3BD17204FB5AA00B6B7FF /* JDTalkingData.m in Sources */,
 				22C777BD205613A000F8E8C6 /* NSFileManager+WTSafe.m in Sources */,
 				22C777B2205613A000F8E8C6 /* WTKVOResource.m in Sources */,

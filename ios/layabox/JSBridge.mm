@@ -1,6 +1,7 @@
 #import "JSBridge.h"
 #import "AppDelegate.h"
 #import <conchRuntime.h>
+#import "ModuleWithEmitter.h"
 @implementation JSBridge
 
 +(void)hideSplash
@@ -46,18 +47,44 @@
     });
 }
 
+
++(void)postMessage:(NSString*)message{
+  
+    NSData*jsonData = [message dataUsingEncoding:NSUTF8StringEncoding];
+    NSError*err;
+    NSDictionary* dic = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&err];
+   if(err) {
+     [JSBridge postToGame:[NSString stringWithFormat:@"json解析失败：%@",err]];
+    }
+   NSString* action = [dic valueForKey:@"action"];
+
+   dispatch_async(dispatch_get_main_queue(), ^{
+  
+     ModuleWithEmitter* emit=  [ModuleWithEmitter init];
+     [emit sendEvent:message];
+     if([action isEqual:@"nativeStart"]){
+        //  [JSBridge postToGame:[NSString stringWithFormat:@"nativeInitData(%@)",message]];
+     }
+      
+    });
+  
+}
+
+
++(void)postToGame:(NSString*)message{
+ 
+  NSString* postAction =  [NSString stringWithFormat:@"nativeMessage(%@)",message];
+  dispatch_async(dispatch_get_main_queue(), ^{
+             [[conchRuntime GetIOSConchRuntime] runJS:postAction];
+             // [[conchRuntime GetIOSConchRuntime] callbackToJSWithObject:self methodName:@"testAsyncCallback:" ret:retStr];
+  });
+}
+
+
 +(void)loadGameUrl:(NSString*)data
 {
-    NSLog(@"loadGameUrl=====%@",data);
-      dispatch_async(dispatch_get_main_queue(), ^{
-          //ui thread
-            NSString* retStr=@"https://download.jwyxw.net/ios/gameUat/index.js";
-           // [[conchRuntime GetIOSConchRuntime] callbackToJSWithClass:self.class methodName:@"testAsyncCallback:" ret:retStr];
-          NSString* str=@"appCallBack('https://download.jwyxw.net/ios/gameUat/index.js')";
-            [[conchRuntime GetIOSConchRuntime] runJS:str];
-            // [[conchRuntime GetIOSConchRuntime] callbackToJSWithObject:self methodName:@"testAsyncCallback:" ret:retStr];
-      });
-
+   NSString* str=@"appCallBack('https://download.jwyxw.net/ios/gameUat/index.js')";
+   [JSBridge postToGame:str];
 }
 @end
 

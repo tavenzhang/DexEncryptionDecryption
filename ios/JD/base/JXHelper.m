@@ -8,8 +8,10 @@
 
 #import "JXHelper.h"
 #import "JXKeyChain.h"
+#import "JSBridge.h"
 static NSString * const KEY_IN_KEYCHAIN = @"com.JX.app.allinfo";
 static NSString * const KEY_PASSWORD = @"com.JX.app.password";
+
 
 @implementation JXHelper
 RCT_EXPORT_MODULE();
@@ -110,6 +112,7 @@ RCT_EXPORT_METHOD(readIosData:(NSString*)key back:(RCTResponseSenderBlock)callba
     return [dic objectForKey:@"CFUUID"];
   }
 }
+
 +(void)saveKeyChainPassWord:(NSString *)password
 {
   NSMutableDictionary *usernamepasswordKVPairs = [NSMutableDictionary dictionary];
@@ -127,4 +130,27 @@ RCT_EXPORT_METHOD(readIosData:(NSString*)key back:(RCTResponseSenderBlock)callba
 {
   [JXKeyChain delete:KEY_IN_KEYCHAIN];
 }
+
+
+
+RCT_EXPORT_METHOD(jumpToHome)
+{
+  ModuleWithEmitterOne
+}
+
+RCT_EXPORT_METHOD(jumpToRN)
+{
+  
+}
+
+RCT_EXPORT_METHOD(exitApp)
+{
+  
+}
+
+RCT_EXPORT_METHOD(msgToGame:(NSString *)message)
+{
+  [JSBridge postToGame:message];
+}
+
 @end
