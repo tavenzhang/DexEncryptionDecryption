@@ -25,7 +25,7 @@ RCT_EXPORT_METHOD(screenShotSave)
 }
 - (void)sscreenShotSave{
   AppDelegate *delagete = (AppDelegate *)[UIApplication sharedApplication].delegate;
-UIGraphicsBeginImageContextWithOptions(CGSizeMake(delagete.window.bounds.size.width, delagete.window.bounds.size.height), YES, 2);
+  UIGraphicsBeginImageContextWithOptions(CGSizeMake(delagete.window.bounds.size.width, delagete.window.bounds.size.height), YES, 2);
   [[delagete.window layer] renderInContext:UIGraphicsGetCurrentContext()];
   UIImage *imag = UIGraphicsGetImageFromCurrentImageContext();
   UIGraphicsEndImageContext();
@@ -153,7 +153,7 @@ RCT_EXPORT_METHOD(startUMengShare:(NSString *)appId
 
 RCT_EXPORT_METHOD(startOpenInstall:(NSString *)appKey) {
   AppDelegate *deleagte = (AppDelegate *)[UIApplication sharedApplication].delegate;
-  [OpenInstallSDK setAppKey:appKey withDelegate:deleagte];
+  //[OpenInstallSDK setAppKey:appKey withDelegate:deleagte];
 }
 
 

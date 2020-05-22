@@ -2,8 +2,9 @@
 #import "AppDelegate.h"
 #import <conchRuntime.h>
 #import "ModuleWithEmitter.h"
+#import "JXHelper.h"
 @implementation JSBridge
-
+static ModuleWithEmitter* emit=nil ;
 +(void)hideSplash
 {
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -53,19 +54,20 @@
     NSData*jsonData = [message dataUsingEncoding:NSUTF8StringEncoding];
     NSError*err;
     NSDictionary* dic = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&err];
-   if(err) {
-     [JSBridge postToGame:[NSString stringWithFormat:@"json解析失败：%@",err]];
-    }
+//   if(err) {
+//     [JSBridge postToGame:[NSString stringWithFormat:@"json解析失败：%@",err]];
+//    }
    NSString* action = [dic valueForKey:@"action"];
-
+  AppDelegate * appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+  [appDelegate.myEmitter sendEvent:message];
+   //ModuleWithEmitter* emit=  [ModuleWithEmitter  new];
+  // [emit sendEvent:message];
    dispatch_async(dispatch_get_main_queue(), ^{
   
-     ModuleWithEmitter* emit=  [ModuleWithEmitter init];
-     [emit sendEvent:message];
+ 
      if([action isEqual:@"nativeStart"]){
-        //  [JSBridge postToGame:[NSString stringWithFormat:@"nativeInitData(%@)",message]];
+        [[conchRuntime GetIOSConchRuntime] runJS:[NSString stringWithFormat:@"nativeInitData(%@)",[JXHelper getAppData]]];
      }
-      
     });
   
 }
@@ -84,7 +86,7 @@
 +(void)loadGameUrl:(NSString*)data
 {
    NSString* str=@"appCallBack('https://download.jwyxw.net/ios/gameUat/index.js')";
-   [JSBridge postToGame:str];
+   [[conchRuntime GetIOSConchRuntime] runJS:str];
 }
 @end
 

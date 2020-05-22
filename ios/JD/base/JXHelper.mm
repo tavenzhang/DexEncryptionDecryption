@@ -9,11 +9,17 @@
 #import "JXHelper.h"
 #import "JXKeyChain.h"
 #import "JSBridge.h"
+#import "AppDelegate.h"
+#import "AppDelegate+JDBase.h"
+#import "ViewController.h"
+
 static NSString * const KEY_IN_KEYCHAIN = @"com.JX.app.allinfo";
 static NSString * const KEY_PASSWORD = @"com.JX.app.password";
 
+static NSString*  appData=@"";
 
 @implementation JXHelper
+
 RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(getAffCode:(RCTResponseSenderBlock)callback)
@@ -24,6 +30,7 @@ RCT_EXPORT_METHOD(getAffCode:(RCTResponseSenderBlock)callback)
 
 RCT_EXPORT_METHOD(getAppInfo:(RCTResponseSenderBlock)callback)
 {
+
   NSDictionary *tempInfoDict = [[NSBundle mainBundle] infoDictionary];
   NSString *jsonString = nil;
   if ([NSJSONSerialization isValidJSONObject:tempInfoDict])
@@ -39,11 +46,14 @@ RCT_EXPORT_METHOD(getAppInfo:(RCTResponseSenderBlock)callback)
   }
 }
 
+
+
 + (NSString *)getAffCode{
   NSDictionary *tempInfoDict = [[NSBundle mainBundle] infoDictionary];
   NSString *Affcode = [tempInfoDict objectForKey:@"Affcode"];
   return Affcode;
 }
+
 
 RCT_EXPORT_METHOD(getCFUUID:(RCTResponseSenderBlock)callback)
 {
@@ -131,16 +141,37 @@ RCT_EXPORT_METHOD(readIosData:(NSString*)key back:(RCTResponseSenderBlock)callba
   [JXKeyChain delete:KEY_IN_KEYCHAIN];
 }
 
-
-
-RCT_EXPORT_METHOD(jumpToHome)
++(NSString *)getAppData
 {
-  ModuleWithEmitterOne
+  return  appData;
 }
 
-RCT_EXPORT_METHOD(jumpToRN)
+RCT_EXPORT_METHOD(openNewHome:(NSString *)data)
 {
+  dispatch_async(dispatch_get_main_queue(), ^{
+        AppDelegate *delagete = (AppDelegate *)[UIApplication sharedApplication].delegate;
+           [[delagete myRootVC] addGameLobbyControl:data];
+           appData = data;
+    });
   
+   
+}
+
+RCT_EXPORT_METHOD(jumpToHome:(NSString *)data)
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+      AppDelegate *delagete = (AppDelegate *)[UIApplication sharedApplication].delegate;
+      [[delagete myRootVC] jumpToHome:data];
+    });
+}
+
+RCT_EXPORT_METHOD(jumpToRN:(NSString *)data)
+{
+  dispatch_async(dispatch_get_main_queue(), ^{
+          AppDelegate *delagete = (AppDelegate *)[UIApplication sharedApplication].delegate;
+         [[delagete myRootVC] jumpToRN:data];
+     });
+
 }
 
 RCT_EXPORT_METHOD(exitApp)

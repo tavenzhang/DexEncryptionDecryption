@@ -8,7 +8,8 @@
 #import <UIKit/UIKit.h>
 #import <React/RCTRootView.h>
 #import "LaunchView.h"
-
+#import "MyViewController.h"
+#import "ModuleWithEmitter.h"
 static NSString * const JDNight = @"12night";
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
@@ -16,8 +17,13 @@ static NSString * const JDNight = @"12night";
 @property (nonatomic, strong) UIWindow *window;
 @property (nonatomic, strong) NSDictionary *launchOptions;
 @property(nonatomic,strong) RCTRootView *rootView;
+@property(nonatomic,strong) ModuleWithEmitter* myEmitter;
+@property(nonatomic,strong) MyViewController* myRootVC;
 @property(nonatomic,assign) BOOL isLoadForJS;
 @property(nonatomic,assign) BOOL isLoad;
+
+
+
 
 @property (strong, nonatomic) LaunchView *launchView;
 

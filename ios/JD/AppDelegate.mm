@@ -14,7 +14,6 @@
 #import <SplashScreen.h>
 #import <UMShare/UMShare.h>
 #import "Orientation.h"
-#import "ViewController.h"
 
 @implementation AppDelegate
 
@@ -25,29 +24,29 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   
-  _window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] ;
-  ViewController* pViewController  = [[ViewController alloc] init];
-  _window.rootViewController = pViewController;
-  [_window makeKeyAndVisible];
-  
+//  _window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] ;
+//  ViewController* pViewController  = [[ViewController alloc] init];
+//  _window.rootViewController = pViewController;
+//  [_window makeKeyAndVisible];
+//
    _launchView = [[LaunchView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   [_window.rootViewController.view addSubview:_launchView.view];
-//  application.applicationIconBadgeNumber = 0;
-//  self.launchOptions = launchOptions;
-//  self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-//  [self loadRootController];
-//  [self.window makeKeyAndVisible];
-//  [UIDevice currentDevice].batteryMonitoringEnabled = true;
-//  dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC * 3);
-//       dispatch_after(delay, dispatch_get_main_queue(), ^(void){
-//            [SplashScreen hide];
-//           // do work in the UI thread here
-//       });
-//  #ifdef DEBUG
-//    //do sth.
-//  #else
-//     [SplashScreen show];
-//  #endif
+  application.applicationIconBadgeNumber = 0;
+  self.launchOptions = launchOptions;
+  self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+  [self loadRootController];
+  [self.window makeKeyAndVisible];
+  [UIDevice currentDevice].batteryMonitoringEnabled = true;
+  dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC * 3);
+       dispatch_after(delay, dispatch_get_main_queue(), ^(void){
+            [SplashScreen hide];
+           // do work in the UI thread here
+       });
+  #ifdef DEBUG
+    //do sth.
+  #else
+     [SplashScreen show];
+  #endif
 
 
   return YES;

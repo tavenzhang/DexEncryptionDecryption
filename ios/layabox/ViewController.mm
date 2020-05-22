@@ -51,11 +51,6 @@ static ViewController* g_pIOSMainViewController = nil;
     
     //conchRuntime 初始化ConchRuntime引擎
     m_pConchRuntime = [[conchRuntime alloc]initWithView:m_pGLKView EAGLContext:m_pGLContext downloadThreadNum:3];
-    //[[conchRuntime GetIOSConchRuntime] setValue:@"https://download.jwyxw.net/ios/gameUat/index.js" forKey:@"presetUrl"];
-//    [m_pConchRuntime setValue:@"https://download.jwyxw.net/ios/gameUat/index.js" forKey:@"presetUrl"];
-    //NSString* str=@"window.bbl='https://download.jwyxw.net/ios/gameUat/index.js'";
-    //[[conchRuntime GetIOSConchRuntime] runJS:str];
-   
 }
 //------------------------------------------------------------------------------
 - (void)dealloc

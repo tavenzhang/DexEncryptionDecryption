@@ -17,12 +17,9 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		224E322B2150D14900A438A8 /* JXHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 224E322A2150D14900A438A8 /* JXHelper.m */; };
-		224E350F21511FA100A438A8 /* JXKeyChain.m in Sources */ = {isa = PBXBuildFile; fileRef = 224E350E21511FA100A438A8 /* JXKeyChain.m */; };
 		2259B6F12046B34E0037370E /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2259B6F02046B34D0037370E /* libsqlite3.0.tbd */; };
 		2259B7032046B4AD0037370E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2259B7022046B4AD0037370E /* libz.tbd */; };
 		2259B7052046B4B60037370E /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2259B7042046B4B60037370E /* AdSupport.framework */; };
-		22B3BCF4204EA1A000B6B7FF /* AppDelegate+JDBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 22B3BCF3204EA1A000B6B7FF /* AppDelegate+JDBase.m */; };
 		22B3BD0D204FB4CF00B6B7FF /* Bugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22B3BD03204FB4CF00B6B7FF /* Bugly.framework */; };
 		22B3BD0E204FB4CF00B6B7FF /* RNUMConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 22B3BD05204FB4CF00B6B7FF /* RNUMConfigure.m */; };
 		22B3BD0F204FB4CF00B6B7FF /* UMCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22B3BD06204FB4CF00B6B7FF /* UMCommon.framework */; };
@@ -30,7 +27,6 @@
 		22B3BD11204FB4CF00B6B7FF /* UMAnalyticsModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 22B3BD08204FB4CF00B6B7FF /* UMAnalyticsModule.m */; };
 		22B3BD12204FB4CF00B6B7FF /* libTalkingData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 22B3BD0C204FB4CF00B6B7FF /* libTalkingData.a */; };
 		22B3BD17204FB5AA00B6B7FF /* JDTalkingData.m in Sources */ = {isa = PBXBuildFile; fileRef = 22B3BD16204FB5AA00B6B7FF /* JDTalkingData.m */; };
-		22C7774F20537D9E00F8E8C6 /* JDHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C7774E20537D9E00F8E8C6 /* JDHelper.m */; };
 		22C7775E2053D20900F8E8C6 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C777552053D20900F8E8C6 /* AFURLResponseSerialization.m */; };
 		22C7775F2053D20900F8E8C6 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C777562053D20900F8E8C6 /* AFHTTPSessionManager.m */; };
 		22C777602053D20900F8E8C6 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C777582053D20900F8E8C6 /* AFURLSessionManager.m */; };
@@ -80,10 +76,15 @@
 		952B851D22C3689E00E8D176 /* libRNViewShot.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 952B851722C3643500E8D176 /* libRNViewShot.a */; };
 		952B8CE722CA0A4E00E8D176 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 952B8C9E22CA0A4400E8D176 /* JavaScriptCore.framework */; };
 		9530179322E0329C00164297 /* libRNCCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9530176522E031C100164297 /* libRNCCameraRoll.a */; };
-		9533A2CA224DC27B00816807 /* MyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9533A2C9224DC27B00816807 /* MyViewController.m */; };
 		9543D1C521C0E948006E51DD /* libcxxreact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA91DF850E9000B6D8A /* libcxxreact.a */; };
 		95E1B8AD2248856700C9CE2E /* libKCKeepAwake.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95E1B86C2248855A00C9CE2E /* libKCKeepAwake.a */; };
 		95FFA4E621B402F700E25995 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
+		AB970191247802B4009A6A20 /* JXHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB97018F247802B4009A6A20 /* JXHelper.mm */; };
+		AB970192247802B4009A6A20 /* JDHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB970190247802B4009A6A20 /* JDHelper.mm */; };
+		AB97019724783389009A6A20 /* MyViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB97019324783389009A6A20 /* MyViewController.mm */; };
+		AB97019824783389009A6A20 /* ModuleWithEmitter.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB97019424783389009A6A20 /* ModuleWithEmitter.mm */; };
+		AB97019A24783389009A6A20 /* JXKeyChain.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB97019624783389009A6A20 /* JXKeyChain.mm */; };
+		AB97019E24783595009A6A20 /* AppDelegate+JDBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB97019D24783594009A6A20 /* AppDelegate+JDBase.mm */; };
 		ABD45A7224769E5700469B26 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ABD45A6A24769E5700469B26 /* Default-568h@2x.png */; };
 		ABD45A7324769E5700469B26 /* cache in Resources */ = {isa = PBXBuildFile; fileRef = ABD45A6B24769E5700469B26 /* cache */; };
 		ABD45A7424769E5700469B26 /* font in Resources */ = {isa = PBXBuildFile; fileRef = ABD45A6C24769E5700469B26 /* font */; };
@@ -112,7 +113,6 @@
 		ABD45AAC2476B88C00469B26 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = ABD45AAB2476B88C00469B26 /* main.mm */; };
 		ABD45AB12476BA8500469B26 /* libconch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABD45AAE2476BA8500469B26 /* libconch.a */; };
 		ABD45AB32476BB9600469B26 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABD45AB22476BB9600469B26 /* CoreMotion.framework */; };
-		ABD45AB62476DB3600469B26 /* ModuleWithEmitter.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD45AB52476DB3600469B26 /* ModuleWithEmitter.m */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		C3164721FC0749E089E9FCC2 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EA3914555C244DD85E59A89 /* libCodePush.a */; };
 		C6073E87222E1276001E64D0 /* libSocialWeChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C6073E86222E1275001E64D0 /* libSocialWeChat.a */; };
@@ -596,16 +596,13 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = JD/Info.plist; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		224E32292150D14900A438A8 /* JXHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JXHelper.h; sourceTree = "<group>"; };
-		224E322A2150D14900A438A8 /* JXHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JXHelper.m; sourceTree = "<group>"; };
 		224E34D321511FA100A438A8 /* JXKeyChain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JXKeyChain.h; sourceTree = "<group>"; };
-		224E350E21511FA100A438A8 /* JXKeyChain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JXKeyChain.m; sourceTree = "<group>"; };
 		2259B6F02046B34D0037370E /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		2259B7022046B4AD0037370E /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		2259B7042046B4B60037370E /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		2259B7132046BE5F0037370E /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		226A603A6EC4491B86068B3F /* RCTOpenInstall.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTOpenInstall.xcodeproj; path = "../node_modules/openinstall-react-native/ios/RCTOpenInstall/RCTOpenInstall.xcodeproj"; sourceTree = "<group>"; };
 		22B3BCF2204EA1A000B6B7FF /* AppDelegate+JDBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+JDBase.h"; sourceTree = "<group>"; };
-		22B3BCF3204EA1A000B6B7FF /* AppDelegate+JDBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+JDBase.m"; sourceTree = "<group>"; };
 		22B3BD03204FB4CF00B6B7FF /* Bugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bugly.framework; sourceTree = "<group>"; };
 		22B3BD04204FB4CF00B6B7FF /* UMAnalyticsModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMAnalyticsModule.h; sourceTree = "<group>"; };
 		22B3BD05204FB4CF00B6B7FF /* RNUMConfigure.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNUMConfigure.m; sourceTree = "<group>"; };
@@ -621,7 +618,6 @@
 		22B3BD78204FDC9600B6B7FF /* RSKImageCropper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RSKImageCropper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		22B3BD79204FDE4700B6B7FF /* JD.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = JD.entitlements; path = JD/JD.entitlements; sourceTree = "<group>"; };
 		22C7774D20537D9E00F8E8C6 /* JDHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JDHelper.h; sourceTree = "<group>"; };
-		22C7774E20537D9E00F8E8C6 /* JDHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JDHelper.m; sourceTree = "<group>"; };
 		22C777512053D20900F8E8C6 /* AFSecurityPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFSecurityPolicy.h; sourceTree = "<group>"; };
 		22C777522053D20900F8E8C6 /* AFNetworkReachabilityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkReachabilityManager.h; sourceTree = "<group>"; };
 		22C777532053D20900F8E8C6 /* AFURLSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLSessionManager.h; sourceTree = "<group>"; };
@@ -706,10 +702,15 @@
 		952B8C9E22CA0A4400E8D176 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		9530176022E031C100164297 /* RNCCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNCCameraRoll.xcodeproj; path = "../node_modules/@react-native-community/cameraroll/ios/RNCCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		9533A2C8224DC27B00816807 /* MyViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyViewController.h; sourceTree = "<group>"; };
-		9533A2C9224DC27B00816807 /* MyViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyViewController.m; sourceTree = "<group>"; };
 		95E1B8622248855A00C9CE2E /* KCKeepAwake.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KCKeepAwake.xcodeproj; path = "../node_modules/react-native-keep-awake/ios/KCKeepAwake.xcodeproj"; sourceTree = "<group>"; };
 		9B924D5A8AE1F608BD595A54 /* Pods_card.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_card.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A64BC82211154D06A65315D9 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
+		AB97018F247802B4009A6A20 /* JXHelper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JXHelper.mm; sourceTree = "<group>"; };
+		AB970190247802B4009A6A20 /* JDHelper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JDHelper.mm; sourceTree = "<group>"; };
+		AB97019324783389009A6A20 /* MyViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MyViewController.mm; sourceTree = "<group>"; };
+		AB97019424783389009A6A20 /* ModuleWithEmitter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ModuleWithEmitter.mm; sourceTree = "<group>"; };
+		AB97019624783389009A6A20 /* JXKeyChain.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JXKeyChain.mm; sourceTree = "<group>"; };
+		AB97019D24783594009A6A20 /* AppDelegate+JDBase.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "AppDelegate+JDBase.mm"; sourceTree = "<group>"; };
 		ABD45A6A24769E5700469B26 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		ABD45A6B24769E5700469B26 /* cache */ = {isa = PBXFileReference; lastKnownFileType = folder; path = cache; sourceTree = "<group>"; };
 		ABD45A6C24769E5700469B26 /* font */ = {isa = PBXFileReference; lastKnownFileType = folder; path = font; sourceTree = "<group>"; };
@@ -746,7 +747,6 @@
 		ABD45AB02476BA8500469B26 /* conchConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = conchConfig.h; sourceTree = "<group>"; };
 		ABD45AB22476BB9600469B26 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		ABD45AB42476DB3600469B26 /* ModuleWithEmitter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModuleWithEmitter.h; sourceTree = "<group>"; };
-		ABD45AB52476DB3600469B26 /* ModuleWithEmitter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ModuleWithEmitter.m; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		B865BAA8F48A48F5A5082F52 /* libRNViewShot.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNViewShot.a; sourceTree = "<group>"; };
 		C6073E86222E1275001E64D0 /* libSocialWeChat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSocialWeChat.a; path = JD/base/umeng/UMShare/SocialLibraries/WeChat/libSocialWeChat.a; sourceTree = "<group>"; };
@@ -900,9 +900,9 @@
 				ABD45AAD2476BA8500469B26 /* LayaRuntime */,
 				ABD45AAB2476B88C00469B26 /* main.mm */,
 				ABD45AA92476B87900469B26 /* AppDelegate.mm */,
+				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				22B3BD79204FDE4700B6B7FF /* JD.entitlements */,
 				22B3BCA0204E850500B6B7FF /* base */,
-				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 			);
@@ -993,22 +993,22 @@
 		22B3BCA0204E850500B6B7FF /* base */ = {
 			isa = PBXGroup;
 			children = (
+				AB97019624783389009A6A20 /* JXKeyChain.mm */,
 				22C7777B205613A000F8E8C6 /* SafeGuard */,
 				22C777502053D20900F8E8C6 /* AFNetworking */,
 				22B3BD0A204FB4CF00B6B7FF /* talkingData */,
 				22B3BD02204FB4CF00B6B7FF /* umeng */,
 				22B3BCF2204EA1A000B6B7FF /* AppDelegate+JDBase.h */,
-				22B3BCF3204EA1A000B6B7FF /* AppDelegate+JDBase.m */,
+				AB97019D24783594009A6A20 /* AppDelegate+JDBase.mm */,
 				22C7774D20537D9E00F8E8C6 /* JDHelper.h */,
-				22C7774E20537D9E00F8E8C6 /* JDHelper.m */,
+				AB970190247802B4009A6A20 /* JDHelper.mm */,
 				224E32292150D14900A438A8 /* JXHelper.h */,
-				224E322A2150D14900A438A8 /* JXHelper.m */,
+				AB97018F247802B4009A6A20 /* JXHelper.mm */,
 				224E34D321511FA100A438A8 /* JXKeyChain.h */,
-				224E350E21511FA100A438A8 /* JXKeyChain.m */,
 				9533A2C8224DC27B00816807 /* MyViewController.h */,
-				9533A2C9224DC27B00816807 /* MyViewController.m */,
+				AB97019324783389009A6A20 /* MyViewController.mm */,
+				AB97019424783389009A6A20 /* ModuleWithEmitter.mm */,
 				ABD45AB42476DB3600469B26 /* ModuleWithEmitter.h */,
-				ABD45AB52476DB3600469B26 /* ModuleWithEmitter.m */,
 			);
 			name = base;
 			path = JD/base;
@@ -1420,7 +1420,6 @@
 		ABD45A7F2476A2FC00469B26 /* layabox */ = {
 			isa = PBXGroup;
 			children = (
-				ABD45A802476A2FC00469B26 /* ViewController.mm */,
 				ABD45A812476A2FC00469B26 /* LaunchView.m */,
 				ABD45A822476A2FC00469B26 /* LaunchScreen.storyboard */,
 				ABD45A842476A2FC00469B26 /* Main.storyboard */,
@@ -1429,6 +1428,7 @@
 				ABD45A8A2476A2FC00469B26 /* JSBridge.mm */,
 				ABD45A8B2476A2FC00469B26 /* LaunchView.h */,
 				ABD45A8C2476A2FC00469B26 /* Info.plist */,
+				ABD45A802476A2FC00469B26 /* ViewController.mm */,
 				ABD45A8D2476A2FD00469B26 /* ViewController.h */,
 			);
 			path = layabox;
@@ -2171,34 +2171,33 @@
 			buildActionMask = 2147483647;
 			files = (
 				22C777BC205613A000F8E8C6 /* NSMutableDictionary+WTSafe.m in Sources */,
-				ABD45AB62476DB3600469B26 /* ModuleWithEmitter.m in Sources */,
+				AB97019A24783389009A6A20 /* JXKeyChain.mm in Sources */,
+				AB97019E24783595009A6A20 /* AppDelegate+JDBase.mm in Sources */,
 				22B3BD17204FB5AA00B6B7FF /* JDTalkingData.m in Sources */,
 				22C777BD205613A000F8E8C6 /* NSFileManager+WTSafe.m in Sources */,
 				22C777B2205613A000F8E8C6 /* WTKVOResource.m in Sources */,
 				22C777C2205613A000F8E8C6 /* NSMutableSet+WTSafe.m in Sources */,
-				22B3BCF4204EA1A000B6B7FF /* AppDelegate+JDBase.m in Sources */,
 				22C7775F2053D20900F8E8C6 /* AFHTTPSessionManager.m in Sources */,
 				22C777B6205613A000F8E8C6 /* NSTimer+WTSafe.m in Sources */,
 				22C777BA205613A000F8E8C6 /* NSSet+WTSafe.m in Sources */,
 				22C777B4205613A000F8E8C6 /* WTFakeForwardTargetObject.m in Sources */,
 				ABD45A922476A2FD00469B26 /* IAPManager.m in Sources */,
 				22C777C1205613A000F8E8C6 /* NSMutableString+WTSafe.m in Sources */,
+				AB970191247802B4009A6A20 /* JXHelper.mm in Sources */,
 				22C777AF205613A000F8E8C6 /* UIView+WTSafe.m in Sources */,
 				22C777B3205613A000F8E8C6 /* WTKVOMapManager.m in Sources */,
+				AB970192247802B4009A6A20 /* JDHelper.mm in Sources */,
 				ABD45A932476A2FD00469B26 /* JSBridge.mm in Sources */,
 				22B3BD0E204FB4CF00B6B7FF /* RNUMConfigure.m in Sources */,
 				22C777B9205613A000F8E8C6 /* NSURL+WTSafe.m in Sources */,
 				22C777602053D20900F8E8C6 /* AFURLSessionManager.m in Sources */,
 				22C777B8205613A000F8E8C6 /* NSDictionary+WTSafe.m in Sources */,
-				9533A2CA224DC27B00816807 /* MyViewController.m in Sources */,
 				22C777AE205613A000F8E8C6 /* UIPasteboard+WTSafe.m in Sources */,
 				22C777BF205613A000F8E8C6 /* NSJSONSerialization+WTSafe.m in Sources */,
-				224E322B2150D14900A438A8 /* JXHelper.m in Sources */,
-				224E350F21511FA100A438A8 /* JXKeyChain.m in Sources */,
 				ABD45AAC2476B88C00469B26 /* main.mm in Sources */,
 				22C777C0205613A000F8E8C6 /* NSIndexPath+WTSafe.m in Sources */,
 				22C777BE205613A000F8E8C6 /* NSString+WTSafe.m in Sources */,
-				22C7774F20537D9E00F8E8C6 /* JDHelper.m in Sources */,
+				AB97019824783389009A6A20 /* ModuleWithEmitter.mm in Sources */,
 				22C777612053D20900F8E8C6 /* AFURLRequestSerialization.m in Sources */,
 				22C777B5205613A000F8E8C6 /* WTWeakTimerTarget.m in Sources */,
 				22C777B7205613A000F8E8C6 /* NSObject+WTSafe.m in Sources */,
@@ -2206,6 +2205,7 @@
 				C61C60AE222CBE9D00E09E95 /* UMShareModule.m in Sources */,
 				22C777B1205613A000F8E8C6 /* JRSwizzle.m in Sources */,
 				22C777BB205613A000F8E8C6 /* NSAttributedString+WTSafe.m in Sources */,
+				AB97019724783389009A6A20 /* MyViewController.mm in Sources */,
 				ABD45AAA2476B87900469B26 /* AppDelegate.mm in Sources */,
 				22C777C4205613A000F8E8C6 /* WTSafeGuard.m in Sources */,
 				22C777632053D20900F8E8C6 /* AFSecurityPolicy.m in Sources */,

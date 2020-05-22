@@ -11,4 +11,6 @@
 
 @interface JXHelper : NSObject<RCTBridgeModule>
 
++(NSString *)getAppData ;
+
 @end
