@@ -33,6 +33,7 @@ export default class BBLStore {
     @observable
     isEnterLooby = false;
 
+    validDomain = [];
 
     storeDir = DocumentDirectoryPath;
 
@@ -588,6 +589,7 @@ export default class BBLStore {
             isAndroidHack: TW_Store.appStore.isInAnroidHack,
             hackData: {filterGameList: ["zjh", "lhd", "bjl", "pg", "jlbsh", "tto", "erbg"]},
             deviceToken: TW_Store.appStore.deviceToken,
+            pureDomain:TW_Store.bblStore.gameDomain,
             loginDomain: TW_Store.bblStore.loginDomain + "/api/v1/account",
             gameDomain: TW_Store.bblStore.gameDomain + "/api/v1/gamecenter",
             affCode: TW_Store.appStore.userAffCode,

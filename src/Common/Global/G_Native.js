@@ -164,33 +164,33 @@ global.TN_SetCodePushConifg = (serverUrl,appVersion="2.2.2") => {
 
 
 global.TN_yunDunStart = (isLocalHost=false,callBack) => {
-    let yunDunStart = G_IS_IOS ? NativeModules.JDHelper.yunDunStart : NativeModules.JXHelper.yunDunStart
-        try {
-            let appKey = G_IS_IOS ? TW_Store.appStore.yunDunData.appIosKey : TW_Store.appStore.yunDunData.appAndroidKey;
-            let groupName = TW_Store.appStore.yunDunData.groupname;
-            let ddomain = TW_Store.appStore.yunDunData.dip;
-            let token = TW_Store.appStore.deviceToken;
-            let port = isLocalHost ? "80" : "443";
-            yunDunStart(appKey, groupName, token, ddomain, port, function (result) {
-                TW_Log("TN_yunDunStart-------------result=======" + result + "---srcDomain===-", {
-                    appKey,
-                    groupName,
-                    ddomain,
-                    token,
-                    port
-                })
-                if (result && result.length > 0) {
-                    let dataPort = result.split("_")[1];
-                    TW_Log("TN_yunDunStart--------lastDomian--dataPort-" + dataPort);
-                    TW_Store.appStore.yunDunPort = dataPort;
-                    callBack(true, dataPort);
-                } else {
-                    callBack(true)
-                }
-            });
-        } catch (e) {
+    // let yunDunStart = G_IS_IOS ? NativeModules.JDHelper.yunDunStart : NativeModules.JXHelper.yunDunStart
+    //     try {
+    //         let appKey = G_IS_IOS ? TW_Store.appStore.yunDunData.appIosKey : TW_Store.appStore.yunDunData.appAndroidKey;
+    //         let groupName = TW_Store.appStore.yunDunData.groupname;
+    //         let ddomain = TW_Store.appStore.yunDunData.dip;
+    //         let token = TW_Store.appStore.deviceToken;
+    //         let port = isLocalHost ? "80" : "443";
+    //         yunDunStart(appKey, groupName, token, ddomain, port, function (result) {
+    //             TW_Log("TN_yunDunStart-------------result=======" + result + "---srcDomain===-", {
+    //                 appKey,
+    //                 groupName,
+    //                 ddomain,
+    //                 token,
+    //                 port
+    //             })
+    //             if (result && result.length > 0) {
+    //                 let dataPort = result.split("_")[1];
+    //                 TW_Log("TN_yunDunStart--------lastDomian--dataPort-" + dataPort);
+    //                 TW_Store.appStore.yunDunPort = dataPort;
+    //                 callBack(true, dataPort);
+    //             } else {
+    //                 callBack(true)
+    //             }
+    //         });
+    //     } catch (e) {
             callBack(false);
-        }
+        //}
 }
 global.TN_IS_HAVE_CODE_PUSH = NativeModules.CodePush ? true:false;
 global.TN_UMShareModule = NativeModules.UMShareModule;
