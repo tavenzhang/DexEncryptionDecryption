@@ -42,7 +42,6 @@ export default class Enter extends Component {
     constructor() {
         super();
         this.hotFixStore = TW_Store.hotFixStore;
-        this.handleAppStateChange = this.handleAppStateChange.bind(this);
         this.initDomain = this.initDomain.bind(this);
         TW_Store.appStore.regCallInitFuc(this.onInitAllData);
         this.flage = false
@@ -103,6 +102,10 @@ export default class Enter extends Component {
     _handleAppStateChange = (nextAppState) => {
         if (nextAppState != null && nextAppState === 'active') {
             TW_Store.dataStore.log += "\nAppStateChange-active\n";
+            //如果属于强制更新状态 不触发active判断
+            if(TW_Store.gameUpateStore.isForeAppUpate){
+                return;
+            }
             if (this.flage) {
                 if (TW_OnValueJSHome) {
                     TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 1 }));
@@ -184,18 +187,12 @@ export default class Enter extends Component {
     }
 
 
-    handleAppStateChange = (nextAppState) => {
-        if (nextAppState === 'active' && this.hotFixStore.allowUpdate) {
-            if (TW_Store.hotFixStore.currentDeployKey) {
-                this.hotFix(TW_Store.hotFixStore.currentDeployKey);
-            }
-        }
-    }
+
 
     componentWillUnmount() {
         this.timer && clearTimeout(this.timer)
         this.timer2 && clearTimeout(this.timer2)
-        AppState.removeEventListener('change', this.handleAppStateChange);
+        AppState.removeEventListener('change', this._handleAppStateChange);
         //Orientation && this.orientationDidChange && Orientation.removeOrientationListener(this.orientationDidChange);
         Orientation.removeOrientationListener(this._onOrientationDidChange);
     }
@@ -305,18 +302,14 @@ export default class Enter extends Component {
     }
 
     httpResInit = () => {
-        let appDataStr= JSON.stringify( TW_Store.bblStore.getAPPJsonData());
-        TN_OpenHome(appDataStr);
-        TW_Store.bblStore.getAppData();
-        setTimeout(()=>{
-            TN_MSG_TO_GAME(
-                TW_Store.bblStore.getWebAction(
-                    TW_Store.bblStore.ACT_ENUM.appNativeData,
-                    {data: TW_Store.bblStore.getAPPJsonData()}
-                )
-            );
-        },2000)
-        TW_Log("appDataStr=======",appDataStr);
+        let saveAppData=TW_Store.appStore.appSaveData;
+       let newAppData=TW_Store.bblStore.getAPPJsonData();
+        TW_Store.bblStore.enterGameLobby(newAppData);
+        if(saveAppData){
+            if(newAppData.gameDomain!=saveAppData.gameDomain){
+                TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(newAppData));
+            }
+        }
     }
 
     //使用从服务器获取的更新地址更新app
@@ -365,7 +358,7 @@ export default class Enter extends Component {
         })
     }
 
-    codePushDownloadDidProgress(progress) {
+    codePushDownloadDidProgress=(progress)=> {
         if (downloadTime === 0) {
             downloadTime = Moment().format('X')
         }
@@ -376,7 +369,7 @@ export default class Enter extends Component {
         }
     }
 
-    hotFix(hotfixDeploymentKey, isActiveCheck = false) {
+    hotFix=(hotfixDeploymentKey, isActiveCheck = false)=> {
 
         this.setState({
             syncMessage: '检测更新中....',
@@ -428,7 +421,7 @@ export default class Enter extends Component {
                     if (TW_IS_DEBIG) {
                         return
                     }
-                    update.download(this.codePushDownloadDidProgress.bind(this)).then((localPackage) => {
+                    update.download(this.codePushDownloadDidProgress).then((localPackage) => {
                         alreadyInCodePush = false;
                         if (localPackage) {
                             this.hotFixStore.syncMessage = '下载完成,开始安装';

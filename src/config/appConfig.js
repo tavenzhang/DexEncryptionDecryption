@@ -36,7 +36,7 @@ export const AppConfig = {
 
 export const MyAppName = '博必胜棋牌';
 
-export const MyOwnerPlatName= '博必胜棋牌';
+export const versionHotFix = 'v5.0523.1418';
 
 export const versionHotFix = 'v5.0519.0135';
 
@@ -47,15 +47,16 @@ export const safeguardKey = 'ewogICAgImQiOlsKICAgICAgICAiaHR0cHM6Ly8yZDQxMDhlOGV
 
 
 export const platInfo = {
-    downDomain:"https://download.hkbaoxian188.com",
+
+    downDomain:"https://download.jinkuangjia.com",
 
     zipCheckServer: {
         debug_server: "http://192.168.14.70:8888",
         release_server: "/game/release/bbsqp"
     },
     platId: configAppId,
-    brand: "bbsqp",
-    latestNativeVersion:{ios:"6.0",android:"6.0"},//用于强制更新 匹配，与info.plist 还有 gradle.properties. 需要严格一致。否则 会弹窗 强制下载
+    brand: "qp01",
+    latestNativeVersion:{ios:"11",android:"11"},//用于强制更新 匹配，与info.plist 还有 gradle.properties. 需要严格一致。否则 会弹窗 强制下载
     appInfo : {
         ch_8: {
             name: "appstoreWithCodePush",

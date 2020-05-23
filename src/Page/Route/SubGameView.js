@@ -25,7 +25,7 @@ export default class SubGameView extends Component {
             this.refs.myView.setNativeProps({style: {zIndex: isShow ? 999 : -999}});
         }
 
-        TW_Log("SubGameView--TW_Store.bblStore.isShowCircle---" + TW_Store.bblStore.isShowCircle+"--TW_Store.gameUIStroe.isShowGuest=="+TW_Store.gameUIStroe.isShowGuest,isOpenVderWebView)
+        TW_Log("SubGameView--TW_Store.bblStore.isShow---" + isShow+"--TW_Store.gameUIStroe.isOpenVderWebView=="+TW_Store.gameUIStroe.isShowGuest,isOpenVderWebView)
         return (<View  style={{
             position: "absolute", width: SCREEN_W,
             height: SCREEN_H,

@@ -3,22 +3,19 @@ import React, {Component} from 'react';
 import {
     UIManager,
     StatusBar,
-    Text,
     View,
     ToastAndroid,
     BackHandler,
     DeviceEventEmitter,
-    ScrollView,
-    Alert,
-    Modal,
-    TouchableWithoutFeedback,
-    PermissionsAndroid,
+    NativeEventEmitter,
+    NativeModules
 } from 'react-native';
 import {Provider} from 'mobx-react'
 import NavigationService from './NavigationService'
 import rootStore from "../../Data/store/RootStore";
 import {observer} from 'mobx-react';
-
+const { ModuleWithEmitter } = NativeModules;
+const eventEmitter = new NativeEventEmitter(ModuleWithEmitter);
 const appStores = {
     // mainStore: rootStore.mainStore,
     // initAppStore: rootStore.initAppStore,
@@ -75,9 +72,17 @@ export default class App extends Component {
         if (KeyboardManager && KeyboardManager.setToolbarPreviousNextButtonEnable) {
             KeyboardManager.setToolbarPreviousNextButtonEnable(true);
         }
-        DeviceEventEmitter.addListener('onMessage', function (e: Event) {
-            TW_Store.bblStore.onMsgHandle(e.NAME);
-        });
+        if(G_IS_IOS){
+            eventEmitter.addListener('onMessage', function (e: Event) {
+                TW_Store.bblStore.onMsgHandle(e.NAME);
+            });
+        }else{
+            DeviceEventEmitter.addListener('onMessage', function (e: Event) {
+                TW_Store.bblStore.onMsgHandle(e.NAME);
+            });
+        }
+
+
         TW_OnValueJSHome=TN_MSG_TO_GAME
 
         StatusBar.setHidden(true);
@@ -109,9 +114,7 @@ export default class App extends Component {
                             this.navigator = navigatorRef;
                         }}
                     />
-                     {/*<SubGameView/>*/}
-                     {/*<ModuleWebView/>*/}
-                     {/*<GameUIView/>*/}
+
                      <GameLogView/>
                      <CommonBoxLayer/>
                 </View>

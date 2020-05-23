@@ -7,16 +7,27 @@
 
 #import <UIKit/UIKit.h>
 #import <React/RCTRootView.h>
-
+#import "LaunchView.h"
+#import "MyViewController.h"
+#import "ModuleWithEmitter.h"
+#import <RCTJPushModule.h>
+#import <OpenInstallSDK.h>
 static NSString * const JDNight = @"12night";
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,JPUSHRegisterDelegate,OpenInstallDelegate>
 
 @property (nonatomic, strong) UIWindow *window;
 @property (nonatomic, strong) NSDictionary *launchOptions;
 @property(nonatomic,strong) RCTRootView *rootView;
+@property(nonatomic,strong) ModuleWithEmitter* myEmitter;
+@property(nonatomic,strong) MyViewController* myRootVC;
 @property(nonatomic,assign) BOOL isLoadForJS;
 @property(nonatomic,assign) BOOL isLoad;
+
+
+
+
+@property (strong, nonatomic) LaunchView *launchView;
 
 - (UIViewController *)rootController;
 - (void *)registAppPush:(NSString *)jkey:(NSString *)channel;

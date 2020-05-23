@@ -14,8 +14,6 @@ import {JX_PLAT_INFO} from "../asset";
 
 import {observer} from "mobx-react";
 import PropTypes from "prop-types";
-import {SoundHelper} from "../../Common/JXHelper/SoundHelper";
-import Toast from "../../Common/JXHelper/JXToast";
 import Tools from "../../Common/View/Tools";
 import TCUserOpenPayApp from "../../Data/TCUserOpenPayApp";
 import ExitGameAlertView from "../enter/gameMenu/ExitGameAlertView";
@@ -51,7 +49,7 @@ export default class TWWebGameView extends Component {
 
     render() {
         let {isOrigan, url, isThirdGame} = this.props;
-
+   ;
         let myUrl = url;
         if (url == "") {
             return null
@@ -67,12 +65,12 @@ export default class TWWebGameView extends Component {
             TW_Log("homePre.lastIndexOf-" + homePre.lastIndexOf("/"), homePre)
             newUrl = homePre
         }
-
-
+       // TW_Store.dataStore.getGameRootDir()
+        TW_Log("TWWebGameView=====newUrl=="+newUrl)
         let source = {
             file: newUrl,
-            allowingReadAccessToURL: TW_Store.dataStore.getGameRootDir(),
-            allowFileAccessFromFileURLs: TW_Store.dataStore.getGameRootDir(),
+            allowingReadAccessToURL: newUrl.replace("/index.html",""),
+            allowFileAccessFromFileURLs: newUrl.replace("/index.html",""),
             param: myParam
         };
         if (!G_IS_IOS) {

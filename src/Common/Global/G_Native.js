@@ -114,35 +114,29 @@ global.TN_WechatShare = (text, image, url, title, isPyq,callBack) => {
 };
 
 global.TN_OpenHome = (data) => {
-    if (G_IS_IOS) {
-        NativeModules.JDHelper.openNewHome(data);
-    } else {
+    if(NativeModules.JXHelper.openNewHome){
         NativeModules.JXHelper.openNewHome(data);
     }
 };
 global.TN_MSG_TO_GAME=(data)=>{
-    if (G_IS_IOS) {
-        NativeModules.JDHelper.msgToGame(JSON.stringify(data));
-    } else {
-        let str =JSON.stringify(data);
-        TW_Log("TN_MSG_TO_GAME---str====",str);
-        NativeModules.JXHelper.msgToGame(str);
+    let str =JSON.stringify(data);
+    TW_Log("TN_MSG_TO_GAME---str====",str);
+    if(NativeModules.JXHelper.msgToGame){
+        NativeModules.JXHelper.msgToGame(JSON.stringify(data));
     }
 }
 
-global.TN_JUMP_HOME=(data)=>{
-    if (G_IS_IOS) {
-        NativeModules.JDHelper.jumpToHome(data);
-    } else {
-        NativeModules.JXHelper.jumpToHome(data);
+global.TN_JUMP_HOME=(data="")=>{
+    let dataStr=data ? data:""
+    if(NativeModules.JXHelper.jumpToHome){
+        NativeModules.JXHelper.jumpToHome(dataStr);
     }
 }
 
 global.TN_JUMP_RN=(data="")=>{
-    if (G_IS_IOS) {
-        NativeModules.JDHelper.jumpToRN(data);
-    } else {
-        NativeModules.JXHelper.jumpToRN(data);
+    let dataStr=data ? data:"";
+    if (NativeModules.JXHelper.jumpToRN) {
+        NativeModules.JXHelper.jumpToRN(dataStr);
     }
 }
 

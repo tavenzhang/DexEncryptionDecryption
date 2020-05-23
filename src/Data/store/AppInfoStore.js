@@ -118,6 +118,10 @@ export default class AppInfoStore {
     appType = 1;
 
     isNewOrientation = false;
+    @observable
+    appSaveData = null;
+
+
 
     constructor() {
         this.init();
@@ -154,7 +158,21 @@ export default class AppInfoStore {
                 }
             }
         })
-        //TW_Data_Store.getItem(TW_DATA_KEY.isInitStore, this.checkSavedData)
+        TW_Data_Store.getItem(TW_DATA_KEY.LobbyReadyOK, (err, dataStr)=>{
+
+            this.appSaveData=dataStr;
+            let gameData=null
+            try {
+                gameData=JSON.parse(dataStr)
+            }catch (e) {
+                gameData=null
+            }
+            TW_Log("TW_DATA_KEY.LobbyReadyOK==err-"+err+"--data==",gameData);
+            if(gameData){
+                this.appSaveData=gameData;
+                TW_Store.bblStore.enterGameLobby(gameData,true);
+            }
+        })
 
     }
 
@@ -255,28 +273,37 @@ export default class AppInfoStore {
                 isShowAlert = isShowAlert && this.channel == 1
             }
             if (isShowAlert) {
+                TW_SplashScreen_HIDE();
+               TW_Store.gameUpateStore.isForeAppUpate=true;
+               TN_JUMP_RN("");
+               TW_Log("isShowAlert===="+isShowAlert)
                 //清除所有的缓存数据 方便app升级
                 TW_Data_Store.clear();
-                Alert.alert(
-                    "检测到版本升级，请重新下载安装！",
-                    "",
-                    [
-                        {
-                            text: "前往下载",
-                            onPress: () => {
-                                TCUserOpenPayApp.linkingWeb(url);
-                                TW_Log("onShowDownAlert-----url==" + url);
-                                setTimeout(() => {
-                                    this.onShowDownAlert(url);
-                                }, 1000);
+                setTimeout(()=>{
+                    TW_Log("isShowAlert===Alert.alert="+isShowAlert)
+                    Alert.alert(
+                        "检测到版本升级，请前往下载安装最新版本！",
+                        "",
+                        [
+                            {
+                                text: "前往下载",
+                                onPress: () => {
+                                    TCUserOpenPayApp.linkingWeb(url);
+                                    setTimeout(() => {
+                                        this.onShowDownAlert(url);
+                                    }, 1000);
+                                }
                             }
-                        }
-                    ],
-                    { cancelable: false }
-                );
+                        ],
+                        { cancelable: false }
+                    );
+                },1000);
+
+
             }
         }
     };
+
 
     initData = appInfo => {
         if (!appInfo) {
@@ -339,7 +366,7 @@ export default class AppInfoStore {
         TW_Store.dataStore.log += "\n---isEmulator--" + isEmulator + "---TW_IS_DEBIG---" + TW_IS_DEBIG + "---isSitApp---" + this.isSitApp +
             "---model--" + curModel + "--deviceID--" + curDevId + "--deviceName--" + curDevName + "\n---Emulator--" + emulatorChecking;
         if (emulatorChecking && !G_IS_IOS) {
-            if (!this.isSitApp && !TW_IS_DEBIG) {
+            if (!this.isSitApp && !TW_IS_DEBIG&&this.clindId!="214") {
                 Alert.alert(
                     "本游戏不支持模拟器运行，请使用真机体验！",
                     "",
@@ -546,7 +573,6 @@ export default class AppInfoStore {
 
     async initDeviceUniqueID() {
         let enhancedUniqueID = null;
-
 
         try {
             let oriUniqueID = DeviceInfo.getUniqueID();

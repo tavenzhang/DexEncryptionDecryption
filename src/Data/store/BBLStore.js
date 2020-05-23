@@ -301,18 +301,10 @@ export default class BBLStore {
                     this.shareURL.android = this.shareData.androidShareUrl
                         ? this.shareData.androidShareUrl
                         : ' ';
-                    downUrl = G_IS_IOS
-                        ? this.shareData.iosDownloadUrl
-                        : this.shareData.androidDownloadUrl;
-                    downUrl = downUrl ? downUrl : '';
-                    if (downUrl.indexOf('?') > -1) {
-                        downUrl = downUrl + '&random=' + Math.random();
-                    } else {
-                        downUrl = downUrl + '?random=' + Math.random();
-                    }
-                    TW_Store.appStore.onShowDownAlert(downUrl);
-                    TW_Store.gameUIStroe.gustWebUrl = this.shareData.customerServiceUrl;
                     this.appShareUrl = this.shareData.appShareUrl;
+                    TW_Store.appStore.onShowDownAlert(this.appShareUrl+"&isFore=1");
+                    TW_Store.gameUIStroe.gustWebUrl = this.shareData.customerServiceUrl;
+
                 }
                 //let downUrl =  iosDownloadUrl
                 TW_Log(
@@ -479,13 +471,22 @@ export default class BBLStore {
                     let isOrigan=false;
                     TW_Store.bblStore.lastGameUrl = url;
                        let jumpData = this.getJumpData(message.payload);
-                        url=url+"?jumpData="+jumpData+"&app="+(G_IS_IOS ? "ios" : "android");
+                       if(url.indexOf("?")>-1){
+                           url=url+"&jumpData="+jumpData+"&app="+(G_IS_IOS ? "ios" : "android");
+                       }else{
+                           url=url+"?jumpData="+jumpData+"&app="+(G_IS_IOS ? "ios" : "android");
+                       }
+                       if(G_IS_IOS){
+                           url=url.replace("file://","");
+                       }
+
                         TW_Store.bblStore.subGameParams = {
                             url,
                             isOrigan,
                             jumpData,
                             isThirdGame: false
                         };
+                    TW_Log("JumpGame== TW_Store.bblStore.subGameParams===", TW_Store.bblStore.subGameParams)
                     break;
                 case 'JumpThirdGame': //跳转第三方游戏
                     url = TW_Base64.decode(message.data);
@@ -500,6 +501,7 @@ export default class BBLStore {
                     break;
                 case "showGame":
                     TW_SplashScreen_HIDE();
+                    TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(this.getAPPJsonData()));
                     break;
                 case "http":
                     let method = message.metod;
@@ -583,7 +585,7 @@ export default class BBLStore {
             loginDomain: TW_Store.bblStore.loginDomain + "/api/v1/account",
             gameDomain: TW_Store.bblStore.gameDomain + "/api/v1/gamecenter",
             affCode: TW_Store.appStore.userAffCode,
-            isDebug: TW_IS_DEBIG,
+            ver: TW_Store.appStore.appVersion,
             appVersion: TW_Store.appStore.versionHotFix + (!G_IS_IOS && TW_Store.appStore.subAppType != "0" ? ` - ${TW_Store.appStore.subAppType}` : ""),
             specialVersionHot: parseInt(TW_Store.appStore.specialVersionHot),
             apihome: `${TW_Store.bblStore.gameDomain}/api/v1`,
@@ -592,4 +594,26 @@ export default class BBLStore {
             uat: "214",
         }
     };
+
+
+   @action
+    enterGameLobby=(appData,isSaveDate=false)=>{
+        TW_Log("appDataStr===enterGameLobby====",appData);
+        TW_SplashScreen_HIDE();
+        let appDataStr= JSON.stringify(appData);
+        TN_OpenHome(appDataStr);
+        this.getAppData();
+        if(!isSaveDate&&TW_Store.appStore.appSaveData){
+            setTimeout(()=>{
+                TN_MSG_TO_GAME(
+                    TW_Store.bblStore.getWebAction(
+                        TW_Store.bblStore.ACT_ENUM.appNativeData,
+                        {data: appData}
+                    )
+                );
+            },2000);
+        }
+    }
+
+
 }
