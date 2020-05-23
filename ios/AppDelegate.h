@@ -10,9 +10,11 @@
 #import "LaunchView.h"
 #import "MyViewController.h"
 #import "ModuleWithEmitter.h"
+#import <RCTJPushModule.h>
+#import <OpenInstallSDK.h>
 static NSString * const JDNight = @"12night";
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,JPUSHRegisterDelegate,OpenInstallDelegate>
 
 @property (nonatomic, strong) UIWindow *window;
 @property (nonatomic, strong) NSDictionary *launchOptions;

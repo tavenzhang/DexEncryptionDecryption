@@ -153,7 +153,7 @@ RCT_EXPORT_METHOD(startUMengShare:(NSString *)appId
 
 RCT_EXPORT_METHOD(startOpenInstall:(NSString *)appKey) {
   AppDelegate *deleagte = (AppDelegate *)[UIApplication sharedApplication].delegate;
-  //[OpenInstallSDK setAppKey:appKey withDelegate:deleagte];
+  [OpenInstallSDK setAppKey:appKey withDelegate:deleagte];
 }
 
 

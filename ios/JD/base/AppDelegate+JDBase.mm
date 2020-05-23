@@ -6,6 +6,7 @@
 //  Copyright © 2018 JD. All rights reserved.
 //
 
+#import "AppDelegate.h"
 #import "AppDelegate+JDBase.h"
 #import <RCTJPushModule.h>
 #ifdef NSFoundationVersionNumber_iOS_9_x_Max
@@ -224,9 +225,10 @@ static Boolean  IsFirtReuest = YES;
 
   JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
   entity.types = UNAuthorizationOptionAlert|UNAuthorizationOptionBadge|UNAuthorizationOptionSound;
-//  [JPUSHService registerForRemoteNotificationConfig:entity delegate:self];
-//  [JPUSHService setupWithOption:self.launchOptions appKey:jkey
-//                        channel:nil apsForProduction:true];
+  
+  [JPUSHService registerForRemoteNotificationConfig:entity delegate:self];
+  [JPUSHService setupWithOption:self.launchOptions appKey:jkey
+                        channel:nil apsForProduction:true];
 }
 
 
