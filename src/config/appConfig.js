@@ -37,7 +37,7 @@ export const AppConfig = {
 
 export const MyAppName = '博博乐';
 
-export const versionHotFix = 'v5.0520.1445';
+export const versionHotFix = 'v5.0523.1414';
 
 export const MyOwnerPlatName= '博博乐';
 
@@ -70,7 +70,7 @@ export const platInfo = {
     },
     platId: configAppId,
     brand: "qp01",
-    latestNativeVersion:{ios:"10",android:"11"},//用于强制更新 匹配，与info.plist 还有 gradle.properties. 需要严格一致。否则 会弹窗 强制下载
+    latestNativeVersion:{ios:"11",android:"11"},//用于强制更新 匹配，与info.plist 还有 gradle.properties. 需要严格一致。否则 会弹窗 强制下载
     appInfo : {
         ch_8: {
             name: "appstoreWithCodePush",
