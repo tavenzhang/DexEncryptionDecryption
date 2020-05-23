@@ -306,9 +306,13 @@ export default class Enter extends Component {
        let newAppData=TW_Store.bblStore.getAPPJsonData();
         TW_Store.bblStore.enterGameLobby(newAppData);
         if(saveAppData){
-            if(newAppData.gameDomain!=saveAppData.gameDomain){
-                TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(newAppData));
-            }
+            setTimeout(()=>{
+                TW_Log("saveAppData.gameDomain--"+saveAppData.pureDomain+"--index=="+TW_Store.bblStore.validDomain.indexOf(saveAppData.pureDomain),TW_Store.bblStore.validDomain);
+                if(TW_Store.bblStore.validDomain.indexOf(saveAppData.pureDomain)==-1){
+                    TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(newAppData));
+                }
+            },5000)
+
         }
     }
 

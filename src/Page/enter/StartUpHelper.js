@@ -51,6 +51,9 @@ function getAvailableDomain(domains, callback, initDomainCallBack,currentCacheDo
             }
             NetUitls.getUrlAndParamsAndCallback(`${requestDomain}/api/v1/ip/user/checkIpInfoDomainsEncrypte?clientId=${TW_Store.appStore.clindId}&platform=CG`, null, (rt) => {
                 if (rt.rs) {
+                    if(rt.content){
+                        TW_Store.bblStore.validDomain.push(requestDomain);
+                    }
                     if (!isFinish&&rt.content) {
                         isFinish = true;
                         // TW_Log('大王来巡山--content ',rt.content.data);
@@ -108,11 +111,7 @@ function getAvailableDomain(domains, callback, initDomainCallBack,currentCacheDo
                                 TW_Log("callback------写入缓存失败--");
                             }
                         })
-
-
                     }
-
-
                 } else {
                     errorCount++;
                     TW_Log("cacheAttempt000+errorCount==" + errorCount, domains);
