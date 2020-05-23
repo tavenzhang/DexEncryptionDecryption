@@ -181,8 +181,8 @@ export default class TWVerWebView extends Component {
     onClickMenu = (btnId) => {
       //  this.onBackHomeJs();
         Alert.alert(
-            "",
             "是否返回游戏大厅?",
+            "",
             [
                 {
                     text: "返回",

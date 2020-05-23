@@ -47,7 +47,8 @@
   #else
      [SplashScreen show];
   #endif
-
+  _launchView = [[LaunchView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+     [_window.rootViewController.view addSubview:_launchView.view];
 
   return YES;
 }

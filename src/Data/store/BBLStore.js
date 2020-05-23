@@ -603,7 +603,7 @@ export default class BBLStore {
         let appDataStr= JSON.stringify(appData);
         TN_OpenHome(appDataStr);
         this.getAppData();
-        if(!isSaveDate){
+        if(!isSaveDate&&TW_Store.appStore.appSaveData){
             setTimeout(()=>{
                 TN_MSG_TO_GAME(
                     TW_Store.bblStore.getWebAction(

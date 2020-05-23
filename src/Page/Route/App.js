@@ -82,6 +82,7 @@ export default class App extends Component {
             });
         }
 
+
         TW_OnValueJSHome=TN_MSG_TO_GAME
 
         StatusBar.setHidden(true);
