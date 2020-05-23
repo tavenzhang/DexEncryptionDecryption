@@ -83,10 +83,15 @@ static ModuleWithEmitter* emit=nil ;
 }
 
 
-+(void)loadGameUrl:(NSString*)data
++(void)loadGameUrl:(NSString*)message
 {
-   NSString* str=@"appCallBack('https://download.jwyxw.net/ios/gameUat/index.js')";
-   [[conchRuntime GetIOSConchRuntime] runJS:str];
+  NSData*jsonData = [[JXHelper getAppData] dataUsingEncoding:NSUTF8StringEncoding];
+  NSError*err;
+  NSDictionary* dic = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&err];
+   NSString* action = [dic valueForKey:@"gameUrl"];
+   NSString* postAction =  [NSString stringWithFormat:@"appCallBack('%@')",action];
+ //  NSString* str=@"appCallBack('https://download.jwyxw.net/ios/gameUat/index.js')";
+   [[conchRuntime GetIOSConchRuntime] runJS:postAction];
 }
 @end
 
