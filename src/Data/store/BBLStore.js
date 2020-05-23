@@ -30,6 +30,8 @@ export default class BBLStore {
     @observable
     isSubGameRecharge=false
 
+    @observable
+    isEnterLooby = false;
 
 
     storeDir = DocumentDirectoryPath;
@@ -338,6 +340,9 @@ export default class BBLStore {
                 case "game_common":
                     let actions = message.name || message.do;
                     switch (actions) {
+                        case "onGameInit":
+                            this.isEnterLooby=true;
+                            break;
                         case "saveToPhone":
                             Tools.onSaveScreenPhone();
                             break;
@@ -468,7 +473,7 @@ export default class BBLStore {
                     break;
                 case "JumpGame":
                     let url=message.gamePath;
-                    let isOrigan=false;
+                    let isOrigan= TW_Store.appStore.isSitApp ? true:false;
                     TW_Store.bblStore.lastGameUrl = url;
                        let jumpData = this.getJumpData(message.payload);
                        if(url.indexOf("?")>-1){
@@ -479,6 +484,7 @@ export default class BBLStore {
                        if(G_IS_IOS){
                            url=url.replace("file://","");
                        }
+
 
                         TW_Store.bblStore.subGameParams = {
                             url,
@@ -603,7 +609,7 @@ export default class BBLStore {
         let appDataStr= JSON.stringify(appData);
         TN_OpenHome(appDataStr);
         this.getAppData();
-        if(!isSaveDate&&TW_Store.appStore.appSaveData){
+        if(!isSaveDate&&this.isEnterLooby){
             setTimeout(()=>{
                 TN_MSG_TO_GAME(
                     TW_Store.bblStore.getWebAction(

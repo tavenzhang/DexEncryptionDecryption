@@ -348,7 +348,7 @@ export default class AppInfoStore {
                 TW_Log("appInfo--TN_StartOpenInstall-------------", appInfo);
             }
         }
-        this.isSitApp = this.clindId == "1209" || this.clindId == "4";
+        this.isSitApp = this.clindId == "5" || this.clindId == "4";
         this.isTestApp = this.isSitApp || this.clindId == "214"
         this.emulatorChecking();
     }
