@@ -311,8 +311,7 @@ export default class Enter extends Component {
                 if(TW_Store.bblStore.validDomain.indexOf(saveAppData.pureDomain)==-1){
                     TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(newAppData));
                 }
-            },5000)
-
+            },8000)
         }
     }
 
