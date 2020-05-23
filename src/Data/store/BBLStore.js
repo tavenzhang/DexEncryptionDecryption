@@ -338,6 +338,21 @@ export default class BBLStore {
                 case "Log":
                     // TW_Log("game---ct=="+message.ct,message.data);
                     break;
+                case "nativeStart":
+                    TW_Data_Store.getItem(TW_DATA_KEY.LobbyReadyOK, (err, dataStr)=>{
+                        this.appSaveData=dataStr;
+                        let gameData=null
+                        try {
+                            gameData=JSON.parse(dataStr)
+                        }catch (e) {
+                            gameData=null
+                        }
+                        ;
+                        if(!gameData){
+                            TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(this.getAPPJsonData()));
+                        }
+                    });
+                    break;
                 case "game_common":
                     let actions = message.name || message.do;
                     switch (actions) {
@@ -508,7 +523,6 @@ export default class BBLStore {
                     break;
                 case "showGame":
                     TW_SplashScreen_HIDE();
-                    TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(this.getAPPJsonData()));
                     break;
                 case "http":
                     let method = message.metod;
