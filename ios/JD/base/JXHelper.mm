@@ -149,9 +149,10 @@ RCT_EXPORT_METHOD(readIosData:(NSString*)key back:(RCTResponseSenderBlock)callba
 RCT_EXPORT_METHOD(openNewHome:(NSString *)data)
 {
   dispatch_async(dispatch_get_main_queue(), ^{
+       appData = data;
         AppDelegate *delagete = (AppDelegate *)[UIApplication sharedApplication].delegate;
            [[delagete myRootVC] addGameLobbyControl:data];
-           appData = data;
+          
     });
   
    
