@@ -2298,7 +2298,7 @@
 					"$(PROJECT_DIR)/JD/base/umeng/UMShare/SocialLibraries/Sina",
 					"$(PROJECT_DIR)/JD/base/umeng/UMShare/SocialLibraries/QQ",
 				);
-				MARKETING_VERSION = 2.8.8;
+				MARKETING_VERSION = 4.4.4;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -2367,7 +2367,7 @@
 					"$(PROJECT_DIR)/JD/base/umeng/UMShare/SocialLibraries/Sina",
 					"$(PROJECT_DIR)/JD/base/umeng/UMShare/SocialLibraries/QQ",
 				);
-				MARKETING_VERSION = 2.8.8;
+				MARKETING_VERSION = 4.4.4;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

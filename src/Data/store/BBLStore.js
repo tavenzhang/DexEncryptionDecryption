@@ -476,9 +476,9 @@ export default class BBLStore {
                        }else{
                            url=url+"?jumpData="+jumpData+"&app="+(G_IS_IOS ? "ios" : "android");
                        }
-                       // if(G_IS_IOS){
-                       //     url=url.replace("file://","");
-                       // }
+                       if(G_IS_IOS){
+                           url=url.replace("file://","");
+                       }
 
                         TW_Store.bblStore.subGameParams = {
                             url,

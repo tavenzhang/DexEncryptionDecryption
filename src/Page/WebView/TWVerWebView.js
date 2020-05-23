@@ -57,6 +57,10 @@ export default class TWVerWebView extends Component {
         this.bblStore = TW_Store.bblStore;
         this.curMarginBottom=0;
         TW_Store.appStore.lockToProrit();
+        if(G_IS_IOS){
+            TW_Store.bblStore.enterSubGame();
+        }
+
     }
 
     componentWillMount() {
@@ -171,25 +175,35 @@ export default class TWVerWebView extends Component {
     onBackAndroid = () => {
         TW_Log("TWThirdWebView--onBackAndroid---", this.navigator);
         this.onBackHomeJs();
-
     };
 
 
     onClickMenu = (btnId) => {
-        this.onBackHomeJs();
-        // switch (btnId) {
-        //     case 2:
-        //         this.setState({ isShowExitAlertView: true, isOpenAddPay: true });
-        //         break;
-        //     case 3:
-        //         this.setState({ isShowExitAlertView: true, isOpenAddPay: false });
-        //         break;
-        // }
+      //  this.onBackHomeJs();
+        Alert.alert(
+            "",
+            "是否返回游戏大厅?",
+            [
+                {
+                    text: "返回",
+                    onPress: () =>  this.onBackHomeJs(),
+                    style:"destructive"
+                },
+                {
+                    text: "取消",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                }
+            ],
+            { cancelable: false }
+        );
     };
 
     onLoadEnd = (event) => {
         TW_SplashScreen_HIDE();
-        TW_Store.bblStore.enterSubGame();
+        if(!G_IS_IOS){
+            TW_Store.bblStore.enterSubGame();
+        }
     };
 
 

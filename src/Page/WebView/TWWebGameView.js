@@ -65,11 +65,12 @@ export default class TWWebGameView extends Component {
             TW_Log("homePre.lastIndexOf-" + homePre.lastIndexOf("/"), homePre)
             newUrl = homePre
         }
-        TW_Log("TWWebGameView=====newUrl==",newUrl)
+       // TW_Store.dataStore.getGameRootDir()
+        TW_Log("TWWebGameView=====newUrl=="+newUrl)
         let source = {
             file: newUrl,
-            allowingReadAccessToURL: newUrl.replace("/index.html"),
-            allowFileAccessFromFileURLs: newUrl.replace("/index.html"),
+            allowingReadAccessToURL: newUrl.replace("/index.html",""),
+            allowFileAccessFromFileURLs: newUrl.replace("/index.html",""),
             param: myParam
         };
         if (!G_IS_IOS) {
