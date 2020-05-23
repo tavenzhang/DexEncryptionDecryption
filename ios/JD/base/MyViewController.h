@@ -7,10 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MyViewController : UIViewController
+ @property (nonatomic, strong) UIView *contentView;
+ @property (nonatomic, strong) ViewController* gameViewControl;
+
+- (void)addGameLobbyControl:(NSString*)data ;
+- (void)jumpToHome:(NSString*)data ;
+- (void)jumpToRN:(NSString*)data ;
 
 @end
 

@@ -476,12 +476,17 @@ export default class BBLStore {
                        }else{
                            url=url+"?jumpData="+jumpData+"&app="+(G_IS_IOS ? "ios" : "android");
                        }
+                       if(G_IS_IOS){
+                           url=url.replace("file://","");
+                       }
+
                         TW_Store.bblStore.subGameParams = {
                             url,
                             isOrigan,
                             jumpData,
                             isThirdGame: false
                         };
+                    TW_Log("JumpGame== TW_Store.bblStore.subGameParams===", TW_Store.bblStore.subGameParams)
                     break;
                 case 'JumpThirdGame': //跳转第三方游戏
                     url = TW_Base64.decode(message.data);
@@ -598,7 +603,7 @@ export default class BBLStore {
         let appDataStr= JSON.stringify(appData);
         TN_OpenHome(appDataStr);
         this.getAppData();
-        if(!isSaveDate){
+        if(!isSaveDate&&TW_Store.appStore.appSaveData){
             setTimeout(()=>{
                 TN_MSG_TO_GAME(
                     TW_Store.bblStore.getWebAction(
