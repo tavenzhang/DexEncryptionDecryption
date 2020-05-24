@@ -227,7 +227,8 @@ export default class BBLStore {
         showWithdraw: 'showWithdraw',
         appUpate: 'appUpate',
         game_recharge:"game_recharge",
-        runJS:"runJS"
+        runJS:"runJS",
+        loadingView:"loadingView"
     };
 
     //bgm.mp3 click.mp3 close.mp3 flopleft.mp3 flopright.mp3 recharge.mp3 rightbottomclose.mp3 showlogo.mp3
@@ -543,6 +544,7 @@ export default class BBLStore {
                     break;
                 case "showGame":
                     TW_SplashScreen_HIDE();
+                    clearInterval(TW_Store.appStore.timeClearId);
                     break;
                 case "http":
                     let method = message.metod;
@@ -641,21 +643,27 @@ export default class BBLStore {
    @action
     enterGameLobby=(appData,isSaveDate=false)=>{
         TW_Log("appDataStr===enterGameLobby====",appData);
-        //appData.gameUrl="https://qp01-game.513xyz.com/bbl_lobby/game/release/uat/index.jsttt"
         TW_SplashScreen_HIDE();
         let appDataStr= JSON.stringify(appData);
         TN_OpenHome(appDataStr);
         this.getAppData();
-        if(!isSaveDate&&this.isEnterLooby){
+        if(!isSaveDate){
             TW_Log("enterGameLobby-----this.isEnterLooby--"+this.isEnterLooby)
-            setTimeout(()=>{
-                TN_MSG_TO_GAME(
-                    TW_Store.bblStore.getWebAction(
-                        TW_Store.bblStore.ACT_ENUM.appNativeData,
-                        {data: appData}
-                    )
-                );
-            },2000);
+            if(this.isEnterLooby){
+                setTimeout(()=>{
+                    TN_MSG_TO_GAME(
+                        TW_Store.bblStore.getWebAction(
+                            TW_Store.bblStore.ACT_ENUM.appNativeData,
+                            {data: appData}
+                        )
+                    );
+                },2000);
+            }else{
+                //clearInterval(TW_Store.appStore.timeClearId);
+                TW_Store.appStore.percent=1;
+                TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {data:"获取更新中...", percent:TW_Store.appStore.percent}))
+
+        }
         }
     }
 
