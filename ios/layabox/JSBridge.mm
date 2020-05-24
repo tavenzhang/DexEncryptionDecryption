@@ -94,8 +94,13 @@ static ModuleWithEmitter* emit=nil ;
   NSError*err;
   NSDictionary* dic = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&err];
   NSString* action = [dic valueForKey:@"gameUrl"];
+  NSString* isLobbyOk=[dic valueForKey:@"isLobbyOk"];
   NSString* postAction =  [NSString stringWithFormat:@"appCallBack('%@')",action];
   [[conchRuntime GetIOSConchRuntime] runJS:postAction];
+  if([isLobbyOk isEqual:@"false"]){
+     NSArray* nameArr = [NSArray arrayWithObjects: @"游戏正在努力更新中，请耐心等待！"];
+    [JSBridge setTips:nameArr];
+  }
 }
 @end
 
