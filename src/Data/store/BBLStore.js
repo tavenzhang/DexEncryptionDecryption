@@ -5,7 +5,7 @@ import {config} from "../../Common/Network/TCRequestConfig";
 import NetUitls from "../../Common/Network/TCRequestUitls";
 import Tools from "../../Common/View/Tools";
 import TCUserOpenPayApp from "../../Data/TCUserOpenPayApp";
-import {Clipboard,} from "react-native";
+import {Clipboard,Alert} from "react-native";
 import FileTools from "../../Common/Global/FileTools";
 
 /**
@@ -40,6 +40,8 @@ export default class BBLStore {
     tempZipDir = `${DocumentDirectoryPath}/home.zip`;
 
     tempGameZip = `${DocumentDirectoryPath}/game.zip`;
+
+    domainRetry = 0;
 
     @observable
     versionManger = {
@@ -337,8 +339,25 @@ export default class BBLStore {
         if (message && message.action) {
             switch (message.action) {
                 case "gameUrlError":
-                    let gameDomainStar= `appCallBack('${this.getAPPJsonData().gameUrl}')`;
-                    TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.runJS, {data: gameDomainStar}));
+                    if(this.domainRetry<=3){
+                        let gameDomainStar= `appCallBack('${this.getAPPJsonData().gameUrl}')`;
+                        TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, "");
+                        TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.runJS, {data: gameDomainStar}));
+                    }else{
+                        TN_JUMP_RN();
+                        Alert.alert(
+                            "当前网络不稳定 无法正常体验游戏，请重启app尝试看看?",
+                            "",
+                            [
+                                {
+                                    text: "了解",
+                                    onPress: () => console.log("Cancel Pressed"),
+                                    style: "cancel"
+                                }
+                            ],
+                            { cancelable: false }
+                        );
+                    }
                     break;
                 case "nativeStart":
                     TW_Data_Store.getItem(TW_DATA_KEY.LobbyReadyOK, (err, dataStr)=>{
@@ -622,7 +641,7 @@ export default class BBLStore {
    @action
     enterGameLobby=(appData,isSaveDate=false)=>{
         TW_Log("appDataStr===enterGameLobby====",appData);
-        appData.gameUrl="https://qp01-game.513xyz.com/bbl_lobby/game/release/uat/index.jsttt"
+        //appData.gameUrl="https://qp01-game.513xyz.com/bbl_lobby/game/release/uat/index.jsttt"
         TW_SplashScreen_HIDE();
         let appDataStr= JSON.stringify(appData);
         TN_OpenHome(appDataStr);
