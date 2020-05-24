@@ -111,5 +111,6 @@ if(window.loadingView)
 window.onLayaInitError=function(e)
 {
 	console.log("onLayaInitError error=" + e+"\n gameUrl"+window['gameUrl']);
-	alert("加载游戏失败，可能由于您的网络不稳定，请退出重进 \n gameUrl="+window["gameUrl"]);
+	alert("加载游戏失败，可能由于您的网络不稳定，请重启app \n gameUrl="+window['gameUrl']);
+    window.loadingView.bridge.call("postMessage:",JSON.stringify({action:"gameUrlError"}))
 }
