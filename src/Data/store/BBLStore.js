@@ -629,7 +629,7 @@ export default class BBLStore {
     getAPPJsonData=()=> {
         return {
             isApp: true,
-            taven: "isOk",
+            isLobbyOk: TW_Store.appStore.appSaveData ? "true":"false",
             brandID: platInfo.brand,
             brandUrl: this.getBrandUrl(),
             clientId: TW_Store.appStore.clindId,
