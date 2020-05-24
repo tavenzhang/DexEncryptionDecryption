@@ -63,8 +63,6 @@ static ModuleWithEmitter* emit=nil ;
    //ModuleWithEmitter* emit=  [ModuleWithEmitter  new];
   // [emit sendEvent:message];
    dispatch_async(dispatch_get_main_queue(), ^{
-  
- 
      if([action isEqual:@"nativeStart"]){
         [[conchRuntime GetIOSConchRuntime] runJS:[NSString stringWithFormat:@"nativeInitData(%@)",[JXHelper getAppData]]];
      }
@@ -74,19 +72,55 @@ static ModuleWithEmitter* emit=nil ;
 
 
 +(void)postToGame:(NSString*)message{
- 
   NSString* postAction =  [NSString stringWithFormat:@"nativeMessage(%@)",message];
+  NSData*jsonData = [message dataUsingEncoding:NSUTF8StringEncoding];
+  NSError*err;
+  NSDictionary* dic = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&err];
+  NSString* action = [dic valueForKey:@"action"];
   dispatch_async(dispatch_get_main_queue(), ^{
-             [[conchRuntime GetIOSConchRuntime] runJS:postAction];
-             // [[conchRuntime GetIOSConchRuntime] callbackToJSWithObject:self methodName:@"testAsyncCallback:" ret:retStr];
+    if([action isEqual:@"runJS"]){
+        NSString* jsData = [dic valueForKey:@"data"];
+         [[conchRuntime GetIOSConchRuntime] runJS:jsData];
+    }else if([action isEqual:@"loadingView"])
+    {
+        NSString* labelData = [dic valueForKey:@"data"];
+        if(labelData){
+          NSArray* nameArr = [NSArray arrayWithObjects: labelData, nil];
+                 [JSBridge setFontColor:@"#ffffff"];
+                 [JSBridge setTips:nameArr];
+        }
+         
+          NSString* percent= [dic valueForKey:@"percent"];
+      if(percent){
+              int intString = [percent intValue];
+                [JSBridge loading:[NSNumber numberWithInt:intString]];
+        // [JSBridge showTextInfo:[NSNumber numberWithInt:1]];
+      }
+
+        //  [JSBridge showTextInfo:[NSNumber numberWithInt:1]];
+         
+    }
+    else{
+         [[conchRuntime GetIOSConchRuntime] runJS:postAction];
+    }
   });
 }
 
 
-+(void)loadGameUrl:(NSString*)data
++(void)loadGameUrl:(NSString*)message
 {
-   NSString* str=@"appCallBack('https://download.jwyxw.net/ios/gameUat/index.js')";
-   [[conchRuntime GetIOSConchRuntime] runJS:str];
+  NSData*jsonData = [[JXHelper getAppData] dataUsingEncoding:NSUTF8StringEncoding];
+  NSError*err;
+  NSDictionary* dic = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&err];
+  NSString* action = [dic valueForKey:@"gameUrl"];
+  NSString* isLobbyOk=[dic valueForKey:@"isLobbyOk"];
+  NSString* postAction =  [NSString stringWithFormat:@"appCallBack('%@')",action];
+  [[conchRuntime GetIOSConchRuntime] runJS:postAction];
+  if([isLobbyOk isEqual:@"true"]){
+//     NSArray* nameArr = [NSArray arrayWithObjects: @"游戏正在努力更新中，请耐心等待！"];
+//     [JSBridge setTips:nameArr];
+//     [JSBridge showTextInfo:[NSNumber numberWithInt:1]];
+  }
 }
 @end
 

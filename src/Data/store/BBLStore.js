@@ -5,7 +5,7 @@ import {config} from "../../Common/Network/TCRequestConfig";
 import NetUitls from "../../Common/Network/TCRequestUitls";
 import Tools from "../../Common/View/Tools";
 import TCUserOpenPayApp from "../../Data/TCUserOpenPayApp";
-import {Clipboard,} from "react-native";
+import {Clipboard,Alert} from "react-native";
 import FileTools from "../../Common/Global/FileTools";
 
 /**
@@ -30,13 +30,18 @@ export default class BBLStore {
     @observable
     isSubGameRecharge=false
 
+    @observable
+    isEnterLooby = false;
 
+    validDomain = [];
 
     storeDir = DocumentDirectoryPath;
 
     tempZipDir = `${DocumentDirectoryPath}/home.zip`;
 
     tempGameZip = `${DocumentDirectoryPath}/game.zip`;
+
+    domainRetry = 0;
 
     @observable
     versionManger = {
@@ -221,7 +226,9 @@ export default class BBLStore {
         showService: 'showService',
         showWithdraw: 'showWithdraw',
         appUpate: 'appUpate',
-        game_recharge:"game_recharge"
+        game_recharge:"game_recharge",
+        runJS:"runJS",
+        loadingView:"loadingView"
     };
 
     //bgm.mp3 click.mp3 close.mp3 flopleft.mp3 flopright.mp3 recharge.mp3 rightbottomclose.mp3 showlogo.mp3
@@ -332,12 +339,47 @@ export default class BBLStore {
         TW_Log('onMessage======GameLobby=====>>' + '\n', message);
         if (message && message.action) {
             switch (message.action) {
-                case "Log":
-                    // TW_Log("game---ct=="+message.ct,message.data);
+                case "gameUrlError":
+                    if(this.domainRetry<=3){
+                        let gameDomainStar= `appCallBack('${this.getAPPJsonData().gameUrl}')`;
+                        TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, "");
+                        TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.runJS, {data: gameDomainStar}));
+                    }else{
+                        TN_JUMP_RN();
+                        Alert.alert(
+                            "当前网络不稳定 无法正常体验游戏，请重启app尝试看看?",
+                            "",
+                            [
+                                {
+                                    text: "了解",
+                                    onPress: () => console.log("Cancel Pressed"),
+                                    style: "cancel"
+                                }
+                            ],
+                            { cancelable: false }
+                        );
+                    }
+                    break;
+                case "nativeStart":
+                    TW_Data_Store.getItem(TW_DATA_KEY.LobbyReadyOK, (err, dataStr)=>{
+                        let gameData=null
+                        try {
+                            gameData=JSON.parse(dataStr)
+                        }catch (e) {
+                            gameData=null
+                        }
+                        if(!gameData){
+                            TW_Log("nativeStart---sava--beugim"+gameData)
+                            TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(this.getAPPJsonData()));
+                        }
+                    });
                     break;
                 case "game_common":
                     let actions = message.name || message.do;
                     switch (actions) {
+                        case "onGameInit":
+                            this.isEnterLooby=true;
+                            break;
                         case "saveToPhone":
                             Tools.onSaveScreenPhone();
                             break;
@@ -468,7 +510,7 @@ export default class BBLStore {
                     break;
                 case "JumpGame":
                     let url=message.gamePath;
-                    let isOrigan=false;
+                    let isOrigan= TW_Store.appStore.isSitApp ? true:false;
                     TW_Store.bblStore.lastGameUrl = url;
                        let jumpData = this.getJumpData(message.payload);
                        if(url.indexOf("?")>-1){
@@ -479,6 +521,7 @@ export default class BBLStore {
                        if(G_IS_IOS){
                            url=url.replace("file://","");
                        }
+
 
                         TW_Store.bblStore.subGameParams = {
                             url,
@@ -501,7 +544,7 @@ export default class BBLStore {
                     break;
                 case "showGame":
                     TW_SplashScreen_HIDE();
-                    TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(this.getAPPJsonData()));
+                    clearInterval(TW_Store.appStore.timeClearId);
                     break;
                 case "http":
                     let method = message.metod;
@@ -574,7 +617,7 @@ export default class BBLStore {
     getAPPJsonData=()=> {
         return {
             isApp: true,
-            taven: "isOk",
+            isLobbyOk: TW_Store.appStore.appSaveData ? "true":"false",
             brandID: platInfo.brand,
             brandUrl: this.getBrandUrl(),
             clientId: TW_Store.appStore.clindId,
@@ -582,6 +625,7 @@ export default class BBLStore {
             isAndroidHack: TW_Store.appStore.isInAnroidHack,
             hackData: {filterGameList: ["zjh", "lhd", "bjl", "pg", "jlbsh", "tto", "erbg"]},
             deviceToken: TW_Store.appStore.deviceToken,
+            pureDomain:TW_Store.bblStore.gameDomain,
             loginDomain: TW_Store.bblStore.loginDomain + "/api/v1/account",
             gameDomain: TW_Store.bblStore.gameDomain + "/api/v1/gamecenter",
             affCode: TW_Store.appStore.userAffCode,
@@ -603,15 +647,27 @@ export default class BBLStore {
         let appDataStr= JSON.stringify(appData);
         TN_OpenHome(appDataStr);
         this.getAppData();
-        if(!isSaveDate&&TW_Store.appStore.appSaveData){
-            setTimeout(()=>{
-                TN_MSG_TO_GAME(
-                    TW_Store.bblStore.getWebAction(
-                        TW_Store.bblStore.ACT_ENUM.appNativeData,
-                        {data: appData}
-                    )
-                );
-            },2000);
+        if(!isSaveDate){
+            TW_Log("enterGameLobby-----this.isEnterLooby--"+this.isEnterLooby)
+            if(this.isEnterLooby){
+                setTimeout(()=>{
+                    TN_MSG_TO_GAME(
+                        TW_Store.bblStore.getWebAction(
+                            TW_Store.bblStore.ACT_ENUM.appNativeData,
+                            {data: appData}
+                        )
+                    );
+                },2000);
+            }else{
+                let percent=1;
+                clearInterval(TW_Store.appStore.timeClearId);
+                TW_Store.appStore.timeClearId=setInterval(()=>{
+                    TW_Log("TN_MSG_TO_GAME---enterGameLobby=-"+percent)
+                    percent+=1;
+                    percent= percent>=100 ? 99:percent;
+                    TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {data:"获取更新中..",percent}));
+                },1000)
+        }
         }
     }
 

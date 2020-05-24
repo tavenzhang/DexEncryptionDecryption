@@ -357,6 +357,7 @@ window['updateByZip'] = function (url, onEvent, onEnd) {
 window['appCallBack']=function(dataStr){
     console.log("appCallBack---"+dataStr)
     loadApp(dataStr);
+    window['gameUrl']=dataStr
 }
 var bridge = PlatformClass.createClass("JSBridge")
 console.log("bridge-----"+bridge);

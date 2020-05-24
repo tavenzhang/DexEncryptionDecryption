@@ -121,6 +121,8 @@ export default class AppInfoStore {
     @observable
     appSaveData = null;
 
+    timeClearId=null
+
 
 
     constructor() {
@@ -159,8 +161,6 @@ export default class AppInfoStore {
             }
         })
         TW_Data_Store.getItem(TW_DATA_KEY.LobbyReadyOK, (err, dataStr)=>{
-
-            this.appSaveData=dataStr;
             let gameData=null
             try {
                 gameData=JSON.parse(dataStr)
@@ -171,10 +171,21 @@ export default class AppInfoStore {
             if(gameData){
                 this.appSaveData=gameData;
                 TW_Store.bblStore.enterGameLobby(gameData,true);
+            }else{
+               // TW_Store.bblStore.enterGameLobby(TW_Store.bblStore.getAPPJsonData(),true);
+                let percent=1
+                TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {data: "正在初始化数据 "}));
+               this.timeClearId=setInterval(()=>{
+                    //TW_Log("TN_MSG_TO_GAME---percent-"+percent)
+                    percent+=1;
+                    percent= percent>=100 ? 99:percent;
+                    TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {percent}));
+                },500)
             }
         })
-
     }
+
+
 
 
     checkAppInfoUpdate = (oldData = null) => {
@@ -348,7 +359,7 @@ export default class AppInfoStore {
                 TW_Log("appInfo--TN_StartOpenInstall-------------", appInfo);
             }
         }
-        this.isSitApp = this.clindId == "1209" || this.clindId == "4";
+        this.isSitApp = this.clindId == "5" || this.clindId == "4";
         this.isTestApp = this.isSitApp || this.clindId == "214"
         this.emulatorChecking();
     }

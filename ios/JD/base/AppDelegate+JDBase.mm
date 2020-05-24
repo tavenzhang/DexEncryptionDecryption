@@ -6,7 +6,6 @@
 //  Copyright © 2018 JD. All rights reserved.
 //
 
-#import "AppDelegate.h"
 #import "AppDelegate+JDBase.h"
 #import <RCTJPushModule.h>
 #ifdef NSFoundationVersionNumber_iOS_9_x_Max
