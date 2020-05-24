@@ -63,8 +63,6 @@ static ModuleWithEmitter* emit=nil ;
    //ModuleWithEmitter* emit=  [ModuleWithEmitter  new];
   // [emit sendEvent:message];
    dispatch_async(dispatch_get_main_queue(), ^{
-  
- 
      if([action isEqual:@"nativeStart"]){
         [[conchRuntime GetIOSConchRuntime] runJS:[NSString stringWithFormat:@"nativeInitData(%@)",[JXHelper getAppData]]];
      }
@@ -74,11 +72,18 @@ static ModuleWithEmitter* emit=nil ;
 
 
 +(void)postToGame:(NSString*)message{
- 
   NSString* postAction =  [NSString stringWithFormat:@"nativeMessage(%@)",message];
+  NSData*jsonData = [message dataUsingEncoding:NSUTF8StringEncoding];
+  NSError*err;
+  NSDictionary* dic = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&err];
+  NSString* action = [dic valueForKey:@"action"];
   dispatch_async(dispatch_get_main_queue(), ^{
-             [[conchRuntime GetIOSConchRuntime] runJS:postAction];
-             // [[conchRuntime GetIOSConchRuntime] callbackToJSWithObject:self methodName:@"testAsyncCallback:" ret:retStr];
+    if([action isEqual:@"runJS"]){
+        NSString* jsData = [dic valueForKey:@"data"];
+         [[conchRuntime GetIOSConchRuntime] runJS:jsData];
+    }else{
+         [[conchRuntime GetIOSConchRuntime] runJS:postAction];
+    }
   });
 }
 
@@ -88,10 +93,9 @@ static ModuleWithEmitter* emit=nil ;
   NSData*jsonData = [[JXHelper getAppData] dataUsingEncoding:NSUTF8StringEncoding];
   NSError*err;
   NSDictionary* dic = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&err];
-   NSString* action = [dic valueForKey:@"gameUrl"];
-   NSString* postAction =  [NSString stringWithFormat:@"appCallBack('%@')",action];
- //  NSString* str=@"appCallBack('https://download.jwyxw.net/ios/gameUat/index.js')";
-   [[conchRuntime GetIOSConchRuntime] runJS:postAction];
+  NSString* action = [dic valueForKey:@"gameUrl"];
+  NSString* postAction =  [NSString stringWithFormat:@"appCallBack('%@')",action];
+  [[conchRuntime GetIOSConchRuntime] runJS:postAction];
 }
 @end
 

@@ -106,10 +106,11 @@ if(window.loadingView)
     window.loadingView.loadingAutoClose=false;//true代表当动画播放完毕，自动进入游戏。false为开发者手动控制
     window.loadingView.bgColor("#000000");//设置背景颜色
     window.loadingView.setFontColor("#ffffff");//设置字体颜色
-   window.loadingView.setTips(["游戏正在加载中..."]);//设置tips数组，会随机出现
+    window.loadingView.setTips(["游戏正在加载中..."]);//设置tips数组，会随机出现
 }
 window.onLayaInitError=function(e)
 {
 	console.log("onLayaInitError error=" + e+"\n gameUrl"+window['gameUrl']);
-	alert("加载游戏失败，可能由于您的网络不稳定，请退出重进 \n gameUrl="+window["gameUrl"]);
+	//alert("加载游戏失败，可能由于您的网络不稳定，请重启app \n gameUrl="+window['gameUrl']);
+    window.loadingView.bridge.call("postMessage:",JSON.stringify({action:"gameUrlError"}))
 }
