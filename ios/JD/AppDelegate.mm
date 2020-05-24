@@ -29,8 +29,6 @@
 //  _window.rootViewController = pViewController;
 //  [_window makeKeyAndVisible];
 //
-   _launchView = [[LaunchView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-  [_window.rootViewController.view addSubview:_launchView.view];
   application.applicationIconBadgeNumber = 0;
   self.launchOptions = launchOptions;
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -42,7 +40,8 @@
             [SplashScreen hide];
            // do work in the UI thread here
        });
-  #ifdef DEBUG
+  #ifdef DEBUG】
+  
     //do sth.
   #else
      [SplashScreen show];

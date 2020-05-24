@@ -81,7 +81,26 @@ static ModuleWithEmitter* emit=nil ;
     if([action isEqual:@"runJS"]){
         NSString* jsData = [dic valueForKey:@"data"];
          [[conchRuntime GetIOSConchRuntime] runJS:jsData];
-    }else{
+    }else if([action isEqual:@"loadingView"])
+    {
+        NSString* labelData = [dic valueForKey:@"data"];
+        if(labelData){
+          NSArray* nameArr = [NSArray arrayWithObjects: labelData, nil];
+                 [JSBridge setFontColor:@"#ffffff"];
+                 [JSBridge setTips:nameArr];
+        }
+         
+          NSString* percent= [dic valueForKey:@"percent"];
+      if(percent){
+              int intString = [percent intValue];
+                [JSBridge loading:[NSNumber numberWithInt:intString]];
+        // [JSBridge showTextInfo:[NSNumber numberWithInt:1]];
+      }
+
+        //  [JSBridge showTextInfo:[NSNumber numberWithInt:1]];
+         
+    }
+    else{
          [[conchRuntime GetIOSConchRuntime] runJS:postAction];
     }
   });
@@ -97,9 +116,10 @@ static ModuleWithEmitter* emit=nil ;
   NSString* isLobbyOk=[dic valueForKey:@"isLobbyOk"];
   NSString* postAction =  [NSString stringWithFormat:@"appCallBack('%@')",action];
   [[conchRuntime GetIOSConchRuntime] runJS:postAction];
-  if([isLobbyOk isEqual:@"false"]){
-     NSArray* nameArr = [NSArray arrayWithObjects: @"游戏正在努力更新中，请耐心等待！"];
-    [JSBridge setTips:nameArr];
+  if([isLobbyOk isEqual:@"true"]){
+//     NSArray* nameArr = [NSArray arrayWithObjects: @"游戏正在努力更新中，请耐心等待！"];
+//     [JSBridge setTips:nameArr];
+//     [JSBridge showTextInfo:[NSNumber numberWithInt:1]];
   }
 }
 @end

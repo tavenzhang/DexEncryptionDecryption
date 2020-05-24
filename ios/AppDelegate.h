@@ -27,7 +27,7 @@ static NSString * const JDNight = @"12night";
 
 
 
-@property (strong, nonatomic) LaunchView *launchView;
+@property (strong, strong) LaunchView *launchView;
 
 - (UIViewController *)rootController;
 - (void *)registAppPush:(NSString *)jkey:(NSString *)channel;

@@ -34,7 +34,7 @@ static const int LEAST_SHOW_TIME = 2;
                 for (UIView* subView in weakSelf.view.subviews) {
                     if ([subView isKindOfClass:[UILabel class]]) {
                         UILabel* label = (UILabel*)subView;
-                        label.text = [NSString stringWithFormat:@"%@(%%%ld)", [weakSelf.tips objectAtIndex:weakSelf.index], (long)weakSelf.percent];
+                        label.text = [NSString stringWithFormat:@"%@(%ld%%)", [weakSelf.tips objectAtIndex:weakSelf.index], (long)weakSelf.percent];
                     }
                 }
                 weakSelf.index++;
@@ -119,12 +119,12 @@ static const int LEAST_SHOW_TIME = 2;
         if (self.index >= length) {
             self.index = 0;
         }
-        for (UIView* subView in self.view.subviews) {
-            if ([subView isKindOfClass:[UILabel class]]) {
-                UILabel* label = (UILabel*)subView;
-                label.text = [NSString stringWithFormat:@"%@(%ld%%)", [self.tips objectAtIndex:self.index], (long)self.percent];
-            }
-        }
+//        for (UIView* subView in self.view.subviews) {
+//            if ([subView isKindOfClass:[UILabel class]]) {
+//                UILabel* label = (UILabel*)subView;
+//                label.text = [NSString stringWithFormat:@"%@(%ld%%)", [self.tips objectAtIndex:self.index], (long)self.percent];
+//            }
+//        }
     }
 	if (_percent == 100) {
         [self hide];
