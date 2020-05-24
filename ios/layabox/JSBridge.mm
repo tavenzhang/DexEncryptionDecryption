@@ -94,7 +94,7 @@ static ModuleWithEmitter* emit=nil ;
       if(percent){
               int intString = [percent intValue];
                 [JSBridge loading:[NSNumber numberWithInt:intString]];
-         [JSBridge showTextInfo:[NSNumber numberWithInt:1]];
+        // [JSBridge showTextInfo:[NSNumber numberWithInt:1]];
       }
 
         //  [JSBridge showTextInfo:[NSNumber numberWithInt:1]];

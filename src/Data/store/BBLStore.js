@@ -659,10 +659,14 @@ export default class BBLStore {
                     );
                 },2000);
             }else{
-                //clearInterval(TW_Store.appStore.timeClearId);
-                TW_Store.appStore.percent=1;
-                TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {data:"获取更新中...", percent:TW_Store.appStore.percent}))
-
+                let percent=1;
+                clearInterval(TW_Store.appStore.timeClearId);
+                TW_Store.appStore.timeClearId=setInterval(()=>{
+                    TW_Log("TN_MSG_TO_GAME---enterGameLobby=-"+percent)
+                    percent+=1;
+                    percent= percent>=100 ? 99:percent;
+                    TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {data:"获取更新中..",percent}));
+                },1000)
         }
         }
     }
