@@ -224,7 +224,8 @@ export default class BBLStore {
         showService: 'showService',
         showWithdraw: 'showWithdraw',
         appUpate: 'appUpate',
-        game_recharge:"game_recharge"
+        game_recharge:"game_recharge",
+        runJS:"runJS"
     };
 
     //bgm.mp3 click.mp3 close.mp3 flopleft.mp3 flopright.mp3 recharge.mp3 rightbottomclose.mp3 showlogo.mp3
@@ -335,8 +336,9 @@ export default class BBLStore {
         TW_Log('onMessage======GameLobby=====>>' + '\n', message);
         if (message && message.action) {
             switch (message.action) {
-                case "Log":
-                    // TW_Log("game---ct=="+message.ct,message.data);
+                case "gameUrlError":
+                    let gameDomainStar= `appCallBack('${this.getAPPJsonData().gameUrl}')`;
+                    TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.runJS, {data: gameDomainStar}));
                     break;
                 case "nativeStart":
                     TW_Data_Store.getItem(TW_DATA_KEY.LobbyReadyOK, (err, dataStr)=>{
@@ -620,11 +622,13 @@ export default class BBLStore {
    @action
     enterGameLobby=(appData,isSaveDate=false)=>{
         TW_Log("appDataStr===enterGameLobby====",appData);
+        appData.gameUrl="https://qp01-game.513xyz.com/bbl_lobby/game/release/uat/index.jsttt"
         TW_SplashScreen_HIDE();
         let appDataStr= JSON.stringify(appData);
         TN_OpenHome(appDataStr);
         this.getAppData();
         if(!isSaveDate&&this.isEnterLooby){
+            TW_Log("enterGameLobby-----this.isEnterLooby--"+this.isEnterLooby)
             setTimeout(()=>{
                 TN_MSG_TO_GAME(
                     TW_Store.bblStore.getWebAction(
