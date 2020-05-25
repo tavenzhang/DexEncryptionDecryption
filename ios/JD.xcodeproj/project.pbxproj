@@ -113,6 +113,7 @@
 		ABD45AAC2476B88C00469B26 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = ABD45AAB2476B88C00469B26 /* main.mm */; };
 		ABD45AB12476BA8500469B26 /* libconch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABD45AAE2476BA8500469B26 /* libconch.a */; };
 		ABD45AB32476BB9600469B26 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABD45AB22476BB9600469B26 /* CoreMotion.framework */; };
+		ABEFAB7E247BC5A1008DC9CC /* libRNBackgroundTimer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABEFAB6F247BC58F008DC9CC /* libRNBackgroundTimer.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		C3164721FC0749E089E9FCC2 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EA3914555C244DD85E59A89 /* libCodePush.a */; };
 		C6073E87222E1276001E64D0 /* libSocialWeChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C6073E86222E1275001E64D0 /* libSocialWeChat.a */; };
@@ -550,6 +551,20 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = KCKeepAwake;
 		};
+		ABEFAB6E247BC58F008DC9CC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABEFAB3B247BC58F008DC9CC /* RNBackgroundTimer.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNBackgroundTimer;
+		};
+		ABEFAB70247BC58F008DC9CC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABEFAB3B247BC58F008DC9CC /* RNBackgroundTimer.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 641926921ECB4257009CF731;
+			remoteInfo = "RNBackgroundTimer-tvOS";
+		};
 		ADBDB9261DFEBF0700ED6528 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */;
@@ -747,6 +762,7 @@
 		ABD45AB02476BA8500469B26 /* conchConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = conchConfig.h; sourceTree = "<group>"; };
 		ABD45AB22476BB9600469B26 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		ABD45AB42476DB3600469B26 /* ModuleWithEmitter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModuleWithEmitter.h; sourceTree = "<group>"; };
+		ABEFAB3B247BC58F008DC9CC /* RNBackgroundTimer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNBackgroundTimer.xcodeproj; path = "../node_modules/react-native-background-timer/ios/RNBackgroundTimer.xcodeproj"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		B865BAA8F48A48F5A5082F52 /* libRNViewShot.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNViewShot.a; sourceTree = "<group>"; };
 		C6073E86222E1275001E64D0 /* libSocialWeChat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSocialWeChat.a; path = JD/base/umeng/UMShare/SocialLibraries/WeChat/libSocialWeChat.a; sourceTree = "<group>"; };
@@ -778,6 +794,7 @@
 				D094F90F238D02FF001602B4 /* libRCTOrientation.a in Frameworks */,
 				D0547A7822FBC30900B8A955 /* libRNCNetInfo.a in Frameworks */,
 				9530179322E0329C00164297 /* libRNCCameraRoll.a in Frameworks */,
+				ABEFAB7E247BC5A1008DC9CC /* libRNBackgroundTimer.a in Frameworks */,
 				ABD45A962476A86900469B26 /* GLKit.framework in Frameworks */,
 				951A7AD022CB024E0033476C /* libRNCWebView.a in Frameworks */,
 				952B8CE722CA0A4E00E8D176 /* JavaScriptCore.framework in Frameworks */,
@@ -1228,6 +1245,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				ABEFAB3B247BC58F008DC9CC /* RNBackgroundTimer.xcodeproj */,
 				D094F909238D00CA001602B4 /* RCTOrientation.xcodeproj */,
 				D0547A6F22FBC2DD00B8A955 /* RNCNetInfo.xcodeproj */,
 				9530176022E031C100164297 /* RNCCameraRoll.xcodeproj */,
@@ -1454,6 +1472,15 @@
 			path = JD/base/LayaRuntime;
 			sourceTree = "<group>";
 		};
+		ABEFAB3C247BC58F008DC9CC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ABEFAB6F247BC58F008DC9CC /* libRNBackgroundTimer.a */,
+				ABEFAB71247BC58F008DC9CC /* libRNBackgroundTimer.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		ADBDB9201DFEBF0600ED6528 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1626,6 +1653,10 @@
 				{
 					ProductGroup = 950EEDBE22214E850011DBE1 /* Products */;
 					ProjectRef = 950EEDBD22214E850011DBE1 /* ReactNativeKeyboardManager.xcodeproj */;
+				},
+				{
+					ProductGroup = ABEFAB3C247BC58F008DC9CC /* Products */;
+					ProjectRef = ABEFAB3B247BC58F008DC9CC /* RNBackgroundTimer.xcodeproj */;
 				},
 				{
 					ProductGroup = 9530176122E031C100164297 /* Products */;
@@ -2059,6 +2090,20 @@
 			fileType = archive.ar;
 			path = libKCKeepAwake.a;
 			remoteRef = 95E1B86B2248855A00C9CE2E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		ABEFAB6F247BC58F008DC9CC /* libRNBackgroundTimer.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNBackgroundTimer.a;
+			remoteRef = ABEFAB6E247BC58F008DC9CC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		ABEFAB71247BC58F008DC9CC /* libRNBackgroundTimer.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNBackgroundTimer.a;
+			remoteRef = ABEFAB70247BC58F008DC9CC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */ = {
