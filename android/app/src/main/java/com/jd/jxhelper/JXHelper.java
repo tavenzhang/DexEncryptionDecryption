@@ -28,6 +28,7 @@ import com.jd.util.AppUtil;
 import com.jd.util.UpdateManager;
 import com.jd.webview.JXWebView;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -40,6 +41,7 @@ import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.data.JPushLocalNotification;
 import demo.GameActivity;
 import demo.JSBridge;
+import layaair.game.browser.ConchJNI;
 
 
 public class JXHelper extends ReactContextBaseJavaModule {
@@ -218,8 +220,9 @@ public class JXHelper extends ReactContextBaseJavaModule {
             Intent intent = new Intent(currentActivity, GameActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP);
-            intent.putExtra("homeData", homeData);
+            intent.putExtra("homeData",homeData);
             currentActivity.startActivity(intent);
+
         } catch (Exception e) {
             throw new JSApplicationIllegalArgumentException(
                     "不能打开Activity : " + e.getMessage());
@@ -319,7 +322,7 @@ public class JXHelper extends ReactContextBaseJavaModule {
 
 
     @ReactMethod
-    public void msgToGame(String onMessage){
+    public void msgToGame(String onMessage) throws JSONException {
         JSBridge.postToGame(onMessage);
     }
 

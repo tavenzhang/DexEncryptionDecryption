@@ -5,9 +5,9 @@ import {config} from "../../Common/Network/TCRequestConfig";
 import NetUitls from "../../Common/Network/TCRequestUitls";
 import Tools from "../../Common/View/Tools";
 import TCUserOpenPayApp from "../../Data/TCUserOpenPayApp";
-import {Clipboard,Alert} from "react-native";
+import {Clipboard, Alert} from "react-native";
 import FileTools from "../../Common/Global/FileTools";
-
+import BackgroundTimer from 'react-native-background-timer';
 /**
  *app信息管理
  */
@@ -28,7 +28,7 @@ export default class BBLStore {
     isDebugApp = false;
 
     @observable
-    isSubGameRecharge=false
+    isSubGameRecharge = false
 
     @observable
     isEnterLooby = false;
@@ -43,6 +43,10 @@ export default class BBLStore {
 
     domainRetry = 0;
 
+    percent=1;
+
+    intervalId=null
+
     @observable
     versionManger = {
         name: 'home',
@@ -55,7 +59,7 @@ export default class BBLStore {
     subGameParams = {
         url: '',
         isGame: true,
-        isOpenThirdWebView:false,
+        isOpenThirdWebView: false,
     };
 
 
@@ -150,7 +154,7 @@ export default class BBLStore {
 
     @action
     enterSubGame() {
-        TW_Log("enterSubGame-",TW_Store.gameUpateStore.isInSubGame)
+        TW_Log("enterSubGame-", TW_Store.gameUpateStore.isInSubGame)
         if (!TW_Store.gameUpateStore.isInSubGame) {
             TW_Store.bblStore.lastGameUrl = "";
             TW_Store.gameUpateStore.isInSubGame = true;
@@ -174,9 +178,9 @@ export default class BBLStore {
         TW_Log('message---quitSubGame-222-', message);
         TN_JUMP_HOME();
         this.subGameParams = {
-                url: '',
-                isGame: true
-            };
+            url: '',
+            isGame: true
+        };
 
         if (TW_OnValueJSHome) {
             TW_OnValueJSHome(
@@ -226,9 +230,9 @@ export default class BBLStore {
         showService: 'showService',
         showWithdraw: 'showWithdraw',
         appUpate: 'appUpate',
-        game_recharge:"game_recharge",
-        runJS:"runJS",
-        loadingView:"loadingView"
+        game_recharge: "game_recharge",
+        runJS: "runJS",
+        loadingView: "loadingView"
     };
 
     //bgm.mp3 click.mp3 close.mp3 flopleft.mp3 flopright.mp3 recharge.mp3 rightbottomclose.mp3 showlogo.mp3
@@ -309,7 +313,7 @@ export default class BBLStore {
                         ? this.shareData.androidShareUrl
                         : ' ';
                     this.appShareUrl = this.shareData.appShareUrl;
-                    TW_Store.appStore.onShowDownAlert(this.appShareUrl+"&isFore=1");
+                    TW_Store.appStore.onShowDownAlert(this.appShareUrl + "&isFore=1");
                     TW_Store.gameUIStroe.gustWebUrl = this.shareData.customerServiceUrl;
 
                 }
@@ -335,16 +339,17 @@ export default class BBLStore {
     }
 
     onMsgHandle = msg => {
-        let message=JSON.parse(msg);
+        let message = JSON.parse(msg);
         TW_Log('onMessage======GameLobby=====>>' + '\n', message);
         if (message && message.action) {
             switch (message.action) {
                 case "gameUrlError":
-                    if(this.domainRetry<=3){
-                        let gameDomainStar= `appCallBack('${this.getAPPJsonData().gameUrl}')`;
+                    if (this.domainRetry <= 3) {
+                        let appDataJson=this.getAPPJsonData();
+                        let gameDomainStar = `appCallBack('${appDataJson.gameUrl}')`;
                         TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, "");
-                        TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.runJS, {data: gameDomainStar}));
-                    }else{
+                        TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.runJS, {data: gameDomainStar,gameData:JSON.stringify(appDataJson)}));
+                    } else {
                         TN_JUMP_RN();
                         Alert.alert(
                             "当前网络不稳定 无法正常体验游戏，请重启app尝试看看?",
@@ -356,20 +361,21 @@ export default class BBLStore {
                                     style: "cancel"
                                 }
                             ],
-                            { cancelable: false }
+                            {cancelable: false}
                         );
                     }
                     break;
                 case "nativeStart":
-                    TW_Data_Store.getItem(TW_DATA_KEY.LobbyReadyOK, (err, dataStr)=>{
-                        let gameData=null
+                    TW_SplashScreen_HIDE();
+                    TW_Data_Store.getItem(TW_DATA_KEY.LobbyReadyOK, (err, dataStr) => {
+                        let gameData = null
                         try {
-                            gameData=JSON.parse(dataStr)
-                        }catch (e) {
-                            gameData=null
+                            gameData = JSON.parse(dataStr)
+                        } catch (e) {
+                            gameData = null
                         }
-                        if(!gameData){
-                            TW_Log("nativeStart---sava--beugim"+gameData)
+                        if (!gameData) {
+                            TW_Log("nativeStart---sava--beugim" + gameData)
                             TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(this.getAPPJsonData()));
                         }
                     });
@@ -392,7 +398,7 @@ export default class BBLStore {
                     let actions = message.name || message.do;
                     switch (actions) {
                         case "onGameInit":
-                            this.isEnterLooby=true;
+                            this.isEnterLooby = true;
                             break;
                         case "saveToPhone":
                             Tools.onSaveScreenPhone();
@@ -404,35 +410,35 @@ export default class BBLStore {
                             TCUserOpenPayApp.linkingWeb(message.param);
                             break;
                         case "openAppWeb":
-                           // TN_JUMP_RN();
+                            // TN_JUMP_RN();
                             TW_Store.bblStore.subGameParams = {
-                                url:message.param,
-                                isShowReload:true,
-                                type:message.type,
+                                url: message.param,
+                                isShowReload: true,
+                                type: message.type,
                                 isOpenThirdWebView: true,
-                                isPaddingTop:false
+                                isPaddingTop: false
                             };
                             //TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:message.param,isShowReload:true,type:message.type,isPaddingTop:false})
                             break;
                         case "customerService":
                             TW_Store.bblStore.subGameParams = {
-                                url:TW_Store.gameUIStroe.gustWebUrl,
-                                isShowReload:false,
-                                type:message.type,
+                                url: TW_Store.gameUIStroe.gustWebUrl,
+                                isShowReload: false,
+                                type: message.type,
                                 isOpenThirdWebView: true,
                             };
                             //TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:TW_Store.gameUIStroe.gustWebUrl,isShowReload:false,type:"guest"});
                             break;
                         case "copylink":
                             Clipboard.setString(message.param);
-                            let hintStr="已复制成功!";
+                            let hintStr = "已复制成功!";
                             if (message.hint && message.hint.length > 0) {
                                 hintStr = message.hint;
                             }
                             TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.popTip, {data: hintStr}));
                             break;
                         case "openDebug":
-                           TN_MSG_TO_GAME(
+                            TN_MSG_TO_GAME(
                                 TW_Store.bblStore.getWebAction(
                                     TW_Store.bblStore.ACT_ENUM.openDebug,
                                     {}
@@ -456,14 +462,14 @@ export default class BBLStore {
                                         );
                                         if (result) {
                                             if (code == 200 || code == 0) {
-                                               TN_MSG_TO_GAME(
+                                                TN_MSG_TO_GAME(
                                                     TW_Store.bblStore.getWebAction(
                                                         TW_Store.bblStore.ACT_ENUM.wxLogin,
                                                         {data: result}
                                                     )
                                                 );
                                             } else {
-                                               TN_MSG_TO_GAME(
+                                                TN_MSG_TO_GAME(
                                                     TW_Store.bblStore.getWebAction(
                                                         TW_Store.bblStore.ACT_ENUM.popTip,
                                                         {data: '微信授权异常!'}
@@ -471,7 +477,7 @@ export default class BBLStore {
                                                 );
                                             }
                                         } else {
-                                           TN_MSG_TO_GAME(
+                                            TN_MSG_TO_GAME(
                                                 TW_Store.bblStore.getWebAction(
                                                     TW_Store.bblStore.ACT_ENUM.popTip,
                                                     {data: '微信授权异常!'}
@@ -492,17 +498,17 @@ export default class BBLStore {
                             TW_Store.gameUIStroe.shareData = message;
                             let shareData = message;
                             try {
-                                    switch (shareData.type) {
-                                        case "friend":
-                                            TCUserOpenPayApp.onWXShare();
-                                            break;
-                                        case "circle":
-                                            TCUserOpenPayApp.onWX_PYQ_SHARE();
-                                            break;
-                                    }
-                                } catch (e) {
-                                    TW_Store.gameUIStroe.checkWXInstall();
+                                switch (shareData.type) {
+                                    case "friend":
+                                        TCUserOpenPayApp.onWXShare();
+                                        break;
+                                    case "circle":
+                                        TCUserOpenPayApp.onWX_PYQ_SHARE();
+                                        break;
                                 }
+                            } catch (e) {
+                                TW_Store.gameUIStroe.checkWXInstall();
+                            }
                             break;
                         case "closeApp":
                             TN_ExitApp();
@@ -515,34 +521,34 @@ export default class BBLStore {
                             break;
 
                         case "closeRecharge":
-                            if(TW_Store.bblStore.isSubGameRecharge) {
-                                TW_Store.bblStore.isSubGameRecharge=false;
+                            if (TW_Store.bblStore.isSubGameRecharge) {
+                                TW_Store.bblStore.isSubGameRecharge = false;
                                 TN_JUMP_RN();
                             }
                             break;
                     }
                     break;
                 case "JumpGame":
-                    let url=message.gamePath;
-                    let isOrigan= TW_Store.appStore.isSitApp ? true:false;
+                    let url = message.gamePath;
+                    let isOrigan = TW_Store.appStore.isSitApp ? true : false;
                     TW_Store.bblStore.lastGameUrl = url;
-                       let jumpData = this.getJumpData(message.payload);
-                       if(url.indexOf("?")>-1){
-                           url=url+"&jumpData="+jumpData+"&app="+(G_IS_IOS ? "ios" : "android");
-                       }else{
-                           url=url+"?jumpData="+jumpData+"&app="+(G_IS_IOS ? "ios" : "android");
-                       }
-                       if(G_IS_IOS){
-                           url=url.replace("file://","");
-                       }
+                    let jumpData = this.getJumpData(message.payload);
+                    if (url.indexOf("?") > -1) {
+                        url = url + "&jumpData=" + jumpData + "&app=" + (G_IS_IOS ? "ios" : "android");
+                    } else {
+                        url = url + "?jumpData=" + jumpData + "&app=" + (G_IS_IOS ? "ios" : "android");
+                    }
+                    if (G_IS_IOS) {
+                        url = url.replace("file://", "");
+                    }
 
 
-                        TW_Store.bblStore.subGameParams = {
-                            url,
-                            isOrigan,
-                            jumpData,
-                            isThirdGame: false
-                        };
+                    TW_Store.bblStore.subGameParams = {
+                        url,
+                        isOrigan,
+                        jumpData,
+                        isThirdGame: false
+                    };
                     TW_Log("JumpGame== TW_Store.bblStore.subGameParams===", TW_Store.bblStore.subGameParams)
                     break;
                 case 'JumpThirdGame': //跳转第三方游戏
@@ -559,6 +565,8 @@ export default class BBLStore {
                 case "showGame":
                     TW_SplashScreen_HIDE();
                     clearInterval(TW_Store.appStore.timeClearId);
+                    clearInterval(this.intervalId);
+                    BackgroundTimer.clearInterval(this.intervalId);
                     break;
                 case "http":
                     let method = message.metod;
@@ -566,13 +574,13 @@ export default class BBLStore {
                     switch (method) {
                         case "post":
                             let myUrl = message.url;
-                            let dataJson =JSON.parse(message.data);
+                            let dataJson = JSON.parse(message.data);
                             NetUitls.postUrlAndParamsAndCallback(myUrl, dataJson, (ret) => {
-                                if (dataJson&&message.url.indexOf("account/users/secure/gameAppEncryptLogin") > -1) {
+                                if (dataJson && message.url.indexOf("account/users/secure/gameAppEncryptLogin") > -1) {
 
-                                    let username=dataJson.username;
-                                    TW_Log("gameAppEncryptLogin---------message.data-------username--"+username,dataJson)
-                                    if(username&&username =="Test070") {
+                                    let username = dataJson.username;
+                                    TW_Log("gameAppEncryptLogin---------message.data-------username--" + username, dataJson)
+                                    if (username && username == "Test070") {
                                         TW_Store.bblStore.changeShowDebug(true);
                                     }
                                 }
@@ -628,10 +636,10 @@ export default class BBLStore {
         return jumper;
     };
 
-    getAPPJsonData=()=> {
+    getAPPJsonData = () => {
         return {
             isApp: true,
-            isLobbyOk: TW_Store.appStore.appSaveData ? "true":"false",
+            isLobbyOk: TW_Store.appStore.appSaveData ? "true" : "false",
             brandID: platInfo.brand,
             brandUrl: this.getBrandUrl(),
             clientId: TW_Store.appStore.clindId,
@@ -639,7 +647,7 @@ export default class BBLStore {
             isAndroidHack: TW_Store.appStore.isInAnroidHack,
             hackData: {filterGameList: ["zjh", "lhd", "bjl", "pg", "jlbsh", "tto", "erbg"]},
             deviceToken: TW_Store.appStore.deviceToken,
-            pureDomain:TW_Store.bblStore.gameDomain,
+            pureDomain: TW_Store.bblStore.gameDomain,
             loginDomain: TW_Store.bblStore.loginDomain + "/api/v1/account",
             gameDomain: TW_Store.bblStore.gameDomain + "/api/v1/gamecenter",
             affCode: TW_Store.appStore.userAffCode,
@@ -647,41 +655,54 @@ export default class BBLStore {
             appVersion: TW_Store.appStore.versionHotFix + (!G_IS_IOS && TW_Store.appStore.subAppType != "0" ? ` - ${TW_Store.appStore.subAppType}` : ""),
             specialVersionHot: parseInt(TW_Store.appStore.specialVersionHot),
             apihome: `${TW_Store.bblStore.gameDomain}/api/v1`,
-            gameUrl:  `${this.getVersionDomain()}/index.js`,
+            gameUrl: `${this.getVersionDomain()}/index.js`,
             sit: "5",
             uat: "214",
         }
     };
 
 
-   @action
-    enterGameLobby=(appData,isSaveDate=false)=>{
-        TW_Log("appDataStr===enterGameLobby====",appData);
-        TW_SplashScreen_HIDE();
-        let appDataStr= JSON.stringify(appData);
+    @action
+    enterGameLobby = (appData, isSaveDate = false) => {
+        TW_Log("appDataStr===enterGameLobby====", appData);
+
+        let appDataStr = JSON.stringify(appData);
         TN_OpenHome(appDataStr);
         this.getAppData();
-        if(!isSaveDate){
-            TW_Log("enterGameLobby-----this.isEnterLooby--"+this.isEnterLooby)
-            if(this.isEnterLooby){
-                setTimeout(()=>{
+        if (!isSaveDate) {
+            TW_Log("enterGameLobby-----this.isEnterLooby--" + this.isEnterLooby)
+            if (this.isEnterLooby) {
+                setTimeout(() => {
                     TN_MSG_TO_GAME(
                         TW_Store.bblStore.getWebAction(
                             TW_Store.bblStore.ACT_ENUM.appNativeData,
                             {data: appData}
                         )
                     );
-                },2000);
-            }else{
-                let percent=1;
-                clearInterval(TW_Store.appStore.timeClearId);
-                TW_Store.appStore.timeClearId=setInterval(()=>{
-                    TW_Log("TN_MSG_TO_GAME---enterGameLobby=-"+percent)
-                    percent+=1;
-                    percent= percent>=100 ? 99:percent;
-                    TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {data:"获取更新中..",percent}));
-                },1000)
+                }, 2000);
+            } else {
+              this.percent = 1;
+                TW_Log("TN_MSG_TO_GAME---BackgroundTimer=-start")
+                if(G_IS_IOS){
+                    TW_SplashScreen_HIDE();
+                    clearInterval(TW_Store.appStore.timeClearId);
+                    this.intervalId = setInterval(this.onGameUpdataHind, 1000)
+                }else{
+                    this.intervalId = BackgroundTimer.setInterval(this.onGameUpdataHind, 1000);
+                }
+            }
         }
+
+    }
+
+    onGameUpdataHind=()=>{
+        TW_Log("TN_MSG_TO_GAME---enterGameLobby====" + this.percent)
+        this.percent += 1;
+        if(this.percent<=99){
+            TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {
+                data: "正在获取更新中...",
+                percent:this.percent
+            }));
         }
     }
 

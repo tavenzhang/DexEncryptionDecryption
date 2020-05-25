@@ -113,16 +113,16 @@ global.TN_WechatShare = (text, image, url, title, isPyq,callBack) => {
     );
 };
 
-global.TN_OpenHome = (data) => {
+global.TN_OpenHome = (data="") => {
     if(NativeModules.JXHelper.openNewHome){
         NativeModules.JXHelper.openNewHome(data);
     }
 };
 global.TN_MSG_TO_GAME=(data)=>{
     let str =JSON.stringify(data);
-    TW_Log("TN_MSG_TO_GAME---str====",str);
+    TW_Log("TN_MSG_TO_GAME---===MsgToGame==",data);
     if(NativeModules.JXHelper.msgToGame){
-        NativeModules.JXHelper.msgToGame(JSON.stringify(data));
+        NativeModules.JXHelper.msgToGame(str);
     }
 }
 
