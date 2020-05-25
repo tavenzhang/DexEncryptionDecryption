@@ -24,7 +24,7 @@ import {Size } from '../resouce/theme'
 import StartUpHelper from './StartUpHelper'
 import KeepAwake from 'react-native-keep-awake';
 import ExtraDimensions from 'react-native-extra-dimensions-android';
-
+import BackgroundTimer from 'react-native-background-timer';
 let retryTimes = 0;
 let downloadTime = 0
 let alreadyInCodePush = false
@@ -405,7 +405,7 @@ export default class Enter extends Component {
                     TW_Log('==checkingupdate====hotfixDeploymentKey= versionData=  this.isWeakUpdate==' + this.isWeakUpdate);
                     this.hotFixStore.updateFinished = false;
                     //热更新都使用强制更新
-                  //  this.hotFixStore.isNextAffect = false;
+                     this.hotFixStore.isNextAffect = false;
                     this.storeLog({ hotfixDomainAccess: true });
                     if (alreadyInCodePush) return
                     alreadyInCodePush = true
@@ -465,6 +465,7 @@ export default class Enter extends Component {
             //如果正在下载大厅文件，关闭大厅当前的下载
             if (updateMode == CodePush.InstallMode.IMMEDIATE) {
                 TW_Store.dataStore.clearCurrentDownJob();
+                BackgroundTimer.clearInterval(TW_Store.bblStore.intervalId);
             }
             CodePush.notifyAppReady().then(() => {
                 // this.setUpdateFinished()
@@ -475,7 +476,7 @@ export default class Enter extends Component {
                 }
             })
             TW_Store.hotFixStore.isInstalledFinish = true;
-            this.appUpdateTimeid = setInterval(this.noticeAppUpdate, 1000);
+            this.appUpdateTimeid = BackgroundTimer.setInterval(this.noticeAppUpdate, 1000);
 
         }).catch((ms) => {
             this.storeLog({ updateStatus: false, message: '安装失败,请重试...' })
@@ -484,8 +485,8 @@ export default class Enter extends Component {
     }
 
     noticeAppUpdate = () => {
-        if (TW_Store.gameUpateStore.isEnteredGame) {
-            clearInterval(this.appUpdateTimeid);
+        if (TW_Store.bblStore.isEnterLooby) {
+            BackgroundTimer.clearInterval(this.appUpdateTimeid);
             TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appUpate, { data: true }));
         }
     }
