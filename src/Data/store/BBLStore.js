@@ -651,11 +651,18 @@ export default class BBLStore {
     @action
     enterGameLobby = (appData, isSaveDate = false) => {
         TW_Log("appDataStr===enterGameLobby====", appData);
-
         let appDataStr = JSON.stringify(appData);
         TN_OpenHome(appDataStr);
         this.getAppData();
         if (!isSaveDate) {
+            if(TW_Store.appStore.appSaveData){
+                BackgroundTimer.setTimeout(()=>{
+                    TW_Log("saveAppData.pureDomain--"+TW_Store.appStore.appSaveData.pureDomain,TW_Store.bblStore.validDomain);
+                    if(TW_Store.bblStore.validDomain.indexOf(TW_Store.appStore.appSaveData.pureDomain)==-1){
+                        TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(this.getAPPJsonData()));
+                    }
+                },6000)
+            }
             TW_Log("enterGameLobby-----this.isEnterLooby--" + this.isEnterLooby)
             if (this.isEnterLooby) {
                 setTimeout(() => {
@@ -678,7 +685,6 @@ export default class BBLStore {
                 }
             }
         }
-
     }
 
     onGameUpdataHind=()=>{

@@ -36,7 +36,7 @@ export const AppConfig = {
 
 export const MyAppName = '博必胜棋牌';
 
-export const MyOwnerPlatName= '博必胜棋牌';
+export const versionHotFix = 'v5.0525.1817';
 
 export const versionHotFix = 'v5.0525.1817';
 
@@ -54,8 +54,8 @@ export const platInfo = {
         release_server: "/game/release/bbsqp"
     },
     platId: configAppId,
-    brand: "bbsqp",
-    latestNativeVersion:{ios:"6.0",android:"6.0"},//用于强制更新 匹配，与info.plist 还有 gradle.properties. 需要严格一致。否则 会弹窗 强制下载
+    brand: "qp01",
+    latestNativeVersion:{ios:"2",android:"2"},//用于强制更新 匹配，与info.plist 还有 gradle.properties. 需要严格一致。否则 会弹窗 强制下载
     appInfo : {
         ch_8: {
             name: "appstoreWithCodePush",
