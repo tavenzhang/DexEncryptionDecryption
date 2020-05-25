@@ -235,13 +235,11 @@ export default class Enter extends Component {
 
     //使用默认地址
     firstAttempt(success, allowUpdate, message) {
-        if (success) {
-            this.httpResInit()
-        }
         TW_Log(`first attempt ${success}, ${allowUpdate}, ${message}`);
-        if (success && allowUpdate && this.hotFixStore.allowUpdate) {
-            this.gotoUpdate()
-        } else if (!success && this.hotFixStore.allowUpdate) {//默认地址不可用，使用备份地址
+        if (success) {
+            this.httpResInit(allowUpdate)
+        }
+       if (!success && this.hotFixStore.allowUpdate) {//默认地址不可用，使用备份地址
             StartUpHelper.getAvailableDomain(AppConfig.backupDomains, this.secondAttempt, this.initDomain)
         } else {//不允许更新
             this.hotFixStore.skipUpdate();
@@ -251,11 +249,9 @@ export default class Enter extends Component {
     //使用默认备份地址
     secondAttempt = (success, allowUpdate, message) => {
         if (success) {
-            this.httpResInit()
+            this.httpResInit(allowUpdate)
         }
-        if (success && allowUpdate && this.hotFixStore.allowUpdate) {
-            this.gotoUpdate()
-        } else if (!success && this.hotFixStore.allowUpdate) {//备份地址不可用
+        if (!success && this.hotFixStore.allowUpdate) {//备份地址不可用
             // Toast User to change a better network and retry
             let customerMessage = "当前网络无法更新，可能是请求域名的问题"
             switch (message) {
@@ -290,29 +286,22 @@ export default class Enter extends Component {
 
         TW_Log(`first cacheAttempt ${success}, ${allowUpdate}, ${message}`);
         if (success) {
-            this.httpResInit()
+            this.httpResInit(allowUpdate)
         }
-        if (success && allowUpdate && this.hotFixStore.allowUpdate) {
-            this.gotoUpdate();
-        } else if (!success && this.hotFixStore.allowUpdate) {//缓存地址不可用,使用默认地址
+        else if (!success && this.hotFixStore.allowUpdate) {//缓存地址不可用,使用默认地址
             StartUpHelper.getAvailableDomain(AppConfig.domains, (success, allowUpdate, message) => this.firstAttempt(success, allowUpdate, message), this.initDomain);
         } else {
             this.hotFixStore.skipUpdate();
         }
     }
 
-    httpResInit = () => {
-        let saveAppData=TW_Store.appStore.appSaveData;
+    httpResInit = (allowUpdate=false) => {
+        if(allowUpdate&&this.hotFixStore.allowUpdate){
+            this.gotoUpdate();
+        }
        let newAppData=TW_Store.bblStore.getAPPJsonData();
         TW_Store.bblStore.enterGameLobby(newAppData);
-        if(saveAppData){
-            setTimeout(()=>{
-                TW_Log("saveAppData.gameDomain--"+saveAppData.pureDomain+"--index=="+TW_Store.bblStore.validDomain.indexOf(saveAppData.pureDomain),TW_Store.bblStore.validDomain);
-                if(TW_Store.bblStore.validDomain.indexOf(saveAppData.pureDomain)==-1){
-                    TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(newAppData));
-                }
-            },8000)
-        }
+
     }
 
     //使用从服务器获取的更新地址更新app
