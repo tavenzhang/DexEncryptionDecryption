@@ -380,20 +380,6 @@ export default class BBLStore {
                         }
                     });
                     break;
-                case "nativeStart":
-                    TW_Data_Store.getItem(TW_DATA_KEY.LobbyReadyOK, (err, dataStr)=>{
-                        let gameData=null
-                        try {
-                            gameData=JSON.parse(dataStr)
-                        }catch (e) {
-                            gameData=null
-                        }
-                        if(!gameData){
-                            TW_Log("nativeStart---sava--beugim"+gameData)
-                            TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(this.getAPPJsonData()));
-                        }
-                    });
-                    break;
                 case "game_common":
                     let actions = message.name || message.do;
                     switch (actions) {
