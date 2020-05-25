@@ -14,6 +14,7 @@ import com.jd.invokenative.DplusReactPackage;
 import com.jd.invokenative.RNUMConfigure;
 
 import com.facebook.react.ReactApplication;
+import com.ocetnik.timer.BackgroundTimerPackage;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.reactnativecommunity.cameraroll.CameraRollPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
@@ -78,6 +79,7 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
+            new BackgroundTimerPackage(),
             new NetInfoPackage(),
             new OrientationPackage(),
             new CameraRollPackage(),

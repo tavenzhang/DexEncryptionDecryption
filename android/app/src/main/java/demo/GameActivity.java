@@ -53,7 +53,7 @@ public class GameActivity extends Activity{
         Intent intent=getIntent();
         appData=intent.getStringExtra("homeData");
         try {
-            initEngine();
+            initEngine(appData);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -86,19 +86,22 @@ public class GameActivity extends Activity{
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
     }
-    public void initEngine() throws JSONException {
-        JSONObject jsonObj = new JSONObject(appData);
-        String url =jsonObj.getString("gameUrl");
-        mProxy = new RuntimeProxy(this);
-        mPlugin = new GameEngine(this);
-        mPlugin.game_plugin_set_runtime_proxy(mProxy);
-        mPlugin.game_plugin_set_option("localize","false");
-        mPlugin.game_plugin_set_option("gameUrl", url);
-        mPlugin.game_plugin_init(3);
-        View gameView = mPlugin.game_plugin_get_view();
-        this.setContentView(gameView);
-        isLoad=true;
-
+    public void initEngine(String gameJson) throws JSONException {
+       // Log.d("postToGame==sLoad"+(isLoad ? "true":"false"),"true");
+        if(!isLoad){
+            JSONObject jsonObj = new JSONObject(gameJson);
+            String url =jsonObj.getString("gameUrl");
+           // Log.d("postToGame==initEngine",url);
+            mProxy = new RuntimeProxy(this);
+            mPlugin = new GameEngine(this);
+            mPlugin.game_plugin_set_runtime_proxy(mProxy);
+            mPlugin.game_plugin_set_option("localize","false");
+            mPlugin.game_plugin_set_option("gameUrl", url);
+            mPlugin.game_plugin_init(3);
+            View gameView = mPlugin.game_plugin_get_view();
+            this.setContentView(gameView);
+            isLoad=true;
+        }
     }
     public  boolean isOpenNetwork(Context context)
     {
@@ -168,20 +171,20 @@ public class GameActivity extends Activity{
     public void checkApkUpdate(Context context) {
         InputStream inputStream = getClass().getResourceAsStream("/assets/config.ini");
         config.GetInstance().init(inputStream);
-        checkApkUpdate(context,new ValueCallback<Integer>() {
-            @Override
-            public void onReceiveValue(Integer integer) {
-                if (integer.intValue() == 1) {
-                    try {
-                        initEngine();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    finish();
-                }
-            }
-        });
+//        checkApkUpdate(context,new ValueCallback<Integer>() {
+//            @Override
+//            public void onReceiveValue(Integer integer) {
+//                if (integer.intValue() == 1) {
+////                    try {
+////                       // initEngine();
+////                    } catch (JSONException e) {
+////                        e.printStackTrace();
+////                    }
+//                } else {
+//                    finish();
+//                }
+//            }
+//        });
     }
     public void onActivityResult(int requestCode, int resultCode,Intent intent) {
         if (requestCode == AR_CHECK_UPDATE) {

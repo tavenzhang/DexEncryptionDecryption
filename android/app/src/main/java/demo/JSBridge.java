@@ -105,6 +105,7 @@ public class JSBridge {
                                 case "JumpThirdGame"://跳转第三方游戏
                                    // JSBridge.jumpRN("");
                                     break;
+
                             }
                             String alertStr = "alert(\'" + action + "\')";
                             //ConchJNI.RunJS(alertStr);
@@ -118,9 +119,64 @@ public class JSBridge {
     }
 
 
-    public static void postToGame(final String actionData) {
-        String postAction = "nativeMessage(" + actionData + ")";
-        ConchJNI.RunJS(postAction);
+    public static void postToGame(String actionData) {
+        m_Handler.post(
+                new Runnable() {
+                    public void run() {
+                        Log.d("postToGame==m_Handler=", actionData);
+                        String postAction = "nativeMessage(" + actionData + ")";
+                        JSONObject json_test = null;
+                        try {
+                            json_test = new JSONObject(actionData);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        String action = null;
+                        try {
+                            action = json_test.getString("action");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        switch (action) {
+                            case "runJS":
+                                String gameJson = null;
+                                try {
+                                    gameJson = json_test.getString("gameData");
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                //重新启动gameAcitve 使用最新的域名
+                                GameActivity.mainInstance.finish();
+                                JSBridge.jumpHome(gameJson);
+                                break;
+                            case "loadingView":
+                                String labelData = null;
+                                try {
+                                    labelData = json_test.getString("data");
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                if(labelData != null){
+                                    String[] str = {labelData};
+                                    GameActivity.mSplashDialog.setTips(str);
+                                }
+                                String percent = null;
+                                try {
+                                    percent = json_test.getString("percent");
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                if(percent !=null){
+                                    GameActivity.mSplashDialog.setPercent(Integer.parseInt(percent));
+                                }
+                                break;
+                            default:
+                                ConchJNI.RunJS(postAction);
+                                break;
+                        }
+                    }});
+
       //  Toast.makeText(GameActivity.mainInstance, postAction, Toast.LENGTH_SHORT).show();
     }
 

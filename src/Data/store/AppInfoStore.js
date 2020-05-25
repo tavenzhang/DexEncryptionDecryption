@@ -174,15 +174,18 @@ export default class AppInfoStore {
             }else{
                // TW_Store.bblStore.enterGameLobby(TW_Store.bblStore.getAPPJsonData(),true);
                 let percent=1
-                TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {data: "正在初始化数据 "}));
-               this.timeClearId=setInterval(()=>{
-                    //TW_Log("TN_MSG_TO_GAME---percent-"+percent)
-                    percent+=1;
-                    percent= percent>=100 ? 99:percent;
-                    TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {percent}));
-                },500)
+               //  TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {data: "正在初始化数据 ",percent}));
+               // this.timeClearId=setInterval(()=>{
+               //      //TW_Log("TN_MSG_TO_GAME---percent-"+percent)
+               //      percent+=1;
+               //      percent= percent>=100 ? 99:percent;
+               //      TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {percent}));
+               //  },500)
             }
         })
+        // if(!G_IS_IOS){
+        //     TN_OpenHome("")
+        // }
     }
 
 
