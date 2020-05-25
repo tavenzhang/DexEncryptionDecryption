@@ -32,7 +32,7 @@ import JXDomainsHelper from "../../Common/JXHelper/JXDomainsHelper";
 import {AppConfig, platInfo} from "../../config/appConfig";
 import { JX_PLAT_INFO } from "../asset";
 import { SoundHelper } from "../../Common/JXHelper/SoundHelper";
-import FileTools from "../../Common/Global/FileTools";
+
 
 let domainsHelper = new JXDomainsHelper();
 let appInfoStore = TW_Store.appStore;
@@ -124,13 +124,12 @@ export default class Enter extends Component {
                 }
             }
 
-            if (TW_Store.gameUIStroe.wxShareHandle.isShareIng) {
-                if (TW_Store.gameUIStroe.wxShareHandle.callback) {
-                    TW_Store.gameUIStroe.wxShareHandle.callback();
-                    TW_Store.gameUIStroe.wxShareHandle.isShareIng = false;
-                }
-            }
-
+            // if (TW_Store.gameUIStroe.wxShareHandle.isShareIng) {
+            //     if (TW_Store.gameUIStroe.wxShareHandle.callback) {
+            //         TW_Store.gameUIStroe.wxShareHandle.callback();
+            //         TW_Store.gameUIStroe.wxShareHandle.isShareIng = false;
+            //     }
+            // }
             this.flage = false;
         } else if (nextAppState != null && nextAppState === 'background') {
             TW_Store.dataStore.log += "\nAppStateChange-background\n";
