@@ -347,7 +347,7 @@ export default class BBLStore {
                     if (this.domainRetry <= 3) {
                         let appDataJson=this.getAPPJsonData();
                         let gameDomainStar = `appCallBack('${appDataJson.gameUrl}')`;
-                        TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, "");
+                        TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, "null");
                         TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.runJS, {data: gameDomainStar,gameData:JSON.stringify(appDataJson)}));
                     } else {
                         TN_JUMP_RN();
@@ -655,14 +655,14 @@ export default class BBLStore {
         TN_OpenHome(appDataStr);
         this.getAppData();
         if (!isSaveDate) {
-            if(TW_Store.appStore.appSaveData){
-                BackgroundTimer.setTimeout(()=>{
-                    TW_Log("saveAppData.pureDomain--"+TW_Store.appStore.appSaveData.pureDomain,TW_Store.bblStore.validDomain);
-                    if(TW_Store.bblStore.validDomain.indexOf(TW_Store.appStore.appSaveData.pureDomain)==-1){
-                        TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(this.getAPPJsonData()));
-                    }
-                },6000)
-            }
+            // if(TW_Store.appStore.appSaveData){
+            //     BackgroundTimer.setTimeout(()=>{
+            //         TW_Log("saveAppData.pureDomain--"+TW_Store.appStore.appSaveData.pureDomain,TW_Store.bblStore.validDomain);
+            //         if(TW_Store.bblStore.validDomain.indexOf(TW_Store.appStore.appSaveData.pureDomain)==-1){
+            //             TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(this.getAPPJsonData()));
+            //         }
+            //     },6000)
+            // }
             TW_Log("enterGameLobby-----this.isEnterLooby--" + this.isEnterLooby)
             if (this.isEnterLooby) {
                 setTimeout(() => {
