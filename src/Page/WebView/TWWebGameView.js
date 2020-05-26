@@ -237,6 +237,15 @@ export default class TWWebGameView extends Component {
                     TW_Store.userStore.exitAppToLoginPage();
                     TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.logout));
                     break;
+                case "gtest":
+                    let status=message.status
+                    if(`${status}`=="sucess"){
+                        TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.gtestBack, {data: message.data}));
+                    }else{
+                        TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.popTip, {data: "请正确的输入验证码!"}));
+                    }
+                    this.onBackHomeJs();
+                    break;
 
             }
         }
