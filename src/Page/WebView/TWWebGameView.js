@@ -154,12 +154,14 @@ export default class TWWebGameView extends Component {
     }
 
     onLoadEnd = (event) => {
-        let {url, isOrigan} = this.props;
+        let {url, isOrigan,isGtestWeb} = this.props;
         if (url && url.length > 0) {
             TW_SplashScreen_HIDE();
         }
         // TW_Log("onLoadEnd=TCweb==========event===== TW_Store.bblStore.isOrigan--" + isOrigan, url)
-        this.onEnterGame();
+        if(!isGtestWeb){
+            this.onEnterGame();
+        }
 
     }
 
@@ -187,6 +189,7 @@ export default class TWWebGameView extends Component {
     }
 
     onMsgHandle = (message) => {
+        let {isGtestWeb} = this.props;
         TW_Log("onMessage===========" + this.constructor.name, message);
         let url = "";
         if (message && message.action) {
@@ -240,13 +243,20 @@ export default class TWWebGameView extends Component {
                     TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.logout));
                     break;
                 case "gtest":
-                    let status=message.status
-                    if(`${status}`=="sucess"){
-                        TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.gtestBack, {data: message.data}));
-                    }else{
-                        TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.popTip, {data: "请正确的输入验证码!"}));
+                    let status=message.status;
+                    switch (status) {
+                        case "start":
+                            this.onEnterGame();
+                            break;
+                        case "sucess":
+                            TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.gtestBack, {data: message.data}));
+                            this.onBackHomeJs()
+                            break;
+                        default:
+                            TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.popTip, {data: "请正确的输入验证码!"}));
+                            this.onBackHomeJs()
+                            break;
                     }
-                    this.onBackHomeJs();
                     break;
             }
         }
