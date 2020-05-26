@@ -232,7 +232,8 @@ export default class BBLStore {
         appUpate: 'appUpate',
         game_recharge: "game_recharge",
         runJS: "runJS",
-        loadingView: "loadingView"
+        loadingView: "loadingView",
+        gtestBack:"gtestBack"
     };
 
     //bgm.mp3 click.mp3 close.mp3 flopleft.mp3 flopright.mp3 recharge.mp3 rightbottomclose.mp3 showlogo.mp3
@@ -341,13 +342,14 @@ export default class BBLStore {
     onMsgHandle = msg => {
         let message = JSON.parse(msg);
         TW_Log('onMessage======GameLobby=====>>' + '\n', message);
+        let appDataJson=null;
         if (message && message.action) {
             switch (message.action) {
                 case "gameUrlError":
                     if (this.domainRetry <= 3) {
                         let appDataJson=this.getAPPJsonData();
                         let gameDomainStar = `appCallBack('${appDataJson.gameUrl}')`;
-                        TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, "");
+                        TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, "null");
                         TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.runJS, {data: gameDomainStar,gameData:JSON.stringify(appDataJson)}));
                     } else {
                         TN_JUMP_RN();
@@ -512,6 +514,20 @@ export default class BBLStore {
                                 TN_JUMP_RN();
                             }
                             break;
+                        case "gtest":
+                            appDataJson=this.getAPPJsonData();
+                            let params = message.params;
+                            let url=appDataJson.gameUrl.replace("/index.js","/gtest.html")
+                             url=`${url}?${params}`
+                            if (TW_Store.bblStore.lastGameUrl != url) {
+                                TW_Store.bblStore.lastGameUrl = url;
+                                TW_Store.bblStore.subGameParams = {
+                                    url,
+                                    isOrigan: true,
+                                    isThirdGame: true,
+                                    isGtestWeb:true
+                                };
+                            }
                     }
                     break;
                 case "JumpGame":
@@ -527,8 +543,6 @@ export default class BBLStore {
                     if (G_IS_IOS) {
                         url = url.replace("file://", "");
                     }
-
-
                     TW_Store.bblStore.subGameParams = {
                         url,
                         isOrigan,
@@ -655,14 +669,14 @@ export default class BBLStore {
         TN_OpenHome(appDataStr);
         this.getAppData();
         if (!isSaveDate) {
-            if(TW_Store.appStore.appSaveData){
-                BackgroundTimer.setTimeout(()=>{
-                    TW_Log("saveAppData.pureDomain--"+TW_Store.appStore.appSaveData.pureDomain,TW_Store.bblStore.validDomain);
-                    if(TW_Store.bblStore.validDomain.indexOf(TW_Store.appStore.appSaveData.pureDomain)==-1){
-                        TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(this.getAPPJsonData()));
-                    }
-                },6000)
-            }
+            // if(TW_Store.appStore.appSaveData){
+            //     BackgroundTimer.setTimeout(()=>{
+            //         TW_Log("saveAppData.pureDomain--"+TW_Store.appStore.appSaveData.pureDomain,TW_Store.bblStore.validDomain);
+            //         if(TW_Store.bblStore.validDomain.indexOf(TW_Store.appStore.appSaveData.pureDomain)==-1){
+            //             TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(this.getAPPJsonData()));
+            //         }
+            //     },6000)
+            // }
             TW_Log("enterGameLobby-----this.isEnterLooby--" + this.isEnterLooby)
             if (this.isEnterLooby) {
                 setTimeout(() => {
