@@ -25,10 +25,12 @@ export default class TWWebGameView extends Component {
 
     static propTypes = {
         data: PropTypes.func,
-        isShow: PropTypes.any
+        isShow: PropTypes.any,
+        isGtestWeb: PropTypes.any
     }
     static defaultProps = {
-        title: ''
+        title: '',
+        isGtestWeb:false
     };
 
     constructor(state) {
@@ -48,7 +50,7 @@ export default class TWWebGameView extends Component {
     }
 
     render() {
-        let {isOrigan, url, isThirdGame} = this.props;
+        let {isOrigan, url, isThirdGame,isGtestWeb} = this.props;
    ;
         let myUrl = url;
         if (url == "") {
@@ -121,7 +123,7 @@ export default class TWWebGameView extends Component {
                     alignItems: "center", backgroundColor: "transparent"
                 }}>
                 </View>}
-                {isThirdGame && <GameMenuButton itransEnabled={"ON"}
+                {isThirdGame&&!isGtestWeb && <GameMenuButton itransEnabled={"ON"}
                                                 onPressExit={this.onClickMenu}/>}
 
                 {this.state.isShowExitAlertView && <ExitGameAlertView
@@ -246,7 +248,6 @@ export default class TWWebGameView extends Component {
                     }
                     this.onBackHomeJs();
                     break;
-
             }
         }
     }

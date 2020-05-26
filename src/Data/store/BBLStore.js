@@ -524,7 +524,8 @@ export default class BBLStore {
                                 TW_Store.bblStore.subGameParams = {
                                     url,
                                     isOrigan: true,
-                                    isThirdGame: true
+                                    isThirdGame: true,
+                                    isGtestWeb:true
                                 };
                             }
                     }
