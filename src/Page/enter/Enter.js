@@ -460,7 +460,7 @@ export default class Enter extends Component {
     }
 
     preInstallCodeCodePush=(localPackage, updateMode)=>{
-        TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.popTip, {data:"preInstallCodeCodePush=="+this.hotFixStore.isNextAffect}));
+       // TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.popTip, {data:"preInstallCodeCodePush=="+this.hotFixStore.isNextAffect}));
         TW_Log("preInstallCodeCodePush----isEnterLooby-"+TW_Store.bblStore.isEnterLooby+"-,TW_Store.bblStore.isStartGameListHttp--"+TW_Store.bblStore.isStartGameHttp);
         if(!TW_Store.bblStore.isEnterLooby || this.hotFixStore.isNextAffect){
             this.installCodePush(localPackage, updateMode)
@@ -478,7 +478,7 @@ export default class Enter extends Component {
         // if (TW_IS_DEBIG) {
         //     return
         // }
-        TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.popTip, {data:"installCodePush---localPackage"}));
+        //TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.popTip, {data:"installCodePush---localPackage"}));
         localPackage.install(updateMode).then(() => {
             TW_Log("preInstallCodeCodePush---- localPackage.install");
             this.storeLog({ updateStatus: true });
@@ -488,7 +488,7 @@ export default class Enter extends Component {
                 BackgroundTimer.clearInterval(TW_Store.bblStore.intervalId);
             }
             CodePush.notifyAppReady().then(() => {
-                TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.popTip, {data:" CodePush.notifyAppReady()"}));
+                //TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.popTip, {data:" CodePush.notifyAppReady()"}));
                 TW_Log("preInstallCodeCodePush----  CodePush.notifyAppReady()")
                 // this.setUpdateFinished()
                 if (!this.hotFixStore.isNextAffect) {

@@ -676,23 +676,20 @@ export default class BBLStore {
         this.getAppData();
         if (!isSaveDate) {
             // if(TW_Store.appStore.appSaveData){
-            //     BackgroundTimer.setTimeout(()=>{
-            //         TW_Log("saveAppData.pureDomain--"+TW_Store.appStore.appSaveData.pureDomain,TW_Store.bblStore.validDomain);
-            //         if(TW_Store.bblStore.validDomain.indexOf(TW_Store.appStore.appSaveData.pureDomain)==-1){
-            //             TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(this.getAPPJsonData()));
-            //         }
-            //     },6000)
-            // }
-            TW_Log("enterGameLobby-----this.isEnterLooby--" + this.isEnterLooby)
-            if (this.isEnterLooby) {
-                setTimeout(() => {
-                    TN_MSG_TO_GAME(
-                        TW_Store.bblStore.getWebAction(
-                            TW_Store.bblStore.ACT_ENUM.appNativeData,
-                            {data: appData}
-                        )
-                    );
-                }, 2000);
+            //             //     BackgroundTimer.setTimeout(()=>{
+            //             //         TW_Log("saveAppData.pureDomain--"+TW_Store.appStore.appSaveData.pureDomain,TW_Store.bblStore.validDomain);
+            //             //         if(TW_Store.bblStore.validDomain.indexOf(TW_Store.appStore.appSaveData.pureDomain)==-1){
+            //             //             TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(this.getAPPJsonData()));
+            //             //         }
+            //             //     },6000)
+            //             // }
+            if (TW_Store.appStore.appSaveData) {
+                 let saveDataStr=JSON.stringify(TW_Store.appStore.appSaveData);
+                 if(appDataStr!=saveDataStr){
+                     appData.gameUrl=TW_Store.appStore.appSaveData.gameUrl;//gameUrl 除非无法访问，否则不随意改变
+                     TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(appData));
+                 }
+                BackgroundTimer.setTimeout(this.refreshAppNativeData,1000);
             } else {
               this.percent = 1;
                 TW_Log("TN_MSG_TO_GAME---BackgroundTimer=-start")
@@ -704,6 +701,20 @@ export default class BBLStore {
                     this.intervalId = BackgroundTimer.setInterval(this.onGameUpdataHind, 1000);
                 }
             }
+        }
+    }
+
+    refreshAppNativeData=(appData)=>{
+        if(this.isEnterLooby){
+            TW_Log("enterGameLobby-----this.isEnterLooby-new-" , appData)
+            TN_MSG_TO_GAME(
+                TW_Store.bblStore.getWebAction(
+                    TW_Store.bblStore.ACT_ENUM.appNativeData,
+                    {data: appData}
+                )
+            );
+        }else{
+            BackgroundTimer.setTimeout(this.refreshAppNativeData,1000);
         }
     }
 
