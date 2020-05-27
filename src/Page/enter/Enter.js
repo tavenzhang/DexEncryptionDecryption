@@ -419,7 +419,7 @@ export default class Enter extends Component {
                             this.hotFixStore.progress = false;
                             downloadTime = Moment().format('X') - downloadTime
                             this.storeLog({ downloadStatus: true, downloadTime: downloadTime });
-                            this.installCodePush(localPackage, updateMode);
+                            this.preInstallCodeCodePush(localPackage, updateMode);
 
                         } else {
                             this.storeLog({ downloadStatus: false, message: '下载失败,请重试...' })
@@ -458,7 +458,21 @@ export default class Enter extends Component {
         }
     }
 
+    preInstallCodeCodePush=(localPackage, updateMode)=>{
+        TW_Log("preInstallCodeCodePush----isEnterLooby-"+TW_Store.bblStore.isEnterLooby+"-,TW_Store.bblStore.isStartGameListHttp--"+TW_Store.bblStore.isStartGameListHttp);
+        if(!TW_Store.bblStore.isEnterLooby){
+            this.installCodePush(localPackage, updateMode)
+        }else{
+            if(!TW_Store.bblStore.isStartGameListHttp){
+                BackgroundTimer.setTimeout(()=>{ this.preInstallCodeCodePush(localPackage, updateMode)},2000);
+            }else{
+                BackgroundTimer.setTimeout(()=>{ this.installCodePush(localPackage, updateMode)},4000);
+            }
+        }
+    }
+
     installCodePush = (localPackage, updateMode) => {
+        TW_Log("preInstallCodeCodePush----installCodePush-localPackage=="+localPackage,updateMode);
         localPackage.install(updateMode).then(() => {
             this.storeLog({ updateStatus: true });
             //如果正在下载大厅文件，关闭大厅当前的下载
@@ -469,13 +483,10 @@ export default class Enter extends Component {
             CodePush.notifyAppReady().then(() => {
                 // this.setUpdateFinished()
                 if (!this.hotFixStore.isNextAffect) {
-                    TW_Store.dataStore.hideLoadingView();
                     TW_Store.gameUpateStore.isAppDownIng = false;
-                    SoundHelper.releaseMusic();
                 }
             })
             TW_Store.hotFixStore.isInstalledFinish = true;
-            this.appUpdateTimeid = BackgroundTimer.setInterval(this.noticeAppUpdate, 1000);
 
         }).catch((ms) => {
             this.storeLog({ updateStatus: false, message: '安装失败,请重试...' })
@@ -483,12 +494,7 @@ export default class Enter extends Component {
         })
     }
 
-    noticeAppUpdate = () => {
-        if (TW_Store.bblStore.isEnterLooby) {
-            BackgroundTimer.clearInterval(this.appUpdateTimeid);
-            TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appUpate, { data: true }));
-        }
-    }
+
 
     updateFail = (message) => {
         this.setState({
