@@ -43,6 +43,8 @@ export default class BBLStore {
 
     domainRetry = 0;
 
+    refreshAppRetry=0;
+
     percent=1;
 
     intervalId=null;
@@ -574,7 +576,6 @@ export default class BBLStore {
                     break;
                 case "http":
                     let method = message.metod;
-                    this.isStartGameHttp=true;
                     method = method ? method.toLowerCase() : "get";
                     switch (method) {
                         case "post":
@@ -600,6 +601,9 @@ export default class BBLStore {
                                 let access_token = TW_GetQueryString("access_token", message.url);
                                 if (ret.rs && access_token && access_token != "") {
                                     TW_Store.userStore.initLoginToken(access_token);
+                                }
+                                if(message.url.indexOf("api/v1/ug/systems/security/init") > -1) {
+                                    this.isStartGameHttp=true;
                                 }
                             }, 10, false, false, true, this.onParamHead(message.header));
                             break;
@@ -714,7 +718,11 @@ export default class BBLStore {
                 )
             );
         }else{
-            BackgroundTimer.setTimeout(()=>this.refreshAppNativeData(appData),1000);
+            this.refreshAppRetry+=1
+            if(this.refreshAppRetry<20){
+                BackgroundTimer.setTimeout(()=>this.refreshAppNativeData(appData),1000);
+            }
+
         }
     }
 

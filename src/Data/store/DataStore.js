@@ -615,7 +615,7 @@ export default class DataStore {
     }
 
     onSaveGameData = () => {
-        TW_Log("FileTools------onSaveGameData===", TW_Store.dataStore.appGameListM);
+      //  TW_Log("FileTools------onSaveGameData===", TW_Store.dataStore.appGameListM);
         TW_Data_Store.setItem(TW_DATA_KEY.gameList, JSON.stringify(TW_Store.dataStore.appGameListM))
     }
 
