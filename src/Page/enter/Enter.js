@@ -269,7 +269,7 @@ export default class Enter extends Component {
                 default:
                     break
             }
-            this.storeLog({ faileMessage: customerMessage });
+           // this.storeLog({ faileMessage: customerMessage });
             this.hotFixStore.updateFailMsg(customerMessage);
             this.reloadAppDomain()
         } else {
@@ -403,16 +403,14 @@ export default class Enter extends Component {
 
                     TW_Log('==checkingupdate====hotfixDeploymentKey= versionData=  this.isWeakUpdate==' + this.isWeakUpdate);
                     this.hotFixStore.updateFinished = false;
-                    //热更新都使用强制更新
-                   //  this.hotFixStore.isNextAffect = false;
-
                     this.storeLog({ hotfixDomainAccess: true });
                     if (alreadyInCodePush) return
                     alreadyInCodePush = true
-                    let updateMode = this.hotFixStore.isNextAffect ? CodePush.InstallMode.ON_NEXT_RESTART : CodePush.InstallMode.IMMEDIATE;
+                    let updateMode = CodePush.InstallMode.ON_NEXT_RESTART ;
                     if (TW_IS_DEBIG) {
                         return
                     }
+                    TW_Log("preInstallCodeCodePush--  update.download");
                     update.download(this.codePushDownloadDidProgress).then((localPackage) => {
                         alreadyInCodePush = false;
                         if (localPackage) {
@@ -420,7 +418,8 @@ export default class Enter extends Component {
                             this.hotFixStore.progress = false;
                             downloadTime = Moment().format('X') - downloadTime
                             this.storeLog({ downloadStatus: true, downloadTime: downloadTime });
-                            this.preInstallCodeCodePush(localPackage, updateMode);
+                            this.installCodePush(localPackage, updateMode);
+                            this.isRestartNowFun();
 
                         } else {
                             this.storeLog({ downloadStatus: false, message: '下载失败,请重试...' })
@@ -459,22 +458,33 @@ export default class Enter extends Component {
         }
     }
 
-    preInstallCodeCodePush=(localPackage, updateMode)=>{
-        TW_Log("preInstallCodeCodePush----isEnterLooby-"+TW_Store.bblStore.isEnterLooby+"-,TW_Store.bblStore.isStartGameListHttp--"+TW_Store.bblStore.isStartGameHttp);
-        if(!TW_Store.bblStore.isEnterLooby || this.hotFixStore.isNextAffect){
-            this.installCodePush(localPackage, updateMode)
-        }else{
-            if(!TW_Store.bblStore.isStartGameHttp){
-                BackgroundTimer.setTimeout(()=>{ this.preInstallCodeCodePush(localPackage, updateMode)},2000);
+    isRestartNowFun=()=>{
+        //再根据情况判断是否需要需要马上重启
+        if(!this.hotFixStore.isNextAffect){
+            if(!TW_Store.bblStore.isEnterLooby){
+               this.onCodePushReStart();
             }else{
-                BackgroundTimer.setTimeout(()=>{ this.installCodePush(localPackage, updateMode)},6000);
+                if(TW_Store.bblStore.isStartGameHttp){
+                    BackgroundTimer.setTimeout(this.onCodePushReStart,3000);
+                }else{
+                    BackgroundTimer.setTimeout(this.isRestartNowFun,2000);
+                }
             }
         }
     }
 
+    onCodePushReStart=()=>{
+        if(TW_Store.hotFixStore.isInstalledFinish){
+            CodePush.restartApp();
+        }else{
+            BackgroundTimer.setTimeout(this.onCodePushReStart,1000);
+        }
+    }
+
     installCodePush = (localPackage, updateMode) => {
-        TW_Log("preInstallCodeCodePush----installCodePush-localPackage=="+localPackage,updateMode);
+        TW_Log("preInstallCodeCodePush----installCodePush-localPackage=="+localPackage+"--updateMode=="+this.hotFixStore.isNextAffect,localPackage);
         localPackage.install(updateMode).then(() => {
+            TW_Log("preInstallCodeCodePush---- localPackage.install");
             this.storeLog({ updateStatus: true });
             //如果正在下载大厅文件，关闭大厅当前的下载
             if (updateMode == CodePush.InstallMode.IMMEDIATE) {
@@ -482,14 +492,17 @@ export default class Enter extends Component {
                 BackgroundTimer.clearInterval(TW_Store.bblStore.intervalId);
             }
             CodePush.notifyAppReady().then(() => {
+                TW_Log("preInstallCodeCodePush----  CodePush.notifyAppReady()")
                 // this.setUpdateFinished()
                 if (!this.hotFixStore.isNextAffect) {
                     TW_Store.gameUpateStore.isAppDownIng = false;
                 }
+                TW_Store.hotFixStore.isInstalledFinish = true;
             })
-            TW_Store.hotFixStore.isInstalledFinish = true;
+
 
         }).catch((ms) => {
+            TW_Log("preInstallCodeCodePush----  安装失败,请重试")
             this.storeLog({ updateStatus: false, message: '安装失败,请重试...' })
             this.updateFail('安装失败,请重试...')
         })

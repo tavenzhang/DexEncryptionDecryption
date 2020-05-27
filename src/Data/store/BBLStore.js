@@ -43,6 +43,8 @@ export default class BBLStore {
 
     domainRetry = 0;
 
+    refreshAppRetry=0;
+
     percent=1;
 
     intervalId=null;
@@ -574,7 +576,6 @@ export default class BBLStore {
                     break;
                 case "http":
                     let method = message.metod;
-                    this.isStartGameHttp=true;
                     method = method ? method.toLowerCase() : "get";
                     switch (method) {
                         case "post":
@@ -600,6 +601,9 @@ export default class BBLStore {
                                 let access_token = TW_GetQueryString("access_token", message.url);
                                 if (ret.rs && access_token && access_token != "") {
                                     TW_Store.userStore.initLoginToken(access_token);
+                                }
+                                if(message.url.indexOf("api/v1/ug/systems/security/init") > -1) {
+                                    this.isStartGameHttp=true;
                                 }
                             }, 10, false, false, true, this.onParamHead(message.header));
                             break;
@@ -676,23 +680,20 @@ export default class BBLStore {
         this.getAppData();
         if (!isSaveDate) {
             // if(TW_Store.appStore.appSaveData){
-            //     BackgroundTimer.setTimeout(()=>{
-            //         TW_Log("saveAppData.pureDomain--"+TW_Store.appStore.appSaveData.pureDomain,TW_Store.bblStore.validDomain);
-            //         if(TW_Store.bblStore.validDomain.indexOf(TW_Store.appStore.appSaveData.pureDomain)==-1){
-            //             TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(this.getAPPJsonData()));
-            //         }
-            //     },6000)
-            // }
-            TW_Log("enterGameLobby-----this.isEnterLooby--" + this.isEnterLooby)
-            if (this.isEnterLooby) {
-                setTimeout(() => {
-                    TN_MSG_TO_GAME(
-                        TW_Store.bblStore.getWebAction(
-                            TW_Store.bblStore.ACT_ENUM.appNativeData,
-                            {data: appData}
-                        )
-                    );
-                }, 2000);
+            //             //     BackgroundTimer.setTimeout(()=>{
+            //             //         TW_Log("saveAppData.pureDomain--"+TW_Store.appStore.appSaveData.pureDomain,TW_Store.bblStore.validDomain);
+            //             //         if(TW_Store.bblStore.validDomain.indexOf(TW_Store.appStore.appSaveData.pureDomain)==-1){
+            //             //             TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(this.getAPPJsonData()));
+            //             //         }
+            //             //     },6000)
+            //             // }
+            if (TW_Store.appStore.appSaveData) {
+                 let saveDataStr=JSON.stringify(TW_Store.appStore.appSaveData);
+                 if(appDataStr!=saveDataStr){
+                     appData.gameUrl=TW_Store.appStore.appSaveData.gameUrl;//gameUrl 除非无法访问，否则不随意改变
+                     TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(appData));
+                 }
+                BackgroundTimer.setTimeout(()=>this.refreshAppNativeData(appData),1000);
             } else {
               this.percent = 1;
                 TW_Log("TN_MSG_TO_GAME---BackgroundTimer=-start")
@@ -704,6 +705,24 @@ export default class BBLStore {
                     this.intervalId = BackgroundTimer.setInterval(this.onGameUpdataHind, 1000);
                 }
             }
+        }
+    }
+
+    refreshAppNativeData=(appData)=>{
+        if(this.isEnterLooby){
+            TW_Log("enterGameLobby-----this.isEnterLooby-new-" , appData)
+            TN_MSG_TO_GAME(
+                TW_Store.bblStore.getWebAction(
+                    TW_Store.bblStore.ACT_ENUM.appNativeData,
+                    {data: appData}
+                )
+            );
+        }else{
+            this.refreshAppRetry+=1
+            if(this.refreshAppRetry<20){
+                BackgroundTimer.setTimeout(()=>this.refreshAppNativeData(appData),1000);
+            }
+
         }
     }
 
