@@ -592,9 +592,6 @@ export default class BBLStore {
                                     }
                                 }
                             }
-                            if(message.url.indexOf("api/v1/gamecenter/player/game/list") > -1) {
-                                this.isStartGameListHttp=true;
-                            }
                             break
                         case "get":
                             NetUitls.getUrlAndParamsAndCallback(message.url, JSON.parse(message.data), (ret) => {
@@ -602,6 +599,9 @@ export default class BBLStore {
                                 let access_token = TW_GetQueryString("access_token", message.url);
                                 if (ret.rs && access_token && access_token != "") {
                                     TW_Store.userStore.initLoginToken(access_token);
+                                }
+                                if(message.url.indexOf("api/v1/gamecenter/player/game/list") > -1) {
+                                    this.isStartGameListHttp=true;
                                 }
                             }, 10, false, false, true, this.onParamHead(message.header));
                             break;

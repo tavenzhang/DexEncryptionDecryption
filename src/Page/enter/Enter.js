@@ -459,6 +459,7 @@ export default class Enter extends Component {
     }
 
     preInstallCodeCodePush=(localPackage, updateMode)=>{
+        TW_Log("preInstallCodeCodePush----isEnterLooby-"+TW_Store.bblStore.isEnterLooby+"-,TW_Store.bblStore.isStartGameListHttp--"+TW_Store.bblStore.isStartGameListHttp);
         if(!TW_Store.bblStore.isEnterLooby){
             this.installCodePush(localPackage, updateMode)
         }else{
@@ -471,6 +472,7 @@ export default class Enter extends Component {
     }
 
     installCodePush = (localPackage, updateMode) => {
+        TW_Log("preInstallCodeCodePush----installCodePush-localPackage=="+localPackage,updateMode);
         localPackage.install(updateMode).then(() => {
             this.storeLog({ updateStatus: true });
             //如果正在下载大厅文件，关闭大厅当前的下载
