@@ -413,6 +413,7 @@ export default class Enter extends Component {
                     if (TW_IS_DEBIG) {
                         return
                     }
+                    TW_Log("preInstallCodeCodePush--  update.download");
                     update.download(this.codePushDownloadDidProgress).then((localPackage) => {
                         alreadyInCodePush = false;
                         if (localPackage) {
@@ -473,7 +474,10 @@ export default class Enter extends Component {
     }
 
     installCodePush = (localPackage, updateMode) => {
-        TW_Log("preInstallCodeCodePush----installCodePush-localPackage=="+localPackage,updateMode);
+        TW_Log("preInstallCodeCodePush----installCodePush-localPackage=="+localPackage+"--updateMode=="+this.hotFixStore.isNextAffect);
+        // if (TW_IS_DEBIG) {
+        //     return
+        // }
         localPackage.install(updateMode).then(() => {
             this.storeLog({ updateStatus: true });
             //如果正在下载大厅文件，关闭大厅当前的下载
