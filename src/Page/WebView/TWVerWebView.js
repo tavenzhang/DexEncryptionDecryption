@@ -56,6 +56,7 @@ export default class TWVerWebView extends Component {
         };
         this.bblStore = TW_Store.bblStore;
         this.curMarginBottom=0;
+        this.isQuitGame=false;
         TW_Store.appStore.lockToProrit();
         if(G_IS_IOS){
             TW_Store.bblStore.enterSubGame();
@@ -169,7 +170,6 @@ export default class TWVerWebView extends Component {
             }
         }
         return false
-
     };
 
     onBackAndroid = () => {
@@ -200,8 +200,9 @@ export default class TWVerWebView extends Component {
     };
 
     onLoadEnd = (event) => {
+        TW_Log("TWThirdWebView===========onLoadEnd==");
         TW_SplashScreen_HIDE();
-        if(!G_IS_IOS){
+        if(!G_IS_IOS&&!this.isQuitGame){
             TW_Store.bblStore.enterSubGame();
         }
     };
@@ -217,12 +218,12 @@ export default class TWVerWebView extends Component {
                 this.onMsgHandle(message);
             }
         } catch (err) {
-            TW_Log("onMessage===========error==" + err, event.nativeEvent);
+            TW_Log("TWThirdWebView===========error==" + err, event.nativeEvent);
         }
     };
 
     onMsgHandle = (message) => {
-        TW_Log("onMessage===========" + this.constructor.name, message);
+        TW_Log("onMessage==TWThirdWebView=========" + this.constructor.name, message);
         let url = "";
         if (message && message.action) {
             switch (message.action) {
@@ -302,7 +303,7 @@ export default class TWVerWebView extends Component {
     onNavigationStateChange = (navState) => {
 
         TW_Log("TWThirdWebView===========onNavigationStateChange= +this.constructor.name==" + this.constructor.name, navState);
-        if (navState.title == "404 Not Found") {
+        if (navState.title == "404 Not Found"||navState.title =="网页无法打开") {
             this.onBackHomeJs()
         } else {
 
@@ -312,6 +313,7 @@ export default class TWVerWebView extends Component {
 
     onBackHomeJs = (type = "") => {
         let { url, isShowReload, backHandle } = this.props;
+        this.isQuitGame=true;
         TW_NavHelp.popToBack();
         if (backHandle) {
             backHandle();
