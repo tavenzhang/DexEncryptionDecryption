@@ -404,7 +404,8 @@ export default class Enter extends Component {
                     TW_Log('==checkingupdate====hotfixDeploymentKey= versionData=  this.isWeakUpdate==' + this.isWeakUpdate);
                     this.hotFixStore.updateFinished = false;
                     //热更新都使用强制更新
-                     this.hotFixStore.isNextAffect = false;
+                   //  this.hotFixStore.isNextAffect = false;
+
                     this.storeLog({ hotfixDomainAccess: true });
                     if (alreadyInCodePush) return
                     alreadyInCodePush = true
@@ -459,14 +460,14 @@ export default class Enter extends Component {
     }
 
     preInstallCodeCodePush=(localPackage, updateMode)=>{
-        TW_Log("preInstallCodeCodePush----isEnterLooby-"+TW_Store.bblStore.isEnterLooby+"-,TW_Store.bblStore.isStartGameListHttp--"+TW_Store.bblStore.isStartGameListHttp);
-        if(!TW_Store.bblStore.isEnterLooby){
+        TW_Log("preInstallCodeCodePush----isEnterLooby-"+TW_Store.bblStore.isEnterLooby+"-,TW_Store.bblStore.isStartGameListHttp--"+TW_Store.bblStore.isStartGameHttp);
+        if(!TW_Store.bblStore.isEnterLooby || this.hotFixStore.isNextAffect){
             this.installCodePush(localPackage, updateMode)
         }else{
-            if(!TW_Store.bblStore.isStartGameListHttp){
+            if(!TW_Store.bblStore.isStartGameHttp){
                 BackgroundTimer.setTimeout(()=>{ this.preInstallCodeCodePush(localPackage, updateMode)},2000);
             }else{
-                BackgroundTimer.setTimeout(()=>{ this.installCodePush(localPackage, updateMode)},4000);
+                BackgroundTimer.setTimeout(()=>{ this.installCodePush(localPackage, updateMode)},6000);
             }
         }
     }
