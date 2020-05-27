@@ -10,7 +10,7 @@ import {
 import {WebView} from 'react-native-webview';
 
 
-import {JX_PLAT_INFO} from "../asset";
+import {ASSET_Images, JX_PLAT_INFO} from "../asset";
 
 import {observer} from "mobx-react";
 import PropTypes from "prop-types";
@@ -18,6 +18,7 @@ import Tools from "../../Common/View/Tools";
 import TCUserOpenPayApp from "../../Data/TCUserOpenPayApp";
 import ExitGameAlertView from "../enter/gameMenu/ExitGameAlertView";
 import GameMenuButton from "../enter/gameMenu/GameMenuButton";
+import TCImage from "../../Common/View/image/TCImage";
 
 
 @observer
@@ -118,6 +119,8 @@ export default class TWWebGameView extends Component {
             />
         return (
             <View style={[styles.container]}>
+                {isGtestWeb ?  <TCImage style={{width:JX_PLAT_INFO.SCREEN_W,height:JX_PLAT_INFO.SCREEN_H,position: "absolute"}} resizeMode={'contain'} source={ASSET_Images.gameLobby.bg}/>:null}
+
                 {!this.state.isHttpFail ? wenConteView : <View style={{
                     height: JX_PLAT_INFO.SCREEN_H, justifyContent: "center",
                     alignItems: "center", backgroundColor: "transparent"
@@ -139,6 +142,7 @@ export default class TWWebGameView extends Component {
                 />
                 }
             </View>
+
         );
     }
 
@@ -253,7 +257,7 @@ export default class TWWebGameView extends Component {
                             this.onBackHomeJs()
                             break;
                         default:
-                            TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.popTip, {data: "请正确的输入验证码!"}));
+                            TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.popTip, {data: "验证异常 请稍后重新尝试!"}));
                             this.onBackHomeJs()
                             break;
                     }

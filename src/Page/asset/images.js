@@ -64,3 +64,7 @@ export const gameMemu = {
     dialogInfo: require("./gameMenu/dialogInfo.png")
 }
 
+export const gameLobby = {
+    bg: require("./home/lobby.jpg"),
+}
+
