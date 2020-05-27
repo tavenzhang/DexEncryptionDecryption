@@ -689,7 +689,7 @@ export default class BBLStore {
                      appData.gameUrl=TW_Store.appStore.appSaveData.gameUrl;//gameUrl 除非无法访问，否则不随意改变
                      TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(appData));
                  }
-                BackgroundTimer.setTimeout(this.refreshAppNativeData,1000);
+                BackgroundTimer.setTimeout(()=>this.refreshAppNativeData(appData),1000);
             } else {
               this.percent = 1;
                 TW_Log("TN_MSG_TO_GAME---BackgroundTimer=-start")
@@ -714,7 +714,7 @@ export default class BBLStore {
                 )
             );
         }else{
-            BackgroundTimer.setTimeout(this.refreshAppNativeData,1000);
+            BackgroundTimer.setTimeout(()=>this.refreshAppNativeData(appData),1000);
         }
     }
 
