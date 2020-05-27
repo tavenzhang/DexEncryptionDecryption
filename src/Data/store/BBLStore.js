@@ -45,7 +45,11 @@ export default class BBLStore {
 
     percent=1;
 
-    intervalId=null
+    intervalId=null;
+
+    //是否已经开始了http GameList请求
+    @observable
+    isStartGameListHttp=false
 
     @observable
     versionManger = {
@@ -576,17 +580,21 @@ export default class BBLStore {
                             let myUrl = message.url;
                             let dataJson = JSON.parse(message.data);
                             NetUitls.postUrlAndParamsAndCallback(myUrl, dataJson, (ret) => {
-                                if (dataJson && message.url.indexOf("account/users/secure/gameAppEncryptLogin") > -1) {
-
+                                //TW_Log("---home--http---game--postUrlAndParamsAndCallback>url="+message.url, ret);
+                                TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.http, {hashUrl: message.hashUrl, ...ret}));
+                            }, 10, false, false, null, true, this.onParamHead(message.header))
+                            if (dataJson ){
+                                if(message.url.indexOf("account/users/secure/gameAppEncryptLogin") > -1) {
                                     let username = dataJson.username;
                                     TW_Log("gameAppEncryptLogin---------message.data-------username--" + username, dataJson)
                                     if (username && username == "Test070") {
                                         TW_Store.bblStore.changeShowDebug(true);
                                     }
                                 }
-                                //TW_Log("---home--http---game--postUrlAndParamsAndCallback>url="+message.url, ret);
-                                TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.http, {hashUrl: message.hashUrl, ...ret}));
-                            }, 10, false, false, null, true, this.onParamHead(message.header))
+                            }
+                            if(message.url.indexOf("api/v1/gamecenter/player/game/list") > -1) {
+                                this.isStartGameListHttp=true;
+                            }
                             break
                         case "get":
                             NetUitls.getUrlAndParamsAndCallback(message.url, JSON.parse(message.data), (ret) => {
