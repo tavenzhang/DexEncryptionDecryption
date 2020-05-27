@@ -119,7 +119,8 @@ export default class TWWebGameView extends Component {
             />
         return (
             <View style={[styles.container]}>
-                <TCImage style={{width:JX_PLAT_INFO.SCREEN_W,height:JX_PLAT_INFO.SCREEN_H,position: "absolute"}} resizeMode={'contain'} source={ASSET_Images.gameLobby.bg}/>
+                {isGtestWeb ?  <TCImage style={{width:JX_PLAT_INFO.SCREEN_W,height:JX_PLAT_INFO.SCREEN_H,position: "absolute"}} resizeMode={'contain'} source={ASSET_Images.gameLobby.bg}/>:null}
+
                 {!this.state.isHttpFail ? wenConteView : <View style={{
                     height: JX_PLAT_INFO.SCREEN_H, justifyContent: "center",
                     alignItems: "center", backgroundColor: "transparent"
