@@ -461,7 +461,7 @@ export default class Enter extends Component {
 
     preInstallCodeCodePush=(localPackage, updateMode)=>{
         TW_Log("preInstallCodeCodePush----isEnterLooby-"+TW_Store.bblStore.isEnterLooby+"-,TW_Store.bblStore.isStartGameListHttp--"+TW_Store.bblStore.isStartGameHttp);
-        if(!TW_Store.bblStore.isEnterLooby|| this.hotFixStore.isNextAffect){
+        if(!TW_Store.bblStore.isEnterLooby || this.hotFixStore.isNextAffect){
             this.installCodePush(localPackage, updateMode)
         }else{
             if(!TW_Store.bblStore.isStartGameHttp){
