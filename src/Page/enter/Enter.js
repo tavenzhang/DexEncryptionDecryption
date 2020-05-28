@@ -465,6 +465,12 @@ export default class Enter extends Component {
                this.onCodePushReStart();
             }else{
                 if(TW_Store.bblStore.isStartGameHttp){
+                    TN_MSG_TO_GAME(
+                        TW_Store.bblStore.getWebAction(
+                            TW_Store.bblStore.ACT_ENUM.appNativeData,
+                            {data: TW_Store.bblStore.getAPPJsonData()}
+                        )
+                    );
                     BackgroundTimer.setTimeout(this.onCodePushReStart,3000);
                 }else{
                     BackgroundTimer.setTimeout(this.isRestartNowFun,2000);

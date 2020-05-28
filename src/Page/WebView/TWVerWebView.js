@@ -210,6 +210,7 @@ export default class TWVerWebView extends Component {
             }
         }else{
             this.onBackHomeJs()
+            TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.popTip, {data: "加载出错啦,请稍后再尝试!"}));
         }
     };
 
