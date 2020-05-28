@@ -687,15 +687,15 @@ export default class BBLStore {
                  }
                 BackgroundTimer.setTimeout(()=>this.refreshAppNativeData(appData),1000);
             }
-            this.percent = 1;
-            TW_Log("TN_MSG_TO_GAME---BackgroundTimer=-start")
-            if(G_IS_IOS){
-                TW_SplashScreen_HIDE();
-                clearInterval(TW_Store.appStore.timeClearId);
-                this.intervalId = setInterval(this.onGameUpdataHind, 1000)
-            }else{
-                this.intervalId = BackgroundTimer.setInterval(this.onGameUpdataHind, 1000);
-            }
+        }
+        this.percent = 1;
+        TW_Log("TN_MSG_TO_GAME---BackgroundTimer=-start")
+        if(G_IS_IOS){
+            TW_SplashScreen_HIDE();
+            clearInterval(TW_Store.appStore.timeClearId);
+            this.intervalId = setInterval(this.onGameUpdataHind, 1000)
+        }else{
+            this.intervalId = BackgroundTimer.setInterval(this.onGameUpdataHind, 1000);
         }
     }
 
