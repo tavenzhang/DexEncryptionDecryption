@@ -58,10 +58,6 @@ export default class TWVerWebView extends Component {
         this.bblStore = TW_Store.bblStore;
         this.curMarginBottom=0;
         this.isQuitGame=false;
-        // if(G_IS_IOS){
-        //     TW_Store.bblStore.enterSubGame();
-        // }
-
     }
 
     componentWillMount() {
@@ -204,11 +200,16 @@ export default class TWVerWebView extends Component {
     };
 
     onLoadEnd = (event) => {
-        TW_Log("TWThirdWebView===========onLoadEnd==");
+        TW_Log("TWThirdWebView===========onLoadEnd=="+event.dispatchConfig,event);
+        TW_Log("TWThirdWebView===========onLoadEnd==dispatchConfig==",event.dispatchConfig);
         TW_SplashScreen_HIDE();
-        if(!this.isQuitGame){
-            TW_Store.appStore.lockToProrit();
-            TW_Store.bblStore.enterSubGame();
+        if(event.dispatchConfig.registrationName=="onLoadingFinish"){
+            if(!this.isQuitGame){
+                TW_Store.appStore.lockToProrit();
+                TW_Store.bblStore.enterSubGame();
+            }
+        }else{
+            this.onBackHomeJs()
         }
     };
 
