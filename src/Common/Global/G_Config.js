@@ -2,7 +2,7 @@
 import rootStore from "../../Data/store/RootStore";
 import NavigatorHelper from "../JXHelper/TCNavigatorHelper";
 import { Text } from 'react-native';
-
+import BackgroundTimer from 'react-native-background-timer';
 // 关闭应用中字体适应系统字体变化的效果
 Text.defaultProps = { ...Text.defaultProps, allowFontScaling: false};
 
@@ -50,6 +50,7 @@ global.JX_ShallowEqual= shallowEqual=(objA, objB)=> {
     return true
 }
 
+global.TN_BackGroudTimer=BackgroundTimer;
 
 global.TW_GetQueryString= (name,url="") =>{
     let myUrl=url;

@@ -161,7 +161,7 @@ export default class BBLStore {
     @action
     enterSubGame() {
         TW_Log("enterSubGame-", TW_Store.gameUpateStore.isInSubGame)
-        if (!TW_Store.gameUpateStore.isInSubGame) {
+        if (!TW_Store.gameUpateStore.isInSubGame&&this.subGameParams.url.length>0) {
             TW_Store.bblStore.lastGameUrl = "";
             TW_Store.gameUpateStore.isInSubGame = true;
             TN_JUMP_RN()
@@ -322,7 +322,6 @@ export default class BBLStore {
                     this.appShareUrl = this.shareData.appShareUrl;
                     TW_Store.appStore.onShowDownAlert(this.appShareUrl + "&isFore=1");
                     TW_Store.gameUIStroe.gustWebUrl = this.shareData.customerServiceUrl;
-
                 }
                 //let downUrl =  iosDownloadUrl
                 TW_Log(
