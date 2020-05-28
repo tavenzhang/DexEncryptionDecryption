@@ -355,7 +355,7 @@ export default class BBLStore {
                         let appDataJson=this.getAPPJsonData();
                         let gameDomainStar = `appCallBack('${appDataJson.gameUrl}')`;
                         TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, "null");
-                        TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.runJS, {data: gameDomainStar,gameData:JSON.stringify(appDataJson)}));
+                        TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.runJS, {data: gameDomainStar}));
                     } else {
                         TN_JUMP_RN();
                         Alert.alert(
@@ -673,8 +673,8 @@ export default class BBLStore {
 
     @action
     enterGameLobby = (appData, isSaveDate = false) => {
-        TW_Log("appDataStr===enterGameLobby====", appData);
         let appDataStr = JSON.stringify(appData);
+        TW_Log("appDataStr===enterGameLobby====", appData);
         TN_OpenHome(appDataStr);
         TW_SplashScreen_HIDE()
         this.getAppData();

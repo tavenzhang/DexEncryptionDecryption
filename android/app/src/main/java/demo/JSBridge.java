@@ -142,13 +142,12 @@ public class JSBridge {
                             case "runJS":
                                 String gameJson = null;
                                 try {
-                                    gameJson = json_test.getString("gameData");
+                                    gameJson = json_test.getString("data");
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
                                 //重新启动gameAcitve 使用最新的域名
-                                GameActivity.mainInstance.finish();
-                                JSBridge.jumpHome(gameJson);
+                                ConchJNI.RunJS(gameJson);
                                 break;
                             case "loadingView":
                                 String labelData = null;

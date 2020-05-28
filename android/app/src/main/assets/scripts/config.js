@@ -110,9 +110,13 @@ if(window.loadingView)
 }
 window.onLayaInitError=function(e)
 {
-	console.log("onLayaInitError error=" + e);
+	console.log("appCallBack--onLayaInitError error=" + window.loadConchUrl);
 	//alert("加载游戏失败，可能由于您的网络不稳定，请退出重进");
 	window.loadingView.bridge.call("postMessage",JSON.stringify({action:"gameUrlError"}))
+}
+window['appCallBack']=function(dataStr){
+	console.log("appCallBack---"+dataStr)
+	window.loadConchUrl(dataStr);
 }
 
 
