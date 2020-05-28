@@ -36,9 +36,9 @@ export const AppConfig = {
 
 export const MyAppName = '博必胜棋牌';
 
-export const versionHotFix = 'v5.0528.1223';
+export const MyOwnerPlatName= '博必胜棋牌';
 
-export const versionHotFix = 'v5.0528.1223';
+export const versionHotFix = 'v5.0528.1506';
 
 //第三方安全域名base64 key
 export const safeguardKey = 'ewogICAgImQiOlsKICAgICAgICAiaHR0cHM6Ly8yZDQxMDhlOGVmNTNhNThmNzRiNTQ1YmMwYWU0NjgyZi5vc3MtY24tc2hlbnpoZW4uYWxpeXVuY3MuY29tIiwKICAgICAgICAiaHR0cHM6Ly8yZDQxMDhlOGVmNTNhNThmNzRiNTQ1YmMwYWU0NjgyZi5zMy1hY2NlbGVyYXRlLmFtYXpvbmF3cy5jb20iLAogICAgICAgICJodHRwczovLzJkNDEwOGU4ZWY1M2E1OGY3NGI1NDViYzBhZTQ2ODJmLmF6dXJlZWRnZS5uZXQiCiAgICBdCn0='
