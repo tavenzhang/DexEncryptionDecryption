@@ -415,7 +415,7 @@ export default class BBLStore {
                             break;
                         case "customerService":
                             TW_Store.bblStore.subGameParams = {
-                                url: TW_Store.gameUIStroe.gustWebUrl,
+                                url: "https://www.google.com",
                                 isShowReload: false,
                                 type: message.type,
                                 isOpenThirdWebView: true,
