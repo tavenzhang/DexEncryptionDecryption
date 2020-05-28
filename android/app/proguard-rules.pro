@@ -97,4 +97,11 @@
 
 -keep class com.linkedin.** { *; }
 -keep class com.android.dingtalk.share.ddsharemodule.** { *; }
+
+-keep class demo.linkedin.** { *; }
+-keep class demo.** { *; }
+
+-keep class layaair.linkedin.** { *; }
+-keep class layaair.** { *; }
+
 -keepattributes Signature
