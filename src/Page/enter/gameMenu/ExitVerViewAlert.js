@@ -25,7 +25,7 @@ export default class ExitVerViewAlert extends Component {
         const { onPressConfirm, onPressCancel,isOpenAddPay } = this.props;
         let hintStr =isOpenAddPay ? "返回大厅 前往充值吗？":"是否返回大厅?"
         return (
-            <View style={styles.viewExit}>
+            <View style={styles.viewExit} >
                 <ImageBackground
                     source={ASSET_Images.gameMemu.dialogInfo}
                     style={styles.imgBg}
@@ -57,12 +57,11 @@ export default class ExitVerViewAlert extends Component {
 
 const styles = StyleSheet.create({
     viewExit: {
-        position: "absolute",
         height:JX_PLAT_INFO.SCREEN_W,
         width:JX_PLAT_INFO.SCREEN_H,
         backgroundColor: "rgba(52,52,52,0.5)",
-        alignItems: "center",
-        justifyContent: "center",
+        position:"absolute",
+        zIndex:2006
     },
     viewMsg: {
         alignItems: "center",
@@ -74,7 +73,9 @@ const styles = StyleSheet.create({
         height: ALERT_VIEW_SIZE.height,
         alignItems: "center",
         justifyContent: "center",
-        paddingVertical: 15
+        paddingVertical: 15,
+        alignSelf:"center",
+        top:G_IS_IOS ? (JX_PLAT_INFO.SCREEN_W- ALERT_VIEW_SIZE.height)/2:(JX_PLAT_INFO.SCREEN_H-ALERT_VIEW_SIZE.height)
     },
     viewOptions: {
         flexDirection: "row",

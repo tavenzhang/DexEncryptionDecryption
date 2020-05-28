@@ -258,6 +258,7 @@ export default class TWWebGameView extends Component {
                             break;
                         default:
                             TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.popTip, {data: "验证异常 请稍后重新尝试!"}));
+                            TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.gtestBack, {}));
                             this.onBackHomeJs()
                             break;
                     }

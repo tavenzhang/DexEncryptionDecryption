@@ -24,6 +24,7 @@ import ExtraDimensions from 'react-native-extra-dimensions-android';
 import {safeAreaTop} from "../../Common/JXHelper/WebviewHelper";
 import ExitVerViewAlert from "../enter/gameMenu/ExitVerViewAlert";
 import {TCButtonImg} from "../../Common/View/button/TCButtonView";
+import {positions} from "react-native-root-toast/lib/ToastContainer";
 
 @observer
 export default class TWVerWebView extends Component {
@@ -130,16 +131,16 @@ export default class TWVerWebView extends Component {
                 // <SafeAreaView style={{flex:1, backgroundColor:"rgb(227, 41, 43)"}}  forceInset={{ bottom: 'never' ,}}>
                 <KeyboardAvoidingView style={[styles.container, { paddingTop: isPaddingTop ? StatusBarHeight : 0  ,height:JX_PLAT_INFO.SCREEN_W, width:JX_PLAT_INFO.SCREEN_H}]} behavior="padding" keyboardVerticalOffset={-this.curMarginBottom}
                                       enabled={G_IS_IOS ? false : true}>
-                    {!this.state.isHttpFail ? webContentView : <View style={{
-                        height: JX_PLAT_INFO.SCREEN_H, justifyContent: "center",
-                        alignItems: "center", backgroundColor: "transparent"
-                    }}>
-                    </View>}
                     <TCButtonImg btnStyle={{  position:"absolute", left:JX_PLAT_INFO.SCREEN_H-100,top:100, alignSelf: "center", zIndex: 200}} imgSource={ ASSET_Images.gameMemu.btnMenu}
                                  imgStyle={{width:50,height:55}}
                                  onClick={this.onClickMenu}
                     />
 
+                    {!this.state.isHttpFail ? webContentView : <View style={{
+                        height: JX_PLAT_INFO.SCREEN_H, justifyContent: "center",
+                        alignItems: "center", backgroundColor: "transparent"
+                    }}>
+                    </View>}
                     {this.state.isShowExitAlertView && <ExitVerViewAlert
                         isOpenAddPay={this.state.isOpenAddPay}
                         onPressConfirm={() => {
@@ -179,24 +180,6 @@ export default class TWVerWebView extends Component {
 
     onClickMenu = (btnId) => {
         this.setState({isShowExitAlertView:true})
-      //  this.onBackHomeJs();
-      //   Alert.alert(
-      //       "是否返回游戏大厅?",
-      //       "",
-      //       [
-      //           {
-      //               text: "返回",
-      //               onPress: () =>  this.onBackHomeJs(),
-      //               style:"destructive"
-      //           },
-      //           {
-      //               text: "取消",
-      //               onPress: () => console.log("Cancel Pressed"),
-      //               style: "cancel"
-      //           }
-      //       ],
-      //       { cancelable: false }
-      //   );
     };
 
     onLoadEnd = (event) => {
@@ -210,7 +193,7 @@ export default class TWVerWebView extends Component {
             }
         }else{
             this.onBackHomeJs()
-            TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.popTip, {data: "加载出错啦,请稍后再尝试!"}));
+            TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.popTip, {data: "加载出错啦,请检测链接是否正常，稍后再尝试!"}));
         }
     };
 
