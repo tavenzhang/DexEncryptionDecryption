@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 
-import { JX_PLAT_INFO } from "../asset";
+import {ASSET_Images, JX_PLAT_INFO} from "../asset";
 import { observer } from "mobx-react";
 import PropTypes from "prop-types";
 import Toast from "../../Common/JXHelper/JXToast";
@@ -23,6 +23,7 @@ import DeviceInfo from 'react-native-device-info';
 import ExtraDimensions from 'react-native-extra-dimensions-android';
 import {safeAreaTop} from "../../Common/JXHelper/WebviewHelper";
 import ExitVerViewAlert from "../enter/gameMenu/ExitVerViewAlert";
+import {TCButtonImg} from "../../Common/View/button/TCButtonView";
 
 @observer
 export default class TWVerWebView extends Component {
@@ -57,10 +58,9 @@ export default class TWVerWebView extends Component {
         this.bblStore = TW_Store.bblStore;
         this.curMarginBottom=0;
         this.isQuitGame=false;
-        TW_Store.appStore.lockToProrit();
-        if(G_IS_IOS){
-            TW_Store.bblStore.enterSubGame();
-        }
+        // if(G_IS_IOS){
+        //     TW_Store.bblStore.enterSubGame();
+        // }
 
     }
 
@@ -139,20 +139,23 @@ export default class TWVerWebView extends Component {
                         alignItems: "center", backgroundColor: "transparent"
                     }}>
                     </View>}
-                    <GameMenuButton isScreenPortrait={true} isShowReload={isShowReload} itransEnabled={"ON"}
-                                    onPressExit={this.onClickMenu}/>
-                    {/*{this.state.isShowExitAlertView && <ExitVerViewAlert*/}
-                    {/*    isOpenAddPay={this.state.isOpenAddPay}*/}
-                    {/*    onPressConfirm={() => {*/}
-                    {/*        this.onBackHomeJs();*/}
-                    {/*        this.setState({isShowExitAlertView: false});*/}
-                    {/*        if (this.state.isOpenAddPay) {*/}
-                    {/*            TW_Store.gameUIStroe.isShowAddPayView = true;*/}
-                    {/*        }*/}
-                    {/*    }}*/}
-                    {/*    onPressCancel={() => this.setState({isShowExitAlertView: false})}*/}
-                    {/*/>*/}
-                    {/*}*/}
+                    <TCButtonImg btnStyle={{  position:"absolute", left:JX_PLAT_INFO.SCREEN_H-100,top:100, alignSelf: "center", zIndex: 200}} imgSource={ ASSET_Images.gameMemu.btnMenu}
+                                 imgStyle={{width:50,height:55}}
+                                 onClick={this.onClickMenu}
+                    />
+
+                    {this.state.isShowExitAlertView && <ExitVerViewAlert
+                        isOpenAddPay={this.state.isOpenAddPay}
+                        onPressConfirm={() => {
+                            this.onBackHomeJs();
+                            this.setState({isShowExitAlertView: false});
+                            if (this.state.isOpenAddPay) {
+                                TW_Store.gameUIStroe.isShowAddPayView = true;
+                            }
+                        }}
+                        onPressCancel={() => this.setState({isShowExitAlertView: false})}
+                    />
+                    }
                 </KeyboardAvoidingView>
 
 
@@ -179,30 +182,32 @@ export default class TWVerWebView extends Component {
 
 
     onClickMenu = (btnId) => {
+        this.setState({isShowExitAlertView:true})
       //  this.onBackHomeJs();
-        Alert.alert(
-            "是否返回游戏大厅?",
-            "",
-            [
-                {
-                    text: "返回",
-                    onPress: () =>  this.onBackHomeJs(),
-                    style:"destructive"
-                },
-                {
-                    text: "取消",
-                    onPress: () => console.log("Cancel Pressed"),
-                    style: "cancel"
-                }
-            ],
-            { cancelable: false }
-        );
+      //   Alert.alert(
+      //       "是否返回游戏大厅?",
+      //       "",
+      //       [
+      //           {
+      //               text: "返回",
+      //               onPress: () =>  this.onBackHomeJs(),
+      //               style:"destructive"
+      //           },
+      //           {
+      //               text: "取消",
+      //               onPress: () => console.log("Cancel Pressed"),
+      //               style: "cancel"
+      //           }
+      //       ],
+      //       { cancelable: false }
+      //   );
     };
 
     onLoadEnd = (event) => {
         TW_Log("TWThirdWebView===========onLoadEnd==");
         TW_SplashScreen_HIDE();
-        if(!G_IS_IOS&&!this.isQuitGame){
+        if(!this.isQuitGame){
+            TW_Store.appStore.lockToProrit();
             TW_Store.bblStore.enterSubGame();
         }
     };
