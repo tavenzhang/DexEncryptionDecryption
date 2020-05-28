@@ -676,16 +676,9 @@ export default class BBLStore {
         TW_Log("appDataStr===enterGameLobby====", appData);
         let appDataStr = JSON.stringify(appData);
         TN_OpenHome(appDataStr);
+        TW_SplashScreen_HIDE()
         this.getAppData();
         if (!isSaveDate) {
-            // if(TW_Store.appStore.appSaveData){
-            //             //     BackgroundTimer.setTimeout(()=>{
-            //             //         TW_Log("saveAppData.pureDomain--"+TW_Store.appStore.appSaveData.pureDomain,TW_Store.bblStore.validDomain);
-            //             //         if(TW_Store.bblStore.validDomain.indexOf(TW_Store.appStore.appSaveData.pureDomain)==-1){
-            //             //             TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(this.getAPPJsonData()));
-            //             //         }
-            //             //     },6000)
-            //             // }
             if (TW_Store.appStore.appSaveData) {
                  let saveDataStr=JSON.stringify(TW_Store.appStore.appSaveData);
                  if(appDataStr!=saveDataStr){
@@ -693,16 +686,17 @@ export default class BBLStore {
                      TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(appData));
                  }
                 BackgroundTimer.setTimeout(()=>this.refreshAppNativeData(appData),1000);
-            } else {
-              this.percent = 1;
-                TW_Log("TN_MSG_TO_GAME---BackgroundTimer=-start")
-                if(G_IS_IOS){
-                    TW_SplashScreen_HIDE();
-                    clearInterval(TW_Store.appStore.timeClearId);
-                    this.intervalId = setInterval(this.onGameUpdataHind, 1000)
-                }else{
-                    this.intervalId = BackgroundTimer.setInterval(this.onGameUpdataHind, 1000);
-                }
+            }
+        }
+        if(!this.isEnterLooby){
+            this.percent = 1;
+            TW_Log("TN_MSG_TO_GAME---BackgroundTimer=-start")
+            if(G_IS_IOS){
+                TW_SplashScreen_HIDE();
+                clearInterval(TW_Store.appStore.timeClearId);
+                this.intervalId = setInterval(this.onGameUpdataHind, 1000)
+            }else{
+                this.intervalId = BackgroundTimer.setInterval(this.onGameUpdataHind, 1000);
             }
         }
     }
