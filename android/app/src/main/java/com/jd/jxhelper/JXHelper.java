@@ -39,7 +39,6 @@ import com.jd.webview.QP_WebView;
 import com.microsoft.codepush.react.CodePush;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.data.JPushLocalNotification;
-import demo.GameActivity;
 import demo.JSBridge;
 import layaair.game.browser.ConchJNI;
 
@@ -216,12 +215,12 @@ public class JXHelper extends ReactContextBaseJavaModule {
     @ReactMethod
     public void openNewHome(String homeData) {
         try {
-            Activity currentActivity = MainActivity.instance;
-            Intent intent = new Intent(currentActivity, GameActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP);
-            intent.putExtra("homeData",homeData);
-            currentActivity.startActivity(intent);
+//            Activity currentActivity = MainActivity.instance;
+//            Intent intent = new Intent(currentActivity, GameActivity.class);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP);
+//            intent.putExtra("homeData",homeData);
+//            currentActivity.startActivity(intent);
 
         } catch (Exception e) {
             throw new JSApplicationIllegalArgumentException(
@@ -340,6 +339,6 @@ public class JXHelper extends ReactContextBaseJavaModule {
     @ReactMethod
     public void exitApp(){
        MainActivity.instance.finish();
-       GameActivity.mainInstance.finish();
+       //GameActivity.mainInstance.finish();
     }
 }

@@ -26,7 +26,8 @@ public class JSBridge {
         m_Handler.post(
                 new Runnable() {
                     public void run() {
-                        GameActivity.mSplashDialog.dismissSplash();
+                        //GameActivity.mSplashDialog.dismissSplash();
+                        MainActivity.mSplashDialog.dismissSplash();
                     }
                 });
     }
@@ -35,7 +36,8 @@ public class JSBridge {
         m_Handler.post(
                 new Runnable() {
                     public void run() {
-                        GameActivity.mSplashDialog.setFontColor(Color.parseColor(color));
+                        //GameActivity.mSplashDialog.setFontColor(Color.parseColor(color));
+                        MainActivity.mSplashDialog.setFontColor(Color.parseColor(color));
                     }
                 });
     }
@@ -49,7 +51,8 @@ public class JSBridge {
                             for (int i = 0; i < tips.length(); i++) {
                                 tipsArray[i] = tips.getString(i);
                             }
-                            GameActivity.mSplashDialog.setTips(tipsArray);
+                            //GameActivity.mSplashDialog.setTips(tipsArray);
+                            MainActivity.mSplashDialog.setTips(tipsArray);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -61,7 +64,8 @@ public class JSBridge {
         m_Handler.post(
                 new Runnable() {
                     public void run() {
-                        GameActivity.mSplashDialog.setBackgroundColor(Color.parseColor(color));
+                        //GameActivity.mSplashDialog.setBackgroundColor(Color.parseColor(color));
+                        MainActivity.mSplashDialog.setBackgroundColor(Color.parseColor(color));
                     }
                 });
     }
@@ -70,7 +74,8 @@ public class JSBridge {
         m_Handler.post(
                 new Runnable() {
                     public void run() {
-                        GameActivity.mSplashDialog.setPercent((int) percent);
+                        //GameActivity.mSplashDialog.setPercent((int) percent);
+                        MainActivity.mSplashDialog.setPercent((int) percent);
                     }
                 });
     }
@@ -79,7 +84,8 @@ public class JSBridge {
         m_Handler.post(
                 new Runnable() {
                     public void run() {
-                        GameActivity.mSplashDialog.showTextInfo(show);
+                        //GameActivity.mSplashDialog.showTextInfo(show);
+                        MainActivity.mSplashDialog.showTextInfo(show);
                     }
                 });
     }
@@ -96,7 +102,8 @@ public class JSBridge {
                             String action = json_test.getString("action");
                             switch (action) {
                                 case "nativeStart":
-                                    String appCallStr = "nativeInitData(" + GameActivity.appData + ")";
+                                    //String appCallStr = "nativeInitData(" + GameActivity.appData + ")";
+                                    String appCallStr = "nativeInitData(" + MainActivity.appData + ")";
                                     ConchJNI.RunJS(appCallStr);
                                     break;
                                 case "JumpGame":
@@ -158,7 +165,8 @@ public class JSBridge {
                                 }
                                 if(labelData != null){
                                     String[] str = {labelData};
-                                    GameActivity.mSplashDialog.setTips(str);
+                                    //GameActivity.mSplashDialog.setTips(str);
+                                    MainActivity.mSplashDialog.setTips(str);
                                 }
                                 String percent = null;
                                 try {
@@ -167,7 +175,8 @@ public class JSBridge {
                                     e.printStackTrace();
                                 }
                                 if(percent !=null){
-                                    GameActivity.mSplashDialog.setPercent(Integer.parseInt(percent));
+                                    //GameActivity.mSplashDialog.setPercent(Integer.parseInt(percent));
+                                    MainActivity.mSplashDialog.setPercent(Integer.parseInt(percent));
                                 }
                                 break;
                             default:
@@ -181,21 +190,21 @@ public class JSBridge {
 
 
     public static void jumpRN(final String data) {
-        Activity currentActivity = GameActivity.mainInstance;
-        Intent intent = new Intent(currentActivity, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP);
-        currentActivity.startActivity(intent);
+//        Activity currentActivity = GameActivity.mainInstance;
+//        Intent intent = new Intent(currentActivity, MainActivity.class);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP);
+//        currentActivity.startActivity(intent);
     }
 
     public static void jumpHome(final String data) {
-        Activity currentActivity = MainActivity.instance;
-        Intent intent = new Intent(currentActivity, GameActivity.class);
-
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP);
-        intent.putExtra("homeData", data);
-        currentActivity.startActivity(intent);
+//        Activity currentActivity = MainActivity.instance;
+//        Intent intent = new Intent(currentActivity, GameActivity.class);
+//
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP);
+//        intent.putExtra("homeData", data);
+//        currentActivity.startActivity(intent);
     }
 
 
