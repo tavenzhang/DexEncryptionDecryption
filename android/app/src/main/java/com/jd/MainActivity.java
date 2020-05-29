@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.ValueCallback;
@@ -42,6 +43,8 @@ import layaair.game.IMarket.IPluginRuntimeProxy;
 import layaair.game.Market.GameEngine;
 import layaair.game.config.config;
 
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+
 public class MainActivity extends ReactActivity {
 
     public static MainActivity instance;
@@ -54,7 +57,7 @@ public class MainActivity extends ReactActivity {
     boolean isExit = false;
     public static SplashDialog mSplashDialog;
     public static String appData = "";
-
+    public static  View gameView=null;
     /**
      * Returns the name of the main component registered from JavaScript.
      * This is used to schedule rendering of the component.
@@ -142,7 +145,7 @@ public class MainActivity extends ReactActivity {
         } else {
             SplashScreen.show(this, true);  // here
         }
-        Log.v("MainActivity", "onCreate");
+       // Log.v("MainActivity", "onCreate");
 //        if (Build.VERSION.SDK_INT == 26) {
 //            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 //        } else {
@@ -151,8 +154,8 @@ public class MainActivity extends ReactActivity {
         //this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         // LayaNative GameActivity Code
-        getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+       //getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+       //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         JSBridge.mMainActivity = this;
         mSplashDialog = new SplashDialog(this);
         mSplashDialog.showSplash();
@@ -160,13 +163,13 @@ public class MainActivity extends ReactActivity {
          * 如果不想使用更新流程，可以屏蔽checkApkUpdate函数，直接打开initEngine函数
          */
         //checkApkUpdate(this);
-        Intent intent = getIntent();
-        appData = intent.getStringExtra("homeData");
-        try {
-            initEngine(appData);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+//         Intent intent = getIntent();
+//         appData = intent.getStringExtra("homeData");
+//         try {
+//             initEngine(appData);
+//         } catch (JSONException e) {
+//             e.printStackTrace();
+//         }
     }
 
     @Override
@@ -213,21 +216,21 @@ public class MainActivity extends ReactActivity {
 
 
     public void initEngine(String gameJson) throws JSONException {
-        // Log.d("postToGame==sLoad"+(isLoad ? "true":"false"),"true");
-        if (!isLoad) {
-            JSONObject jsonObj = new JSONObject(gameJson);
-            String url = jsonObj.getString("gameUrl");
-            // Log.d("postToGame==initEngine",url);
-            mProxy = new RuntimeProxy(this);
-            mPlugin = new GameEngine(this);
-            mPlugin.game_plugin_set_runtime_proxy(mProxy);
-            mPlugin.game_plugin_set_option("localize", "false");
-            mPlugin.game_plugin_set_option("gameUrl", url);
-            mPlugin.game_plugin_init(3);
-            View gameView = mPlugin.game_plugin_get_view();
-            this.setContentView(gameView);
-            isLoad = true;
-        }
+         Log.d("postToGame==sLoad",gameJson);
+           if(gameView == null){
+               appData=gameJson;
+               JSONObject jsonObj = new JSONObject(gameJson);
+               String url = jsonObj.getString("gameUrl");
+               // Log.d("postToGame==initEngine",url);
+               mProxy = new RuntimeProxy(this);
+               mPlugin = new GameEngine(this);
+               mPlugin.game_plugin_set_runtime_proxy(mProxy);
+               mPlugin.game_plugin_set_option("localize", "false");
+               mPlugin.game_plugin_set_option("gameUrl", url);
+               mPlugin.game_plugin_init(3);
+               gameView = mPlugin.game_plugin_get_view();
+               this.getWindow().addContentView(gameView,new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
+           }
     }
 
     public boolean isOpenNetwork(Context context) {
@@ -314,10 +317,6 @@ public class MainActivity extends ReactActivity {
 //        });
     }
 
-    public void startNewGame() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
 
     protected void onDestroy()
     {

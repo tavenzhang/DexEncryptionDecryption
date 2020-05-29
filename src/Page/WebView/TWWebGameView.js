@@ -118,7 +118,7 @@ export default class TWWebGameView extends Component {
                 thirdPartyCookiesEnabled={true}
             />
         return (
-            <View style={[styles.container]}>
+            <View style={[styles.container,{width:SCREEN_W,height:SCREEN_H}]}>
                 {isGtestWeb ?  <TCImage style={{width:SCREEN_W,height:SCREEN_H,position: "absolute"}} resizeMode={'cover'} source={ASSET_Images.gameLobby.bg}/>:null}
 
                 {!this.state.isHttpFail ? wenConteView : <View style={{
