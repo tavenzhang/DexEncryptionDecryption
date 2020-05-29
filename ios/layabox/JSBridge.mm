@@ -84,19 +84,22 @@ static ModuleWithEmitter* emit=nil ;
     }else if([action isEqual:@"loadingView"])
     {
         NSString* labelData = [dic valueForKey:@"data"];
+      
+      NSString* color= [dic valueForKey:@"color"];
+        if(color){
+              [JSBridge setFontColor:color];
+        }
         if(labelData){
           NSArray* nameArr = [NSArray arrayWithObjects: labelData, nil];
-                 [JSBridge setFontColor:@"#ffffff"];
                  [JSBridge setTips:nameArr];
         }
          
           NSString* percent= [dic valueForKey:@"percent"];
       if(percent){
-              int intString = [percent intValue];
-                [JSBridge loading:[NSNumber numberWithInt:intString]];
-        // [JSBridge showTextInfo:[NSNumber numberWithInt:1]];
+          int intString = [percent intValue];
+          [JSBridge loading:[NSNumber numberWithInt:intString]];
       }
-
+      
         //  [JSBridge showTextInfo:[NSNumber numberWithInt:1]];
          
     }

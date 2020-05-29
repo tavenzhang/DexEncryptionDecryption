@@ -725,7 +725,8 @@ export default class BBLStore {
         if(this.percent<=99){
             TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {
                 data: "正在获取更新中...",
-                percent:this.percent
+                percent:this.percent,
+                color:"#0066a6"
             }));
         }
     }
