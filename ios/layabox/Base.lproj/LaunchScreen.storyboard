@@ -35,7 +35,7 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="map-GD-PNR" secondAttribute="trailing" id="4Pi-Wf-jmT"/>
                             <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="E2Q-uj-XYa" secondAttribute="bottom" constant="30" id="8Ru-VQ-Q4m"/>
-                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="map-GD-PNR" secondAttribute="bottom" id="GjI-lx-Cbw"/>
+                            <constraint firstAttribute="bottom" secondItem="map-GD-PNR" secondAttribute="bottom" id="GjI-lx-Cbw"/>
                             <constraint firstItem="E2Q-uj-XYa" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Pcb-i5-VKy"/>
                             <constraint firstItem="map-GD-PNR" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="h9X-Oy-fsT"/>
                             <constraint firstItem="map-GD-PNR" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" id="wDT-dG-0iK"/>
