@@ -200,7 +200,7 @@ public class JSBridge {
         m_Handler.post(
                 new Runnable() {
                     public void run() {
-                            MainActivity.gameView.setY(-1000);
+                            MainActivity.gameView.setY(2000);
                             MainActivity.gameView.requestLayout();
                     }});
     }
