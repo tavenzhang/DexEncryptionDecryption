@@ -201,6 +201,7 @@ public class JSBridge {
                 new Runnable() {
                     public void run() {
                             MainActivity.gameView.setY(-1000);
+                            MainActivity.gameView.requestLayout();
                     }});
     }
 
@@ -213,6 +214,7 @@ public class JSBridge {
                             Log.d(" jumpHome.getAlpha=",  MainActivity.gameView.getAlpha()+"");
                             Log.d(" jumpHome.getY=",  MainActivity.gameView.getY()+"");
                             MainActivity.gameView.setY(0);
+                            MainActivity.gameView.requestLayout();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
