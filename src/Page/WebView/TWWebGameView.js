@@ -308,8 +308,6 @@ export default class TWWebGameView extends Component {
     onBackHomeJs = (message={}) => {
         TW_Log("onBackHomeJs-----------------")
         TW_Store.bblStore.quitSubGame(message);
-        clearTimeout(this.timeId);
-
     }
 }
 

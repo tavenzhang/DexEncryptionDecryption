@@ -73,29 +73,32 @@ export default class App extends Component {
             KeyboardManager.setToolbarPreviousNextButtonEnable(true);
         }
         if(G_IS_IOS){
-            eventEmitter.addListener('onMessage', function (e: Event) {
-                TW_Store.bblStore.onMsgHandle(e.NAME);
-            });
+            eventEmitter.addListener('onMessage',  this.onNativeMessage);
         }else{
-            DeviceEventEmitter.addListener('onMessage', function (e: Event) {
-                TW_Store.bblStore.onMsgHandle(e.NAME);
-            });
+            DeviceEventEmitter.addListener('onMessage', this.onNativeMessage);
         }
-
 
         TW_OnValueJSHome=TN_MSG_TO_GAME
 
         StatusBar.setHidden(true);
-        if (!G_IS_IOS) {
-            BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
-           // this.requestCameraPermission()
+        // if (!G_IS_IOS) {
+        //     BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
+        //    // this.requestCameraPermission()
+        // }
+    }
+
+    onNativeMessage=(e:Event)=>{
+        let message=e.NAME;
+        if(message.indexOf("onAndroidBack")>-1){
+            this.onBackAndroid()
+        }else{
+            TW_Store.bblStore.onMsgHandle(e.NAME);
         }
     }
 
-
     componentWillUnmount(): void {
         if (!G_IS_IOS) {
-            BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid);
+          //  BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid);
         }
         // OpeninstallModule.removeWakeUpListener(this.receiveWakeupListener)//移除监听
     }
@@ -125,14 +128,12 @@ export default class App extends Component {
     onBackAndroid = () => {
         TW_Log("onBackAndroid---", this.navigator);
         if (TW_Store.gameUpateStore.isInSubGame) {
-            if (TW_OnBackHomeJs) {
-                TW_OnBackHomeJs()
-            }
+            TW_Store.bblStore.quitSubGame("");
             return true;
         }
         let now = new Date().getTime();
         if (now - this.lastClickTime < 2500) {//2.5秒内点击后退键两次推出应用程序
-            // TN_ExitApp();
+             TN_ExitApp();
             return false;//控制权交给原生
         }
         this.lastClickTime = now;

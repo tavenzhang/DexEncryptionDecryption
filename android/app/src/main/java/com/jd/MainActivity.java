@@ -25,6 +25,7 @@ import android.webkit.ValueCallback;
 
 import com.jd.invokenative.ShareModule;
 import com.facebook.react.ReactActivity;
+import com.jd.jxhelper.JXHelper;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.UMShareAPI;
 
@@ -218,6 +219,8 @@ public class MainActivity extends ReactActivity {
     public void initEngine(String gameJson) throws JSONException {
          Log.d("postToGame==sLoad",gameJson);
            if(gameView == null){
+             //  getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+              // getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
                appData=gameJson;
                JSONObject jsonObj = new JSONObject(gameJson);
                String url = jsonObj.getString("gameUrl");
@@ -328,6 +331,7 @@ public class MainActivity extends ReactActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event)
     {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
+            JXHelper.instance.sendEvent(" {\"action\":\"onAndroidBack\"}");
             return true;
         }
         return super.onKeyDown(keyCode, event);

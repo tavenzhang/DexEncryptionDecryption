@@ -337,6 +337,15 @@ public class JXHelper extends ReactContextBaseJavaModule {
     @ReactMethod
     public void exitApp(){
        MainActivity.instance.finish();
+        //mLayaEngine.onDestroy();
+        System.exit(0);
+
+        //			JXHelper.instance.exitApp();
+//			activity.finish();
+//			activity = null;
+        //mLayaEngine.onDestroy();
+        //System.exit(0);
+
        //GameActivity.mainInstance.finish();
     }
 }

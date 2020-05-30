@@ -197,11 +197,6 @@ public class JSBridge {
 
 
     public static void jumpRN(final String data) {
-//        Activity currentActivity = GameActivity.mainInstance;
-//        Intent intent = new Intent(currentActivity, MainActivity.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP);
-//        currentActivity.startActivity(intent);
         m_Handler.post(
                 new Runnable() {
                     public void run() {
@@ -215,18 +210,13 @@ public class JSBridge {
                     public void run() {
                         try {
                             MainActivity.instance.initEngine(data);
+                            Log.d(" jumpHome.getAlpha=",  MainActivity.gameView.getAlpha()+"");
+                            Log.d(" jumpHome.getY=",  MainActivity.gameView.getY()+"");
                             MainActivity.gameView.setY(0);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }});
-//        Activity currentActivity = MainActivity.instance;
-//        Intent intent = new Intent(currentActivity, GameActivity.class);
-//
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP);
-//        intent.putExtra("homeData", data);
-//        currentActivity.startActivity(intent);
     }
 
 

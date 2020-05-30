@@ -345,8 +345,8 @@ export default class BBLStore {
     }
 
     onMsgHandle = msg => {
+        TW_Log('onMessage======GameLobby=====>>' + '\n', msg);
         let message = JSON.parse(msg);
-        TW_Log('onMessage======GameLobby=====>>' + '\n', message);
         let appDataJson=null;
         if (message && message.action) {
             switch (message.action) {
