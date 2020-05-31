@@ -345,8 +345,8 @@ export default class BBLStore {
     }
 
     onMsgHandle = msg => {
+        TW_Log('onMessage======GameLobby=====>>' + '\n', msg);
         let message = JSON.parse(msg);
-        TW_Log('onMessage======GameLobby=====>>' + '\n', message);
         let appDataJson=null;
         if (message && message.action) {
             switch (message.action) {
@@ -676,7 +676,6 @@ export default class BBLStore {
         let appDataStr = JSON.stringify(appData);
         TW_Log("appDataStr===enterGameLobby====", appData);
         TN_OpenHome(appDataStr);
-        TW_SplashScreen_HIDE()
         this.getAppData();
         if (!isSaveDate) {
             if (TW_Store.appStore.appSaveData) {
@@ -694,8 +693,12 @@ export default class BBLStore {
             if(G_IS_IOS){
                 TW_SplashScreen_HIDE();
                 clearInterval(TW_Store.appStore.timeClearId);
+                BackgroundTimer.clearInterval(this.intervalId);
                 this.intervalId = setInterval(this.onGameUpdataHind, 1000)
             }else{
+                TW_SplashScreen_HIDE();
+                clearInterval(TW_Store.appStore.timeClearId);
+                BackgroundTimer.clearInterval(this.intervalId);
                 this.intervalId = BackgroundTimer.setInterval(this.onGameUpdataHind, 1000);
             }
         }
@@ -715,12 +718,12 @@ export default class BBLStore {
             if(this.refreshAppRetry<20){
                 BackgroundTimer.setTimeout(()=>this.refreshAppNativeData(appData),1000);
             }
-
         }
     }
 
     onGameUpdataHind=()=>{
         TW_Log("TN_MSG_TO_GAME---enterGameLobby====" + this.percent)
+        TW_SplashScreen_HIDE()
         this.percent += 1;
         if(this.percent<=99){
             TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {

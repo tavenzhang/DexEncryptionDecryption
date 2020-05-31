@@ -161,6 +161,7 @@ export default class AppInfoStore {
             }
         })
         TW_Data_Store.getItem(TW_DATA_KEY.LobbyReadyOK, (err, dataStr)=>{
+            TW_SplashScreen_HIDE();
             let gameData=null
             try {
                 gameData=JSON.parse(dataStr)
@@ -172,16 +173,15 @@ export default class AppInfoStore {
                 this.appSaveData=gameData;
                 TW_Store.bblStore.enterGameLobby(gameData,true);
             }else{
-                if(G_IS_IOS){
                     let percent=1
-                    TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {data: "正在初始化数据 ",percent}));
+                    TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {data: "正在初始化数据 ",percent, color:"#0066a6"}));
                     this.timeClearId=setInterval(()=>{
                         //TW_Log("TN_MSG_TO_GAME---percent-"+percent)
                         percent+=1;
                         percent= percent>=100 ? 99:percent;
                         TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {percent}));
                     },500)
-                }
+
             }
         })
     }

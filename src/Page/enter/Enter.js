@@ -90,6 +90,8 @@ export default class Enter extends Component {
                 TW_Log("Model--" + deviceModel)
                 JX_PLAT_INFO.SCREEN_H = SCREEN_H = rH && rH > 0 ? rH : SCREEN_H;
                 JX_PLAT_INFO.SCREEN_W = SCREEN_W = rW && rW > 0 ? rW : SCREEN_W;
+                TW_Log("ExtraDimensions--JX_PLAT_INFO--SCREEN_W=="+SCREEN_W ,JX_PLAT_INFO);
+                TW_Log("ExtraDimensions--JX_PLAT_INFO--SCREEN_H=="+SCREEN_H ,JX_PLAT_INFO)
                 TW_Store.appStore.screenW = this.validateAndroidModel(deviceModel) ? rW - ExtraDimensions.getStatusBarHeight() : rW;
             }
         } catch (e) {
