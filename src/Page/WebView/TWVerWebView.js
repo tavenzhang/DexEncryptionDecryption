@@ -63,9 +63,6 @@ export default class TWVerWebView extends Component {
 
     componentWillMount() {
         //旋转到竖屏
-
-        BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
-
         if (ExtraDimensions.getSoftMenuBarHeight() > 0) {
             this.setState({isSoftMenuBarDetected: true})
         }
@@ -78,7 +75,7 @@ export default class TWVerWebView extends Component {
     componentWillUnmount(): void {
         let {type} = this.props;
         TW_Store.bblStore.isOpenThirdWebView=false;
-        BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid);
+
     }
 
     render() {
@@ -131,16 +128,18 @@ export default class TWVerWebView extends Component {
                 // <SafeAreaView style={{flex:1, backgroundColor:"rgb(227, 41, 43)"}}  forceInset={{ bottom: 'never' ,}}>
                 <KeyboardAvoidingView style={[styles.container, { paddingTop: isPaddingTop ? StatusBarHeight : 0  ,height:JX_PLAT_INFO.SCREEN_W, width:JX_PLAT_INFO.SCREEN_H}]} behavior="padding" keyboardVerticalOffset={-this.curMarginBottom}
                                       enabled={G_IS_IOS ? false : true}>
-                    <TCButtonImg btnStyle={{  position:"absolute", left:JX_PLAT_INFO.SCREEN_H-100,top:100, alignSelf: "center", zIndex: 200}} imgSource={ ASSET_Images.gameMemu.btnMenu}
-                                 imgStyle={{width:50,height:55}}
-                                 onClick={this.onClickMenu}
-                    />
+                    {/*<TCButtonImg btnStyle={{  position:"absolute", left:JX_PLAT_INFO.SCREEN_H-100,top:100, alignSelf: "center", zIndex: 200}} imgSource={ ASSET_Images.gameMemu.btnMenu}*/}
+                    {/*             imgStyle={{width:50,height:55}}*/}
+                    {/*             onClick={this.onClickMenu}*/}
+                    {/*/>*/}
 
                     {!this.state.isHttpFail ? webContentView : <View style={{
                         height: JX_PLAT_INFO.SCREEN_H, justifyContent: "center",
                         alignItems: "center", backgroundColor: "transparent"
                     }}>
                     </View>}
+                    <GameMenuButton isScreenPortrait={true} isShowReload={isShowReload} itransEnabled={"ON"}
+                                    onPressExit={this.onClickMenu}/>
                     {this.state.isShowExitAlertView && <ExitVerViewAlert
                         isOpenAddPay={this.state.isOpenAddPay}
                         onPressConfirm={() => {
@@ -304,10 +303,6 @@ export default class TWVerWebView extends Component {
     onBackHomeJs = (type = "") => {
         let { url, isShowReload, backHandle } = this.props;
         this.isQuitGame=true;
-        TW_NavHelp.popToBack();
-        if (backHandle) {
-            backHandle();
-        }
         TW_Store.appStore.lockToLandscape();
         TW_Store.bblStore.quitSubGame();
         this.setState({ isShowExitAlertView: false });

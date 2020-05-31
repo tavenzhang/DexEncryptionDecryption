@@ -65,7 +65,7 @@ export default class BBLStore {
     subGameParams = {
         url: '',
         isGame: true,
-        isOpenThirdWebView: false,
+        isOpenThirdVerWebView: false,
     };
 
 
@@ -185,7 +185,7 @@ export default class BBLStore {
         TN_JUMP_HOME();
         this.subGameParams = {
             url: '',
-            isGame: true
+            isGame: true,
         };
 
         if (TW_OnValueJSHome) {
@@ -408,7 +408,7 @@ export default class BBLStore {
                                 url: message.param,
                                 isShowReload: true,
                                 type: message.type,
-                                isOpenThirdWebView: true,
+                                isOpenThirdVerWebView: true,
                                 isPaddingTop: false
                             };
                             //TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:message.param,isShowReload:true,type:message.type,isPaddingTop:false})
@@ -418,7 +418,7 @@ export default class BBLStore {
                                 url: TW_Store.gameUIStroe.gustWebUrl,
                                 isShowReload: false,
                                 type: message.type,
-                                isOpenThirdWebView: true,
+                                isOpenThirdVerWebView: true,
                             };
                             //TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:TW_Store.gameUIStroe.gustWebUrl,isShowReload:false,type:"guest"});
                             break;
