@@ -483,6 +483,8 @@ export default class Enter extends Component {
 
     onCodePushReStart=()=>{
         if(TW_Store.hotFixStore.isInstalledFinish){
+            clearInterval(TW_Store.appStore.timeClearId);
+            BackgroundTimer.clearInterval(TW_Store.bblStore.intervalId);
             CodePush.restartApp();
         }else{
             BackgroundTimer.setTimeout(this.onCodePushReStart,1000);
