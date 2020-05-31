@@ -128,6 +128,9 @@ export default class App extends Component {
     onBackAndroid = () => {
         TW_Log("onBackAndroid---", this.navigator);
         if (TW_Store.gameUpateStore.isInSubGame) {
+            if(TW_Store.bblStore.subGameParams.isOpenThirdVerWebView){
+                TW_Store.appStore.lockToLandscape();
+            }
             TW_Store.bblStore.quitSubGame("");
             return true;
         }
