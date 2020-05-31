@@ -169,5 +169,8 @@
 	<false/>
 		<key>ITSAppUsesNonExemptEncryption</key>
     	<false/>
+
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
 </dict>
 </plist>
