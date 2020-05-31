@@ -9,15 +9,13 @@
 
     <ImageView
         android:id="@+id/logoView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
         android:adjustViewBounds="true"
-        android:maxHeight="200dp"
-        android:maxWidth="200dp"
-        android:src="@drawable/layabox"
-        tools:scaleType="fitCenter" />
+        android:scaleType="centerCrop"
+        android:src="@drawable/launch_screen"
+        app:srcCompat="@drawable/launch_screen" />
 
     <TextView
         android:id="@+id/tipsView"
@@ -25,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="68dp"
+        android:layout_marginBottom="50dp"
         android:text="" />
 
 </RelativeLayout>
