@@ -152,7 +152,7 @@ RCT_EXPORT_METHOD(openNewHome:(NSString *)data)
        appData = data;
         AppDelegate *delagete = (AppDelegate *)[UIApplication sharedApplication].delegate;
            [[delagete myRootVC] addGameLobbyControl:data];
-          
+          [[[delagete myRootVC] view] addSubview:  [[delagete launchView] view]];
     });
   
    
