@@ -47,6 +47,8 @@ export default class BBLStore {
 
     percent=1;
 
+    isIosMute="1";
+
     intervalId=null;
 
     //是否已经开始了http GameList请求
@@ -239,7 +241,8 @@ export default class BBLStore {
         game_recharge: "game_recharge",
         runJS: "runJS",
         loadingView: "loadingView",
-        gtestBack:"gtestBack"
+        gtestBack:"gtestBack",
+        isMute: "isMute",
     };
 
     //bgm.mp3 click.mp3 close.mp3 flopleft.mp3 flopright.mp3 recharge.mp3 rightbottomclose.mp3 showlogo.mp3
@@ -350,6 +353,12 @@ export default class BBLStore {
         let appDataJson=null;
         if (message && message.action) {
             switch (message.action) {
+                case "isMute":
+                    this.isIosMute= message.data;
+                    TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.isMute, {
+                        data: message.data,
+                    }));
+                    break;
                 case "gameUrlError":
                     if (this.domainRetry <= 3) {
                         let appDataJson=this.getAPPJsonData();
@@ -411,7 +420,6 @@ export default class BBLStore {
                                 isOpenThirdVerWebView: true,
                                 isPaddingTop: false
                             };
-                            //TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:message.param,isShowReload:true,type:message.type,isPaddingTop:false})
                             break;
                         case "customerService":
                             TW_Store.bblStore.subGameParams = {
@@ -420,7 +428,6 @@ export default class BBLStore {
                                 type: message.type,
                                 isOpenThirdVerWebView: true,
                             };
-                            //TW_NavHelp.pushView(JX_Compones.TWThirdWebView,{url:TW_Store.gameUIStroe.gustWebUrl,isShowReload:false,type:"guest"});
                             break;
                         case "copylink":
                             Clipboard.setString(message.param);
@@ -667,6 +674,7 @@ export default class BBLStore {
             gameUrl: `${this.getVersionDomain()}/index.js`,
             sit: "5",
             uat: "214",
+            isMute:this.isIosMute
         }
     };
 
@@ -694,7 +702,7 @@ export default class BBLStore {
                 TW_SplashScreen_HIDE();
                 clearInterval(TW_Store.appStore.timeClearId);
                 BackgroundTimer.clearInterval(this.intervalId);
-                this.intervalId = setInterval(this.onGameUpdataHind, 1000)
+                this.intervalId = BackgroundTimer.setInterval(this.onGameUpdataHind, 1000)
             }else{
                 TW_SplashScreen_HIDE();
                 clearInterval(TW_Store.appStore.timeClearId);
@@ -722,7 +730,7 @@ export default class BBLStore {
     }
 
     onGameUpdataHind=()=>{
-        TW_Log("TN_MSG_TO_GAME---enterGameLobby====" + this.percent)
+        TW_Log("TN_MSG_TO_GAME---enterGameLobby====" + this.percent+"--this.isEnterLooby="+this.isEnterLooby);
         TW_SplashScreen_HIDE()
         this.percent += 1;
         if(this.percent<=99){
@@ -732,7 +740,14 @@ export default class BBLStore {
                 color:"#0066a6"
             }));
         }
+        if(this.isEnterLooby){
+            clearInterval(TW_Store.appStore.timeClearId);
+            BackgroundTimer.clearInterval(this.intervalId);
+        }
     }
 
+    onCheckIosMute=(state="1")=>{
+           this.isIosMute=state;
+    }
 
 }
