@@ -140,7 +140,7 @@ export default class Enter extends Component {
             let now = new Date().getTime();
             this.lastClickTime = now;
             if (!TW_Store.gameUpateStore.isInSubGame) {
-
+                TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 0 }));
             } else {
                 TW_OnValueJSSubGame(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 0 }));
             }
