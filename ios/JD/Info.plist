@@ -83,8 +83,6 @@
 		</array>
 	</dict>
 
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>openApp.jdMobile</string>
@@ -176,5 +174,7 @@
 	</array>
 		<key>ITSAppUsesNonExemptEncryption</key>
     	<false/>
+    		<key>UILaunchStoryboardName</key>
+        	<string>LaunchScreen</string>
 </dict>
 </plist>
