@@ -12,6 +12,7 @@
 #import "ModuleWithEmitter.h"
 #import <RCTJPushModule.h>
 #import <OpenInstallSDK.h>
+#import "JSBridge.h"
 static NSString * const JDNight = @"12night";
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate,JPUSHRegisterDelegate,OpenInstallDelegate>
@@ -23,6 +24,8 @@ static NSString * const JDNight = @"12night";
 @property(nonatomic,strong) MyViewController* myRootVC;
 @property(nonatomic,assign) BOOL isLoadForJS;
 @property(nonatomic,assign) BOOL isLoad;
+@property(nonatomic,assign) BOOL isMute;
+@property(nonatomic,assign) BOOL isLobbyInit;
 
 
 

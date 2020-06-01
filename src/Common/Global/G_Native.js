@@ -139,6 +139,13 @@ global.TN_JUMP_RN=(data="")=>{
         NativeModules.JXHelper.jumpToRN(dataStr);
     }
 }
+global.TN_ISMute=()=>{
+    if (NativeModules.JXHelper.checkIsMute) {
+        NativeModules.JXHelper.checkIsMute((dataStr)=>{
+            TW_Store.bblStore.onCheckIosMute(dataStr);
+        });
+    }
+}
 
 
 global.TN_ExitApp = () => {

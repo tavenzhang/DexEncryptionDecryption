@@ -60,6 +60,7 @@ static ModuleWithEmitter* emit=nil ;
    NSString* action = [dic valueForKey:@"action"];
   AppDelegate * appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
   [appDelegate.myEmitter sendEvent:message];
+  appDelegate.isLobbyInit=YES;
    //ModuleWithEmitter* emit=  [ModuleWithEmitter  new];
   // [emit sendEvent:message];
    dispatch_async(dispatch_get_main_queue(), ^{

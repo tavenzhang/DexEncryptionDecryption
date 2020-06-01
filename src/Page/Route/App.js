@@ -60,6 +60,7 @@ const MainStackNavigator = StackNavigator({
 })
 
 import KeyboardManager from 'react-native-keyboard-manager'
+import BackgroundTimer from "react-native-background-timer";
 
 @observer
 export default class App extends Component {
@@ -81,10 +82,16 @@ export default class App extends Component {
         TW_OnValueJSHome=TN_MSG_TO_GAME
 
         StatusBar.setHidden(true);
-        // if (!G_IS_IOS) {
-        //     BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
-        //    // this.requestCameraPermission()
-        // }
+        if (G_IS_IOS) {
+            this.intervalId = BackgroundTimer.setInterval(this.onCheckMute, 800);
+        }
+    }
+    onCheckMute=()=>{
+        if(!TW_Store.bblStore.isEnterLooby){
+            TN_ISMute();
+        }else{
+            BackgroundTimer.clearInterval(this.intervalId );
+        }
     }
 
     onNativeMessage=(e:Event)=>{
@@ -100,6 +107,7 @@ export default class App extends Component {
         if (!G_IS_IOS) {
           //  BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid);
         }
+        BackgroundTimer.clearInterval(this.intervalId);
         // OpeninstallModule.removeWakeUpListener(this.receiveWakeupListener)//移除监听
     }
 

@@ -79,6 +79,11 @@
 		9543D1C521C0E948006E51DD /* libcxxreact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA91DF850E9000B6D8A /* libcxxreact.a */; };
 		95E1B8AD2248856700C9CE2E /* libKCKeepAwake.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95E1B86C2248855A00C9CE2E /* libKCKeepAwake.a */; };
 		95FFA4E621B402F700E25995 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
+		AB3653FA248531C1007A6087 /* KKMuteSwitchListener.m in Sources */ = {isa = PBXBuildFile; fileRef = AB3653B8248531C1007A6087 /* KKMuteSwitchListener.m */; };
+		AB3653FB248531C1007A6087 /* KKAudioControlManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AB3653B9248531C1007A6087 /* KKAudioControlManager.m */; };
+		AB3653FC248531C1007A6087 /* KKVolumeProgressWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = AB3653BA248531C1007A6087 /* KKVolumeProgressWindow.m */; };
+		AB3653FD248531C1007A6087 /* KKAudioLongPressListener.m in Sources */ = {isa = PBXBuildFile; fileRef = AB3653BB248531C1007A6087 /* KKAudioLongPressListener.m */; };
+		AB3653FE248531C1007A6087 /* KKMuteSwitchListener.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AB3653BC248531C1007A6087 /* KKMuteSwitchListener.bundle */; };
 		AB970191247802B4009A6A20 /* JXHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB97018F247802B4009A6A20 /* JXHelper.mm */; };
 		AB970192247802B4009A6A20 /* JDHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB970190247802B4009A6A20 /* JDHelper.mm */; };
 		AB97019724783389009A6A20 /* MyViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB97019324783389009A6A20 /* MyViewController.mm */; };
@@ -720,6 +725,15 @@
 		95E1B8622248855A00C9CE2E /* KCKeepAwake.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KCKeepAwake.xcodeproj; path = "../node_modules/react-native-keep-awake/ios/KCKeepAwake.xcodeproj"; sourceTree = "<group>"; };
 		9B924D5A8AE1F608BD595A54 /* Pods_card.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_card.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A64BC82211154D06A65315D9 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
+		AB3653B5248531C1007A6087 /* KKAudioControlManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KKAudioControlManager.h; sourceTree = "<group>"; };
+		AB3653B6248531C1007A6087 /* KKAudioLongPressListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KKAudioLongPressListener.h; sourceTree = "<group>"; };
+		AB3653B7248531C1007A6087 /* KKVolumeProgressWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KKVolumeProgressWindow.h; sourceTree = "<group>"; };
+		AB3653B8248531C1007A6087 /* KKMuteSwitchListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KKMuteSwitchListener.m; sourceTree = "<group>"; };
+		AB3653B9248531C1007A6087 /* KKAudioControlManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KKAudioControlManager.m; sourceTree = "<group>"; };
+		AB3653BA248531C1007A6087 /* KKVolumeProgressWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KKVolumeProgressWindow.m; sourceTree = "<group>"; };
+		AB3653BB248531C1007A6087 /* KKAudioLongPressListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KKAudioLongPressListener.m; sourceTree = "<group>"; };
+		AB3653BC248531C1007A6087 /* KKMuteSwitchListener.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = KKMuteSwitchListener.bundle; sourceTree = "<group>"; };
+		AB3653BD248531C1007A6087 /* KKMuteSwitchListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KKMuteSwitchListener.h; sourceTree = "<group>"; };
 		AB97018F247802B4009A6A20 /* JXHelper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JXHelper.mm; sourceTree = "<group>"; };
 		AB970190247802B4009A6A20 /* JDHelper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JDHelper.mm; sourceTree = "<group>"; };
 		AB97019324783389009A6A20 /* MyViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MyViewController.mm; sourceTree = "<group>"; };
@@ -914,6 +928,7 @@
 		13B07FAE1A68108700A75B9A /* JD */ = {
 			isa = PBXGroup;
 			children = (
+				AB3653B4248531C1007A6087 /* KKAudioControl */,
 				ABD45AAD2476BA8500469B26 /* LayaRuntime */,
 				ABD45AAB2476B88C00469B26 /* main.mm */,
 				ABD45AA92476B87900469B26 /* AppDelegate.mm */,
@@ -1418,6 +1433,22 @@
 				95E1B86C2248855A00C9CE2E /* libKCKeepAwake.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		AB3653B4248531C1007A6087 /* KKAudioControl */ = {
+			isa = PBXGroup;
+			children = (
+				AB3653B5248531C1007A6087 /* KKAudioControlManager.h */,
+				AB3653B6248531C1007A6087 /* KKAudioLongPressListener.h */,
+				AB3653B7248531C1007A6087 /* KKVolumeProgressWindow.h */,
+				AB3653B8248531C1007A6087 /* KKMuteSwitchListener.m */,
+				AB3653B9248531C1007A6087 /* KKAudioControlManager.m */,
+				AB3653BA248531C1007A6087 /* KKVolumeProgressWindow.m */,
+				AB3653BB248531C1007A6087 /* KKAudioLongPressListener.m */,
+				AB3653BC248531C1007A6087 /* KKMuteSwitchListener.bundle */,
+				AB3653BD248531C1007A6087 /* KKMuteSwitchListener.h */,
+			);
+			path = KKAudioControl;
 			sourceTree = "<group>";
 		};
 		ABD45A4524769E4800469B26 /* resource */ = {
@@ -2143,6 +2174,7 @@
 			files = (
 				ABD45A7624769E5700469B26 /* config.ini in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				AB3653FE248531C1007A6087 /* KKMuteSwitchListener.bundle in Resources */,
 				ABD45A7824769E5700469B26 /* libconchRuntime.bundle in Resources */,
 				ABD45A7724769E5700469B26 /* app.json in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
@@ -2224,6 +2256,7 @@
 				22C777C2205613A000F8E8C6 /* NSMutableSet+WTSafe.m in Sources */,
 				22C7775F2053D20900F8E8C6 /* AFHTTPSessionManager.m in Sources */,
 				22C777B6205613A000F8E8C6 /* NSTimer+WTSafe.m in Sources */,
+				AB3653FD248531C1007A6087 /* KKAudioLongPressListener.m in Sources */,
 				22C777BA205613A000F8E8C6 /* NSSet+WTSafe.m in Sources */,
 				22C777B4205613A000F8E8C6 /* WTFakeForwardTargetObject.m in Sources */,
 				ABD45A922476A2FD00469B26 /* IAPManager.m in Sources */,
@@ -2233,6 +2266,7 @@
 				22C777B3205613A000F8E8C6 /* WTKVOMapManager.m in Sources */,
 				AB970192247802B4009A6A20 /* JDHelper.mm in Sources */,
 				ABD45A932476A2FD00469B26 /* JSBridge.mm in Sources */,
+				AB3653FA248531C1007A6087 /* KKMuteSwitchListener.m in Sources */,
 				22B3BD0E204FB4CF00B6B7FF /* RNUMConfigure.m in Sources */,
 				22C777B9205613A000F8E8C6 /* NSURL+WTSafe.m in Sources */,
 				22C777602053D20900F8E8C6 /* AFURLSessionManager.m in Sources */,
@@ -2240,6 +2274,7 @@
 				22C777AE205613A000F8E8C6 /* UIPasteboard+WTSafe.m in Sources */,
 				22C777BF205613A000F8E8C6 /* NSJSONSerialization+WTSafe.m in Sources */,
 				ABD45AAC2476B88C00469B26 /* main.mm in Sources */,
+				AB3653FB248531C1007A6087 /* KKAudioControlManager.m in Sources */,
 				22C777C0205613A000F8E8C6 /* NSIndexPath+WTSafe.m in Sources */,
 				22C777BE205613A000F8E8C6 /* NSString+WTSafe.m in Sources */,
 				AB97019824783389009A6A20 /* ModuleWithEmitter.mm in Sources */,
@@ -2255,6 +2290,7 @@
 				22C777C4205613A000F8E8C6 /* WTSafeGuard.m in Sources */,
 				22C777632053D20900F8E8C6 /* AFSecurityPolicy.m in Sources */,
 				22C7775E2053D20900F8E8C6 /* AFURLResponseSerialization.m in Sources */,
+				AB3653FC248531C1007A6087 /* KKVolumeProgressWindow.m in Sources */,
 				22C777622053D20900F8E8C6 /* AFNetworkReachabilityManager.m in Sources */,
 				22B3BD11204FB4CF00B6B7FF /* UMAnalyticsModule.m in Sources */,
 				ABD45A8E2476A2FD00469B26 /* ViewController.mm in Sources */,
