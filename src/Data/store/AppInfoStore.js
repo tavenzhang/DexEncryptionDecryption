@@ -254,12 +254,14 @@ export default class AppInfoStore {
                     if (map && map.affCode) {
                         this.userAffCode = map.affCode;
                         TW_Data_Store.setItem(TW_DATA_KEY.AFF_CODE, this.userAffCode);
-                        TW_OnValueJSHome(
-                            TW_Store.bblStore.getWebAction(
-                                TW_Store.bblStore.ACT_ENUM.affcode,
-                                { data: this.userAffCode }
-                            )
-                        );
+                        if(TW_Store.bblStore.isEnterLooby){
+                            TW_OnValueJSHome(
+                                TW_Store.bblStore.getWebAction(
+                                    TW_Store.bblStore.ACT_ENUM.affcode,
+                                    { data: this.userAffCode }
+                                )
+                            );
+                        }
                         TW_Store.dataStore.log +=
                             "\ngetInstall---affCode=TW_OnValueJSHome--userAffCode-" +
                             this.userAffCode;
