@@ -33,6 +33,7 @@ extern NSString * KKAudioControlMuteTurnOffNotification;
 //  _window.rootViewController = pViewController;
 //  [_window makeKeyAndVisible];
 //
+  self.isMute=YES ;
   application.applicationIconBadgeNumber = 0;
   self.launchOptions = launchOptions;
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
