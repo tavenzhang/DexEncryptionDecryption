@@ -737,7 +737,7 @@ export default class BBLStore {
             TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {
                 data: "正在获取更新中...",
                 percent:this.percent,
-                color:"#0066a6"
+                color:platInfo.loadHintColor
             }));
         }
         if(this.isEnterLooby){

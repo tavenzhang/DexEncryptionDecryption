@@ -174,7 +174,7 @@ export default class AppInfoStore {
                 TW_Store.bblStore.enterGameLobby(gameData,true);
             }else{
                     let percent=1
-                    TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {data: "正在初始化数据 ",percent, color:"#0066a6"}));
+                    TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {data: "正在初始化数据 ",percent, color:platInfo.loadHintColor}));
                     this.timeClearId=setInterval(()=>{
                         //TW_Log("TN_MSG_TO_GAME---percent-"+percent)
                         percent+=1;
