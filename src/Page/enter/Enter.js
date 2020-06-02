@@ -109,9 +109,7 @@ export default class Enter extends Component {
                 return;
             }
             if (this.flage) {
-                if (TW_OnValueJSHome) {
-                    TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 1 }));
-                }
+
                 TW_Log("AppStateChange-active-----TW_Store.gameUpateStore.isInSubGame==="+TW_Store.gameUpateStore.isInSubGame);
                 if (!TW_Store.gameUpateStore.isInSubGame) {
                     let now = new Date().getTime();
@@ -121,17 +119,13 @@ export default class Enter extends Component {
                         this.hotFix(TW_Store.hotFixStore.currentDeployKey, true);
                     }
                     TN_JUMP_HOME();
+                    if (TW_Store.bblStore.isEnterLooby) {
+                        TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 1 }));
+                    }
                 } else {
-                    TW_OnValueJSSubGame(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 1 }));
+                        TW_OnValueJSSubGame(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 1 }));
                 }
             }
-
-            // if (TW_Store.gameUIStroe.wxShareHandle.isShareIng) {
-            //     if (TW_Store.gameUIStroe.wxShareHandle.callback) {
-            //         TW_Store.gameUIStroe.wxShareHandle.callback();
-            //         TW_Store.gameUIStroe.wxShareHandle.isShareIng = false;
-            //     }
-            // }
             this.flage = false;
         } else if (nextAppState != null && nextAppState === 'background') {
             TW_Store.dataStore.log += "\nAppStateChange-background\n";
@@ -140,11 +134,12 @@ export default class Enter extends Component {
             let now = new Date().getTime();
             this.lastClickTime = now;
             if (!TW_Store.gameUpateStore.isInSubGame) {
-                TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 0 }));
+                if(TW_Store.bblStore.isEnterLooby){
+                    TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 0 }));
+                }
             } else {
                 TW_OnValueJSSubGame(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 0 }));
             }
-
         }
     }
 
