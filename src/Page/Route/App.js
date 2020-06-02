@@ -80,7 +80,6 @@ export default class App extends Component {
         }
 
         TW_OnValueJSHome=TN_MSG_TO_GAME
-
         StatusBar.setHidden(true);
         if (G_IS_IOS) {
             this.intervalId = BackgroundTimer.setInterval(this.onCheckMute, 800);
@@ -91,6 +90,11 @@ export default class App extends Component {
             TN_ISMute();
         }else{
             BackgroundTimer.clearInterval(this.intervalId );
+            TN_ISMute((isMute)=>{
+                TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.isMute, {
+                    data:isMute
+                }));
+            })
         }
     }
 
