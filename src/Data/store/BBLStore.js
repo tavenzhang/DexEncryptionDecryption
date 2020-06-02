@@ -674,7 +674,7 @@ export default class BBLStore {
             gameUrl: `${this.getVersionDomain()}/index.js`,
             sit: "5",
             uat: "214",
-            isMute:this.isIosMute
+            isMute:this.isIosMute||TW_Store.appStore.clindId =="420030" //对911棋牌特殊处理
         }
     };
 
