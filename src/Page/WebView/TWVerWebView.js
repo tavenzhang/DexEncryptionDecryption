@@ -59,6 +59,7 @@ export default class TWVerWebView extends Component {
         this.bblStore = TW_Store.bblStore;
         this.curMarginBottom=0;
         this.isQuitGame=false;
+
     }
 
     componentWillMount() {

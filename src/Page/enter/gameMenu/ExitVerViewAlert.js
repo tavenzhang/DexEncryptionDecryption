@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         paddingVertical: 15,
         alignSelf:"center",
-        top:G_IS_IOS ? (JX_PLAT_INFO.SCREEN_W- ALERT_VIEW_SIZE.height)/2:(JX_PLAT_INFO.SCREEN_H-ALERT_VIEW_SIZE.height)
+        top: (JX_PLAT_INFO.SCREEN_W- ALERT_VIEW_SIZE.height)/2
     },
     viewOptions: {
         flexDirection: "row",
