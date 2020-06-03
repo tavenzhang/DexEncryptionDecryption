@@ -472,7 +472,7 @@ export default class BBLStore {
                                                 TN_MSG_TO_GAME(
                                                     TW_Store.bblStore.getWebAction(
                                                         TW_Store.bblStore.ACT_ENUM.popTip,
-                                                        {data: '微信授权异常!'}
+                                                        {data: "微信授权异常 error="+code +" result="+result}
                                                     )
                                                 );
                                             }
@@ -480,7 +480,7 @@ export default class BBLStore {
                                             TN_MSG_TO_GAME(
                                                 TW_Store.bblStore.getWebAction(
                                                     TW_Store.bblStore.ACT_ENUM.popTip,
-                                                    {data: '微信授权异常!'}
+                                                    {data: "微信授权异常 error=" + code}
                                                 )
                                             );
                                         }
