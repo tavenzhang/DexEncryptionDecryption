@@ -95,14 +95,16 @@ static ModuleWithEmitter* emit=nil ;
                  [JSBridge setTips:nameArr];
         }
          
-          NSString* percent= [dic valueForKey:@"percent"];
+      NSString* percent= [dic valueForKey:@"percent"];
       if(percent){
           int intString = [percent intValue];
           [JSBridge loading:[NSNumber numberWithInt:intString]];
       }
       
-        //  [JSBridge showTextInfo:[NSNumber numberWithInt:1]];
-         
+      NSString* hideSplash= [dic valueForKey:@"hideSplash"];
+      if(hideSplash){
+          [JSBridge hideSplash];
+      }
     }
     else{
          [[conchRuntime GetIOSConchRuntime] runJS:postAction];
