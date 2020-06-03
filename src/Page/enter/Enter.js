@@ -482,7 +482,7 @@ export default class Enter extends Component {
                 if(TW_Store.appStore.appSaveData){
                     TW_Store.appStore.appSaveData.isCodePushRStart="1"
                     TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(TW_Store.appStore.appSaveData),(error)=>{
-                        CodePush.restartApp();
+                      //  CodePush.restartApp();
                     });
                 }
             }else{
