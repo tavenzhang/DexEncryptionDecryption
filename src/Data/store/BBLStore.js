@@ -472,7 +472,7 @@ export default class BBLStore {
                                                 TN_MSG_TO_GAME(
                                                     TW_Store.bblStore.getWebAction(
                                                         TW_Store.bblStore.ACT_ENUM.popTip,
-                                                        {data: '微信授权异常!'}
+                                                        {data: "微信授权异常 error="+code +" result="+result}
                                                     )
                                                 );
                                             }
@@ -480,7 +480,7 @@ export default class BBLStore {
                                             TN_MSG_TO_GAME(
                                                 TW_Store.bblStore.getWebAction(
                                                     TW_Store.bblStore.ACT_ENUM.popTip,
-                                                    {data: '微信授权异常!'}
+                                                    {data: "微信授权异常 error=" + code}
                                                 )
                                             );
                                         }
@@ -674,7 +674,7 @@ export default class BBLStore {
             gameUrl: `${this.getVersionDomain()}/index.js`,
             sit: "5",
             uat: "214",
-            isMute:this.isIosMute||TW_Store.appStore.clindId =="420030" //对911棋牌特殊处理
+            isMute:this.isIosMute || TW_Store.appStore.isOldIosAPP //对于2。2。2的iosapp 强制会true
         }
     };
 
