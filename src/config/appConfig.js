@@ -38,7 +38,7 @@ export const AppConfig = {
 
 export const MyAppName = '棋牌sit';
 
-export const versionHotFix = 'v6.0603.1245';
+export const versionHotFix = 'v6.0603.1247';
 
 export const MyOwnerPlatName= 'sit';
 
@@ -59,7 +59,7 @@ export const platInfo = {
     },
     platId: configAppId,
     brand: "qp01",
-    latestNativeVersion:{ios:"3",android:"3"},//用于强制更新 匹配，与info.plist 还有 gradle.properties. 需要严格一致。否则 会弹窗 强制下载
+    latestNativeVersion:{ios:"4",android:"4"},//用于强制更新 匹配，与info.plist 还有 gradle.properties. 需要严格一致。否则 会弹窗 强制下载
     appInfo : {
         ch_8: {
             name: "appstoreWithCodePush",
