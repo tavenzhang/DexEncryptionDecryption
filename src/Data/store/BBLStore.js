@@ -364,6 +364,7 @@ export default class BBLStore {
                         let appDataJson=this.getAPPJsonData();
                         let gameDomainStar = `appCallBack('${appDataJson.gameUrl}')`;
                         TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, "null");
+                        TW_Store.appStore.appSaveData=null;
                         TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.runJS, {data: gameDomainStar}));
                     } else {
                         TN_JUMP_RN();
@@ -392,7 +393,10 @@ export default class BBLStore {
                         }
                         if (!gameData) {
                             TW_Log("nativeStart---sava--beugim" + gameData)
-                            TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(this.getAPPJsonData()));
+                            gameData = this.getAPPJsonData();
+                            TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(gameData),(error)=>{
+                                TW_Store.appStore.appSaveData=gameData;
+                            });
                         }
                     });
                     break;
@@ -701,7 +705,7 @@ export default class BBLStore {
                 BackgroundTimer.setTimeout(()=>this.refreshAppNativeData(appData),1000);
             }
         }
-        if(!this.isEnterLooby){
+        if(!this.isEnterLooby&&!TW_Store.appStore.isCodePushRStart){
             this.percent = 1;
             TW_Log("TN_MSG_TO_GAME---BackgroundTimer=-start")
             if(G_IS_IOS){

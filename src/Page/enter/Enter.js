@@ -116,7 +116,7 @@ export default class Enter extends Component {
                         this.hotFix(TW_Store.hotFixStore.currentDeployKey, true);
                     }
                     TN_JUMP_HOME();
-                    if (TW_Store.bblStore.isEnterLooby) {
+                    if (TW_Store.bblStore.isEnterLooby||TW_Store.appStore.isCodePushRStart) {
                         TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 1 }));
                     }
                 } else {
@@ -456,20 +456,20 @@ export default class Enter extends Component {
         //再根据情况判断是否需要需要马上重启
         if(!this.hotFixStore.isNextAffect){
             if(!TW_Store.bblStore.isEnterLooby){
-               this.onCodePushReStart();
+                this.onCodePushReStart();
             }else{
-                //如果已经进入了大厅 强制下次启动生效
-                // if(TW_Store.bblStore.isStartGameHttp){
-                //     TN_MSG_TO_GAME(
-                //         TW_Store.bblStore.getWebAction(
-                //             TW_Store.bblStore.ACT_ENUM.appNativeData,
-                //             {data: TW_Store.bblStore.getAPPJsonData()}
-                //         )
-                //     );
-                //     BackgroundTimer.setTimeout(this.onCodePushReStart,3000);
-                // }else{
-                //     BackgroundTimer.setTimeout(this.isRestartNowFun,2000);
-                // }
+               // 如果已经进入了大厅 强制下次启动生效
+                if(TW_Store.bblStore.isStartGameHttp){
+                    TN_MSG_TO_GAME(
+                        TW_Store.bblStore.getWebAction(
+                            TW_Store.bblStore.ACT_ENUM.appNativeData,
+                            {data: TW_Store.bblStore.getAPPJsonData()}
+                        )
+                    );
+                    BackgroundTimer.setTimeout(this.onCodePushReStart,3000);
+                }else{
+                    BackgroundTimer.setTimeout(this.isRestartNowFun,2000);
+                }
             }
         }
     }
@@ -478,7 +478,16 @@ export default class Enter extends Component {
         if(TW_Store.hotFixStore.isInstalledFinish){
             clearInterval(TW_Store.appStore.timeClearId);
             BackgroundTimer.clearInterval(TW_Store.bblStore.intervalId);
-            CodePush.restartApp();
+            if(TW_Store.bblStore.isEnterLooby){
+                if(TW_Store.appStore.appSaveData){
+                    TW_Store.appStore.appSaveData.isCodePushRStart="1"
+                    TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(TW_Store.appStore.appSaveData),(error)=>{
+                        CodePush.restartApp();
+                    });
+                }
+            }else{
+                CodePush.restartApp();
+            }
         }else{
             BackgroundTimer.setTimeout(this.onCodePushReStart,1000);
         }
