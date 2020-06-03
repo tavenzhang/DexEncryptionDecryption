@@ -473,12 +473,12 @@ export default class BBLStore {
                                                 try {
                                                     retStr=JSON.stringify(result);
                                                 }catch (e) {
-
+                                                    retStr="";
                                                 }
                                                 TN_MSG_TO_GAME(
                                                     TW_Store.bblStore.getWebAction(
                                                         TW_Store.bblStore.ACT_ENUM.popTip,
-                                                        {data: "微信授权异常 error="+code +" result="+result}
+                                                        {data: "微信授权异常 error="+code +" result="+retStr}
                                                     )
                                                 );
                                             }
