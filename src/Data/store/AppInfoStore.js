@@ -124,8 +124,7 @@ export default class AppInfoStore {
     timeClearId=null
 
     isOldIosAPP=false;
-    //是否是codePush触发的立即热启动
-    isCodePushRStart=false
+
 
 
     constructor() {
@@ -174,16 +173,12 @@ export default class AppInfoStore {
             TW_Log("TW_DATA_KEY.LobbyReadyOK==err-"+err+"--data==",gameData);
             if(gameData){
                 this.appSaveData=gameData;
-                 if(gameData.isCodePushRStart == "1"){
-                     this.isCodePushRStart=true;
-                     gameData.isCodePushRStart="0"
-                     TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK,JSON.stringify(gameData))
-                 }
                 TW_Store.bblStore.enterGameLobby(gameData,true);
             }else{
                     let percent=1
                     TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {data: "正在初始化数据 ",percent, color:platInfo.loadHintColor}));
                     this.timeClearId=setInterval(()=>{
+                        //TW_Log("TN_MSG_TO_GAME---percent-"+percent)
                         percent+=1;
                         percent= percent>=100 ? 99:percent;
                         TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {percent}));
