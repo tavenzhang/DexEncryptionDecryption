@@ -469,6 +469,12 @@ export default class BBLStore {
                                                     )
                                                 );
                                             } else {
+                                                let retStr="";
+                                                try {
+                                                    retStr=JSON.stringify(result);
+                                                }catch (e) {
+
+                                                }
                                                 TN_MSG_TO_GAME(
                                                     TW_Store.bblStore.getWebAction(
                                                         TW_Store.bblStore.ACT_ENUM.popTip,
