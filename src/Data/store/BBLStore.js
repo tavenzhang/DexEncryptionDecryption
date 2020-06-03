@@ -694,6 +694,7 @@ export default class BBLStore {
         let appDataStr = JSON.stringify(appData);
         TW_Log("appDataStr===enterGameLobby====", appData);
         TN_OpenHome(appDataStr);
+        TW_SplashScreen_HIDE()
         this.getAppData();
         if (!isSaveDate) {
             if (TW_Store.appStore.appSaveData) {
@@ -741,7 +742,6 @@ export default class BBLStore {
 
     onGameUpdataHind=()=>{
         TW_Log("TN_MSG_TO_GAME---enterGameLobby====" + this.percent+"--this.isEnterLooby="+this.isEnterLooby);
-        TW_SplashScreen_HIDE()
         this.percent += 1;
         if(this.percent<=99){
             TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {
