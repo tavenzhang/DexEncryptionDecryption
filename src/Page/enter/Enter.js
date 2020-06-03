@@ -105,9 +105,6 @@ export default class Enter extends Component {
         if (nextAppState != null && nextAppState === 'active') {
             TW_Store.dataStore.log += "\nAppStateChange-active\n";
             //如果属于强制更新状态 不触发active判断
-            if(TW_Store.gameUpateStore.isForeAppUpate){
-                return;
-            }
             if (this.flage) {
 
                 TW_Log("AppStateChange-active-----TW_Store.gameUpateStore.isInSubGame==="+TW_Store.gameUpateStore.isInSubGame);
@@ -461,17 +458,18 @@ export default class Enter extends Component {
             if(!TW_Store.bblStore.isEnterLooby){
                this.onCodePushReStart();
             }else{
-                if(TW_Store.bblStore.isStartGameHttp){
-                    TN_MSG_TO_GAME(
-                        TW_Store.bblStore.getWebAction(
-                            TW_Store.bblStore.ACT_ENUM.appNativeData,
-                            {data: TW_Store.bblStore.getAPPJsonData()}
-                        )
-                    );
-                    BackgroundTimer.setTimeout(this.onCodePushReStart,3000);
-                }else{
-                    BackgroundTimer.setTimeout(this.isRestartNowFun,2000);
-                }
+                //如果已经进入了大厅 强制下次启动生效
+                // if(TW_Store.bblStore.isStartGameHttp){
+                //     TN_MSG_TO_GAME(
+                //         TW_Store.bblStore.getWebAction(
+                //             TW_Store.bblStore.ACT_ENUM.appNativeData,
+                //             {data: TW_Store.bblStore.getAPPJsonData()}
+                //         )
+                //     );
+                //     BackgroundTimer.setTimeout(this.onCodePushReStart,3000);
+                // }else{
+                //     BackgroundTimer.setTimeout(this.isRestartNowFun,2000);
+                // }
             }
         }
     }
