@@ -89,12 +89,14 @@ export default class App extends Component {
         if(!TW_Store.bblStore.isEnterLooby){
             TN_ISMute();
         }else{
-            BackgroundTimer.clearInterval(this.intervalId );
-            TN_ISMute((isMute)=>{
-                TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.isMute, {
-                    data:isMute
-                }));
-            })
+            BackgroundTimer.clearInterval(this.intervalId);
+            if(!TW_Store.appStore.isOldIosAPP){
+                TN_ISMute((isMute)=>{
+                    TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.isMute, {
+                        data:isMute
+                    }));
+                })
+            }
         }
     }
 

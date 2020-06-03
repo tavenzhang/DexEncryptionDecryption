@@ -123,6 +123,8 @@ export default class AppInfoStore {
 
     timeClearId=null
 
+    isOldIosAPP=false;
+
 
 
     constructor() {
@@ -553,6 +555,7 @@ export default class AppInfoStore {
         if (TN_IS_HAVE_CODE_PUSH) {
             let nativeConfig = await CodePush.getConfiguration();
             this.appVersion = nativeConfig.appVersion;
+            this.isOldIosAPP= G_IS_IOS&&(this.appVersion=="2.2.2");
             TW_Store.dataStore.log += "\n---nativeConfig--" + JSON.stringify(nativeConfig) + "---\n";
             TW_Log(
                 "appInfo----version-nativeConfig--  this.appVersion " + this.appVersion,
