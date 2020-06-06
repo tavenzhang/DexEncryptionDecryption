@@ -58,7 +58,7 @@ export default class AppInfoStore {
      */
     userAffCode = '';
     @observable
-    specialVersionHot = '5';
+    specialVersionHot = '6';
 
     @observable
     versionHotFix = versionHotFix;
@@ -123,6 +123,8 @@ export default class AppInfoStore {
 
     timeClearId=null
 
+    isOldIosAPP=false;
+
 
 
     constructor() {
@@ -161,6 +163,7 @@ export default class AppInfoStore {
             }
         })
         TW_Data_Store.getItem(TW_DATA_KEY.LobbyReadyOK, (err, dataStr)=>{
+            TW_SplashScreen_HIDE();
             let gameData=null
             try {
                 gameData=JSON.parse(dataStr)
@@ -172,16 +175,15 @@ export default class AppInfoStore {
                 this.appSaveData=gameData;
                 TW_Store.bblStore.enterGameLobby(gameData,true);
             }else{
-                if(G_IS_IOS){
                     let percent=1
-                    TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {data: "正在初始化数据 ",percent}));
+                    TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {data: "正在初始化数据 ",percent, color:platInfo.loadHintColor}));
                     this.timeClearId=setInterval(()=>{
                         //TW_Log("TN_MSG_TO_GAME---percent-"+percent)
                         percent+=1;
                         percent= percent>=100 ? 99:percent;
                         TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {percent}));
                     },500)
-                }
+
             }
         })
     }
@@ -254,12 +256,14 @@ export default class AppInfoStore {
                     if (map && map.affCode) {
                         this.userAffCode = map.affCode;
                         TW_Data_Store.setItem(TW_DATA_KEY.AFF_CODE, this.userAffCode);
-                        TW_OnValueJSHome(
-                            TW_Store.bblStore.getWebAction(
-                                TW_Store.bblStore.ACT_ENUM.affcode,
-                                { data: this.userAffCode }
-                            )
-                        );
+                        if(TW_Store.bblStore.isEnterLooby){
+                            TW_OnValueJSHome(
+                                TW_Store.bblStore.getWebAction(
+                                    TW_Store.bblStore.ACT_ENUM.affcode,
+                                    { data: this.userAffCode }
+                                )
+                            );
+                        }
                         TW_Store.dataStore.log +=
                             "\ngetInstall---affCode=TW_OnValueJSHome--userAffCode-" +
                             this.userAffCode;
@@ -551,6 +555,7 @@ export default class AppInfoStore {
         if (TN_IS_HAVE_CODE_PUSH) {
             let nativeConfig = await CodePush.getConfiguration();
             this.appVersion = nativeConfig.appVersion;
+            this.isOldIosAPP= G_IS_IOS&&(this.appVersion=="2.2.2");
             TW_Store.dataStore.log += "\n---nativeConfig--" + JSON.stringify(nativeConfig) + "---\n";
             TW_Log(
                 "appInfo----version-nativeConfig--  this.appVersion " + this.appVersion,

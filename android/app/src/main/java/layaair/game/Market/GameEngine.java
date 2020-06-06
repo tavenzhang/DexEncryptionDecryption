@@ -1,5 +1,6 @@
 package layaair.game.Market;
 
+import demo.LayaConch5New;
 import layaair.game.IMarket.IPlugin;
 import layaair.game.IMarket.IPluginRuntimeProxy;
 import layaair.game.conch.ILayaEventListener;
@@ -29,7 +30,7 @@ public class GameEngine implements IPlugin {
 		
 	public GameEngine(Context _ctx){
         mContext = _ctx;
-		mLayaGameEngine = new LayaConch5(_ctx);
+		mLayaGameEngine = new LayaConch5New(_ctx);
 		_instance = this;
 	}
 
@@ -65,7 +66,7 @@ public class GameEngine implements IPlugin {
 			_path = (String) mGameEngineProxy.laya_get_value("CacheDir");
 		mLayaGameEngine.setAlertTitle(mContext.getString( R
 				.string.alert_dialog_title ));
-		mLayaGameEngine.setStringOnBackPressed(mContext.getString( R.string.on_back_pressed ));
+		//mLayaGameEngine.setStringOnBackPressed(mContext.getString( R.string.on_back_pressed ));
 		mLayaGameEngine.setDownloadThreadNum(nDownloadThreadNum);
 		mLayaGameEngine.setAppCacheDir(_path);
 		mLayaGameEngine.setExpansionZipDir( (String)mGameEngineProxy.laya_get_value("ExpansionMainPath"),(String)mGameEngineProxy.laya_get_value("ExpansionPatchPath"));
@@ -140,11 +141,11 @@ public class GameEngine implements IPlugin {
 		@Override
 		public void ExitGame() {
 			Log.i("=======", "======exit");
-			JXHelper.instance.exitApp();
-			activity.finish();
-			activity = null;
+//			JXHelper.instance.exitApp();
+//			activity.finish();
+//			activity = null;
 			//mLayaEngine.onDestroy();
-			System.exit(0);
+			//System.exit(0);
 		}
 		@Override
 		public void destory() {

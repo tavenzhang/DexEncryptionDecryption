@@ -14,8 +14,12 @@
 #import <SplashScreen.h>
 #import <UMShare/UMShare.h>
 #import "Orientation.h"
+#import "KKAudioControlManager.h"
 
 @implementation AppDelegate
+
+extern NSString * KKAudioControlMuteTurnOnNotification;
+extern NSString * KKAudioControlMuteTurnOffNotification;
 
 - (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
   return [Orientation getOrientation];
@@ -29,6 +33,7 @@
 //  _window.rootViewController = pViewController;
 //  [_window makeKeyAndVisible];
 //
+  self.isMute=YES ;
   application.applicationIconBadgeNumber = 0;
   self.launchOptions = launchOptions;
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -47,8 +52,9 @@
      [SplashScreen show];
   #endif
   _launchView = [[LaunchView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-     [_window.rootViewController.view addSubview:_launchView.view];
-
+  [_window.rootViewController.view addSubview:_launchView.view];
+  [self regNotifi];
+   [[KKAudioControlManager shareInstance] addMuteListener];
   return YES;
 }
 
@@ -59,6 +65,36 @@
   UIViewController *nativeRootController = [[UIViewController alloc] init];
   nativeRootController.view.backgroundColor = [UIColor whiteColor];
   return nativeRootController;
+}
+
+- (void)regNotifi
+{
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(audioControlMuteTurnOn)
+                                                 name:KKAudioControlMuteTurnOnNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(audioControlMuteTurnOff)
+                                                 name:KKAudioControlMuteTurnOffNotification
+                                               object:nil];
+}
+
+- (void)audioControlMuteTurnOn
+{
+  self.isMute=YES;
+  if([self isLobbyInit]){
+        [self.myEmitter sendEvent:@"{\"action\":\"isMute\",\"data\":\"1\"}"];
+  }
+}
+
+- (void)audioControlMuteTurnOff
+{
+  self.isMute=NO;
+  if([self isLobbyInit]){
+    [self.myEmitter sendEvent:@"{\"action\":\"isMute\",\"data\":\"0\"}"];
+   }
 }
 
 +(NSArray *)getBBQArray {

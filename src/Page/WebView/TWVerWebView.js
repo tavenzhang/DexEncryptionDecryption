@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 
-import { JX_PLAT_INFO } from "../asset";
+import {ASSET_Images, JX_PLAT_INFO} from "../asset";
 import { observer } from "mobx-react";
 import PropTypes from "prop-types";
 import Toast from "../../Common/JXHelper/JXToast";
@@ -23,6 +23,8 @@ import DeviceInfo from 'react-native-device-info';
 import ExtraDimensions from 'react-native-extra-dimensions-android';
 import {safeAreaTop} from "../../Common/JXHelper/WebviewHelper";
 import ExitVerViewAlert from "../enter/gameMenu/ExitVerViewAlert";
+import {TCButtonImg} from "../../Common/View/button/TCButtonView";
+import {positions} from "react-native-root-toast/lib/ToastContainer";
 
 @observer
 export default class TWVerWebView extends Component {
@@ -56,18 +58,12 @@ export default class TWVerWebView extends Component {
         };
         this.bblStore = TW_Store.bblStore;
         this.curMarginBottom=0;
-        TW_Store.appStore.lockToProrit();
-        if(G_IS_IOS){
-            TW_Store.bblStore.enterSubGame();
-        }
+        this.isQuitGame=false;
 
     }
 
     componentWillMount() {
         //旋转到竖屏
-
-        BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
-
         if (ExtraDimensions.getSoftMenuBarHeight() > 0) {
             this.setState({isSoftMenuBarDetected: true})
         }
@@ -80,7 +76,7 @@ export default class TWVerWebView extends Component {
     componentWillUnmount(): void {
         let {type} = this.props;
         TW_Store.bblStore.isOpenThirdWebView=false;
-        BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid);
+
     }
 
     render() {
@@ -133,6 +129,11 @@ export default class TWVerWebView extends Component {
                 // <SafeAreaView style={{flex:1, backgroundColor:"rgb(227, 41, 43)"}}  forceInset={{ bottom: 'never' ,}}>
                 <KeyboardAvoidingView style={[styles.container, { paddingTop: isPaddingTop ? StatusBarHeight : 0  ,height:JX_PLAT_INFO.SCREEN_W, width:JX_PLAT_INFO.SCREEN_H}]} behavior="padding" keyboardVerticalOffset={-this.curMarginBottom}
                                       enabled={G_IS_IOS ? false : true}>
+                    {/*<TCButtonImg btnStyle={{  position:"absolute", left:JX_PLAT_INFO.SCREEN_H-100,top:100, alignSelf: "center", zIndex: 200}} imgSource={ ASSET_Images.gameMemu.btnMenu}*/}
+                    {/*             imgStyle={{width:50,height:55}}*/}
+                    {/*             onClick={this.onClickMenu}*/}
+                    {/*/>*/}
+
                     {!this.state.isHttpFail ? webContentView : <View style={{
                         height: JX_PLAT_INFO.SCREEN_H, justifyContent: "center",
                         alignItems: "center", backgroundColor: "transparent"
@@ -140,18 +141,18 @@ export default class TWVerWebView extends Component {
                     </View>}
                     <GameMenuButton isScreenPortrait={true} isShowReload={isShowReload} itransEnabled={"ON"}
                                     onPressExit={this.onClickMenu}/>
-                    {/*{this.state.isShowExitAlertView && <ExitVerViewAlert*/}
-                    {/*    isOpenAddPay={this.state.isOpenAddPay}*/}
-                    {/*    onPressConfirm={() => {*/}
-                    {/*        this.onBackHomeJs();*/}
-                    {/*        this.setState({isShowExitAlertView: false});*/}
-                    {/*        if (this.state.isOpenAddPay) {*/}
-                    {/*            TW_Store.gameUIStroe.isShowAddPayView = true;*/}
-                    {/*        }*/}
-                    {/*    }}*/}
-                    {/*    onPressCancel={() => this.setState({isShowExitAlertView: false})}*/}
-                    {/*/>*/}
-                    {/*}*/}
+                    {this.state.isShowExitAlertView && <ExitVerViewAlert
+                        isOpenAddPay={this.state.isOpenAddPay}
+                        onPressConfirm={() => {
+                            this.onBackHomeJs();
+                            this.setState({isShowExitAlertView: false});
+                            if (this.state.isOpenAddPay) {
+                                TW_Store.gameUIStroe.isShowAddPayView = true;
+                            }
+                        }}
+                        onPressCancel={() => this.setState({isShowExitAlertView: false})}
+                    />
+                    }
                 </KeyboardAvoidingView>
 
 
@@ -169,7 +170,6 @@ export default class TWVerWebView extends Component {
             }
         }
         return false
-
     };
 
     onBackAndroid = () => {
@@ -179,30 +179,21 @@ export default class TWVerWebView extends Component {
 
 
     onClickMenu = (btnId) => {
-      //  this.onBackHomeJs();
-        Alert.alert(
-            "是否返回游戏大厅?",
-            "",
-            [
-                {
-                    text: "返回",
-                    onPress: () =>  this.onBackHomeJs(),
-                    style:"destructive"
-                },
-                {
-                    text: "取消",
-                    onPress: () => console.log("Cancel Pressed"),
-                    style: "cancel"
-                }
-            ],
-            { cancelable: false }
-        );
+        this.setState({isShowExitAlertView:true})
     };
 
     onLoadEnd = (event) => {
+        TW_Log("TWThirdWebView===========onLoadEnd=="+event.dispatchConfig,event);
+        TW_Log("TWThirdWebView===========onLoadEnd==dispatchConfig==",event.dispatchConfig);
         TW_SplashScreen_HIDE();
-        if(!G_IS_IOS){
-            TW_Store.bblStore.enterSubGame();
+        if(event.dispatchConfig.registrationName=="onLoadingFinish"){
+            if(!this.isQuitGame){
+                TW_Store.appStore.lockToProrit();
+                TW_Store.bblStore.enterSubGame();
+            }
+        }else{
+            this.onBackHomeJs()
+            TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.popTip, {data: "加载出错啦,请检测链接是否正常，稍后再尝试!"}));
         }
     };
 
@@ -217,12 +208,12 @@ export default class TWVerWebView extends Component {
                 this.onMsgHandle(message);
             }
         } catch (err) {
-            TW_Log("onMessage===========error==" + err, event.nativeEvent);
+            TW_Log("TWThirdWebView===========error==" + err, event.nativeEvent);
         }
     };
 
     onMsgHandle = (message) => {
-        TW_Log("onMessage===========" + this.constructor.name, message);
+        TW_Log("onMessage==TWThirdWebView=========" + this.constructor.name, message);
         let url = "";
         if (message && message.action) {
             switch (message.action) {
@@ -302,7 +293,7 @@ export default class TWVerWebView extends Component {
     onNavigationStateChange = (navState) => {
 
         TW_Log("TWThirdWebView===========onNavigationStateChange= +this.constructor.name==" + this.constructor.name, navState);
-        if (navState.title == "404 Not Found") {
+        if (navState.title == "404 Not Found"||navState.title =="网页无法打开") {
             this.onBackHomeJs()
         } else {
 
@@ -312,10 +303,7 @@ export default class TWVerWebView extends Component {
 
     onBackHomeJs = (type = "") => {
         let { url, isShowReload, backHandle } = this.props;
-        TW_NavHelp.popToBack();
-        if (backHandle) {
-            backHandle();
-        }
+        this.isQuitGame=true;
         TW_Store.appStore.lockToLandscape();
         TW_Store.bblStore.quitSubGame();
         this.setState({ isShowExitAlertView: false });

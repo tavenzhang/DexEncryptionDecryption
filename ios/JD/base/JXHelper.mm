@@ -152,7 +152,7 @@ RCT_EXPORT_METHOD(openNewHome:(NSString *)data)
        appData = data;
         AppDelegate *delagete = (AppDelegate *)[UIApplication sharedApplication].delegate;
            [[delagete myRootVC] addGameLobbyControl:data];
-          
+          [[[delagete myRootVC] view] addSubview:  [[delagete launchView] view]];
     });
   
    
@@ -174,6 +174,14 @@ RCT_EXPORT_METHOD(jumpToRN:(NSString *)data)
      });
 
 }
+
+RCT_EXPORT_METHOD(checkIsMute:(RCTResponseSenderBlock)callback)
+{
+    AppDelegate *delagete = (AppDelegate *)[UIApplication sharedApplication].delegate;
+   NSString* ret=[delagete isMute] ? @"1":@"0";
+   callback(@[ret]);
+}
+
 
 RCT_EXPORT_METHOD(exitApp)
 {

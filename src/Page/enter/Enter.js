@@ -90,6 +90,8 @@ export default class Enter extends Component {
                 TW_Log("Model--" + deviceModel)
                 JX_PLAT_INFO.SCREEN_H = SCREEN_H = rH && rH > 0 ? rH : SCREEN_H;
                 JX_PLAT_INFO.SCREEN_W = SCREEN_W = rW && rW > 0 ? rW : SCREEN_W;
+                TW_Log("ExtraDimensions--JX_PLAT_INFO--SCREEN_W=="+SCREEN_W ,JX_PLAT_INFO);
+                TW_Log("ExtraDimensions--JX_PLAT_INFO--SCREEN_H=="+SCREEN_H ,JX_PLAT_INFO)
                 TW_Store.appStore.screenW = this.validateAndroidModel(deviceModel) ? rW - ExtraDimensions.getStatusBarHeight() : rW;
             }
         } catch (e) {
@@ -103,13 +105,8 @@ export default class Enter extends Component {
         if (nextAppState != null && nextAppState === 'active') {
             TW_Store.dataStore.log += "\nAppStateChange-active\n";
             //如果属于强制更新状态 不触发active判断
-            if(TW_Store.gameUpateStore.isForeAppUpate){
-                return;
-            }
             if (this.flage) {
-                if (TW_OnValueJSHome) {
-                    TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 1 }));
-                }
+
                 TW_Log("AppStateChange-active-----TW_Store.gameUpateStore.isInSubGame==="+TW_Store.gameUpateStore.isInSubGame);
                 if (!TW_Store.gameUpateStore.isInSubGame) {
                     let now = new Date().getTime();
@@ -119,17 +116,13 @@ export default class Enter extends Component {
                         this.hotFix(TW_Store.hotFixStore.currentDeployKey, true);
                     }
                     TN_JUMP_HOME();
+                    if (TW_Store.bblStore.isEnterLooby) {
+                        TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 1 }));
+                    }
                 } else {
-                    TW_OnValueJSSubGame(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 1 }));
+                        TW_OnValueJSSubGame(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 1 }));
                 }
             }
-
-            // if (TW_Store.gameUIStroe.wxShareHandle.isShareIng) {
-            //     if (TW_Store.gameUIStroe.wxShareHandle.callback) {
-            //         TW_Store.gameUIStroe.wxShareHandle.callback();
-            //         TW_Store.gameUIStroe.wxShareHandle.isShareIng = false;
-            //     }
-            // }
             this.flage = false;
         } else if (nextAppState != null && nextAppState === 'background') {
             TW_Store.dataStore.log += "\nAppStateChange-background\n";
@@ -138,11 +131,12 @@ export default class Enter extends Component {
             let now = new Date().getTime();
             this.lastClickTime = now;
             if (!TW_Store.gameUpateStore.isInSubGame) {
-
+                if(TW_Store.bblStore.isEnterLooby){
+                    TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 0 }));
+                }
             } else {
                 TW_OnValueJSSubGame(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 0 }));
             }
-
         }
     }
 
@@ -269,7 +263,7 @@ export default class Enter extends Component {
                 default:
                     break
             }
-            this.storeLog({ faileMessage: customerMessage });
+           // this.storeLog({ faileMessage: customerMessage });
             this.hotFixStore.updateFailMsg(customerMessage);
             this.reloadAppDomain()
         } else {
@@ -403,15 +397,14 @@ export default class Enter extends Component {
 
                     TW_Log('==checkingupdate====hotfixDeploymentKey= versionData=  this.isWeakUpdate==' + this.isWeakUpdate);
                     this.hotFixStore.updateFinished = false;
-                    //热更新都使用强制更新
-                     this.hotFixStore.isNextAffect = false;
                     this.storeLog({ hotfixDomainAccess: true });
                     if (alreadyInCodePush) return
                     alreadyInCodePush = true
-                    let updateMode = this.hotFixStore.isNextAffect ? CodePush.InstallMode.ON_NEXT_RESTART : CodePush.InstallMode.IMMEDIATE;
+                    let updateMode = CodePush.InstallMode.ON_NEXT_RESTART ;
                     if (TW_IS_DEBIG) {
                         return
                     }
+                    TW_Log("preInstallCodeCodePush--  update.download");
                     update.download(this.codePushDownloadDidProgress).then((localPackage) => {
                         alreadyInCodePush = false;
                         if (localPackage) {
@@ -420,6 +413,7 @@ export default class Enter extends Component {
                             downloadTime = Moment().format('X') - downloadTime
                             this.storeLog({ downloadStatus: true, downloadTime: downloadTime });
                             this.installCodePush(localPackage, updateMode);
+                            this.isRestartNowFun();
 
                         } else {
                             this.storeLog({ downloadStatus: false, message: '下载失败,请重试...' })
@@ -458,8 +452,44 @@ export default class Enter extends Component {
         }
     }
 
+    isRestartNowFun=()=>{
+        //再根据情况判断是否需要需要马上重启
+        if(!this.hotFixStore.isNextAffect){
+            if(!TW_Store.bblStore.isEnterLooby){
+                this.onCodePushReStart();
+            }else{
+               // 如果已经进入了大厅 强制下次启动生效
+               //  if(TW_Store.bblStore.isStartGameHttp){
+               //      TN_MSG_TO_GAME(
+               //          TW_Store.bblStore.getWebAction(
+               //              TW_Store.bblStore.ACT_ENUM.appNativeData,
+               //              {data: TW_Store.bblStore.getAPPJsonData()}
+               //          )
+               //      );
+               //      BackgroundTimer.setTimeout(this.onCodePushReStart,3000);
+               //  }else{
+               //      BackgroundTimer.setTimeout(this.isRestartNowFun,2000);
+               //  }
+            }
+        }
+    }
+
+    onCodePushReStart=()=>{
+        if(TW_Store.hotFixStore.isInstalledFinish){
+            clearInterval(TW_Store.appStore.timeClearId);
+            BackgroundTimer.clearInterval(TW_Store.bblStore.intervalId);
+            if(!TW_Store.bblStore.isEnterLooby){
+                CodePush.restartApp();
+            }
+        }else{
+            BackgroundTimer.setTimeout(this.onCodePushReStart,1000);
+        }
+    }
+
     installCodePush = (localPackage, updateMode) => {
+        TW_Log("preInstallCodeCodePush----installCodePush-localPackage=="+localPackage+"--updateMode=="+this.hotFixStore.isNextAffect,localPackage);
         localPackage.install(updateMode).then(() => {
+            TW_Log("preInstallCodeCodePush---- localPackage.install");
             this.storeLog({ updateStatus: true });
             //如果正在下载大厅文件，关闭大厅当前的下载
             if (updateMode == CodePush.InstallMode.IMMEDIATE) {
@@ -467,28 +497,23 @@ export default class Enter extends Component {
                 BackgroundTimer.clearInterval(TW_Store.bblStore.intervalId);
             }
             CodePush.notifyAppReady().then(() => {
+                TW_Log("preInstallCodeCodePush----  CodePush.notifyAppReady()")
                 // this.setUpdateFinished()
                 if (!this.hotFixStore.isNextAffect) {
-                    TW_Store.dataStore.hideLoadingView();
                     TW_Store.gameUpateStore.isAppDownIng = false;
-                    SoundHelper.releaseMusic();
                 }
+                TW_Store.hotFixStore.isInstalledFinish = true;
             })
-            TW_Store.hotFixStore.isInstalledFinish = true;
-            this.appUpdateTimeid = BackgroundTimer.setInterval(this.noticeAppUpdate, 1000);
+
 
         }).catch((ms) => {
+            TW_Log("preInstallCodeCodePush----  安装失败,请重试")
             this.storeLog({ updateStatus: false, message: '安装失败,请重试...' })
             this.updateFail('安装失败,请重试...')
         })
     }
 
-    noticeAppUpdate = () => {
-        if (TW_Store.bblStore.isEnterLooby) {
-            BackgroundTimer.clearInterval(this.appUpdateTimeid);
-            TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appUpate, { data: true }));
-        }
-    }
+
 
     updateFail = (message) => {
         this.setState({

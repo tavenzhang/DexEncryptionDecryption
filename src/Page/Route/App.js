@@ -60,6 +60,7 @@ const MainStackNavigator = StackNavigator({
 })
 
 import KeyboardManager from 'react-native-keyboard-manager'
+import BackgroundTimer from "react-native-background-timer";
 
 @observer
 export default class App extends Component {
@@ -73,30 +74,46 @@ export default class App extends Component {
             KeyboardManager.setToolbarPreviousNextButtonEnable(true);
         }
         if(G_IS_IOS){
-            eventEmitter.addListener('onMessage', function (e: Event) {
-                TW_Store.bblStore.onMsgHandle(e.NAME);
-            });
+            eventEmitter.addListener('onMessage',  this.onNativeMessage);
         }else{
-            DeviceEventEmitter.addListener('onMessage', function (e: Event) {
-                TW_Store.bblStore.onMsgHandle(e.NAME);
-            });
+            DeviceEventEmitter.addListener('onMessage', this.onNativeMessage);
         }
 
-
         TW_OnValueJSHome=TN_MSG_TO_GAME
-
         StatusBar.setHidden(true);
-        if (!G_IS_IOS) {
-            BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
-           // this.requestCameraPermission()
+        if (G_IS_IOS) {
+            this.intervalId = BackgroundTimer.setInterval(this.onCheckMute, 800);
+        }
+    }
+    onCheckMute=()=>{
+        if(!TW_Store.bblStore.isEnterLooby){
+            TN_ISMute();
+        }else{
+            BackgroundTimer.clearInterval(this.intervalId);
+            if(!TW_Store.appStore.isOldIosAPP){
+                TN_ISMute((isMute)=>{
+                    TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.isMute, {
+                        data:isMute
+                    }));
+                })
+            }
         }
     }
 
+    onNativeMessage=(e:Event)=>{
+        let message=e.NAME;
+        if(message.indexOf("onAndroidBack")>-1){
+            this.onBackAndroid()
+        }else{
+            TW_Store.bblStore.onMsgHandle(e.NAME);
+        }
+    }
 
     componentWillUnmount(): void {
         if (!G_IS_IOS) {
-            BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid);
+          //  BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid);
         }
+        BackgroundTimer.clearInterval(this.intervalId);
         // OpeninstallModule.removeWakeUpListener(this.receiveWakeupListener)//移除监听
     }
 
@@ -125,14 +142,15 @@ export default class App extends Component {
     onBackAndroid = () => {
         TW_Log("onBackAndroid---", this.navigator);
         if (TW_Store.gameUpateStore.isInSubGame) {
-            if (TW_OnBackHomeJs) {
-                TW_OnBackHomeJs()
+            if(TW_Store.bblStore.subGameParams.isOpenThirdVerWebView){
+                TW_Store.appStore.lockToLandscape();
             }
+            TW_Store.bblStore.quitSubGame("");
             return true;
         }
         let now = new Date().getTime();
         if (now - this.lastClickTime < 2500) {//2.5秒内点击后退键两次推出应用程序
-            // TN_ExitApp();
+             TN_ExitApp();
             return false;//控制权交给原生
         }
         this.lastClickTime = now;

@@ -10,7 +10,7 @@ import {
 import {WebView} from 'react-native-webview';
 
 
-import {JX_PLAT_INFO} from "../asset";
+import {ASSET_Images, JX_PLAT_INFO} from "../asset";
 
 import {observer} from "mobx-react";
 import PropTypes from "prop-types";
@@ -18,6 +18,7 @@ import Tools from "../../Common/View/Tools";
 import TCUserOpenPayApp from "../../Data/TCUserOpenPayApp";
 import ExitGameAlertView from "../enter/gameMenu/ExitGameAlertView";
 import GameMenuButton from "../enter/gameMenu/GameMenuButton";
+import TCImage from "../../Common/View/image/TCImage";
 
 
 @observer
@@ -25,10 +26,12 @@ export default class TWWebGameView extends Component {
 
     static propTypes = {
         data: PropTypes.func,
-        isShow: PropTypes.any
+        isShow: PropTypes.any,
+        isGtestWeb: PropTypes.any
     }
     static defaultProps = {
-        title: ''
+        title: '',
+        isGtestWeb:false
     };
 
     constructor(state) {
@@ -48,7 +51,7 @@ export default class TWWebGameView extends Component {
     }
 
     render() {
-        let {isOrigan, url, isThirdGame} = this.props;
+        let {isOrigan, url, isThirdGame,isGtestWeb} = this.props;
    ;
         let myUrl = url;
         if (url == "") {
@@ -115,13 +118,15 @@ export default class TWWebGameView extends Component {
                 thirdPartyCookiesEnabled={true}
             />
         return (
-            <View style={[styles.container]}>
+            <View style={[styles.container,{width:JX_PLAT_INFO.SCREEN_W,height:JX_PLAT_INFO.SCREEN_H}]}>
+                {isGtestWeb ?  <TCImage style={{width:JX_PLAT_INFO.SCREEN_W,height:JX_PLAT_INFO.SCREEN_H,position: "absolute"}} resizeMode={'cover'} source={ASSET_Images.gameLobby.bg}/>:null}
+
                 {!this.state.isHttpFail ? wenConteView : <View style={{
                     height: JX_PLAT_INFO.SCREEN_H, justifyContent: "center",
                     alignItems: "center", backgroundColor: "transparent"
                 }}>
                 </View>}
-                {isThirdGame && <GameMenuButton itransEnabled={"ON"}
+                {isThirdGame&&!isGtestWeb && <GameMenuButton itransEnabled={"ON"}
                                                 onPressExit={this.onClickMenu}/>}
 
                 {this.state.isShowExitAlertView && <ExitGameAlertView
@@ -137,6 +142,7 @@ export default class TWWebGameView extends Component {
                 />
                 }
             </View>
+
         );
     }
 
@@ -152,12 +158,14 @@ export default class TWWebGameView extends Component {
     }
 
     onLoadEnd = (event) => {
-        let {url, isOrigan} = this.props;
+        let {url, isOrigan,isGtestWeb} = this.props;
         if (url && url.length > 0) {
             TW_SplashScreen_HIDE();
         }
         // TW_Log("onLoadEnd=TCweb==========event===== TW_Store.bblStore.isOrigan--" + isOrigan, url)
-        this.onEnterGame();
+        if(!isGtestWeb){
+            this.onEnterGame();
+        }
 
     }
 
@@ -185,6 +193,7 @@ export default class TWWebGameView extends Component {
     }
 
     onMsgHandle = (message) => {
+        let {isGtestWeb} = this.props;
         TW_Log("onMessage===========" + this.constructor.name, message);
         let url = "";
         if (message && message.action) {
@@ -237,7 +246,23 @@ export default class TWWebGameView extends Component {
                     TW_Store.userStore.exitAppToLoginPage();
                     TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.logout));
                     break;
-
+                case "gtest":
+                    let status=message.status;
+                    switch (status) {
+                        case "start":
+                            this.onEnterGame();
+                            break;
+                        case "sucess":
+                            TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.gtestBack, {data: message.data}));
+                            this.onBackHomeJs()
+                            break;
+                        default:
+                            TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.popTip, {data: "验证异常 请稍后重新尝试!"}));
+                            TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.gtestBack, {}));
+                            this.onBackHomeJs()
+                            break;
+                    }
+                    break;
             }
         }
     }
@@ -283,8 +308,6 @@ export default class TWWebGameView extends Component {
     onBackHomeJs = (message={}) => {
         TW_Log("onBackHomeJs-----------------")
         TW_Store.bblStore.quitSubGame(message);
-        clearTimeout(this.timeId);
-
     }
 }
 

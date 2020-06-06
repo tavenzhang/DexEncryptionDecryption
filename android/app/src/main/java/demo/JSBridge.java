@@ -26,7 +26,8 @@ public class JSBridge {
         m_Handler.post(
                 new Runnable() {
                     public void run() {
-                        GameActivity.mSplashDialog.dismissSplash();
+                        //GameActivity.mSplashDialog.dismissSplash();
+                        MainActivity.mSplashDialog.dismissSplash();
                     }
                 });
     }
@@ -35,7 +36,8 @@ public class JSBridge {
         m_Handler.post(
                 new Runnable() {
                     public void run() {
-                        GameActivity.mSplashDialog.setFontColor(Color.parseColor(color));
+                        //GameActivity.mSplashDialog.setFontColor(Color.parseColor(color));
+                        MainActivity.mSplashDialog.setFontColor(Color.parseColor(color));
                     }
                 });
     }
@@ -49,7 +51,8 @@ public class JSBridge {
                             for (int i = 0; i < tips.length(); i++) {
                                 tipsArray[i] = tips.getString(i);
                             }
-                            GameActivity.mSplashDialog.setTips(tipsArray);
+                            //GameActivity.mSplashDialog.setTips(tipsArray);
+                            MainActivity.mSplashDialog.setTips(tipsArray);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -61,7 +64,8 @@ public class JSBridge {
         m_Handler.post(
                 new Runnable() {
                     public void run() {
-                        GameActivity.mSplashDialog.setBackgroundColor(Color.parseColor(color));
+                        //GameActivity.mSplashDialog.setBackgroundColor(Color.parseColor(color));
+                        MainActivity.mSplashDialog.setBackgroundColor(Color.parseColor(color));
                     }
                 });
     }
@@ -70,7 +74,8 @@ public class JSBridge {
         m_Handler.post(
                 new Runnable() {
                     public void run() {
-                        GameActivity.mSplashDialog.setPercent((int) percent);
+                        //GameActivity.mSplashDialog.setPercent((int) percent);
+                        MainActivity.mSplashDialog.setPercent((int) percent);
                     }
                 });
     }
@@ -79,7 +84,8 @@ public class JSBridge {
         m_Handler.post(
                 new Runnable() {
                     public void run() {
-                        GameActivity.mSplashDialog.showTextInfo(show);
+                        //GameActivity.mSplashDialog.showTextInfo(show);
+                        MainActivity.mSplashDialog.showTextInfo(show);
                     }
                 });
     }
@@ -96,7 +102,8 @@ public class JSBridge {
                             String action = json_test.getString("action");
                             switch (action) {
                                 case "nativeStart":
-                                    String appCallStr = "nativeInitData(" + GameActivity.appData + ")";
+                                    //String appCallStr = "nativeInitData(" + GameActivity.appData + ")";
+                                    String appCallStr = "nativeInitData(" + MainActivity.appData + ")";
                                     ConchJNI.RunJS(appCallStr);
                                     break;
                                 case "JumpGame":
@@ -105,7 +112,6 @@ public class JSBridge {
                                 case "JumpThirdGame"://跳转第三方游戏
                                    // JSBridge.jumpRN("");
                                     break;
-
                             }
                             String alertStr = "alert(\'" + action + "\')";
                             //ConchJNI.RunJS(alertStr);
@@ -142,15 +148,23 @@ public class JSBridge {
                             case "runJS":
                                 String gameJson = null;
                                 try {
-                                    gameJson = json_test.getString("gameData");
+                                    gameJson = json_test.getString("data");
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
                                 //重新启动gameAcitve 使用最新的域名
-                                GameActivity.mainInstance.finish();
-                                JSBridge.jumpHome(gameJson);
+                                ConchJNI.RunJS(gameJson);
                                 break;
                             case "loadingView":
+                                String color = null;
+                                try {
+                                    color = json_test.getString("color");
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                if(color != null){
+                                    JSBridge.setFontColor(color) ;
+                                }
                                 String labelData = null;
                                 try {
                                     labelData = json_test.getString("data");
@@ -159,7 +173,7 @@ public class JSBridge {
                                 }
                                 if(labelData != null){
                                     String[] str = {labelData};
-                                    GameActivity.mSplashDialog.setTips(str);
+                                    MainActivity.mSplashDialog.setTips(str);
                                 }
                                 String percent = null;
                                 try {
@@ -168,8 +182,9 @@ public class JSBridge {
                                     e.printStackTrace();
                                 }
                                 if(percent !=null){
-                                    GameActivity.mSplashDialog.setPercent(Integer.parseInt(percent));
+                                    MainActivity.mSplashDialog.setPercent(Integer.parseInt(percent));
                                 }
+
                                 break;
                             default:
                                 ConchJNI.RunJS(postAction);
@@ -182,21 +197,28 @@ public class JSBridge {
 
 
     public static void jumpRN(final String data) {
-        Activity currentActivity = GameActivity.mainInstance;
-        Intent intent = new Intent(currentActivity, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP);
-        currentActivity.startActivity(intent);
+        m_Handler.post(
+                new Runnable() {
+                    public void run() {
+                            MainActivity.gameView.setY(2000);
+                            MainActivity.gameView.requestLayout();
+                    }});
     }
 
-    public static void jumpHome(final String data) {
-        Activity currentActivity = MainActivity.instance;
-        Intent intent = new Intent(currentActivity, GameActivity.class);
-
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP);
-        intent.putExtra("homeData", data);
-        currentActivity.startActivity(intent);
+    public static void jumpHome(String data) {
+        m_Handler.post(
+                new Runnable() {
+                    public void run() {
+                        try {
+                            MainActivity.instance.initEngine(data);
+                            Log.d(" jumpHome.getAlpha=",  MainActivity.gameView.getAlpha()+"");
+                            Log.d(" jumpHome.getY=",  MainActivity.gameView.getY()+"");
+                            MainActivity.gameView.setY(0);
+                            MainActivity.gameView.requestLayout();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }});
     }
 
 
