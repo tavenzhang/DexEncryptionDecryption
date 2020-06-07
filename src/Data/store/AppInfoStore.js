@@ -311,8 +311,6 @@ export default class AppInfoStore {
                         { cancelable: false }
                     );
                 },1000);
-
-
             }
         }
     };
@@ -365,6 +363,8 @@ export default class AppInfoStore {
                 let appInfo = platInfo.appInfo[`ch_${this.channel}`] ? platInfo.appInfo[`ch_${this.channel}`] : platInfo.appInfo.ch_8;
                 if (appInfo) {
                     TN_StartUMeng("", "", appInfo.wxAppKey, appInfo.wxAppSecret);
+                }else {
+                    TN_StartUMeng("", "", "", "");
                 }
             }
         }
