@@ -38,7 +38,7 @@ export const AppConfig = {
 
 export const MyAppName = '棋牌sit';
 
-export const versionHotFix = 'v6.0607.1756';
+export const versionHotFix = 'v6.0607.1809';
 
 export const MyOwnerPlatName= 'sit';
 
@@ -62,16 +62,16 @@ export const platInfo = {
     latestNativeVersion:{ios:"4",android:"4"},//用于强制更新 匹配，与info.plist 还有 gradle.properties. 需要严格一致。否则 会弹窗 强制下载
     appInfo : {
         ch_0: {
-            wxAppKey: "wx14a4c6864a801156",
-            wxAppSecret: "06f5151830e538583897772e402ae142",
+            wxAppKey: "wx26019a5a7de8db15",
+            wxAppSecret: "62ef8d30f3c4e244bde8831dd2f4ec84",
         },
         ch_20: {
-            wxAppKey: "wx14a4c6864a801156",
-            wxAppSecret: "06f5151830e538583897772e402ae142",
+            wxAppKey: "wx26019a5a7de8db15",
+            wxAppSecret: "62ef8d30f3c4e244bde8831dd2f4ec84",
         },
         ch_21: {
-            wxAppKey: "wx14a4c6864a801156",
-            wxAppSecret: "06f5151830e538583897772e402ae142",
+            wxAppKey: "wx26019a5a7de8db15",
+            wxAppSecret: "62ef8d30f3c4e244bde8831dd2f4ec84",
         },
     }
 }
