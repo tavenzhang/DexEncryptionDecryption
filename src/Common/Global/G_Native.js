@@ -32,12 +32,20 @@ global.TN_StartJPush = (Jkey = '', channel = '') => {
 };
 
 global.TN_StartUMeng = (key = '', channel = '',wxAppkey="",wxAppSecret="") => {
-        if (NativeModules.JDHelper.startUMeng) {
-            NativeModules.JDHelper.startUMeng(key, channel);
-        }
-        if (NativeModules.JDHelper.startUMengShare) {
-            NativeModules.JDHelper.startUMengShare(wxAppkey, wxAppSecret);
-        }
+     if(G_IS_IOS){
+         if (NativeModules.JDHelper.startUMeng) {
+             NativeModules.JDHelper.startUMeng(key, channel);
+         }
+         if (NativeModules.JDHelper.startUMengShare) {
+             NativeModules.JDHelper.startUMengShare(wxAppkey, wxAppSecret);
+         }
+     }else{
+         //android 默认已经初始化友盟，这里设置微信配置
+         if(NativeModules.JDHelper.initUmengShare){
+             NativeModules.JDHelper.initUmengShar(wxAppkey, wxAppSecret);
+         }
+     }
+
 };
 
 global.TN_StartOpenInstall = (installkey = '') => {

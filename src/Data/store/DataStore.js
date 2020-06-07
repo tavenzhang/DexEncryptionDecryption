@@ -342,7 +342,7 @@ export default class DataStore {
                     this.onSaveVersionM(this.content, false, () => {
                         this.log += "==>onSaveVersionM--=end";
                     });
-                    TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK,'1');
+                    //TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK,'1');
                 }, G_IS_IOS ? 500 : 5000)
 
             })

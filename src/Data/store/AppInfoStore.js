@@ -285,9 +285,6 @@ export default class AppInfoStore {
         if (url && url.length > 0 && !this.isInAnroidHack) {
             TW_Log("onShowDownAlert-----url==this.APP_DOWNLOAD_VERSION=" + this.APP_DOWNLOAD_VERSION, this.latestNativeVersion);
             let isShowAlert = this.APP_DOWNLOAD_VERSION != this.latestNativeVersion;
-            if (G_IS_IOS) {
-                isShowAlert = isShowAlert && this.channel == 1
-            }
             if (isShowAlert) {
                 TW_SplashScreen_HIDE();
                TW_Store.gameUpateStore.isForeAppUpate=true;
@@ -314,8 +311,6 @@ export default class AppInfoStore {
                         { cancelable: false }
                     );
                 },1000);
-
-
             }
         }
     };
@@ -331,8 +326,8 @@ export default class AppInfoStore {
             }
         }
         //所以的clintId 在此重置
-        this.clindId = configAppId,
-            this.subAppType = appInfo.SUB_TYPE ? appInfo.SUB_TYPE : '0';
+        this.clindId = configAppId;
+        this.subAppType = appInfo.SUB_TYPE ? appInfo.SUB_TYPE : '0';
         this.channel = appInfo.PLAT_CH ? parseInt(appInfo.PLAT_CH) : 1;
         platInfo.platId = this.clindId;
         UpDateHeadAppId(this.clindId);
@@ -362,6 +357,15 @@ export default class AppInfoStore {
                     }
                 }
                 TW_Log("appInfo--TN_StartOpenInstall-------------", appInfo);
+            }
+        }else{
+            if (platInfo.appInfo) {
+                let appInfo = platInfo.appInfo[`ch_${this.channel}`] ? platInfo.appInfo[`ch_${this.channel}`] : platInfo.appInfo.ch_8;
+                if (appInfo) {
+                    TN_StartUMeng("", "", appInfo.wxAppKey, appInfo.wxAppSecret);
+                }else {
+                    TN_StartUMeng("", "", "", "");
+                }
             }
         }
         this.isSitApp = this.clindId == "5" || this.clindId == "4";

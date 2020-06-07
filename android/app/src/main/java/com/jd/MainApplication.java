@@ -172,18 +172,30 @@ public class MainApplication extends Application implements ReactApplication {
 
     private void initUmeng() {
 //        String umengKey = BuildConfig.UMENG_KEY;
-        String wechatKey = BuildConfig.WECHAT_KEY;
-        String wechatSecretKey = BuildConfig.WECHAT_SECRET_KEY;
 
 //        RNUMConfigure.init(this, umengKey, "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
         UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, null);
         UMConfigure.setLogEnabled(BuildConfig.DEBUG);
         UMConfigure.setEncryptEnabled(true);
+    }
 
+
+    public void initUmengShare(String wxKey, String wxSecret) {
+//        String umengKey = BuildConfig.UMENG_KEY;
+        String wechatKey = BuildConfig.WECHAT_KEY;
+        String wechatSecretKey = BuildConfig.WECHAT_SECRET_KEY;
+        if(wxKey.length()>1){
+            wechatKey =wxKey;
+        }
+        if(wxSecret.length()>1){
+            wechatSecretKey=wxSecret;
+        }
         PlatformConfig.setWeixin(wechatKey, wechatSecretKey);
 //        豆瓣RENREN平台目前只能在服务器端配置
 //        PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad", "http://sns.whalecloud.com");
 //        PlatformConfig.setYixin("yxc0614e80c9304c11b0391514d09f13bf");
 //        PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
     }
+
+
 }
