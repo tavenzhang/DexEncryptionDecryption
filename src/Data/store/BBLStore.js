@@ -383,18 +383,7 @@ export default class BBLStore {
                     break;
                 case "nativeStart":
                     TW_SplashScreen_HIDE();
-                    TW_Data_Store.getItem(TW_DATA_KEY.LobbyReadyOK, (err, dataStr) => {
-                        let gameData = null
-                        try {
-                            gameData = JSON.parse(dataStr)
-                        } catch (e) {
-                            gameData = null
-                        }
-                        if (!gameData) {
-                            TW_Log("nativeStart---sava--beugim" + gameData)
-                            TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(this.getAPPJsonData()));
-                        }
-                    });
+                   this.onCheckSaveAppData();
                     break;
                 case "game_common":
                     let actions = message.name || message.do;
@@ -585,6 +574,7 @@ export default class BBLStore {
                     clearInterval(TW_Store.appStore.timeClearId);
                     clearInterval(this.intervalId);
                     BackgroundTimer.clearInterval(this.intervalId);
+                    this.onCheckSaveAppData();
                     break;
                 case "http":
                     let method = message.metod;
@@ -633,6 +623,21 @@ export default class BBLStore {
             }
         }
     };
+
+    onCheckSaveAppData=()=>{
+        TW_Data_Store.getItem(TW_DATA_KEY.LobbyReadyOK, (err, dataStr) => {
+            let gameData = null
+            try {
+                gameData = JSON.parse(dataStr)
+            } catch (e) {
+                gameData = null
+            }
+            if (!gameData) {
+                TW_Log("nativeStart---sava--beugim" + gameData)
+                TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(this.getAPPJsonData()));
+            }
+        });
+    }
 
     onParamHead = (headDataList) => {
         let header = null;
