@@ -148,7 +148,9 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-
+       if(mInstance ==null){
+           mInstance = this;
+       }
         AppUtil.updateLocalAFFCode(this);
         CrashHandler.getInstance().init(this);
         // 极光配置

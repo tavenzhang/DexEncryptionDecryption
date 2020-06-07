@@ -353,6 +353,8 @@ public class JXHelper extends ReactContextBaseJavaModule {
     // 友盟配置
     @ReactMethod
     public void initUmengShare(String wxKey, String wxSecret){
+
         MainApplication.getInstance().initUmengShare(wxKey,wxSecret);
     }
+
 }
