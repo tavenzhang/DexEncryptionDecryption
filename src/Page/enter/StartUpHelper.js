@@ -28,9 +28,6 @@ function getAvailableDomain(domains, callback, initDomainCallBack,currentCacheDo
         TW_Store.dataStore.log+="\n---游戏盾-==-"+isUseYunDun+"==port=="+port+"---\n";
         for (let i = 0; i < domains.length; i++) {
             TW_Log('= ' + domains[i]+"--TN_yunDunStart---------isUseYunDun---"+isUseYunDun+"===port==="+port);
-            if(currentCacheDomain){
-                TW_Store.appStore.currentDomain = TW_Store.bblStore.loginDomain = TW_Store.bblStore.gameDomain = isUseYunDun ? `${currentCacheDomain}:${port}`:currentCacheDomain
-            }
             let tempDomain = domains[i];
             let isRandomDomain = false
             if (tempDomain.indexOf("http") == -1) {
