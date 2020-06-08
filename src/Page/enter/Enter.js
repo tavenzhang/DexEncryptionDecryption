@@ -264,6 +264,7 @@ export default class Enter extends Component {
                     break
             }
            // this.storeLog({ faileMessage: customerMessage });
+            clearInterval(TW_Store.appStore.timeClearId);
             TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {data: customerMessage, color:"#ff0000"}));
           //  this.hotFixStore.updateFailMsg(customerMessage);
             this.reloadAppDomain()
