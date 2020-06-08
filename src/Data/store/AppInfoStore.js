@@ -125,6 +125,8 @@ export default class AppInfoStore {
 
     isOldIosAPP=false;
 
+    cacheDomainServes=null
+
 
 
     constructor() {
@@ -171,7 +173,7 @@ export default class AppInfoStore {
                 gameData=null
             }
             TW_Log("TW_DATA_KEY.LobbyReadyOK==err-"+err+"--data==",gameData);
-            if(gameData&&gameData.gameUrl){
+            if(gameData&&gameData.gameUrl&&gameData.gameUrl.indexOf("http")>-1){
                 this.appSaveData=gameData;
                 TW_Store.bblStore.enterGameLobby(gameData,true);
             }else{

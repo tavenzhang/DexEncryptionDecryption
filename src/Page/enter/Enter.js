@@ -216,6 +216,7 @@ export default class Enter extends Component {
             TW_Log("refresh cache domain ", response);
             let cacheDomain = response ? JSON.parse(response) : null;
             if (cacheDomain != null && cacheDomain.serverDomains && cacheDomain.serverDomains.length > 0) {//缓存存在，
+                TW_Store.appStore.cacheDomainServes=cacheDomain.serverDomains;
                 StartUpHelper.getAvailableDomain(cacheDomain.serverDomains, this.cacheAttempt, this.initDomain, cacheDomain.currentDomain)
             } else {//缓存不存在，使用默认地址访问
                 StartUpHelper.getAvailableDomain(AppConfig.domains, this.cacheAttempt, this.initDomain)

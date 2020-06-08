@@ -83,7 +83,7 @@ function getAvailableDomain(domains, callback, initDomainCallBack,currentCacheDo
                                 TW_Store.appStore.currentDomain = TW_Store.bblStore.loginDomain = TW_Store.bblStore.gameDomain = gameDomain;
                             }
                         }
-
+                        TW_Store.appStore.cacheDomainServes=serverDomains;
                         AsyncStorage.setItem('cacheDomain', JSON.stringify({
                             serverDomains: serverDomains,
                             hotfixDomains: content.availableUpdateInfoList,
