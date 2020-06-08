@@ -171,7 +171,7 @@ export default class AppInfoStore {
                 gameData=null
             }
             TW_Log("TW_DATA_KEY.LobbyReadyOK==err-"+err+"--data==",gameData);
-            if(gameData){
+            if(gameData&&gameData.gameUrl){
                 this.appSaveData=gameData;
                 TW_Store.bblStore.enterGameLobby(gameData,true);
             }else{
