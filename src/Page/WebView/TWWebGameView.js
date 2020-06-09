@@ -94,17 +94,6 @@ export default class TWWebGameView extends Component {
                 window.ReactNativeWebView.postMessage(data);
               };
             })()`;
-        let webViewStyle= !isGtestWeb ? {
-            marginTop: 0,
-            flex: 1,
-            backgroundColor: "transparent",
-            overflow: 'hidden'
-        }: {
-            width: JX_PLAT_INFO.SCREEN_H *2/3+50,
-            height: JX_PLAT_INFO.SCREEN_H*2/3,
-            alignSelf: 'center',
-            backgroundColor: "transparent",
-        }
         let wenConteView =
             <WebView
                 ref="myWebView"
@@ -113,7 +102,7 @@ export default class TWWebGameView extends Component {
                 injectedJavaScript={injectJs}
                 automaticallyAdjustContentInsets={true}
                 allowsInlineMediaPlayback={true}
-                style={webViewStyle}
+                style={styles.webView}
                 source={source}
                 javaScriptEnabled={true}
                 domStorageEnabled={true}
