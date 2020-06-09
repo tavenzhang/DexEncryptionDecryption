@@ -38,7 +38,7 @@ export const AppConfig = {
 
 export const MyAppName = '棋牌sit';
 
-export const versionHotFix = 'v6.0609.1322';
+export const versionHotFix = 'v6.0609.1651';
 
 export const MyOwnerPlatName= 'sit';
 
