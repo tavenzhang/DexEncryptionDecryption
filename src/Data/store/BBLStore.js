@@ -459,10 +459,6 @@ export default class BBLStore {
                                     "\n\n==> wxLogin checkWXInstall---" + ret;
                                 if (ret) {
                                     TN_WechatAuth((code, result, message) => {
-                                        TW_Store.bblStore.getWebAction(
-                                            TW_Store.bblStore.ACT_ENUM.popTip,
-                                            {data: "微信授权 error="+code +" result="+result+"--message--"+message}
-                                        )
                                         //TW_Store.dataStore.log += "\n==> wxLogin message---" + JSON.stringify(result) + "---\n--code====" + code + "===message==" + message;
                                         TW_Log(
                                             'wxLogin code----' + code + '---message---' + message,
