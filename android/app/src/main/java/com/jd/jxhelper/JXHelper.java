@@ -24,6 +24,7 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.jd.MainActivity;
+import com.jd.MainApplication;
 import com.jd.util.AppUtil;
 import com.jd.util.UpdateManager;
 import com.jd.webview.JXWebView;
@@ -348,4 +349,12 @@ public class JXHelper extends ReactContextBaseJavaModule {
 
        //GameActivity.mainInstance.finish();
     }
+
+    // 友盟配置
+    @ReactMethod
+    public void initUmengShare(String wxKey, String wxSecret){
+
+        MainApplication.getInstance().initUmengShare(wxKey,wxSecret);
+    }
+
 }

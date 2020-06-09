@@ -216,6 +216,7 @@ export default class Enter extends Component {
             TW_Log("refresh cache domain ", response);
             let cacheDomain = response ? JSON.parse(response) : null;
             if (cacheDomain != null && cacheDomain.serverDomains && cacheDomain.serverDomains.length > 0) {//缓存存在，
+                TW_Store.appStore.cacheDomainServes=cacheDomain.serverDomains;
                 StartUpHelper.getAvailableDomain(cacheDomain.serverDomains, this.cacheAttempt, this.initDomain, cacheDomain.currentDomain)
             } else {//缓存不存在，使用默认地址访问
                 StartUpHelper.getAvailableDomain(AppConfig.domains, this.cacheAttempt, this.initDomain)
@@ -264,7 +265,9 @@ export default class Enter extends Component {
                     break
             }
            // this.storeLog({ faileMessage: customerMessage });
-            this.hotFixStore.updateFailMsg(customerMessage);
+            clearInterval(TW_Store.appStore.timeClearId);
+            TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {data: customerMessage, color:"#ff0000"}));
+          //  this.hotFixStore.updateFailMsg(customerMessage);
             this.reloadAppDomain()
         } else {
             // TODO 审核通过之后 放开如下，告知ip不在更新范围内的用户11

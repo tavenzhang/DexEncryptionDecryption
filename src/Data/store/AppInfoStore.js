@@ -125,6 +125,8 @@ export default class AppInfoStore {
 
     isOldIosAPP=false;
 
+    cacheDomainServes=null
+
 
 
     constructor() {
@@ -171,7 +173,7 @@ export default class AppInfoStore {
                 gameData=null
             }
             TW_Log("TW_DATA_KEY.LobbyReadyOK==err-"+err+"--data==",gameData);
-            if(gameData){
+            if(gameData&&gameData.gameUrl&&gameData.gameUrl.indexOf("http")>-1){
                 this.appSaveData=gameData;
                 TW_Store.bblStore.enterGameLobby(gameData,true);
             }else{
@@ -285,9 +287,6 @@ export default class AppInfoStore {
         if (url && url.length > 0 && !this.isInAnroidHack) {
             TW_Log("onShowDownAlert-----url==this.APP_DOWNLOAD_VERSION=" + this.APP_DOWNLOAD_VERSION, this.latestNativeVersion);
             let isShowAlert = this.APP_DOWNLOAD_VERSION != this.latestNativeVersion;
-            if (G_IS_IOS) {
-                isShowAlert = isShowAlert && this.channel == 1
-            }
             if (isShowAlert) {
                 TW_SplashScreen_HIDE();
                TW_Store.gameUpateStore.isForeAppUpate=true;
@@ -314,8 +313,6 @@ export default class AppInfoStore {
                         { cancelable: false }
                     );
                 },1000);
-
-
             }
         }
     };
@@ -331,8 +328,8 @@ export default class AppInfoStore {
             }
         }
         //所以的clintId 在此重置
-        this.clindId = configAppId,
-            this.subAppType = appInfo.SUB_TYPE ? appInfo.SUB_TYPE : '0';
+        this.clindId = configAppId;
+        this.subAppType = appInfo.SUB_TYPE ? appInfo.SUB_TYPE : '0';
         this.channel = appInfo.PLAT_CH ? parseInt(appInfo.PLAT_CH) : 1;
         platInfo.platId = this.clindId;
         UpDateHeadAppId(this.clindId);
@@ -353,15 +350,20 @@ export default class AppInfoStore {
                 TN_StartUMeng(this.appInfo.UmengKey, this.appInfo.Affcode);
                 TN_StartOpenInstall(this.appInfo["com.openinstall.APP_KEY"])
             } else {
-                if (platInfo.appInfo) {
                     let appInfo = platInfo.appInfo[`ch_${this.channel}`] ? platInfo.appInfo[`ch_${this.channel}`] : platInfo.appInfo.ch_8;
                     if (appInfo) {
                         TN_StartJPush(appInfo.JPushKey, "1");
                         TN_StartUMeng(appInfo.UmengKey, appInfo.Affcode, appInfo.wxAppKey, appInfo.wxAppSecret);
                         TN_StartOpenInstall(appInfo.openInstallKey);
                     }
-                }
                 TW_Log("appInfo--TN_StartOpenInstall-------------", appInfo);
+            }
+        }else{
+            let appInfo = platInfo.appInfo[`ch_${this.subAppType}`] ? platInfo.appInfo[`ch_${this.subAppType}`]:null;
+            if (appInfo) {
+                TN_StartUMeng("", "", appInfo.wxAppKey, appInfo.wxAppSecret);
+            }else {
+                TN_StartUMeng("", "", "", "");
             }
         }
         this.isSitApp = this.clindId == "5" || this.clindId == "4";

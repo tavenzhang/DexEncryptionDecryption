@@ -1,6 +1,6 @@
 import {observable, action} from 'mobx';
 import {MainBundlePath, DocumentDirectoryPath} from 'react-native-fs';
-import {platInfo, appDomainBase} from "../../config/appConfig";
+import {platInfo, appDomainBase, AppConfig} from "../../config/appConfig";
 import {config} from "../../Common/Network/TCRequestConfig";
 import NetUitls from "../../Common/Network/TCRequestUitls";
 import Tools from "../../Common/View/Tools";
@@ -360,21 +360,36 @@ export default class BBLStore {
                     }));
                     break;
                 case "gameUrlError":
-                    if (this.domainRetry <= 3) {
-                        let appDataJson=this.getAPPJsonData();
-                        let gameDomainStar = `appCallBack('${appDataJson.gameUrl}')`;
+                    let appDataJson=this.getAPPJsonData();
+                    let gameUrl=appDataJson.gameUrl;
+                    if(gameUrl.indexOf("http")==-1){
+                        let gameList= TW_Store.appStore.cacheDomainServes ? TW_Store.appStore.cacheDomainServes:AppConfig.backupDomains;
+                        let tempDomain=gameList[this.domainRetry];
+                        tempDomain= tempDomain ? tempDomain:gameList[0];
+                         TW_Store.bblStore.gameDomain= TW_Store.bblStore.loginDomain = tempDomain;
+                        appDataJson=this.getAPPJsonData();
+                        gameUrl=appDataJson.gameUrl;
+                    }
+                    if (this.domainRetry <= 5) {
+                        this.domainRetry++;
+                        let gameDomainStar = `appCallBack('${gameUrl}')`;
                         TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, "null");
-                        TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.runJS, {data: gameDomainStar}));
+                        setTimeout(()=>{
+                            TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.runJS, {data: gameDomainStar}));
+                        },100)
                     } else {
+                        clearInterval(TW_Store.appStore.timeClearId);
+                        clearInterval(this.intervalId);
+                        BackgroundTimer.clearInterval(this.intervalId);
                         TN_JUMP_RN();
                         Alert.alert(
-                            "当前网络不稳定 无法正常体验游戏，请重启app尝试看看?",
-                            "",
+                            "当前网络有问题",
+                            "无法正常体验游戏，请重启app尝试看看?",
                             [
                                 {
-                                    text: "了解",
-                                    onPress: () => console.log("Cancel Pressed"),
-                                    style: "cancel"
+                                    text: "关闭",
+                                    onPress: () => {TN_ExitApp()},
+                                    style: "destructive"
                                 }
                             ],
                             {cancelable: false}
@@ -383,18 +398,7 @@ export default class BBLStore {
                     break;
                 case "nativeStart":
                     TW_SplashScreen_HIDE();
-                    TW_Data_Store.getItem(TW_DATA_KEY.LobbyReadyOK, (err, dataStr) => {
-                        let gameData = null
-                        try {
-                            gameData = JSON.parse(dataStr)
-                        } catch (e) {
-                            gameData = null
-                        }
-                        if (!gameData) {
-                            TW_Log("nativeStart---sava--beugim" + gameData)
-                            TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(this.getAPPJsonData()));
-                        }
-                    });
+                   this.onCheckSaveAppData();
                     break;
                 case "game_common":
                     let actions = message.name || message.do;
@@ -585,6 +589,7 @@ export default class BBLStore {
                     clearInterval(TW_Store.appStore.timeClearId);
                     clearInterval(this.intervalId);
                     BackgroundTimer.clearInterval(this.intervalId);
+                    this.onCheckSaveAppData();
                     break;
                 case "http":
                     let method = message.metod;
@@ -633,6 +638,21 @@ export default class BBLStore {
             }
         }
     };
+
+    onCheckSaveAppData=()=>{
+        TW_Data_Store.getItem(TW_DATA_KEY.LobbyReadyOK, (err, dataStr) => {
+            let gameData = null
+            try {
+                gameData = JSON.parse(dataStr)
+            } catch (e) {
+                gameData = null
+            }
+            if (!gameData) {
+                TW_Log("nativeStart---sava--beugim" + gameData)
+                TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, JSON.stringify(this.getAPPJsonData()));
+            }
+        });
+    }
 
     onParamHead = (headDataList) => {
         let header = null;

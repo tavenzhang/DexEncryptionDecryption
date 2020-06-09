@@ -19,6 +19,7 @@ import TCUserOpenPayApp from "../../Data/TCUserOpenPayApp";
 import ExitGameAlertView from "../enter/gameMenu/ExitGameAlertView";
 import GameMenuButton from "../enter/gameMenu/GameMenuButton";
 import TCImage from "../../Common/View/image/TCImage";
+import BackgroundTimer from "react-native-background-timer";
 
 
 @observer
@@ -215,7 +216,7 @@ export default class TWWebGameView extends Component {
                 case "game_recharge":
                     TW_Store.bblStore.isSubGameRecharge=true;
                     TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.game_recharge));
-                    TN_JUMP_HOME()
+                    BackgroundTimer.setTimeout(TN_JUMP_HOME,500);//添加500毫秒延时处理
                     break;
                 case "game_start": //子游戏准备ok
                     this.onEnterGame();
