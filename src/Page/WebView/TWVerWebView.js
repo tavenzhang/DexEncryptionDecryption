@@ -237,6 +237,11 @@ export default class TWVerWebView extends Component {
                 case "game_start": //子游戏准备ok
                     this.onEnterGame();
                     break;
+                case "trend_back":
+                    if (this.refs.myWebView) {
+                        this.refs.myWebView.postMessage("trend_back", "*");
+                    }
+                    break;
                 case "game_common":
                     let actions = message.name || message.do;
                     switch (actions) {
