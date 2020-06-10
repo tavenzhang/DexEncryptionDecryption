@@ -94,7 +94,6 @@ export default class TWWebGameView extends Component {
                 window.ReactNativeWebView.postMessage(data);
               };
             })()`;
-
         let wenConteView =
             <WebView
                 ref="myWebView"

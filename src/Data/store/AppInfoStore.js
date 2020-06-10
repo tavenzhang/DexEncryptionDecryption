@@ -341,31 +341,40 @@ export default class AppInfoStore {
         this.userAffCode = this.appInfo.Affcode;
         this.callInitFuc = this.callInitFuc ? this.callInitFuc() : null;
         this.openInstallData.appKey = this.appInfo['com.openinstall.APP_KEY'];
+        TW_Log("appInfo--initData-------------", appInfo);
+        let appData=null
         // TW_Log("TN_GetPlatInfo---versionBBL--TW_DATA_KEY.platDat====appInfo--this.userAffCode--"+this.userAffCode, appInfo);
         if (G_IS_IOS) {
             //ios 动态开启友盟等接口 android 是编译时 决定好了。
-            TW_Log('JX===  appInfo ' + this.appInfo.APP_DOWNLOAD_VERSION + "--appInfo.this.appInfo.com.openinstall.APP_KEY==" + this.appInfo["com.openinstall.APP_KEY"], this.appInfo)
+           // TW_Log('JX===  appInfo ' + this.appInfo.APP_DOWNLOAD_VERSION + "--appInfo.this.appInfo.com.openinstall.APP_KEY==" + this.appInfo["com.openinstall.APP_KEY"], this.appInfo)
+            TN_StartJPush(this.appInfo.JPushKey, "1");
+            TN_StartOpenInstall(this.appInfo["com.openinstall.APP_KEY"])
             if (this.channel == 1) {
-                TN_StartJPush(this.appInfo.JPushKey, "1");
                 TN_StartUMeng(this.appInfo.UmengKey, this.appInfo.Affcode);
-                TN_StartOpenInstall(this.appInfo["com.openinstall.APP_KEY"])
             } else {
-                    let appInfo = platInfo.appInfo[`ch_${this.channel}`] ? platInfo.appInfo[`ch_${this.channel}`] : platInfo.appInfo.ch_8;
-                    if (appInfo) {
-                        TN_StartJPush(appInfo.JPushKey, "1");
-                        TN_StartUMeng(appInfo.UmengKey, appInfo.Affcode, appInfo.wxAppKey, appInfo.wxAppSecret);
-                        TN_StartOpenInstall(appInfo.openInstallKey);
+                   appData = platInfo.appInfo[`ch_${this.channel}`] ? platInfo.appInfo[`ch_${this.channel}`] : platInfo.appInfo.ch_8;
+                    if (appData) {
+                        TN_StartUMeng(this.appInfo.UmengKey, this.appInfo.Affcode, appData.wxAppKey, appData.wxAppSecret);
+                    }else{
+                        TN_StartUMeng(this.appInfo.UmengKey, this.appInfo.Affcode);
                     }
-                TW_Log("appInfo--TN_StartOpenInstall-------------", appInfo);
             }
         }else{
-            let appInfo = platInfo.appInfo[`ch_${this.subAppType}`] ? platInfo.appInfo[`ch_${this.subAppType}`]:null;
-            if (appInfo) {
-                TN_StartUMeng("", "", appInfo.wxAppKey, appInfo.wxAppSecret);
+            if(this.subAppType == "0"){
+                appData = platInfo.appInfo[`ch_${this.channel}`] ? platInfo.appInfo[`ch_${this.channel}`]:null;
+                if(!appData){
+                    appData= platInfo.appInfo[`ch_${this.subAppType}`] ? platInfo.appInfo[`ch_${this.subAppType}`]:null;
+                }
+            }else{
+                appData= platInfo.appInfo[`ch_${this.subAppType}`] ? platInfo.appInfo[`ch_${this.subAppType}`]:null;
+            }
+            if (appData) {
+                TN_StartUMeng("", "", appData.wxAppKey, appData.wxAppSecret);
             }else {
                 TN_StartUMeng("", "", "", "");
             }
         }
+        TW_Log("appInfo--appData-------------", appData);
         this.isSitApp = this.clindId == "5" || this.clindId == "4";
         this.isTestApp = this.isSitApp || this.clindId == "214"
         this.emulatorChecking();

@@ -128,16 +128,16 @@ export default class BBLStore {
             versionDomain = TW_Store.bblStore.gameDomain + '/bbl_lobby' + path;
         }
         // }
-
-        if (this.isDebugApp) {
-            // versionDomain = this.debug_release_server;
-        } else {
-            if (isSubWay) {
-                versionDomain = versionDomain + '/qudao';
-            } else {
-                versionDomain = versionDomain;
-            }
-        }
+        //
+        // if (this.isDebugApp) {
+        //     // versionDomain = this.debug_release_server;
+        // } else {
+        //     // if (isSubWay) {
+        //     //     versionDomain = versionDomain + '/qudao';
+        //     // } else {
+        //     //     versionDomain = versionDomain;
+        //     // }
+        // }
         TW_Log('versionDomain----getVersionDomain---', versionDomain);
         return versionDomain;
     }
