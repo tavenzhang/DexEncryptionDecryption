@@ -200,9 +200,11 @@ public class JSBridge {
         m_Handler.post(
                 new Runnable() {
                     public void run() {
-                            MainActivity.gameView.setY(2000);
-                            MainActivity.gameView.requestLayout();
-                    }});
+                        Log.d(" jumpRN.getY=", MainActivity.gameView.getY() + "");
+                        MainActivity.gameView.setY(2500);
+                        MainActivity.gameView.requestLayout();
+                    }
+                });
     }
 
     public static void jumpHome(String data) {
