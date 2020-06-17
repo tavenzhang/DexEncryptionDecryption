@@ -703,7 +703,7 @@ export default class BBLStore {
             loginDomain: TW_Store.bblStore.loginDomain + "/api/v1/account",
             gameDomain: TW_Store.bblStore.gameDomain + "/api/v1/gamecenter",
             affCode: TW_Store.appStore.userAffCode,
-            ver: TW_Store.appStore.appVersion,
+            ver: TW_Store.appStore.appVersion+"_"+TW_Store.appStore.applicationId,
             appVersion: TW_Store.appStore.versionHotFix + (!G_IS_IOS && TW_Store.appStore.subAppType != "0" ? ` - ${TW_Store.appStore.subAppType}` : ""),
             specialVersionHot: parseInt(TW_Store.appStore.specialVersionHot),
             apihome: `${TW_Store.bblStore.gameDomain}/api/v1`,
