@@ -56,6 +56,9 @@ export default class BBLStore {
     isStartGameHttp=false
 
     @observable
+    isLoadGameFailure=false;
+
+    @observable
     versionManger = {
         name: 'home',
         versionNum: 1,
@@ -378,6 +381,7 @@ export default class BBLStore {
                             TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.runJS, {data: gameDomainStar}));
                         },100)
                     } else {
+                        this.isLoadGameFailure=true;
                         clearInterval(TW_Store.appStore.timeClearId);
                         clearInterval(this.intervalId);
                         BackgroundTimer.clearInterval(this.intervalId);
@@ -497,7 +501,6 @@ export default class BBLStore {
                                     });
                                 }
                             });
-
                             break;
                         case "share":
                             //this.setState({sharedUrl: message.param, isShowSharebox: true});
