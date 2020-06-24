@@ -106,7 +106,6 @@ export default class Enter extends Component {
             TW_Store.dataStore.log += "\nAppStateChange-active\n";
             //如果属于强制更新状态 不触发active判断
             if (this.flage) {
-
                 TW_Log("AppStateChange-active-----TW_Store.gameUpateStore.isInSubGame==="+TW_Store.gameUpateStore.isInSubGame);
                 if (!TW_Store.gameUpateStore.isInSubGame) {
                     let now = new Date().getTime();
@@ -118,6 +117,10 @@ export default class Enter extends Component {
                     TN_JUMP_HOME();
                     if (TW_Store.bblStore.isEnterLooby) {
                         TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 1 }));
+                    }else {
+                       if(TW_Store.bblStore.isLoadGameFailure){
+                           CodePush.restartApp();
+                       }
                     }
                 } else {
                         TW_OnValueJSSubGame(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 1 }));
@@ -267,6 +270,7 @@ export default class Enter extends Component {
            // this.storeLog({ faileMessage: customerMessage });
             clearInterval(TW_Store.appStore.timeClearId);
             TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {data: customerMessage, color:"#ff0000"}));
+            TW_Store.bblStore.isLoadGameFailure=true;
           //  this.hotFixStore.updateFailMsg(customerMessage);
             this.reloadAppDomain()
         } else {
