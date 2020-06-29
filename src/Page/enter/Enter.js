@@ -62,7 +62,7 @@ export default class Enter extends Component {
         if (orientation === 'PORTRAIT') {
             if (TW_Store.appStore.isLockToLandscape) {
                     if (G_IS_IOS) {
-                        TW_Store.appStore.isNewOrientation ?    Orientation.lockToLandscape():Orientation.lockToLandscapeRight();
+                      //  TW_Store.appStore.isNewOrientation ?    Orientation.lockToLandscape():Orientation.lockToLandscapeRight();
                     } else {
                         Orientation.lockToLandscape();
                     }

@@ -184,12 +184,14 @@ export default class TWVerWebView extends Component {
 
     onLoadEnd = (event) => {
         TW_Log("TWThirdWebView===========onLoadEnd=="+event.dispatchConfig,event);
-        TW_Log("TWThirdWebView===========onLoadEnd==dispatchConfig==",event.dispatchConfig);
+        TW_Log("TWThirdWebView===========onLoadEnd==dispatchConfig==this.isQuitGame--"+this.isQuitGame,event.dispatchConfig);
         TW_SplashScreen_HIDE();
         if(event.dispatchConfig.registrationName=="onLoadingFinish"){
             if(!this.isQuitGame){
-                TW_Store.appStore.lockToProrit();
-                TW_Store.bblStore.enterSubGame();
+                if(TW_Store.appStore.isLockToLandscape){
+                    TW_Store.appStore.lockToProrit();
+                    TW_Store.bblStore.enterSubGame();
+                }
             }
         }else{
             this.onBackHomeJs()
