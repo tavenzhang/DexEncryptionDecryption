@@ -84,7 +84,9 @@ export default class TWVerWebView extends Component {
         let myUrl = url;
 
         if (url.indexOf("?") > -1) {
-            myUrl = `${myUrl}&${urlParam}`
+            if(type!="TY_FYTY"){
+                myUrl = `${myUrl}&${urlParam}`
+            }
         } else {
             myUrl = `${myUrl}?${urlParam}`
         }
