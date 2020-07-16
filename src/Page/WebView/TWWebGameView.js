@@ -78,14 +78,34 @@ export default class TWWebGameView extends Component {
             param: myParam
         };
         if (!G_IS_IOS) {
-            source = {
-                uri: newUrl + `${myParam}`,
-            };
-        } else {
-            if (isOrigan) {
+            //sit不使用缓存
+            if(TW_Store.appStore.isSitApp){
+                source = {
+                    uri: newUrl + `${myParam}`,
+                    method: 'GET',
+                    headers: { 'Cache-Control':'no-cache'}
+                }
+            }else{
                 source = {
                     uri: newUrl + `${myParam}`,
                 };
+            }
+
+        } else {
+            if (isOrigan) {
+                //sit不使用缓存
+                if(TW_Store.appStore.isSitApp){
+                    source = {
+                        uri: newUrl + `${myParam}`,
+                        method: 'GET',
+                        headers: { 'Cache-Control':'no-cache'}
+                    };
+                }else{
+                    source = {
+                        uri: newUrl + `${myParam}`,
+                    };
+                }
+
             }
         }
         TW_Log("myUrl------------------------myParam--" + myParam + "-\n-newUrl----" + newUrl + "---source==", source);
