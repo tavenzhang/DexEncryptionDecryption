@@ -557,7 +557,7 @@ export default class BBLStore {
                     break;
                 case "JumpGame":
                     let url = message.gamePath;
-                    let isOrigan = TW_Store.appStore.isSitApp ? true : false;
+                    let isOrigan =false;
                     TW_Store.bblStore.lastGameUrl = url;
                     let jumpData = this.getJumpData(message.payload);
                     if (url.indexOf("?") > -1) {
