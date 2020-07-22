@@ -557,7 +557,9 @@ export default class BBLStore {
                     break;
                 case "JumpGame":
                     let url = message.gamePath;
-                    let isOrigan =false;
+                    let index=url.indexOf("http");
+                    TW_Log("index------==="+index);
+                    let isOrigan = url.indexOf("http")==0;
                     TW_Store.bblStore.lastGameUrl = url;
                     let jumpData = this.getJumpData(message.payload);
                     if (url.indexOf("?") > -1) {
