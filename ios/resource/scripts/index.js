@@ -271,7 +271,7 @@ function loadApp(url) {
         if (!data) {
             if (window["loadingView"]) {
                // window["loadingView"].setFontColor("#FF0000");
-                window["loadingView"].setTips(['网络异常，请检查您的网络或与开发商联系。']);
+                window["loadingView"].setTips(['网络异常，正常尝试重新连接请稍等！']);
             }
             data = cache.loadCachedURL(url);
             if (!data || data.length <= 0)
