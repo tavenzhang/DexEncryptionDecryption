@@ -387,7 +387,7 @@ export default class BBLStore {
                         BackgroundTimer.clearInterval(this.intervalId);
                         TN_JUMP_RN();
                         Alert.alert(
-                            "当前网络有问题",
+                            `当前网络有问题('${gameUrl}')`,
                             "无法正常体验游戏，请重启app尝试看看?",
                             [
                                 {
