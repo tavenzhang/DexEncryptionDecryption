@@ -379,7 +379,7 @@ export default class BBLStore {
                         TW_Data_Store.setItem(TW_DATA_KEY.LobbyReadyOK, "null");
                         setTimeout(()=>{
                             TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.runJS, {data: gameDomainStar}));
-                        },100)
+                        },2000)
                     } else {
                         this.isLoadGameFailure=true;
                         clearInterval(TW_Store.appStore.timeClearId);
