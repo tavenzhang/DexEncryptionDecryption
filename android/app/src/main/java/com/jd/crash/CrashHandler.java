@@ -1,6 +1,7 @@
 package com.jd.crash;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Looper;
 import android.util.Log;
 import android.view.WindowManager;
@@ -114,7 +115,14 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler, NoticeDial
     private void showNoticeDialog() {
         if (null == mNoticeDialog) {
             mNoticeDialog = new NoticeDialog(mContext);
-            mNoticeDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+            int layout_parms;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                layout_parms = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+            }
+            else {
+                layout_parms = WindowManager.LayoutParams.TYPE_PHONE;
+            }
+            mNoticeDialog.getWindow().setType(layout_parms);
             mNoticeDialog.setCancelable(false);
             mNoticeDialog.setClickListener(this);
         }
