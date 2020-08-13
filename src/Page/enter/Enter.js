@@ -136,7 +136,7 @@ export default class Enter extends Component {
             let now = new Date().getTime();
             this.lastClickTime = now;
             Alert.alert(
-                `这是测试 -isEnterLooby=${TW_Store.bblStore.isEnterLooby}---sub=${TW_Store.gameUpateStore.isInSubGame}--TW_OnValueJSHome==${TW_OnValueJSHome}`,
+                `这是测试 -isEnterLooby=${TW_Store.bblStore.isEnterLooby}---sub=${TW_Store.gameUpateStore.isInSubGame}--TW_OnValueJSHome==${TW_OnValueJSHome==null}`,
                 "",
                 [
                 ],
