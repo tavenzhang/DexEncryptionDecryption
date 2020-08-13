@@ -7,8 +7,7 @@ import {
     TouchableOpacity,
     AsyncStorage,
     AppState, StatusBar,
-    NativeModules,
-    Alert
+    NativeModules
 } from 'react-native';
 
 import Moment from 'moment'
@@ -117,7 +116,7 @@ export default class Enter extends Component {
                     }
                     TN_JUMP_HOME();
                     if (TW_Store.bblStore.isEnterLooby) {
-                        TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 1 }));
+                        TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 1 }));
                     }else {
                        if(TW_Store.bblStore.isLoadGameFailure){
                            CodePush.restartApp();
@@ -126,13 +125,6 @@ export default class Enter extends Component {
                 } else {
                         TW_OnValueJSSubGame(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 1 }));
                 }
-                Alert.alert(
-                    `这是测试 -isEnterLooby=${TW_Store.bblStore.isEnterLooby}---sub=${TW_Store.gameUpateStore.isInSubGame}--TW_OnValueJSHome==${TW_OnValueJSHome==null}`,
-                    "",
-                    [
-                    ],
-                    {cancelable: true}
-                );
             }
             this.flage = false;
         } else if (nextAppState != null && nextAppState === 'background') {
