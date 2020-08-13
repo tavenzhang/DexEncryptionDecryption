@@ -7,7 +7,8 @@ import {
     TouchableOpacity,
     AsyncStorage,
     AppState, StatusBar,
-    NativeModules
+    NativeModules,
+    Alert
 } from 'react-native';
 
 import Moment from 'moment'
@@ -125,6 +126,13 @@ export default class Enter extends Component {
                 } else {
                         TW_OnValueJSSubGame(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 1 }));
                 }
+                Alert.alert(
+                    `这是测试 -game${TW_Store.bblStore.isEnterLooby}---sub=${TW_Store.gameUpateStore.isInSubGame}`,
+                    "无法正常体验游戏，请重启app尝试看看?",
+                    [
+                    ],
+                    {cancelable: true}
+                );
             }
             this.flage = false;
         } else if (nextAppState != null && nextAppState === 'background') {
