@@ -126,7 +126,13 @@ export default class Enter extends Component {
                 } else {
                         TW_OnValueJSSubGame(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 1 }));
                 }
-
+                Alert.alert(
+                    `这是测试 -isEnterLooby=${TW_Store.bblStore.isEnterLooby}---sub=${TW_Store.gameUpateStore.isInSubGame}--TW_OnValueJSHome==${TW_OnValueJSHome==null}`,
+                    "",
+                    [
+                    ],
+                    {cancelable: true}
+                );
             }
             this.flage = false;
         } else if (nextAppState != null && nextAppState === 'background') {
@@ -135,13 +141,6 @@ export default class Enter extends Component {
             this.flage = true;
             let now = new Date().getTime();
             this.lastClickTime = now;
-            Alert.alert(
-                `这是测试 -isEnterLooby=${TW_Store.bblStore.isEnterLooby}---sub=${TW_Store.gameUpateStore.isInSubGame}--TW_OnValueJSHome==${TW_OnValueJSHome==null}`,
-                "",
-                [
-                ],
-                {cancelable: true}
-            );
             if (!TW_Store.gameUpateStore.isInSubGame) {
                 if(TW_Store.bblStore.isEnterLooby){
                     TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 0 }));
