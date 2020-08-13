@@ -116,7 +116,7 @@ export default class Enter extends Component {
                     }
                     TN_JUMP_HOME();
                     if (TW_Store.bblStore.isEnterLooby) {
-                        TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 1 }));
+                        TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 1 }));
                     }else {
                        if(TW_Store.bblStore.isLoadGameFailure){
                            CodePush.restartApp();
@@ -135,7 +135,7 @@ export default class Enter extends Component {
             this.lastClickTime = now;
             if (!TW_Store.gameUpateStore.isInSubGame) {
                 if(TW_Store.bblStore.isEnterLooby){
-                    TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 0 }));
+                    TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 0 }));
                 }
             } else {
                 TW_OnValueJSSubGame(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 0 }));
