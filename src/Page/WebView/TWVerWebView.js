@@ -82,6 +82,7 @@ export default class TWVerWebView extends Component {
     render() {
         let { url, isShowReload, isPaddingTop, urlParam, type } = this.props;
         let myUrl = url;
+        let curMarginTop=this.getMarginTop();
 
         if (url.indexOf("?") > -1) {
             if(type!="TY_FYTY"){
@@ -112,7 +113,7 @@ export default class TWVerWebView extends Component {
                 automaticallyAdjustContentInsets={true}
                 allowsInlineMediaPlayback={true}
                 // 根据softMenuBar的高度
-                style={[styles.webView, {marginBottom: this.state.isSoftMenuBarDetected? ExtraDimensions.getSoftMenuBarHeight():this.curMarginBottom}]}
+                style={[styles.webView, {marginTop: curMarginTop ,marginBottom: this.state.isSoftMenuBarDetected? ExtraDimensions.getSoftMenuBarHeight():this.curMarginBottom}]}
                 source={source}
                 javaScriptEnabled={true}
                 domStorageEnabled={true}
@@ -159,6 +160,17 @@ export default class TWVerWebView extends Component {
 
 
         );
+    }
+
+    getMarginTop = () => {
+        // 特殊处理iPhone的泛亚电竞
+        let {type} = this.props;
+        let hasNotch = DeviceInfo.hasNotch();
+        if (type == "TY_FYTY" && G_IS_IOS && hasNotch) {
+            return 44
+        } else {
+            return 0
+        }
     }
 
     validateAndroidModel = (deviceModel) => {
