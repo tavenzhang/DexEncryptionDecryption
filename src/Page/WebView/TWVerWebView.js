@@ -3,6 +3,7 @@ import {
     StyleSheet,
     View,
     Clipboard,
+    StatusBar,
     BackHandler,
     Alert,
     KeyboardAvoidingView
@@ -70,7 +71,7 @@ export default class TWVerWebView extends Component {
         const deviceModel = DeviceInfo.getModel();
         this.curMarginBottom = this.validateAndroidModel(deviceModel) ? 0 : ExtraDimensions.getSoftMenuBarHeight();
         TW_Log("TWThirdWebView--model:" + deviceModel + "--SoftMenuBarHeight:" + this.curMarginBottom +
-            "--isSoftMenuBarDetected:" + this.state.isSoftMenuBarDetected);
+            "--isSoftMenuBarDetected:" + this.state.isSoftMenuBarDetected+ "--hasNotch:" + DeviceInfo.hasNotch());
     }
 
     componentWillUnmount(): void {
@@ -104,6 +105,12 @@ export default class TWVerWebView extends Component {
               };
             })(); ${safeAreaTop(type)}`;
 
+        const MyStatusBar = ({backgroundColor, ...props}) => (
+            <View style={{ height: curMarginTop , backgroundColor }}>
+                <StatusBar translucent backgroundColor={backgroundColor} {...props} />
+            </View>
+        );
+
         let webContentView =
             <WebView
                 ref="myWebView"
@@ -113,7 +120,7 @@ export default class TWVerWebView extends Component {
                 automaticallyAdjustContentInsets={true}
                 allowsInlineMediaPlayback={true}
                 // 根据softMenuBar的高度
-                style={[styles.webView, {marginTop: curMarginTop ,marginBottom: this.state.isSoftMenuBarDetected? ExtraDimensions.getSoftMenuBarHeight():this.curMarginBottom}]}
+                style={[styles.webView, {marginBottom: this.state.isSoftMenuBarDetected? ExtraDimensions.getSoftMenuBarHeight():this.curMarginBottom}]}
                 source={source}
                 javaScriptEnabled={true}
                 domStorageEnabled={true}
@@ -137,6 +144,7 @@ export default class TWVerWebView extends Component {
                     {/*             onClick={this.onClickMenu}*/}
                     {/*/>*/}
 
+                    <MyStatusBar backgroundColor={"#21253F"}/>
                     {!this.state.isHttpFail ? webContentView : <View style={{
                         height: JX_PLAT_INFO.SCREEN_H, justifyContent: "center",
                         alignItems: "center", backgroundColor: "transparent"
@@ -167,7 +175,7 @@ export default class TWVerWebView extends Component {
         let {type} = this.props;
         let hasNotch = DeviceInfo.hasNotch();
         if (type == "TY_FYTY" && G_IS_IOS && hasNotch) {
-            return 44
+            return StatusBarHeight
         } else {
             return 0
         }
