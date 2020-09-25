@@ -144,7 +144,7 @@ export default class TWVerWebView extends Component {
                     {/*             onClick={this.onClickMenu}*/}
                     {/*/>*/}
 
-                    <MyStatusBar backgroundColor={"#21253F"}/>
+                    <MyStatusBar backgroundColor={"#000"}/>
                     {!this.state.isHttpFail ? webContentView : <View style={{
                         height: JX_PLAT_INFO.SCREEN_H, justifyContent: "center",
                         alignItems: "center", backgroundColor: "transparent"
@@ -174,7 +174,7 @@ export default class TWVerWebView extends Component {
         // 特殊处理iPhone的泛亚电竞
         let {type} = this.props;
         let hasNotch = DeviceInfo.hasNotch();
-        if (type == "TY_FYTY" && G_IS_IOS && hasNotch) {
+        if ((type == "TY_FYTY" || type == "TY_HGTY") && G_IS_IOS && hasNotch) {
             return StatusBarHeight
         } else {
             return 0
