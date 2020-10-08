@@ -103,9 +103,6 @@ export default class UserStore {
             TW_Log("initLoginToken---"+access_token);
             this.access_token=access_token;
             this.freshBalance(false);
-            TW_Store.bankStore.initUserBank();
-            TW_Store.userPayTypeStore.initPopUp();
-            TW_Store.userPayTypeStore.initPayTypeList();
             TW_Store.bblStore.getAppData();
             TW_Store.dataStore.onUploadDeviceData();
         }
@@ -274,12 +271,8 @@ export default class UserStore {
         this.isLogin = false;
         this.balance = 0;
         this.phoneNumber = "";
-        TW_Store.bankStore.clearBank();
-        TW_Store.userPayTypeStore.clearPlayTypeData();
         //TW_Store.userWithdrawStore = new UserWithdrawStore();
     }
-
-
 
 
     lastRequestTime = 0;
