@@ -3,6 +3,7 @@ import {
     StyleSheet,
     View,
     Clipboard,
+    StatusBar,
     BackHandler,
     Alert,
     KeyboardAvoidingView
@@ -70,7 +71,7 @@ export default class TWVerWebView extends Component {
         const deviceModel = DeviceInfo.getModel();
         this.curMarginBottom = this.validateAndroidModel(deviceModel) ? 0 : ExtraDimensions.getSoftMenuBarHeight();
         TW_Log("TWThirdWebView--model:" + deviceModel + "--SoftMenuBarHeight:" + this.curMarginBottom +
-            "--isSoftMenuBarDetected:" + this.state.isSoftMenuBarDetected);
+            "--isSoftMenuBarDetected:" + this.state.isSoftMenuBarDetected+ "--hasNotch:" + DeviceInfo.hasNotch());
     }
 
     componentWillUnmount(): void {
@@ -82,6 +83,7 @@ export default class TWVerWebView extends Component {
     render() {
         let { url, isShowReload, isPaddingTop, urlParam, type } = this.props;
         let myUrl = url;
+        let curMarginTop=this.getMarginTop();
 
         if (url.indexOf("?") > -1) {
             if(type!="TY_FYTY"){
@@ -102,6 +104,12 @@ export default class TWVerWebView extends Component {
                 window.ReactNativeWebView.postMessage(data);
               };
             })(); ${safeAreaTop(type)}`;
+
+        const MyStatusBar = ({backgroundColor, ...props}) => (
+            <View style={{ height: curMarginTop , backgroundColor }}>
+                <StatusBar translucent backgroundColor={backgroundColor} {...props} />
+            </View>
+        );
 
         let webContentView =
             <WebView
@@ -136,6 +144,7 @@ export default class TWVerWebView extends Component {
                     {/*             onClick={this.onClickMenu}*/}
                     {/*/>*/}
 
+                    <MyStatusBar backgroundColor={"#000"}/>
                     {!this.state.isHttpFail ? webContentView : <View style={{
                         height: JX_PLAT_INFO.SCREEN_H, justifyContent: "center",
                         alignItems: "center", backgroundColor: "transparent"
@@ -159,6 +168,17 @@ export default class TWVerWebView extends Component {
 
 
         );
+    }
+
+    getMarginTop = () => {
+        // 特殊处理iPhone的泛亚电竞
+        let {type} = this.props;
+        let hasNotch = DeviceInfo.hasNotch();
+        if ((type == "TY_FYTY" || type == "TY_HGTY") && G_IS_IOS && hasNotch) {
+            return StatusBarHeight
+        } else {
+            return 0
+        }
     }
 
     validateAndroidModel = (deviceModel) => {
@@ -240,6 +260,11 @@ export default class TWVerWebView extends Component {
                     break;
                 case "game_start": //子游戏准备ok
                     this.onEnterGame();
+                    break;
+                case "trend_back":
+                    if (this.refs.myWebView) {
+                        this.refs.myWebView.postMessage("trend_back", "*");
+                    }
                     break;
                 case "game_common":
                     let actions = message.name || message.do;
