@@ -17,7 +17,6 @@ import * as Progress from 'react-native-progress';
 import { observer } from 'mobx-react'
 import Storage from '../../Common/Global/TCStorage'
 import G_Config from '../../Common/Global/G_Config'
-import App from '../Route/App';
 import Orientation from 'react-native-orientation';
 
 import {Size } from '../resouce/theme'
@@ -29,9 +28,8 @@ let retryTimes = 0;
 let downloadTime = 0
 let alreadyInCodePush = false
 import JXDomainsHelper from "../../Common/JXHelper/JXDomainsHelper";
-import {AppConfig, platInfo} from "../../config/appConfig";
+import {AppConfig,} from "../../config/appConfig";
 import { JX_PLAT_INFO } from "../asset";
-import { SoundHelper } from "../../Common/JXHelper/SoundHelper";
 
 
 let domainsHelper = new JXDomainsHelper();
@@ -202,7 +200,6 @@ export default class Enter extends Component {
             checkView = null
         }
         return (<View style={{ flex: 1 ,background:"black"}}>
-            <App />
             {checkView}
         </View>)
     }
@@ -328,7 +325,7 @@ export default class Enter extends Component {
             }
             TW_Log("JXCodePushServerUrl----cacheDomain", cacheDomain)
             TW_Store.hotFixStore.currentDeployKey = hotfixDeploymentKey;
-            this.hotFix(hotfixDeploymentKey)
+            //this.hotFix(hotfixDeploymentKey)
 
         })
     }

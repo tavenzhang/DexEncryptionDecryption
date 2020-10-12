@@ -164,22 +164,7 @@ Helper.gameUniqueIDIsMarkSix = (gameUniqueId) => {
     return false
 }
 
-Helper.getGameInfoWithUniqueId = (gameUniqueId) => {
-    if (TCHomeContents.content) {
-        let gameInfosHot = TCHomeContents.content.gameInfosHot
-        let gameInfosRecommend = TCHomeContents.content.gameInfosRecommend
-        let array = gameInfosHot
-        if (gameInfosHot && gameInfosRecommend) {
-            array = _.concat(gameInfosHot, gameInfosRecommend)
-        }
-        for (let item in array) {
-            if (array[item].gameUniqueId === gameUniqueId) {
-                return array[item]
-            }
-        }
-    }
-    return null
-}
+
 
 Helper.currentTwoDataHandle = (data) => {
     let current = data.current

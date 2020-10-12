@@ -4,13 +4,9 @@ import React, {
 import {config, baseUrl} from './TCRequestConfig';
 import queryString from 'query-string';
 import _ from 'lodash';
-import Toast from '../../Common/JXHelper/JXToast';
-import initAppStore from '../../Data/store/AppInfoStore'
-
 
 const defaultTimeout = 10000;
 import Moment from 'moment';
-import NavigationService from "../../Page/Route/NavigationService";
 
 
 export default class NetUitls extends Component {
