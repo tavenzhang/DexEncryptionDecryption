@@ -13,13 +13,10 @@ import GameUpateStore from "./GameUpateStore";
 class RootStore {
     constructor() {
         this.appStore= new AppInfoStore()
-        this.dataStore=new DataStore();
         this.commonBoxStore=new CommonBoxStore();
         this.hotFixStore = new HotFixStore();
         this.bblStore =new BBLStore();
         this.userStore = new UserStore();
-        this.gameUIStroe=new GameUIStroe();
-        this.gameUpateStore=new GameUpateStore()
     }
 }
 

@@ -8,7 +8,6 @@ import {
     MyAppName,
     versionHotFix,
     platInfo,
-    YunDunData,
     MyOwnerPlatName,
 } from "../../config/appConfig";
 
@@ -16,9 +15,8 @@ import { UpDateHeadAppId } from '../../Common/Network/TCRequestConfig';
 import NetUitls from '../../Common/Network/TCRequestUitls';
 import TCUserOpenPayApp from '../../Data/TCUserOpenPayApp';
 import OpeninstallModule from "openinstall-react-native";
-import { SoundHelper } from "../../Common/JXHelper/SoundHelper";
 import JXHelper from "../../Common/JXHelper/JXHelper";
-import RNFS from "react-native-fs";
+
 /**
  * 用于初始化项目信息
  */
@@ -109,7 +107,7 @@ export default class AppInfoStore {
 
     openInstallCheckCount = 1;
     //云盾数据
-    yunDunData = YunDunData;
+    yunDunData = null;
 
     //是否锁定屏幕旋转
     isLockToLandscape = true;
@@ -178,7 +176,7 @@ export default class AppInfoStore {
                 TW_Store.bblStore.enterGameLobby(gameData,true);
             }else{
                     let percent=1
-                    TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {data: "正在初始化数据 ",percent, color:platInfo.loadHintColor}));
+                    TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {data: "正在更新数据... ",percent, color:platInfo.loadHintColor}));
                     this.timeClearId=setInterval(()=>{
                         //TW_Log("TN_MSG_TO_GAME---percent-"+percent)
                         percent+=1;
@@ -221,12 +219,6 @@ export default class AppInfoStore {
 
                 try {
                     TW_Data_Store.getItem(TW_DATA_KEY.AFF_CODE, (err, ret) => {
-                        TW_Store.dataStore.log +=
-                            "TN_GetPlatInfo---versionBBL-TW_DATA_KEY.AFF_CODd----err=-" +
-                            err +
-                            "----ret==" +
-                            ret +
-                            "\n";
                         if (ret && ret.length > 0) {
                             this.userAffCode = ret;
                         }
@@ -234,7 +226,7 @@ export default class AppInfoStore {
                     //最多重复3次检察
                     this.onOpenInstallCheck(this.onOpenInstallCheck);
                 } catch (e) {
-                    TW_Store.dataStore.log += "getInstall---error=" + e;
+
                 }
             }
         });
@@ -244,9 +236,8 @@ export default class AppInfoStore {
         OpeninstallModule.getInstall(10, res => {
             //TW_Store.dataStore.log+="getInstall----"+JSON.stringify(res);
             TW_Log("onOpenInstallCheck----res", res)
-            TW_Store.dataStore.log += "getInstall---res-" + res;
             if (res && res.data) {
-                //TW_Store.dataStore.log+="getInstall----"+JSON.stringify(res);
+
                 let map = null;
                 if (typeof res.data === "object") {
                     map = res.data;
@@ -266,9 +257,7 @@ export default class AppInfoStore {
                                 )
                             );
                         }
-                        TW_Store.dataStore.log +=
-                            "\ngetInstall---affCode=TW_OnValueJSHome--userAffCode-" +
-                            this.userAffCode;
+
                     }
                 }
             } else {
@@ -377,7 +366,7 @@ export default class AppInfoStore {
         TW_Log("appInfo--appData-------------", appData);
         this.isSitApp = this.clindId == "5" || this.clindId == "4";
         this.isTestApp = this.isSitApp || this.clindId == "214"
-        this.emulatorChecking();
+      //  this.emulatorChecking();
     }
 
     emulatorChecking() {
@@ -390,8 +379,7 @@ export default class AppInfoStore {
         let emulatorChecking = isEmulator;
         // || (curDevId.indexOf("unknown") !== -1)
         // || (modeList.indexOf(curModel) !== -1);
-        TW_Store.dataStore.log += "\n---isEmulator--" + isEmulator + "---TW_IS_DEBIG---" + TW_IS_DEBIG + "---isSitApp---" + this.isSitApp +
-            "---model--" + curModel + "--deviceID--" + curDevId + "--deviceName--" + curDevName + "\n---Emulator--" + emulatorChecking;
+
         if (emulatorChecking && !G_IS_IOS) {
             if (!this.isSitApp && !TW_IS_DEBIG&&this.clindId!="214") {
                 Alert.alert(
@@ -567,7 +555,6 @@ export default class AppInfoStore {
             let nativeConfig = await CodePush.getConfiguration();
             this.appVersion = nativeConfig.appVersion;
             this.isOldIosAPP= G_IS_IOS&&(this.appVersion=="2.2.2");
-            TW_Store.dataStore.log += "\n---nativeConfig--" + JSON.stringify(nativeConfig) + "---\n";
             TW_Log(
                 "appInfo----version-nativeConfig--  this.appVersion " + this.appVersion,
                 nativeConfig
@@ -596,7 +583,7 @@ export default class AppInfoStore {
             //TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appNativeData, { data: TW_Store.bblStore.getAppNativeData()}));
             this.saveDeviceTokenToLocalStore();
         }
-        this.yunDunData.token = this.deviceToken;
+      //  this.yunDunData.token = this.deviceToken;
     }
 
     async initDeviceUniqueID() {
@@ -726,7 +713,6 @@ export default class AppInfoStore {
             } else {
                 Orientation.lockToLandscapeRight();
             }
-
         } else {
             Orientation.lockToLandscape()
         };
@@ -737,7 +723,6 @@ export default class AppInfoStore {
             Orientation.getDeviceOrientation((deviceOrientation) => {
                 TW_Log("isNewOrientation: getDeviceOrientation: ", deviceOrientation);
             });
-
             this.isNewOrientation = true;
         } catch (err) {
             this.isNewOrientation = false;

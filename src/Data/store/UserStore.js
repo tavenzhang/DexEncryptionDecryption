@@ -104,7 +104,6 @@ export default class UserStore {
             this.access_token=access_token;
             this.freshBalance(false);
             TW_Store.bblStore.getAppData();
-            TW_Store.dataStore.onUploadDeviceData();
         }
 
     }

@@ -6,9 +6,9 @@ export const appDomainBase = {
     base1: 'https://qp01-game.513xyz.com',
     base2: 'https://qp01-game.513xyz.com',
     base3: 'https://*.gymjjddjzx.com',
-    base4: 'https://yundun-qp01-game.513xyz.com',
-    base5: 'https://yundun-qp01-game.513xyz.com',
-    base6: 'https://yundun-qp01-game.513xyz.com',
+    base4: 'https://qp01-game.513xyz.com',
+    base5: 'https://qp01-game.513xyz.com',
+    base6: 'https://qp01-game.513xyz.com',
 }
 //'https://127.0.0.1',
 

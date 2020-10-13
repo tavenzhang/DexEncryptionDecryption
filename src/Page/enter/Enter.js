@@ -3,11 +3,11 @@ import {
     AppRegistry,
     Text,
     View,
-    Navigator,
-    TouchableOpacity,
     AsyncStorage,
-    AppState, StatusBar,
-    NativeModules
+    AppState,
+    NativeModules,
+    NativeEventEmitter,
+    DeviceEventEmitter
 } from 'react-native';
 
 import Moment from 'moment'
@@ -34,6 +34,9 @@ import { JX_PLAT_INFO } from "../asset";
 
 let domainsHelper = new JXDomainsHelper();
 let appInfoStore = TW_Store.appStore;
+const { ModuleWithEmitter } = NativeModules;
+const eventEmitter = new NativeEventEmitter(ModuleWithEmitter);
+
 @observer
 export default class Enter extends Component {
 
@@ -93,19 +96,27 @@ export default class Enter extends Component {
                 TW_Store.appStore.screenW = this.validateAndroidModel(deviceModel) ? rW - ExtraDimensions.getStatusBarHeight() : rW;
             }
         } catch (e) {
-            TW_Store.dataStore.log += "\nExtraDimensions--error" + e;
+
         }
         AppState.addEventListener('change', this._handleAppStateChange);
+        if(G_IS_IOS){
+            eventEmitter.addListener('onMessage',  this.onNativeMessage);
+        }else{
+            DeviceEventEmitter.addListener('onMessage', this.onNativeMessage);
+        }
     }
 
+    onNativeMessage=(e:Event)=>{
+        let message=e.NAME;
+        TW_Store.bblStore.onMsgHandle(e.NAME);
+    }
 
     _handleAppStateChange = (nextAppState) => {
         if (nextAppState != null && nextAppState === 'active') {
-            TW_Store.dataStore.log += "\nAppStateChange-active\n";
+
             //如果属于强制更新状态 不触发active判断
             if (this.flage) {
-                TW_Log("AppStateChange-active-----TW_Store.gameUpateStore.isInSubGame==="+TW_Store.gameUpateStore.isInSubGame);
-                if (!TW_Store.gameUpateStore.isInSubGame) {
+                if (true) {
                     let now = new Date().getTime();
                     let dim = now - this.lastClickTime;
                     TW_Log("lastClickTime----" + this.lastClickTime + "---dim", dim)
@@ -121,23 +132,15 @@ export default class Enter extends Component {
                        }
                     }
                 } else {
-                        TW_OnValueJSSubGame(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 1 }));
+
                 }
             }
             this.flage = false;
         } else if (nextAppState != null && nextAppState === 'background') {
-            TW_Store.dataStore.log += "\nAppStateChange-background\n";
             TW_Log("AppStateChange-background--------nextAppState",nextAppState)
             this.flage = true;
             let now = new Date().getTime();
             this.lastClickTime = now;
-            if (!TW_Store.gameUpateStore.isInSubGame) {
-                if(TW_Store.bblStore.isEnterLooby){
-                    TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 0 }));
-                }
-            } else {
-                TW_OnValueJSSubGame(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lifecycle, { data: 0 }));
-            }
         }
     }
 
@@ -297,7 +300,7 @@ export default class Enter extends Component {
             this.gotoUpdate();
         }
        let newAppData=TW_Store.bblStore.getAPPJsonData();
-        TW_Store.bblStore.enterGameLobby(newAppData);
+       // TW_Store.bblStore.enterGameLobby(newAppData);
 
     }
 
@@ -305,7 +308,6 @@ export default class Enter extends Component {
     gotoUpdate() {
         AsyncStorage.getItem('cacheDomain').then((response) => {
             TW_Log("JXCodePushServerUrl----getItem")
-            TW_Store.dataStore.log += "\ncacheDomain-----" + response + "---\n";
             let cacheDomain = JSON.parse(response);
             let hotfixDeploymentKey = ""
             let serveUrl = ""
@@ -325,7 +327,7 @@ export default class Enter extends Component {
             }
             TW_Log("JXCodePushServerUrl----cacheDomain", cacheDomain)
             TW_Store.hotFixStore.currentDeployKey = hotfixDeploymentKey;
-            //this.hotFix(hotfixDeploymentKey)
+            this.hotFix(hotfixDeploymentKey)
 
         })
     }
@@ -352,9 +354,12 @@ export default class Enter extends Component {
             downloadTime = Moment().format('X')
         }
         this.hotFixStore.percent = (parseFloat(progress.receivedBytes / progress.totalBytes).toFixed(2) * 100).toFixed(1);
+
+
+
+        TW_Log("codePush---codePushDownloadDidProgress===",   this.hotFixStore.percent)
         if (!this.hotFixStore.isNextAffect) {
             this.hotFixStore.progress = progress;
-            TW_Store.gameUpateStore.isAppDownIng = true;
         }
     }
 
@@ -366,7 +371,7 @@ export default class Enter extends Component {
         });
         try {
             CodePush.checkForUpdate(hotfixDeploymentKey).then((update) => {
-                TW_Log('==checking update=d===hotfixDeploymentKey= =' + hotfixDeploymentKey, update);
+                TW_Log('codePush---- update=d===hotfixDeploymentKey= =' + hotfixDeploymentKey, update);
                 if (update !== null) {
                     this.hotFixStore.syncMessage = '检测到重要更新,稍后将自动重启!';
                     let versionData = null;
@@ -398,19 +403,21 @@ export default class Enter extends Component {
                         //如果是3分钟后台进入前台的热更新检测 使用立即更新
                         this.hotFixStore.isNextAffect = false;
                     }
-
+                    this.hotFixStore.isNextAffect=false;
                     TW_Log('==checkingupdate====hotfixDeploymentKey= versionData=  this.isWeakUpdate==' + this.isWeakUpdate);
                     this.hotFixStore.updateFinished = false;
                     this.storeLog({ hotfixDomainAccess: true });
                     if (alreadyInCodePush) return
                     alreadyInCodePush = true
                     let updateMode = CodePush.InstallMode.ON_NEXT_RESTART ;
-                    if (TW_IS_DEBIG) {
-                        return
-                    }
-                    TW_Log("preInstallCodeCodePush--  update.download");
+
                     update.download(this.codePushDownloadDidProgress).then((localPackage) => {
                         alreadyInCodePush = false;
+                        TW_Log("codePush---- update.download",localPackage);
+
+                        if (TW_IS_DEBIG) {
+                            return
+                        }
                         if (localPackage) {
                             this.hotFixStore.syncMessage = '下载完成,开始安装';
                             this.hotFixStore.progress = false;
@@ -496,10 +503,6 @@ export default class Enter extends Component {
             TW_Log("preInstallCodeCodePush---- localPackage.install");
             this.storeLog({ updateStatus: true });
             //如果正在下载大厅文件，关闭大厅当前的下载
-            if (updateMode == CodePush.InstallMode.IMMEDIATE) {
-                TW_Store.dataStore.clearCurrentDownJob();
-                BackgroundTimer.clearInterval(TW_Store.bblStore.intervalId);
-            }
             CodePush.notifyAppReady().then(() => {
                 TW_Log("preInstallCodeCodePush----  CodePush.notifyAppReady()")
                 // this.setUpdateFinished()

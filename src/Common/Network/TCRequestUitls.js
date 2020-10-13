@@ -147,9 +147,7 @@ export default class NetUitls extends Component {
             // if(loadingState!=null){
             //     rootStore.commonBoxStore.showSpinWithState(loadingState)
             // }
-            if(!isWebHttp){
-                TW_Store.gameUIStroe.isShowResLoading=true;
-            }
+
             response = await fetch(url, map)
         } catch (e) {
 
@@ -172,9 +170,6 @@ export default class NetUitls extends Component {
         } catch (e) {
             responseJson = null
         } finally {
-            if(!isWebHttp){
-                TW_Store.gameUIStroe.isShowResLoading=false;
-            }
 
             if (response.status >= 200 && response.status < 305) {
                 if (response.status === 204) {

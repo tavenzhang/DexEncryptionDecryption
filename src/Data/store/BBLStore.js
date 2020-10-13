@@ -351,7 +351,7 @@ export default class BBLStore {
     }
 
     onMsgHandle = msg => {
-        TW_Log('onMessage======GameLobby=====>>' + '\n', msg);
+        TW_Log('onMessage====to==GameLobby=====>>' + '\n', msg);
         let message = JSON.parse(msg);
         let appDataJson=null;
         if (message && message.action) {
@@ -459,8 +459,7 @@ export default class BBLStore {
                         case "wxLogin":
                             TW_Store.gameUIStroe.checkWXInstall(ret => {
                                 TW_Log(' wxLogin checkWXInstall--', ret);
-                                TW_Store.dataStore.log +=
-                                    "\n\n==> wxLogin checkWXInstall---" + ret;
+
                                 if (ret) {
                                     TN_WechatAuth((code, result, message) => {
                                         //TW_Store.dataStore.log += "\n==> wxLogin message---" + JSON.stringify(result) + "---\n--code====" + code + "===message==" + message;
@@ -530,7 +529,6 @@ export default class BBLStore {
                             TCUserOpenPayApp.getInstance().openAppByType(message.param);
                             break;
                         case "appUpate":
-                            TW_Store.dataStore.onRetartApp();
                             break;
 
                         case "closeRecharge":

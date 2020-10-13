@@ -5,10 +5,9 @@ import {MainBundlePath, DocumentDirectoryPath} from 'react-native-fs'
 import NetUitls from "../../Common/Network/TCRequestUitls";
 import rootStore from "./RootStore";
 import CodePush from 'react-native-code-push'
-import {SoundHelper} from "../../Common/JXHelper/SoundHelper";
 import FileTools from "../../Common/Global/FileTools";
 import {appVersion, config} from "../../Common/Network/TCRequestConfig";
-import {configAppId, versionHotFix} from "../../config/appConfig";
+
 import DeviceInfo from 'react-native-device-info';
 export default class DataStore {
 

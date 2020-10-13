@@ -25,7 +25,7 @@ function getAvailableDomain(domains, callback, initDomainCallBack,currentCacheDo
     }, 8000)
     let isLocalHostDomain=domains.indexOf('http://127.0.0.1')>-1;
     TN_yunDunStart(isLocalHostDomain,(isUseYunDun,port)=>{
-        TW_Store.dataStore.log+="\n---游戏盾-==-"+isUseYunDun+"==port=="+port+"---\n";
+
         for (let i = 0; i < domains.length; i++) {
             TW_Log('= ' + domains[i]+"--TN_yunDunStart---------isUseYunDun---"+isUseYunDun+"===port==="+port);
             let tempDomain = domains[i];
