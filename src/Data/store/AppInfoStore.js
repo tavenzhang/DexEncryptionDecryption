@@ -182,7 +182,10 @@ export default class AppInfoStore {
                         percent+=1;
                         percent= percent>=100 ? 99:percent;
                         TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {percent}));
-                    },500)
+                        if(percent==99){
+                            TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {data: "网络异常 请检查您的网络状况，或者重启app！",percent, color:"#ff000"}));
+                        }
+                    },1000)
 
             }
         })
