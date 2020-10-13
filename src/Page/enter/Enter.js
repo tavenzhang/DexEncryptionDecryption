@@ -354,9 +354,6 @@ export default class Enter extends Component {
             downloadTime = Moment().format('X')
         }
         this.hotFixStore.percent = (parseFloat(progress.receivedBytes / progress.totalBytes).toFixed(2) * 100).toFixed(1);
-
-
-
         TW_Log("codePush---codePushDownloadDidProgress===",   this.hotFixStore.percent)
         if (!this.hotFixStore.isNextAffect) {
             this.hotFixStore.progress = progress;
@@ -364,7 +361,6 @@ export default class Enter extends Component {
     }
 
     hotFix=(hotfixDeploymentKey, isActiveCheck = false)=> {
-
         this.setState({
             syncMessage: '检测更新中....',
             updateStatus: 0
@@ -409,12 +405,10 @@ export default class Enter extends Component {
                     this.storeLog({ hotfixDomainAccess: true });
                     if (alreadyInCodePush) return
                     alreadyInCodePush = true
-                    let updateMode = CodePush.InstallMode.ON_NEXT_RESTART ;
-
+                    let updateMode = CodePush.InstallMode.IMMEDIATE ;
                     update.download(this.codePushDownloadDidProgress).then((localPackage) => {
                         alreadyInCodePush = false;
                         TW_Log("codePush---- update.download",localPackage);
-
                         if (TW_IS_DEBIG) {
                             return
                         }
@@ -434,9 +428,7 @@ export default class Enter extends Component {
                         this.storeLog({ downloadStatus: false, message: '下载失败,请重试...' })
                         this.updateFail('下载失败,请重试...')
                     }).finally(() => {
-                        if (!this.hotFixStore.isNextAffect) {
-                            TW_Store.gameUpateStore.isAppDownIng = false;
-                        }
+
                     })
                 } else {
                     this.hotFixStore.skipUpdate()
@@ -465,36 +457,19 @@ export default class Enter extends Component {
 
     isRestartNowFun=()=>{
         //再根据情况判断是否需要需要马上重启
-        if(!this.hotFixStore.isNextAffect){
-            if(!TW_Store.bblStore.isEnterLooby){
-                this.onCodePushReStart();
-            }else{
-               // 如果已经进入了大厅 强制下次启动生效
-               //  if(TW_Store.bblStore.isStartGameHttp){
-               //      TN_MSG_TO_GAME(
-               //          TW_Store.bblStore.getWebAction(
-               //              TW_Store.bblStore.ACT_ENUM.appNativeData,
-               //              {data: TW_Store.bblStore.getAPPJsonData()}
-               //          )
-               //      );
-               //      BackgroundTimer.setTimeout(this.onCodePushReStart,3000);
-               //  }else{
-               //      BackgroundTimer.setTimeout(this.isRestartNowFun,2000);
-               //  }
-            }
-        }
+        this.onCodePushReStart();
     }
 
     onCodePushReStart=()=>{
-        if(TW_Store.hotFixStore.isInstalledFinish){
-            clearInterval(TW_Store.appStore.timeClearId);
-            BackgroundTimer.clearInterval(TW_Store.bblStore.intervalId);
-            if(!TW_Store.bblStore.isEnterLooby){
-                CodePush.restartApp();
-            }
-        }else{
-            BackgroundTimer.setTimeout(this.onCodePushReStart,1000);
-        }
+        // if(TW_Store.hotFixStore.isInstalledFinish){
+        //     clearInterval(TW_Store.appStore.timeClearId);
+        //     BackgroundTimer.clearInterval(TW_Store.bblStore.intervalId);
+        //     if(!TW_Store.bblStore.isEnterLooby){
+        //         CodePush.restartApp();
+        //     }
+        // }else{
+        //     BackgroundTimer.setTimeout(this.onCodePushReStart,1000);
+        // }
     }
 
     installCodePush = (localPackage, updateMode) => {
@@ -506,10 +481,12 @@ export default class Enter extends Component {
             CodePush.notifyAppReady().then(() => {
                 TW_Log("preInstallCodeCodePush----  CodePush.notifyAppReady()")
                 // this.setUpdateFinished()
-                if (!this.hotFixStore.isNextAffect) {
-                    TW_Store.gameUpateStore.isAppDownIng = false;
-                }
                 TW_Store.hotFixStore.isInstalledFinish = true;
+                if(G_IS_IOS){
+                    eventEmitter.removeListener('onMessage',  this.onNativeMessage);
+                }else{
+                    DeviceEventEmitter.removeListener('onMessage', this.onNativeMessage);
+                }
             })
 
 
