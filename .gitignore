@@ -68,3 +68,5 @@ proxy_core/build
 proxy_tools/build
 proxy_tools/aarTemp
 proxy_tools/temp
+/android/proxy_tools/aarTemp/
+/android/proxy_core/out/
