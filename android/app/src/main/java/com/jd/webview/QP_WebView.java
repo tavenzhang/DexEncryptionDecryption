@@ -25,12 +25,7 @@ import android.widget.RelativeLayout;
 import com.jd.R;
 import com.jd.util.CommonDialog;
 import com.jd.util.JXDragView;
-//import com.umeng.analytics.MobclickAgent;
 
-
-/**
- * Created by allen-jx on 2017/7/10.
- */
 public class QP_WebView extends Activity {
 
     private WebView webView;

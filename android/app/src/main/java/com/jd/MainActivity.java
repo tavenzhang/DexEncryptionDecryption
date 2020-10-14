@@ -13,6 +13,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,11 +44,13 @@ import layaair.game.IMarket.IPlugin;
 import layaair.game.IMarket.IPluginRuntimeProxy;
 import layaair.game.Market.GameEngine;
 import layaair.game.config.config;
-
+import com.jd.ApkEncryption.MyBroadCastReceiver;
+import com.jd.ApkEncryption.MyService;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 public class MainActivity extends ReactActivity {
 
+    String TAG = "APKEncryption";
     public static MainActivity instance;
     public static Context mainContent = null;
 
@@ -104,6 +107,10 @@ public class MainActivity extends ReactActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+            Log.i(TAG, "activity:" + getApplication());
+            Log.i(TAG, "activity:" + getApplicationContext());
+            Log.i(TAG, "activity:" + getApplicationInfo().className);
+
         if (Build.VERSION.SDK_INT >= 28) {
             WindowManager.LayoutParams lp = getWindow().getAttributes();
             lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
@@ -160,17 +167,19 @@ public class MainActivity extends ReactActivity {
         JSBridge.mMainActivity = this;
         mSplashDialog = new SplashDialog(this);
         mSplashDialog.showSplash();
-        /*
-         * 如果不想使用更新流程，可以屏蔽checkApkUpdate函数，直接打开initEngine函数
-         */
-        //checkApkUpdate(this);
-//         Intent intent = getIntent();
-//         appData = intent.getStringExtra("homeData");
-//         try {
-//             initEngine(appData);
-//         } catch (JSONException e) {
-//             e.printStackTrace();
-//         }
+        startService(new Intent(this, MyService.class));
+         Intent intent = new Intent("com.encry");
+         intent.setComponent(new ComponentName(getPackageName(), MyBroadCastReceiver.class.getName
+                        ()));
+
+         sendBroadcast(intent);
+
+         getContentResolver().delete(Uri.parse("content://com.jd.ApkEncryption.MyProvider"), null,
+                                        null);
+         byte[] src = new byte[]{1,2,3,4};
+         byte[] dest = new byte[10];
+         System.arraycopy(src,0,dest,0,src.length);
+          Log.d("","");
     }
 
     @Override

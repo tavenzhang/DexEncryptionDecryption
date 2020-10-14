@@ -55,6 +55,7 @@ import cn.jpush.android.api.JPushInterface;
 
 public class MainApplication extends Application implements ReactApplication {
 
+    String TAGEncry = "APKEncryption";
     private static MainApplication mInstance = null;
     private static final String TAG = MainApplication.class.getName();
     private Handler handler;
@@ -147,7 +148,8 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     public void onCreate() {
-        super.onCreate();
+       super.onCreate();
+       Log.i(TAGEncry, "MyApplication onCreate()");
        if(mInstance ==null){
            mInstance = this;
        }

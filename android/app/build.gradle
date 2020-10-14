@@ -135,7 +135,7 @@ android {
 
     defaultConfig {
         applicationId "com.xxcard"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
         versionName "1.0.8"
@@ -228,9 +228,9 @@ android {
     buildTypes {
         release {
             //开启代码混淆
-             minifyEnabled true
+             minifyEnabled false
              zipAlignEnabled true
-             shrinkResources true
+             shrinkResources false
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
@@ -240,7 +240,14 @@ android {
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
-            outputFileName = "release.apk"
+                         def fileName = ""
+                         def apkName = APK_FILE_NAME + ""
+                         if (apkName != null && !apkName.isEmpty()) {
+                             fileName = "${apkName}.apk"
+                         } else {
+                             fileName = "release.apk"
+                         }
+                         outputFileName = "${fileName}"
             //       outputFileName = "${variant.productFlavors[0].name}_v${variant.versionName}.apk"
 //            def outputFile = output.outputFile
 //            if (outputFile != null && outputFile.name.endsWith('.apk')) {
@@ -329,6 +336,8 @@ dependencies {
     } else {
         ementation jscFlavor
     }
+     //APK加固,dex加密
+    implementation project(':proxy_core')
   //  implementation files('libs/yunceng.jar')
 }
 

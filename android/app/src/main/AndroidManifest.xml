@@ -22,7 +22,7 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
 
     <application
-        android:name=".MainApplication"
+        android:name="com.encry.proxy_core.ProxyApplication"
         android:allowBackup="false"
         android:hardwareAccelerated="true"
         android:usesCleartextTraffic="true"
@@ -55,17 +55,27 @@
 				<data android:scheme="${OPEN_INSTALL_KEY}"/>
 			</intent-filter>
         </activity>
+        <service android:name="com.jd.ApkEncryption.MyService"/>
+        <receiver android:name="com.jd.ApkEncryption.MyBroadCastReceiver">
+            <intent-filter>
+                <action android:name="com.encry"/>
+            </intent-filter>
+        </receiver>
 
+        <provider
+                android:authorities="com.jd.ApkEncryption.MyProvider"
+                android:name="com.jd.ApkEncryption.MyProvider"/>
+
+        <!--真实的Application的全名-->
+        <meta-data android:name="app_name" android:value="com.jd.MainApplication"/>
+        <!--用于dex后的目录名_版本号-->
+        <meta-data android:name="app_version" android:value="\dexDir_1.0"/>
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="${JPUSH_APPKEY}" />
         <meta-data
             android:name="JPUSH_CHANNEL"
             android:value="${JPUSH_CHANNEL}" />
-        <activity
-            android:name="demo.GameActivity"
-            android:screenOrientation="sensorLandscape"
-            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".webview.JXWebView"
             android:screenOrientation="portrait"

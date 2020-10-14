@@ -26,9 +26,7 @@ import com.jd.util.AndroidBug5497Workaround;
 import com.jd.util.KeyboardUtils;
 import com.jd.util.StatusBarUtils;
 
-/**
- * Created by allen-jx on 2017/7/10.
- */
+
 
 public class JXWebView extends Activity {
 
