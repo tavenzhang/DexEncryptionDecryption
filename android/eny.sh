@@ -9,7 +9,7 @@
 
 #mkdir -p proxy_tools/apk
 #cp -rf app/build/outputs/apk/taven/release/*.apk proxy_tools/apk
-gtimeout 10 bash encryptApk.sh
+gtimeout 15 bash encryptApk.sh
 if [ $? -eq 0 ]; then
        echo "suceess"
 else
