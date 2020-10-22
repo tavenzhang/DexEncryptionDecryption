@@ -255,6 +255,8 @@ export default class AppInfoStore {
                     if (map && map.paramsData) {
                         this.userAffCode = map.paramsData;
                         TW_Data_Store.setItem(TW_DATA_KEY.AFF_CODE, this.userAffCode);
+                        this.onUpTimes=1;
+                        this.intervalUpdate=setInterval(this.onUpdataAffcode,1500);
                         if(TW_Store.bblStore.isEnterLooby){
                             TW_OnValueJSHome(
                                 TW_Store.bblStore.getWebAction(
@@ -278,6 +280,21 @@ export default class AppInfoStore {
             }
         });
     };
+
+    onUpdataAffcode=()=>{
+        this.onUpTimes+=1;
+        if(TW_Store.bblStore.isEnterLooby){
+            TW_OnValueJSHome(
+                TW_Store.bblStore.getWebAction(
+                    TW_Store.bblStore.ACT_ENUM.affcode,
+                    { data: this.userAffCode }
+                )
+            );
+        }
+        if(this.onUpTimes>=10){
+            clearInterval(this.intervalUpdate);
+        }
+    }
 
     onShowDownAlert = url => {
         //处于渠道验证阶段 不需要检测强更新
