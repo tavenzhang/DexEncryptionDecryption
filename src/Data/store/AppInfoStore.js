@@ -244,6 +244,7 @@ export default class AppInfoStore {
         SharetraceModule.getInstallTrace( (res)=> {
             //TW_Store.dataStore.log+="getInstall----"+JSON.stringify(res);
             TW_Log("onOpenInstallCheck----res"+res+"===typeof res.data=="+(typeof(res)), res)
+            Alert.alert(JSON.stringify(res), res.paramsData);
            // TW_Store.dataStore.log += "getInstall---res-" + res;
             if (res) {
                 //TW_Store.dataStore.log+="getInstall----"+JSON.stringify(res);
@@ -255,8 +256,8 @@ export default class AppInfoStore {
                 }
                 if (map) {
                     this.openInstallData.data = map;
-                    if (map && map.affCode) {
-                        this.userAffCode = map.affCode;
+                    if (map && map.paramsData) {
+                        this.userAffCode = map.paramsData;
                         TW_Data_Store.setItem(TW_DATA_KEY.AFF_CODE, this.userAffCode);
                         if(TW_Store.bblStore.isEnterLooby){
                             TW_OnValueJSHome(
