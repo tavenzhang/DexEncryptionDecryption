@@ -15,7 +15,7 @@ import {
 import { UpDateHeadAppId } from '../../Common/Network/TCRequestConfig';
 import NetUitls from '../../Common/Network/TCRequestUitls';
 import TCUserOpenPayApp from '../../Data/TCUserOpenPayApp';
-import OpeninstallModule from "openinstall-react-native";
+import SharetraceModule from 'sharetrace-react-native'
 import { SoundHelper } from "../../Common/JXHelper/SoundHelper";
 import JXHelper from "../../Common/JXHelper/JXHelper";
 import RNFS from "react-native-fs";
@@ -241,17 +241,17 @@ export default class AppInfoStore {
     };
 
     onOpenInstallCheck = callBack => {
-        OpeninstallModule.getInstall(10, res => {
+        SharetraceModule.getInstallTrace(10, res => {
             //TW_Store.dataStore.log+="getInstall----"+JSON.stringify(res);
             TW_Log("onOpenInstallCheck----res", res)
             TW_Store.dataStore.log += "getInstall---res-" + res;
-            if (res && res.data) {
+            if (res) {
                 //TW_Store.dataStore.log+="getInstall----"+JSON.stringify(res);
                 let map = null;
                 if (typeof res.data === "object") {
                     map = res.data;
                 } else {
-                    map = JSON.parse(res.data);
+                    map = JSON.parse(res);
                 }
                 if (map) {
                     this.openInstallData.data = map;

@@ -133,7 +133,7 @@
         </activity>
 
 		<meta-data
-			android:name="com.openinstall.APP_KEY"
+			android:name="com.sharetrace.APP_KEY"
 			android:value="${OPEN_INSTALL_KEY}"/>
         <uses-library
                 android:name="org.apache.http.legacy"

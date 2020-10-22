@@ -21,7 +21,6 @@ import com.reactnativecommunity.webview.RNCWebViewPackage;
 import fr.greweb.reactnativeviewshot.RNViewShotPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import ca.jaysoo.extradimensions.ExtraDimensionsPackage;
-import com.openinstall.openinstallLibrary.OpeninstallReactPackage;
 import com.corbt.keepawake.KCKeepAwakePackage;
 import com.beefe.picker.PickerViewPackage;
 import com.jd.webview.WebViewReactPackage;
@@ -78,26 +77,9 @@ public class MainApplication extends Application implements ReactApplication {
         @Override
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
-                    new MainReactPackage(),
-            new BackgroundTimerPackage(),
-            new NetInfoPackage(),
-            new OrientationPackage(),
-            new CameraRollPackage(),
-            new RNCWebViewPackage(),
-            new RNViewShotPackage(),
-            new ExtraDimensionsPackage(),
-                    new OpeninstallReactPackage(),
-                    new KCKeepAwakePackage(),
-                    new PickerViewPackage(),
-                    new RNZipArchivePackage(),
+
                     new JPushPackage(false, false),
-                    new RNFSPackage(),
                     new CodePush(getResources().getString(R.string.deploymentKey), getApplicationContext(), BuildConfig.DEBUG, "", getSpecialCodeVersion()),
-                    new SplashScreenReactPackage(),
-                    new RNSoundPackage(),
-                    new RNFetchBlobPackage(),
-                    new RNDeviceInfo(),
-                    new FastImageViewPackage(),
                     new RCTMarqueeLabelPackage(),
                     new JXHelperPackage(),
                     new OpenAppPackage(),

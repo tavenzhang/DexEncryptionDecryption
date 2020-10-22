@@ -58,7 +58,6 @@
 		40670F5A2596462D957F644A /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 019716F46851417BB3DA657C /* libSplashScreen.a */; };
 		57EDE1CA3ED24C6D990DDCCC /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C72C822F9CE64FB08CA129D8 /* libRNDeviceInfo.a */; };
 		7894BF08E024487FACA676F3 /* libFastImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 32E8375E70194921AF195406 /* libFastImage.a */; };
-		790086A2B54344E7B1CC350B /* libRCTOpenInstall.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 49CD7F6FFE334A089AD6146E /* libRCTOpenInstall.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		8AE0ECB39EF843F0AF445E81 /* libRNSound.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BEFF0107AB7443494B42405 /* libRNSound.a */; };
 		950BD7E623797CE200DA4A7B /* YunCeng.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 950BD7AA23797CE100DA4A7B /* YunCeng.framework */; };
@@ -542,13 +541,6 @@
 			remoteGlobalIDString = 58B5115D1A9E6B3D00147676;
 			remoteInfo = RNCCameraRoll;
 		};
-		9533A0C1224B850600816807 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 226A603A6EC4491B86068B3F /* RCTOpenInstall.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1E2FD8B421ABE34400BFF004;
-			remoteInfo = RCTOpenInstall;
-		};
 		95E1B86B2248855A00C9CE2E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 95E1B8622248855A00C9CE2E /* KCKeepAwake.xcodeproj */;
@@ -621,7 +613,6 @@
 		2259B7022046B4AD0037370E /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		2259B7042046B4B60037370E /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		2259B7132046BE5F0037370E /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
-		226A603A6EC4491B86068B3F /* RCTOpenInstall.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTOpenInstall.xcodeproj; path = "../node_modules/openinstall-react-native/ios/RCTOpenInstall/RCTOpenInstall.xcodeproj"; sourceTree = "<group>"; };
 		22B3BCF2204EA1A000B6B7FF /* AppDelegate+JDBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+JDBase.h"; sourceTree = "<group>"; };
 		22B3BD03204FB4CF00B6B7FF /* Bugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bugly.framework; sourceTree = "<group>"; };
 		22B3BD04204FB4CF00B6B7FF /* UMAnalyticsModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMAnalyticsModule.h; sourceTree = "<group>"; };
@@ -699,7 +690,6 @@
 		32E8375E70194921AF195406 /* libFastImage.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libFastImage.a; sourceTree = "<group>"; };
 		3BEFF0107AB7443494B42405 /* libRNSound.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSound.a; sourceTree = "<group>"; };
 		4652BDA16D72427FB8ABEA9A /* SplashScreen.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = SplashScreen.xcodeproj; path = "../node_modules/react-native-splash-screen/ios/SplashScreen.xcodeproj"; sourceTree = "<group>"; };
-		49CD7F6FFE334A089AD6146E /* libRCTOpenInstall.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTOpenInstall.a; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		66FC7FB7E20A6F35242A17B9 /* Pods-card.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-card.debug.xcconfig"; path = "Pods/Target Support Files/Pods-card/Pods-card.debug.xcconfig"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
@@ -863,7 +853,6 @@
 				40670F5A2596462D957F644A /* libSplashScreen.a in Frameworks */,
 				22B3BD10204FB4CF00B6B7FF /* UMAnalytics.framework in Frameworks */,
 				C3164721FC0749E089E9FCC2 /* libCodePush.a in Frameworks */,
-				790086A2B54344E7B1CC350B /* libRCTOpenInstall.a in Frameworks */,
 				FC88C680574088BC55DB6F3E /* Pods_card.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1289,7 +1278,6 @@
 				10AA1FB8B83847D681057A97 /* RNSound.xcodeproj */,
 				4652BDA16D72427FB8ABEA9A /* SplashScreen.xcodeproj */,
 				DA502F45563A4EF9B1618928 /* CodePush.xcodeproj */,
-				226A603A6EC4491B86068B3F /* RCTOpenInstall.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1415,14 +1403,6 @@
 			isa = PBXGroup;
 			children = (
 				9530176522E031C100164297 /* libRNCCameraRoll.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		9533A0BE224B850500816807 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				9533A0C2224B850600816807 /* libRCTOpenInstall.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1652,10 +1632,6 @@
 				{
 					ProductGroup = 00C302D41ABCB9D200DB3ED1 /* Products */;
 					ProjectRef = 00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */;
-				},
-				{
-					ProductGroup = 9533A0BE224B850500816807 /* Products */;
-					ProjectRef = 226A603A6EC4491B86068B3F /* RCTOpenInstall.xcodeproj */;
 				},
 				{
 					ProductGroup = D094F90A238D00CA001602B4 /* Products */;
@@ -2109,13 +2085,6 @@
 			remoteRef = 9530176422E031C100164297 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		9533A0C2224B850600816807 /* libRCTOpenInstall.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTOpenInstall.a;
-			remoteRef = 9533A0C1224B850600816807 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		95E1B86C2248855A00C9CE2E /* libKCKeepAwake.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -2362,7 +2331,6 @@
 					"$(SRCROOT)/../node_modules/react-native-flurry-analytics/ios",
 					"$(SRCROOT)/../node_modules/jcore-react-native/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-zip-archive/ios",
-					"$(SRCROOT)/../node_modules/openinstall-react-native/ios/RCTOpenInstall/RCTOpenInstall",
 					"$(PROJECT_DIR)/framework/YunCeng.framework/**",
 					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation",
 					"$(PROJECT_DIR)/JD/base/LayaRuntime",
@@ -2431,7 +2399,6 @@
 					"$(SRCROOT)/../node_modules/react-native-flurry-analytics/ios",
 					"$(SRCROOT)/../node_modules/jcore-react-native/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-zip-archive/ios",
-					"$(SRCROOT)/../node_modules/openinstall-react-native/ios/RCTOpenInstall/RCTOpenInstall",
 					"$(PROJECT_DIR)/framework/YunCeng.framework/**",
 					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation",
 					"$(PROJECT_DIR)/JD/base/LayaRuntime",
