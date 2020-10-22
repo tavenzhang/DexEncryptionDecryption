@@ -242,7 +242,6 @@ export default class AppInfoStore {
 
     onOpenInstallCheck = callBack => {
         SharetraceModule.getInstallTrace( (res)=> {
-
             //TW_Store.dataStore.log+="getInstall----"+JSON.stringify(res);
             TW_Log("onOpenInstallCheck----res"+res+"===typeof res.data=="+(typeof(res)), res)
            // TW_Store.dataStore.log += "getInstall---res-" + res;
@@ -378,7 +377,7 @@ export default class AppInfoStore {
         TW_Log("appInfo--appData-------------", appData);
         this.isSitApp = this.clindId == "5" || this.clindId == "4";
         this.isTestApp = this.isSitApp || this.clindId == "214"
-        this.emulatorChecking();
+        //this.emulatorChecking();
     }
 
     emulatorChecking() {
