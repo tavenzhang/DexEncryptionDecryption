@@ -221,18 +221,14 @@ export default class AppInfoStore {
 
                 try {
                     TW_Data_Store.getItem(TW_DATA_KEY.AFF_CODE, (err, ret) => {
-                        TW_Store.dataStore.log +=
-                            "TN_GetPlatInfo---versionBBL-TW_DATA_KEY.AFF_CODd----err=-" +
-                            err +
-                            "----ret==" +
-                            ret +
-                            "\n";
+                        //如果邀请码不存在或者无效才开始申请
                         if (ret && ret.length > 0) {
                             this.userAffCode = ret;
+                        }else{
+                            //最多重复3次检察
+                            this.onOpenInstallCheck(this.onOpenInstallCheck);
                         }
                     });
-                    //最多重复3次检察
-                    this.onOpenInstallCheck(this.onOpenInstallCheck);
                 } catch (e) {
                     TW_Store.dataStore.log += "getInstall---error=" + e;
                 }
@@ -244,7 +240,7 @@ export default class AppInfoStore {
         SharetraceModule.getInstallTrace( (res)=> {
             //TW_Store.dataStore.log+="getInstall----"+JSON.stringify(res);
             TW_Log("onOpenInstallCheck----res"+res+"===typeof res.data=="+(typeof(res)), res)
-            Alert.alert(JSON.stringify(res), res.paramsData);
+           // Alert.alert(JSON.stringify(res), res.paramsData);
            // TW_Store.dataStore.log += "getInstall---res-" + res;
             if (res) {
                 //TW_Store.dataStore.log+="getInstall----"+JSON.stringify(res);
