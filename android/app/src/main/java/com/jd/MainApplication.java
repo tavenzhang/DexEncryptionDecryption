@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.dylanvann.fastimage.FastImageViewPackage;
+import com.facebook.react.PackageList;
 import com.jd.invokenative.DplusReactPackage;
 import com.jd.invokenative.RNUMConfigure;
 
@@ -18,9 +19,13 @@ import com.ocetnik.timer.BackgroundTimerPackage;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.reactnativecommunity.cameraroll.CameraRollPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
+
 import fr.greweb.reactnativeviewshot.RNViewShotPackage;
+
 import com.RNFetchBlob.RNFetchBlobPackage;
+
 import ca.jaysoo.extradimensions.ExtraDimensionsPackage;
+
 import com.corbt.keepawake.KCKeepAwakePackage;
 import com.beefe.picker.PickerViewPackage;
 import com.jd.webview.WebViewReactPackage;
@@ -45,6 +50,7 @@ import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.microsoft.codepush.react.CodePush;
 import com.umeng.commonsdk.UMConfigure;
 import com.zmxv.RNSound.RNSoundPackage;
+
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 
 import java.util.Arrays;
@@ -54,14 +60,8 @@ import cn.jpush.android.api.JPushInterface;
 
 public class MainApplication extends Application implements ReactApplication {
 
-    private static MainApplication mInstance = null;
     private static final String TAG = MainApplication.class.getName();
-    private Handler handler;
-
-    public static MainApplication getInstance() {
-        return mInstance;
-    }
-
+    private static MainApplication mInstance = null;
     private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
 
         @Override
@@ -76,17 +76,27 @@ public class MainApplication extends Application implements ReactApplication {
 
         @Override
         protected List<ReactPackage> getPackages() {
-            return Arrays.<ReactPackage>asList(
+            List<ReactPackage> packages = new PackageList(this).getPackages();
+            packages.add(new JPushPackage(false, false));
+            packages.add(new CodePush(getResources().getString(R.string.deploymentKey), getApplicationContext(), BuildConfig.DEBUG, "", getSpecialCodeVersion()));
+            packages.add(new RCTMarqueeLabelPackage());
+            packages.add(new JXHelperPackage());
+            packages.add(new OpenAppPackage());
+            packages.add(new DplusReactPackage());
+            packages.add(new WebViewReactPackage());
+            return packages;
 
-                    new JPushPackage(false, false),
-                    new CodePush(getResources().getString(R.string.deploymentKey), getApplicationContext(), BuildConfig.DEBUG, "", getSpecialCodeVersion()),
-                    new RCTMarqueeLabelPackage(),
-                    new JXHelperPackage(),
-                    new OpenAppPackage(),
-                    new RNAudioPackage(),
-                    new DplusReactPackage(),
-                    new WebViewReactPackage()
-            );
+//             return Arrays.<ReactPackage>asList(
+//
+//                     new JPushPackage(false, false),
+//                     new CodePush(getResources().getString(R.string.deploymentKey), getApplicationContext(), BuildConfig.DEBUG, "", getSpecialCodeVersion()),
+//                     new RCTMarqueeLabelPackage(),
+//                     new JXHelperPackage(),
+//                     new OpenAppPackage(),
+//                     new RNAudioPackage(),
+//                     new DplusReactPackage(),
+//                     new WebViewReactPackage()
+//             );
 
         }
 
@@ -97,6 +107,11 @@ public class MainApplication extends Application implements ReactApplication {
 
 
     };
+    private Handler handler;
+
+    public static MainApplication getInstance() {
+        return mInstance;
+    }
 
     public String getSpecialCodeVersion() {
         String vesrion = "";
@@ -130,9 +145,9 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-       if(mInstance ==null){
-           mInstance = this;
-       }
+        if (mInstance == null) {
+            mInstance = this;
+        }
         AppUtil.updateLocalAFFCode(this);
         CrashHandler.getInstance().init(this);
         // 极光配置
@@ -168,11 +183,11 @@ public class MainApplication extends Application implements ReactApplication {
 //        String umengKey = BuildConfig.UMENG_KEY;
         String wechatKey = BuildConfig.WECHAT_KEY;
         String wechatSecretKey = BuildConfig.WECHAT_SECRET_KEY;
-        if(wxKey.length()>1){
-            wechatKey =wxKey;
+        if (wxKey.length() > 1) {
+            wechatKey = wxKey;
         }
-        if(wxSecret.length()>1){
-            wechatSecretKey=wxSecret;
+        if (wxSecret.length() > 1) {
+            wechatSecretKey = wxSecret;
         }
         PlatformConfig.setWeixin(wechatKey, wechatSecretKey);
 //        豆瓣RENREN平台目前只能在服务器端配置

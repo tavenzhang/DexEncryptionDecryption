@@ -241,15 +241,16 @@ export default class AppInfoStore {
     };
 
     onOpenInstallCheck = callBack => {
-        SharetraceModule.getInstallTrace(10, res => {
+        SharetraceModule.getInstallTrace( (res)=> {
+
             //TW_Store.dataStore.log+="getInstall----"+JSON.stringify(res);
-            TW_Log("onOpenInstallCheck----res", res)
-            TW_Store.dataStore.log += "getInstall---res-" + res;
+            TW_Log("onOpenInstallCheck----res"+res+"===typeof res.data=="+(typeof(res)), res)
+           // TW_Store.dataStore.log += "getInstall---res-" + res;
             if (res) {
                 //TW_Store.dataStore.log+="getInstall----"+JSON.stringify(res);
                 let map = null;
-                if (typeof res.data === "object") {
-                    map = res.data;
+                if (typeof(res) == "object") {
+                    map = res;
                 } else {
                     map = JSON.parse(res);
                 }
