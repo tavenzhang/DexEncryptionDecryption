@@ -29,6 +29,11 @@ cp -rf ./Init/rn_orientation/index.js  ${scriptPath}/node_modules/react-native-o
 cp -rf ./Init/rn_orientation/Orientation.h  ${scriptPath}/node_modules/react-native-orientation/iOS/RCTOrientation/Orientation.h
 cp -rf ./Init/rn_orientation/Orientation.m  ${scriptPath}/node_modules/react-native-orientation/iOS/RCTOrientation/Orientation.m
 cp -rf ./Init/rn_orientation/OrientationModule.java  ${scriptPath}/node_modules/react-native-orientation/android/src/main/java/com/github/yamill/orientation/OrientationModule.java
+#替换pod配置
+cp -rf ./Init/RNSound.podspec  ${scriptPath}/node_modules/react-native-sound/RNSound.podspec
+cp -rf ./Init/ReactNativeKeyboardManager.podspec ${scriptPath}/node_modules/react-native-keyboard-manager/ReactNativeKeyboardManager.podspec
+cp -rf ./Init/react-native-fetch-blob.podspec  ${scriptPath}/node_modules/react-native-fetch-blob/react-native-fetch-blob.podspec
+cp -rf ./Init/RNZipArchive.podspec ${scriptPath}/node_modules/react-native-zip-archive/RNZipArchive.podspec
 
 npx jetify
 

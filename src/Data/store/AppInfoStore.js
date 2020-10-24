@@ -15,10 +15,8 @@ import {
 import { UpDateHeadAppId } from '../../Common/Network/TCRequestConfig';
 import NetUitls from '../../Common/Network/TCRequestUitls';
 import TCUserOpenPayApp from '../../Data/TCUserOpenPayApp';
-import OpeninstallModule from "openinstall-react-native";
-import { SoundHelper } from "../../Common/JXHelper/SoundHelper";
+import SharetraceModule from 'sharetrace-react-native'
 import JXHelper from "../../Common/JXHelper/JXHelper";
-import RNFS from "react-native-fs";
 /**
  * 用于初始化项目信息
  */
@@ -74,7 +72,8 @@ export default class AppInfoStore {
         JPushKey: "",
         UmengKey: "",
         applicationId: "",
-        SUB_TYPE: "0"
+        SUB_TYPE: "0",
+
     };
     @observable
     channel = 1;
@@ -221,18 +220,14 @@ export default class AppInfoStore {
 
                 try {
                     TW_Data_Store.getItem(TW_DATA_KEY.AFF_CODE, (err, ret) => {
-                        TW_Store.dataStore.log +=
-                            "TN_GetPlatInfo---versionBBL-TW_DATA_KEY.AFF_CODd----err=-" +
-                            err +
-                            "----ret==" +
-                            ret +
-                            "\n";
+                        //如果邀请码不存在或者无效才开始申请
                         if (ret && ret.length > 0) {
                             this.userAffCode = ret;
+                        }else{
+                            //最多重复3次检察
+                            this.onOpenInstallCheck(this.onOpenInstallCheck);
                         }
                     });
-                    //最多重复3次检察
-                    this.onOpenInstallCheck(this.onOpenInstallCheck);
                 } catch (e) {
                     TW_Store.dataStore.log += "getInstall---error=" + e;
                 }
@@ -241,24 +236,34 @@ export default class AppInfoStore {
     };
 
     onOpenInstallCheck = callBack => {
-        if(OpeninstallModule&&OpeninstallModule.getInstall){
-            OpeninstallModule.getInstall(10, res => {
+        if(SharetraceModule&&SharetraceModule.getInstallTrace)
+        {
+            SharetraceModule.getInstallTrace( (res)=> {
                 //TW_Store.dataStore.log+="getInstall----"+JSON.stringify(res);
-                TW_Log("onOpenInstallCheck----res", res)
-                TW_Store.dataStore.log += "getInstall---res-" + res;
-                if (res && res.data) {
+                TW_Log("onOpenInstallCheck----res"+res+"===typeof res.data=="+(typeof(res)), res)
+
+                // TW_Store.dataStore.log += "getInstall---res-" + res;
+                if (res) {
                     //TW_Store.dataStore.log+="getInstall----"+JSON.stringify(res);
                     let map = null;
-                    if (typeof res.data === "object") {
-                        map = res.data;
+                    if (typeof(res) == "object") {
+                        map = res;
                     } else {
-                        map = JSON.parse(res.data);
+                        map = JSON.parse(res);
                     }
+                    if(G_IS_IOS){
+                        map=res.data
+                    }else{
+                        map =res;
+                    }
+                  //  Alert.alert(typeof(map), res.paramsData);
                     if (map) {
                         this.openInstallData.data = map;
-                        if (map && map.affCode) {
-                            this.userAffCode = map.affCode;
+                        if (map && map.paramsData) {
+                            this.userAffCode = map.paramsData;
                             TW_Data_Store.setItem(TW_DATA_KEY.AFF_CODE, this.userAffCode);
+                            this.onUpTimes=1;
+                            this.intervalUpdate=setInterval(this.onUpdataAffcode,1500);
                             if(TW_Store.bblStore.isEnterLooby){
                                 TW_OnValueJSHome(
                                     TW_Store.bblStore.getWebAction(
@@ -282,8 +287,22 @@ export default class AppInfoStore {
                 }
             });
         }
-
     };
+
+    onUpdataAffcode=()=>{
+        this.onUpTimes+=1;
+        if(TW_Store.bblStore.isEnterLooby){
+            TW_OnValueJSHome(
+                TW_Store.bblStore.getWebAction(
+                    TW_Store.bblStore.ACT_ENUM.affcode,
+                    { data: this.userAffCode }
+                )
+            );
+        }
+        if(this.onUpTimes>=10){
+            clearInterval(this.intervalUpdate);
+        }
+    }
 
     onShowDownAlert = url => {
         //处于渠道验证阶段 不需要检测强更新
@@ -343,7 +362,7 @@ export default class AppInfoStore {
         /*** 初始化邀请码*/
         this.userAffCode = this.appInfo.Affcode;
         this.callInitFuc = this.callInitFuc ? this.callInitFuc() : null;
-        this.openInstallData.appKey = this.appInfo['com.openinstall.APP_KEY'];
+        this.openInstallData.appKey = this.appInfo['com.sharetrace.APP_KEY'];
         TW_Log("appInfo--initData-------------", appInfo);
         let appData=null
         // TW_Log("TN_GetPlatInfo---versionBBL--TW_DATA_KEY.platDat====appInfo--this.userAffCode--"+this.userAffCode, appInfo);
@@ -351,7 +370,7 @@ export default class AppInfoStore {
             //ios 动态开启友盟等接口 android 是编译时 决定好了。
            // TW_Log('JX===  appInfo ' + this.appInfo.APP_DOWNLOAD_VERSION + "--appInfo.this.appInfo.com.openinstall.APP_KEY==" + this.appInfo["com.openinstall.APP_KEY"], this.appInfo)
             TN_StartJPush(this.appInfo.JPushKey, "1");
-            TN_StartOpenInstall(this.appInfo["com.openinstall.APP_KEY"])
+            TN_StartOpenInstall(this.openInstallData.appKey)
             if (this.channel == 1) {
                 TN_StartUMeng(this.appInfo.UmengKey, this.appInfo.Affcode);
             } else {
@@ -380,7 +399,7 @@ export default class AppInfoStore {
         TW_Log("appInfo--appData-------------", appData);
         this.isSitApp = this.clindId == "5" || this.clindId == "4";
         this.isTestApp = this.isSitApp || this.clindId == "214"
-        this.emulatorChecking();
+        //this.emulatorChecking();
     }
 
     emulatorChecking() {
@@ -599,7 +618,7 @@ export default class AppInfoStore {
             //TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appNativeData, { data: TW_Store.bblStore.getAppNativeData()}));
             this.saveDeviceTokenToLocalStore();
         }
-        this.yunDunData.token = this.deviceToken;
+        //this.yunDunData.token = this.deviceToken;
     }
 
     async initDeviceUniqueID() {

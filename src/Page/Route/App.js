@@ -22,6 +22,7 @@ const appStores = {
     // commonBoxStore: rootStore.commonBoxStore,
 }
 import CommonBoxLayer from "../enter/CommonBoxLayer";
+
 import ExtraDimensions from 'react-native-extra-dimensions-android';
 
 //用于增加通用navigator view 属性 特殊 处理

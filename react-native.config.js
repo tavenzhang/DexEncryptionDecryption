@@ -5,5 +5,12 @@ module.exports = {
                 android:null,
             },
         },
+        'jshare-react-native' : {
+            platforms: {
+                android: {
+                    packageInstance: 'new JSharePackage(false, false)'
+                }
+            }
+        }
     },
 };
