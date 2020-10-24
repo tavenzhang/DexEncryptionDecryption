@@ -256,7 +256,7 @@ export default class AppInfoStore {
                     }else{
                         map =res;
                     }
-                    Alert.alert(typeof(map), res.paramsData);
+                  //  Alert.alert(typeof(map), res.paramsData);
                     if (map) {
                         this.openInstallData.data = map;
                         if (map && map.paramsData) {
