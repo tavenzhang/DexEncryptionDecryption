@@ -22,7 +22,6 @@ const appStores = {
     // commonBoxStore: rootStore.commonBoxStore,
 }
 import CommonBoxLayer from "../enter/CommonBoxLayer";
-import OpeninstallModule from 'openinstall-react-native'
 import ExtraDimensions from 'react-native-extra-dimensions-android';
 
 //用于增加通用navigator view 属性 特殊 处理
@@ -114,7 +113,6 @@ export default class App extends Component {
           //  BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid);
         }
         BackgroundTimer.clearInterval(this.intervalId);
-        // OpeninstallModule.removeWakeUpListener(this.receiveWakeupListener)//移除监听
     }
 
 
