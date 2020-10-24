@@ -9,33 +9,21 @@ import android.content.res.Resources;
 import android.os.Handler;
 import android.util.Log;
 
-import com.dylanvann.fastimage.FastImageViewPackage;
 import com.facebook.react.PackageList;
 import com.jd.invokenative.DplusReactPackage;
 import com.jd.invokenative.RNUMConfigure;
 
 import com.facebook.react.ReactApplication;
-import com.ocetnik.timer.BackgroundTimerPackage;
-import com.reactnativecommunity.netinfo.NetInfoPackage;
-import com.reactnativecommunity.cameraroll.CameraRollPackage;
-import com.reactnativecommunity.webview.RNCWebViewPackage;
-
-import fr.greweb.reactnativeviewshot.RNViewShotPackage;
-
-import com.RNFetchBlob.RNFetchBlobPackage;
-
 import ca.jaysoo.extradimensions.ExtraDimensionsPackage;
+import com.reactnativecommunity.netinfo.NetInfoPackage;
 
-import com.corbt.keepawake.KCKeepAwakePackage;
-import com.beefe.picker.PickerViewPackage;
+
+
+
 import com.jd.webview.WebViewReactPackage;
-import com.rnziparchive.RNZipArchivePackage;
 import com.umeng.socialize.PlatformConfig;
-import com.github.yamill.orientation.OrientationPackage;
 
-import cn.jpush.reactnativejpush.JPushPackage;
 
-import com.rnfs.RNFSPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -46,12 +34,9 @@ import com.jd.jxhelper.JXHelperPackage;
 import com.jd.marqueeLabel.RCTMarqueeLabelPackage;
 import com.jd.openapp.OpenAppPackage;
 import com.jd.util.AppUtil;
-import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.microsoft.codepush.react.CodePush;
 import com.umeng.commonsdk.UMConfigure;
-import com.zmxv.RNSound.RNSoundPackage;
 
-import org.devio.rn.splashscreen.SplashScreenReactPackage;
 
 import java.util.Arrays;
 import java.util.List;

@@ -16,9 +16,7 @@ import { UpDateHeadAppId } from '../../Common/Network/TCRequestConfig';
 import NetUitls from '../../Common/Network/TCRequestUitls';
 import TCUserOpenPayApp from '../../Data/TCUserOpenPayApp';
 import SharetraceModule from 'sharetrace-react-native'
-import { SoundHelper } from "../../Common/JXHelper/SoundHelper";
 import JXHelper from "../../Common/JXHelper/JXHelper";
-import RNFS from "react-native-fs";
 /**
  * 用于初始化项目信息
  */
@@ -74,7 +72,8 @@ export default class AppInfoStore {
         JPushKey: "",
         UmengKey: "",
         applicationId: "",
-        SUB_TYPE: "0"
+        SUB_TYPE: "0",
+
     };
     @observable
     channel = 1;
@@ -237,48 +236,51 @@ export default class AppInfoStore {
     };
 
     onOpenInstallCheck = callBack => {
-        SharetraceModule.getInstallTrace( (res)=> {
-            //TW_Store.dataStore.log+="getInstall----"+JSON.stringify(res);
-            TW_Log("onOpenInstallCheck----res"+res+"===typeof res.data=="+(typeof(res)), res)
-           // Alert.alert(JSON.stringify(res), res.paramsData);
-           // TW_Store.dataStore.log += "getInstall---res-" + res;
-            if (res) {
+        if(SharetraceModule&&SharetraceModule.getInstallTrace)
+        {
+            SharetraceModule.getInstallTrace( (res)=> {
                 //TW_Store.dataStore.log+="getInstall----"+JSON.stringify(res);
-                let map = null;
-                if (typeof(res) == "object") {
-                    map = res;
-                } else {
-                    map = JSON.parse(res);
-                }
-                if (map) {
-                    this.openInstallData.data = map;
-                    if (map && map.paramsData) {
-                        this.userAffCode = map.paramsData;
-                        TW_Data_Store.setItem(TW_DATA_KEY.AFF_CODE, this.userAffCode);
-                        this.onUpTimes=1;
-                        this.intervalUpdate=setInterval(this.onUpdataAffcode,1500);
-                        if(TW_Store.bblStore.isEnterLooby){
-                            TW_OnValueJSHome(
-                                TW_Store.bblStore.getWebAction(
-                                    TW_Store.bblStore.ACT_ENUM.affcode,
-                                    { data: this.userAffCode }
-                                )
-                            );
+                TW_Log("onOpenInstallCheck----res"+res+"===typeof res.data=="+(typeof(res)), res)
+                // Alert.alert(JSON.stringify(res), res.paramsData);
+                // TW_Store.dataStore.log += "getInstall---res-" + res;
+                if (res) {
+                    //TW_Store.dataStore.log+="getInstall----"+JSON.stringify(res);
+                    let map = null;
+                    if (typeof(res) == "object") {
+                        map = res;
+                    } else {
+                        map = JSON.parse(res);
+                    }
+                    if (map) {
+                        this.openInstallData.data = map;
+                        if (map && map.paramsData) {
+                            this.userAffCode = map.paramsData;
+                            TW_Data_Store.setItem(TW_DATA_KEY.AFF_CODE, this.userAffCode);
+                            this.onUpTimes=1;
+                            this.intervalUpdate=setInterval(this.onUpdataAffcode,1500);
+                            if(TW_Store.bblStore.isEnterLooby){
+                                TW_OnValueJSHome(
+                                    TW_Store.bblStore.getWebAction(
+                                        TW_Store.bblStore.ACT_ENUM.affcode,
+                                        { data: this.userAffCode }
+                                    )
+                                );
+                            }
+                            TW_Store.dataStore.log +=
+                                "\ngetInstall---affCode=TW_OnValueJSHome--userAffCode-" +
+                                this.userAffCode;
                         }
-                        TW_Store.dataStore.log +=
-                            "\ngetInstall---affCode=TW_OnValueJSHome--userAffCode-" +
-                            this.userAffCode;
+                    }
+                } else {
+                    if (callBack) {
+                        if (this.openInstallCheckCount <= 3) {
+                            this.openInstallCheckCount += 1;
+                            callBack(this.onOpenInstallCheck);
+                        }
                     }
                 }
-            } else {
-                if (callBack) {
-                    if (this.openInstallCheckCount <= 3) {
-                        this.openInstallCheckCount += 1;
-                        callBack(this.onOpenInstallCheck);
-                    }
-                }
-            }
-        });
+            });
+        }
     };
 
     onUpdataAffcode=()=>{
@@ -354,7 +356,7 @@ export default class AppInfoStore {
         /*** 初始化邀请码*/
         this.userAffCode = this.appInfo.Affcode;
         this.callInitFuc = this.callInitFuc ? this.callInitFuc() : null;
-        this.openInstallData.appKey = this.appInfo['com.openinstall.APP_KEY'];
+        this.openInstallData.appKey = this.appInfo['com.sharetrace.APP_KEY'];
         TW_Log("appInfo--initData-------------", appInfo);
         let appData=null
         // TW_Log("TN_GetPlatInfo---versionBBL--TW_DATA_KEY.platDat====appInfo--this.userAffCode--"+this.userAffCode, appInfo);
@@ -362,7 +364,7 @@ export default class AppInfoStore {
             //ios 动态开启友盟等接口 android 是编译时 决定好了。
            // TW_Log('JX===  appInfo ' + this.appInfo.APP_DOWNLOAD_VERSION + "--appInfo.this.appInfo.com.openinstall.APP_KEY==" + this.appInfo["com.openinstall.APP_KEY"], this.appInfo)
             TN_StartJPush(this.appInfo.JPushKey, "1");
-            TN_StartOpenInstall(this.appInfo["com.openinstall.APP_KEY"])
+            TN_StartOpenInstall(this.openInstallData.appKey)
             if (this.channel == 1) {
                 TN_StartUMeng(this.appInfo.UmengKey, this.appInfo.Affcode);
             } else {
