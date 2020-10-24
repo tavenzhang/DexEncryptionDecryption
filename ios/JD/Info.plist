@@ -15,25 +15,25 @@
 			</array>
 		</dict>
 		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>weixin</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>wx26019a5a7de8db15</string>
-			</array>
-		</dict>
+                			<key>CFBundleTypeRole</key>
+                			<string>Editor</string>
+                			<key>CFBundleURLName</key>
+                			<string>weixin</string>
+                			<key>CFBundleURLSchemes</key>
+                			<array>
+                				<string>wx26019a5a7de8db15</string>
+                			</array>
+                		</dict>
 	</array>
 	<key>SUB_TYPE</key>
-	<string></string>
+    <string></string>
 	<key>AppSecret</key>
-	<dict>
-		<key>weixin</key>
-		<string>62ef8d30f3c4e244bde8831dd2f4ec84</string>
-	</dict>
+        	<dict>
+        		<key>weixin</key>
+        		<string>62ef8d30f3c4e244bde8831dd2f4ec84</string>
+        	</dict>
 	<key>com.sharetrace.APP_KEY</key>
-	<string>ef74c2ac73489caa</string>
+    <string>ef74c2ac73489caa</string>
 	<key>PLAT_ID</key>
 	<string>1209</string>
 	<key>PLAT_CH</key>
@@ -167,8 +167,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
+		<key>ITSAppUsesNonExemptEncryption</key>
+    	<false/>
+
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 </dict>
