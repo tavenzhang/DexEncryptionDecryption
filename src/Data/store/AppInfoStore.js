@@ -241,7 +241,7 @@ export default class AppInfoStore {
             SharetraceModule.getInstallTrace( (res)=> {
                 //TW_Store.dataStore.log+="getInstall----"+JSON.stringify(res);
                 TW_Log("onOpenInstallCheck----res"+res+"===typeof res.data=="+(typeof(res)), res)
-                 Alert.alert(JSON.stringify(res), res.paramsData);
+
                 // TW_Store.dataStore.log += "getInstall---res-" + res;
                 if (res) {
                     //TW_Store.dataStore.log+="getInstall----"+JSON.stringify(res);
@@ -251,6 +251,12 @@ export default class AppInfoStore {
                     } else {
                         map = JSON.parse(res);
                     }
+                    if(G_IS_IOS){
+                        map=res.data
+                    }else{
+                        map =res;
+                    }
+                    Alert.alert(typeof(map), res.paramsData);
                     if (map) {
                         this.openInstallData.data = map;
                         if (map && map.paramsData) {
