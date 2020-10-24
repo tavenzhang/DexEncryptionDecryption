@@ -241,7 +241,7 @@ export default class AppInfoStore {
             SharetraceModule.getInstallTrace( (res)=> {
                 //TW_Store.dataStore.log+="getInstall----"+JSON.stringify(res);
                 TW_Log("onOpenInstallCheck----res"+res+"===typeof res.data=="+(typeof(res)), res)
-                // Alert.alert(JSON.stringify(res), res.paramsData);
+                 Alert.alert(JSON.stringify(res), res.paramsData);
                 // TW_Store.dataStore.log += "getInstall---res-" + res;
                 if (res) {
                     //TW_Store.dataStore.log+="getInstall----"+JSON.stringify(res);
@@ -612,7 +612,7 @@ export default class AppInfoStore {
             //TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appNativeData, { data: TW_Store.bblStore.getAppNativeData()}));
             this.saveDeviceTokenToLocalStore();
         }
-        this.yunDunData.token = this.deviceToken;
+        //this.yunDunData.token = this.deviceToken;
     }
 
     async initDeviceUniqueID() {
