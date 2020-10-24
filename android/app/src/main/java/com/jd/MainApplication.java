@@ -62,7 +62,6 @@ public class MainApplication extends Application implements ReactApplication {
         @Override
         protected List<ReactPackage> getPackages() {
             List<ReactPackage> packages = new PackageList(this).getPackages();
-            packages.add(new JPushPackage(false, false));
             packages.add(new CodePush(getResources().getString(R.string.deploymentKey), getApplicationContext(), BuildConfig.DEBUG, "", getSpecialCodeVersion()));
             packages.add(new RCTMarqueeLabelPackage());
             packages.add(new JXHelperPackage());
