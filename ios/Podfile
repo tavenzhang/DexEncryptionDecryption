@@ -52,7 +52,7 @@ target 'card' do
   pod 'react-native-orientation', :path => '../node_modules/react-native-orientation'
   pod 'ReactNativeKeyboardManager', :path => '../node_modules/react-native-keyboard-manager'
   
-  #pod 'RNZipArchive', :path => '../node_modules/react-native-zip-archive'
+  pod 'RNZipArchive', :path => '../node_modules/react-native-zip-archive'
   pod 'ReactNativeKeyboardManager', :path => '../node_modules/react-native-keyboard-manager'
   pod 'RNSound', :path => '../node_modules/react-native-sound'
   pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
