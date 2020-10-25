@@ -370,7 +370,10 @@ export default class AppInfoStore {
             //ios 动态开启友盟等接口 android 是编译时 决定好了。
            // TW_Log('JX===  appInfo ' + this.appInfo.APP_DOWNLOAD_VERSION + "--appInfo.this.appInfo.com.openinstall.APP_KEY==" + this.appInfo["com.openinstall.APP_KEY"], this.appInfo)
             TN_StartJPush(this.appInfo.JPushKey, "1");
-            TN_StartOpenInstall(this.openInstallData.appKey)
+            if(this.openInstallData.appKey&&this.openInstallData.appKey.length>0) {
+                TN_StartOpenInstall(this.openInstallData.appKey)
+            }
+         
             if (this.channel == 1) {
                 TN_StartUMeng(this.appInfo.UmengKey, this.appInfo.Affcode);
             } else {
