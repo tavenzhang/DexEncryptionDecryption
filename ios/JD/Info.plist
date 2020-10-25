@@ -2,8 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>com.openinstall.APP_KEY</key>
-	<string>k9e92p</string>
+	<key>com.sharetrace.APP_KEY</key>
+	<string>b642e5e2bf16883b</string>
 	<key>APP_DOWNLOAD_VERSION</key>
 	<string>4</string>
 	<key>PLAT_CH</key>

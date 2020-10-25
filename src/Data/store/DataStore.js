@@ -1,13 +1,14 @@
 import {action, observable} from 'mobx'
-import {unzip, zip} from 'react-native-zip-archive'
+//import {unzip, zip} from 'react-native-zip-archive'
 import RNFS from "react-native-fs";
 import {MainBundlePath, DocumentDirectoryPath} from 'react-native-fs'
 import NetUitls from "../../Common/Network/TCRequestUitls";
 import rootStore from "./RootStore";
 import CodePush from 'react-native-code-push'
-import FileTools from "../../Common/Global/FileTools";
+import {SoundHelper} from "../../Common/JXHelper/SoundHelper";
+//import FileTools from "../../Common/Global/FileTools";
 import {appVersion, config} from "../../Common/Network/TCRequestConfig";
-
+import {configAppId, versionHotFix} from "../../config/appConfig";
 import DeviceInfo from 'react-native-device-info';
 export default class DataStore {
 
@@ -538,6 +539,36 @@ export default class DataStore {
         }
     }
 
+
+    startLoadGame = (gamedata = null) => {
+        if (gamedata) {
+            TW_SubGameDownLoaderData.downList.push(gamedata)
+        }
+        if (!TW_SubGameDownLoaderData.isLoading) {
+            if (TW_SubGameDownLoaderData.downList.length > 0) {
+                TW_SubGameDownLoaderData.currentDownData = TW_SubGameDownLoaderData.downList.shift();
+            }
+            let downData = TW_SubGameDownLoaderData.currentDownData;
+            if (downData) {
+                let gameData = this.getStoreGameDataByAlias(downData.id);//检测一下游戏是否已经下载 防止重复下载
+                TW_Log(`startUpdate---startLoadGame--`, gameData);
+                if (gameData && gameData.bupdate) {
+                    TW_SubGameDownLoaderData.isLoading = true;
+                    // JXToast.showShortCenter(`${downData.name} 开始下载！`)
+                    let loadUrl = downData.source;
+                    if (loadUrl && loadUrl.indexOf("http") > -1) {
+                        loadUrl = loadUrl;
+                    } else {
+                        loadUrl = TW_Store.bblStore.gameDomain + "/" + downData.name + "/" + downData.name;
+                    }
+                    TW_Log("(FileTools--startLoadGame--==this.state.updateList==item--this.loadQueue.length--loadUrl=" + loadUrl, downData);
+                 //  FileTools.downloadFile(loadUrl, TW_Store.bblStore.tempGameZip, downData, this.onLoadZipFish, this.onLoadProgress);
+                }
+            }
+        }
+    }
+
+
     onLoadProgress = (ret) => {
         //{//             "gameId":30,        //游戏id-----可选//             "alias":"hhdz",     //游戏别名--------唯一标识，必填//             "percent":0.7       //当前下载进度
         //         }
@@ -580,7 +611,7 @@ export default class DataStore {
         TW_SubGameDownLoaderData.isLoading = false;
         TW_SubGameDownLoaderData.currentDownData = null;
         FileTools.currentDownFileId = 0;
-
+        this.startLoadGame();
     }
 
     onSaveGameData = () => {

@@ -1,7 +1,7 @@
 import {
     NativeModules, PermissionsAndroid
 } from 'react-native';
-import {unzip, zip,} from 'react-native-zip-archive'
+//import {unzip, zip,} from 'react-native-zip-archive'
 import RNFS from "react-native-fs";
 import Toast from "../JXHelper/JXToast";
 import RNFetchBlob from 'react-native-fetch-blob';
