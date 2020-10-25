@@ -232,7 +232,7 @@ export default class AppInfoStore {
                         }
                     });
                     //最多重复3次检察
-                    this.onOpenInstallCheck(this.onOpenInstallCheck);
+                  //  this.onOpenInstallCheck(this.onOpenInstallCheck);
                 } catch (e) {
                     TW_Store.dataStore.log += "getInstall---error=" + e;
                 }
@@ -351,7 +351,7 @@ export default class AppInfoStore {
             //ios 动态开启友盟等接口 android 是编译时 决定好了。
            // TW_Log('JX===  appInfo ' + this.appInfo.APP_DOWNLOAD_VERSION + "--appInfo.this.appInfo.com.openinstall.APP_KEY==" + this.appInfo["com.openinstall.APP_KEY"], this.appInfo)
             TN_StartJPush(this.appInfo.JPushKey, "1");
-            TN_StartOpenInstall(this.appInfo["com.openinstall.APP_KEY"])
+           // TN_StartOpenInstall(this.appInfo["com.openinstall.APP_KEY"])
             if (this.channel == 1) {
                 TN_StartUMeng(this.appInfo.UmengKey, this.appInfo.Affcode);
             } else {
