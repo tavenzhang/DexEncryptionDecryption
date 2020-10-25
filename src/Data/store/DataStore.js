@@ -1,12 +1,12 @@
 import {action, observable} from 'mobx'
-import {unzip, zip} from 'react-native-zip-archive'
+//import {unzip, zip} from 'react-native-zip-archive'
 import RNFS from "react-native-fs";
 import {MainBundlePath, DocumentDirectoryPath} from 'react-native-fs'
 import NetUitls from "../../Common/Network/TCRequestUitls";
 import rootStore from "./RootStore";
 import CodePush from 'react-native-code-push'
 import {SoundHelper} from "../../Common/JXHelper/SoundHelper";
-import FileTools from "../../Common/Global/FileTools";
+//import FileTools from "../../Common/Global/FileTools";
 import {appVersion, config} from "../../Common/Network/TCRequestConfig";
 import {configAppId, versionHotFix} from "../../config/appConfig";
 import DeviceInfo from 'react-native-device-info';
@@ -562,7 +562,7 @@ export default class DataStore {
                         loadUrl = TW_Store.bblStore.gameDomain + "/" + downData.name + "/" + downData.name;
                     }
                     TW_Log("(FileTools--startLoadGame--==this.state.updateList==item--this.loadQueue.length--loadUrl=" + loadUrl, downData);
-                    FileTools.downloadFile(loadUrl, TW_Store.bblStore.tempGameZip, downData, this.onLoadZipFish, this.onLoadProgress);
+                 //  FileTools.downloadFile(loadUrl, TW_Store.bblStore.tempGameZip, downData, this.onLoadZipFish, this.onLoadProgress);
                 }
             }
         }
