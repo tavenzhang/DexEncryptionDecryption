@@ -183,7 +183,7 @@ export default class AppInfoStore {
                         percent+=1;
                         percent= percent>=100 ? 99:percent;
                         TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.loadingView, {percent}));
-                    },500)
+                    },1000)
 
             }
         })
