@@ -10,7 +10,7 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <WebKit/WebKit.h>
-#import <OpenInstallSDK.h>
+
 #import <SplashScreen.h>
 #import <UMShare/UMShare.h>
 #import "Orientation.h"
@@ -111,16 +111,12 @@ extern NSString * KKAudioControlMuteTurnOffNotification;
     if ([urlString hasPrefix:@"wx"]) {
       [[UMSocialManager defaultManager] handleOpenURL:url];
   }else{
-      [OpenInstallSDK handLinkURL:url];
+    [[UIApplication sharedApplication] openURL:url];
   }
 	//[OpenInstallSDK handLinkURL:url];
 	return YES;
 }
-- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler{
-  
-	[OpenInstallSDK continueUserActivity:userActivity];
-	return YES;
-}
+
 
 //-(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 //{
