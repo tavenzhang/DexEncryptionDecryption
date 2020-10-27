@@ -7,7 +7,7 @@
 
 #java com.tc168.jdcp.testsit.proxy_tools.Main
 rm -rf proxy_tools/apk/temp
-javac proxy_tools/src/main/java/com/encry/proxy_tools/*.java
-java -classpath proxy_tools/src/main/java com.encry.proxy_tools.Main
+javac proxy_tools/src/main/java/com/qqencry/proxy_tools/*.java
+java -classpath proxy_tools/src/main/java com.qqencry.proxy_tools.Main
 
 

@@ -7,8 +7,8 @@
 
 #java com.tc168.jdcp.testsit.proxy_tools.Main
 
-#mkdir -p proxy_tools/apk
-#cp -rf app/build/outputs/apk/taven/release/*.apk proxy_tools/apk
+mkdir -p proxy_tools/apk
+cp -rf app/build/outputs/apk/taven/release/*.apk proxy_tools/apk
 gtimeout 15 bash encryptApk.sh
 if [ $? -eq 0 ]; then
        echo "suceess"

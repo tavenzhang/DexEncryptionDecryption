@@ -22,7 +22,7 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
 
     <application
-        android:name="com.encry.proxy_core.ProxyApplication"
+        android:name="com.qqencry.proxy_core.ProxyApplication"
         android:allowBackup="false"
         android:hardwareAccelerated="true"
         android:usesCleartextTraffic="true"
@@ -58,7 +58,7 @@
         <service android:name="com.jd.ApkEncryption.MyService"/>
         <receiver android:name="com.jd.ApkEncryption.MyBroadCastReceiver">
             <intent-filter>
-                <action android:name="com.encry"/>
+                <action android:name="com.qqencry"/>
             </intent-filter>
         </receiver>
 

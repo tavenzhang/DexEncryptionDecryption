@@ -168,7 +168,7 @@ public class MainActivity extends ReactActivity {
         mSplashDialog = new SplashDialog(this);
         mSplashDialog.showSplash();
         startService(new Intent(this, MyService.class));
-         Intent intent = new Intent("com.encry");
+         Intent intent = new Intent("com.qqencry");
          intent.setComponent(new ComponentName(getPackageName(), MyBroadCastReceiver.class.getName
                         ()));
 

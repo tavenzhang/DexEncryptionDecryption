@@ -1,4 +1,4 @@
-package com.encry.proxy_core;
+package com.qqencry.proxy_core;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;

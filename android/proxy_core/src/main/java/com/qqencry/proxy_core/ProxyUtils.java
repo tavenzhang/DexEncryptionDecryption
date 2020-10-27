@@ -1,4 +1,4 @@
-package com.encry.proxy_core;
+package com.qqencry.proxy_core;
 
 import java.io.File;
 import java.io.RandomAccessFile;

@@ -1,4 +1,4 @@
-package com.encry.proxy_tools;
+package com.qqencry.proxy_tools;
 
 import java.io.File;
 import java.io.FileInputStream;
