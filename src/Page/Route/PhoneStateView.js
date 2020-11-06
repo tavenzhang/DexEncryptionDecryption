@@ -329,13 +329,14 @@ export default class PhoneStateView extends PureComponent {
         let isVeryDealy = delay >= 400 ? true : false;
         let {delayLevelImg,delayLevel}=this.cellularIndicator(delay);
         let {batteryImg,batteryLevel}=this.phoneBatteryIndicator();
-        if(isShow&&TW_Store.bblStore.isEnterLooby){
+        let isReadyOK = isShow == "1"
+        if(isReadyOK&&TW_Store.bblStore.isEnterLooby){
             TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appStatus, {isShow,batteryCharging,delayLevel,batteryLevel,delay,time,isWifi:isWifi? 1:0}));
         }
         return (
             <View style={{position: "absolute", ...position}} pointerEvents={"none"}>
                 {
-                    (isShow == "1") ?
+                    isReadyOK ?
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
                             {/*<Image source={this.wifiIndicator(msgData.delay)} resizeMode='contain' style={[styles.iconSmall, { marginRight: 5 }]} />*/}
                             {/*<Image source={this.cellularWifiState(delay)} resizeMode='contain' style={[styles.iconSmall, { marginRight: 5 }]} />*/}
