@@ -125,27 +125,33 @@ export default class PhoneStateView extends PureComponent {
         });
     }
 
-    phoneBatteryIndicator() {
+
+    phoneBatteryIndicator=()=> {
         const {battStat, isCharging} = this.state;
         let img = null;
-
+        let batteryLevel=0;
         if (isCharging) {
             img = phoneState.battCharging;
         } else {
             if (battStat <= 0) {
                 img = phoneState.battEmpty;
+                batteryLevel=0;
             } else if (battStat > 0 && battStat <= 0.5) {
                 img = phoneState.batt30;
+                batteryLevel=1;
             } else if (battStat > 0.5 && battStat <= 0.7) {
                 img = phoneState.batt50;
+                batteryLevel=2;
             } else if (battStat > 0.7 && battStat <= 0.9) {
                 img = phoneState.batt80;
+                batteryLevel=3;
             } else if (battStat > 0.9) {
                 img = phoneState.battFull;
+                batteryLevel=4;
             }
         }
 
-        return img;
+        return {batteryImg:img,batteryLevel};
     }
 
     async checkIsWifi() {
@@ -258,17 +264,22 @@ export default class PhoneStateView extends PureComponent {
     cellularIndicator = (delayTime) => {
         const {isWifi} = this.state;
         let delay = parseInt(delayTime)
+        let delayLevel =0;
         let img = null;
         let isNetworkOK = true;
         if (isWifi) {
             //img = phoneState.wfFull;
             if (delay <= 100) {
                 img = phoneState.wfFull;
+                delayLevel=4;
             } else if (delay > 100 && delay <= 200) {
                 img = phoneState.wf3bars;
+                delayLevel=3;
             } else if (delay > 200 && delay <= 300) {
                 img = phoneState.wf2bars;
+                delayLevel=2;
             } else if (delay > 300) {
+                delayLevel=1;
                 img = phoneState.wf1bar;
             }
         } else {
@@ -282,17 +293,22 @@ export default class PhoneStateView extends PureComponent {
             */
             if (delay <= 100) {
                 img = phoneState.mb4bars;
+                delayLevel=4;
             } else if (delay > 100 && delay <= 200) {
                 img = phoneState.mb3bars;
+                delayLevel=3;
             } else if (delay > 200 && delay <= 300) {
                 img = phoneState.mb2bars;
+                delayLevel=2;
             } else if (delay > 300) {
                 img = phoneState.mb1bar;
+                delayLevel=1;
             }
         }
 
         if (delay > 2000) {
             img = phoneState.wfNoConn;
+            delayLevel=0;
             if (this.state.isInternetReachable) {
                 this.setState({isInternetReachable: false})
             }
@@ -301,16 +317,21 @@ export default class PhoneStateView extends PureComponent {
                 this.setState({isInternetReachable: true})
             }
         }
-        return img;
+        return {delayLevelImg:img,delayLevel};
     }
 
 
+
     render() {
-
         const {delay, position, isShow, isHideBattery, isHideTime} = TW_Store.bblStore.netInfo;
-        const {battStat, time} = this.state;
+        const {isCharging, time,isWifi} = this.state;
+        let batteryCharging=isCharging;
         let isVeryDealy = delay >= 400 ? true : false;
-
+        let {delayLevelImg,delayLevel}=this.cellularIndicator(delay);
+        let {batteryImg,batteryLevel}=this.phoneBatteryIndicator();
+        if(isShow&&TW_Store.bblStore.isEnterLooby){
+            TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appStatus, {isShow,batteryCharging,delayLevel,batteryLevel,delay,time,isWifi:isWifi? 1:0}));
+        }
         return (
             <View style={{position: "absolute", ...position}} pointerEvents={"none"}>
                 {
@@ -318,11 +339,11 @@ export default class PhoneStateView extends PureComponent {
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
                             {/*<Image source={this.wifiIndicator(msgData.delay)} resizeMode='contain' style={[styles.iconSmall, { marginRight: 5 }]} />*/}
                             {/*<Image source={this.cellularWifiState(delay)} resizeMode='contain' style={[styles.iconSmall, { marginRight: 5 }]} />*/}
-                            <Image source={this.cellularIndicator(delay)} resizeMode='contain'
+                            <Image source={delayLevelImg} resizeMode='contain'
                                    style={[styles.iconSmall, {marginRight: 5}]}/>
                             <Text style={[styles.text, isVeryDealy ? {color: "red"} : null]}>{`${delay}ms`}</Text>
                             {isHideBattery == "1" ? null :
-                                <Image source={this.phoneBatteryIndicator()} resizeMode='contain'
+                                <Image source={batteryImg} resizeMode='contain'
                                        style={[styles.icon, {marginLeft: 5}]}/>}
                             {isHideTime == "1" ? null : <Text style={[styles.text, {marginLeft: 15}]}>{time}</Text>}
                         </View> : null

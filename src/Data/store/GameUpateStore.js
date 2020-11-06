@@ -23,8 +23,7 @@ export default class GameUpateStore {
     @observable
     isInSubGame = false;
 
-    @observable
-    isEnteredGame = false;
+
 
     @observable
     isForeAppUpate = false;

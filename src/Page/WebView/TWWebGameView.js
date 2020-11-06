@@ -207,7 +207,7 @@ export default class TWWebGameView extends Component {
                     break;
                 case "JumpGame":
                     url = this.handleUrl(message.au)
-                    TW_NavHelp.pushView(JX_Compones.WebView, {url})
+                    TW_NavHelp.pushView(JX_Compones.WebView, {url,isOrigan:true})
                     break;
                 case "game_back":
                     this.onBackHomeJs(message)

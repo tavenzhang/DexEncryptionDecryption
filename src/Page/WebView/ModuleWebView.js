@@ -30,7 +30,7 @@ export default class ModuleWebView extends Component {
 
     render() {
         let newUrl = TW_Store.dataStore.targetAppDir + "/plugView/index.html";
-        let visible = TW_Store.dataStore.isAppInited&&TW_Store.gameUpateStore.isEnteredGame;
+        let visible = TW_Store.dataStore.isAppInited
         if(!visible){
             return null;
         }

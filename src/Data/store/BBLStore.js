@@ -81,7 +81,7 @@ export default class BBLStore {
     netInfo = {
         delay: "",
         position: {top: 10, right: 50},
-        isShow: "0"
+        isShow: 0
     };
 
     @action
@@ -246,6 +246,7 @@ export default class BBLStore {
         loadingView: "loadingView",
         gtestBack:"gtestBack",
         isMute: "isMute",
+        appStatus:"appStatus"
     };
 
     //bgm.mp3 click.mp3 close.mp3 flopleft.mp3 flopright.mp3 recharge.mp3 rightbottomclose.mp3 showlogo.mp3
@@ -356,6 +357,9 @@ export default class BBLStore {
         let appDataJson=null;
         if (message && message.action) {
             switch (message.action) {
+                case "appStatus":
+                    TW_Store.bblStore.setNetInfo(message);
+                    break;
                 case "isMute":
                     this.isIosMute= message.data;
                     TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.isMute, {

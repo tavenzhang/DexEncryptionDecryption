@@ -36,7 +36,7 @@ import TWVerWebView from "../WebView/TWVerWebView";
 
 const Components = {
     SubGameView:viewRoutHelp(SubGameView),
-    // WebView: viewRoutHelp(TCWebView),
+    WebView: viewRoutHelp(TWWebGameView),
     TWThirdWebView:viewRoutHelp(TWVerWebView),
 }
 
@@ -61,6 +61,8 @@ const MainStackNavigator = StackNavigator({
 
 import KeyboardManager from 'react-native-keyboard-manager'
 import BackgroundTimer from "react-native-background-timer";
+import PhoneStateView from "./PhoneStateView";
+import TWWebGameView from "../WebView/TWWebGameView";
 
 @observer
 export default class App extends Component {
@@ -129,9 +131,9 @@ export default class App extends Component {
                             this.navigator = navigatorRef;
                         }}
                     />
-
                      <GameLogView/>
                      <CommonBoxLayer/>
+
                 </View>
             </Provider>
         )
