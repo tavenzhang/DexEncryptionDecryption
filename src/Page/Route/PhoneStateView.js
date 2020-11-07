@@ -331,7 +331,7 @@ export default class PhoneStateView extends PureComponent {
         let {batteryImg,batteryLevel}=this.phoneBatteryIndicator();
         let isReadyOK = isShow == "1"
         if(isReadyOK&&TW_Store.bblStore.isEnterLooby){
-            TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appStatus, {isShow,batteryCharging,delayLevel,batteryLevel,delay,time,isWifi:isWifi? 1:0}));
+            TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appStatus, {isShow,batteryCharging,delayLevel,batteryLevel,delay,time,isWifi:isWifi? 1:0,position}));
         }
         return (
             <View style={{position: "absolute", ...position}} pointerEvents={"none"}>
