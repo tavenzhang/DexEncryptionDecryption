@@ -73,6 +73,13 @@ export default class BBLStore {
         isOpenThirdVerWebView: false,
     };
 
+    @observable
+    subVerGameParams = {
+        url: '',
+        isGame: true,
+        isOpenThirdVerWebView: false,
+    };
+
 
     @observable
     isShowCircle = false;
@@ -164,43 +171,32 @@ export default class BBLStore {
     }
 
     @action
-    enterSubGame() {
+    enterSubGame(isVertic=false) {
         TW_Log("enterSubGame-", TW_Store.gameUpateStore.isInSubGame)
-        if (!TW_Store.gameUpateStore.isInSubGame&&this.subGameParams.url.length>0) {
-            TW_Store.bblStore.lastGameUrl = "";
-            TW_Store.gameUpateStore.isInSubGame = true;
-            TN_JUMP_RN()
-            if (TW_OnValueJSHome) {
-                TW_OnValueJSHome(
-                    TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.enterGame)
-                );
-                TW_OnValueJSHome(
-                    TW_Store.bblStore.getWebAction(
-                        TW_Store.bblStore.ACT_ENUM.stopMusic,
-                        {}
-                    )
-                );
+        if (!TW_Store.gameUpateStore.isInSubGame || TW_Store.bblStore.isSubGameRecharge) {
+                TW_Store.bblStore.lastGameUrl = "";
+                TW_Store.gameUpateStore.isInSubGame = true;
+                TN_JUMP_RN()
+                TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.enterGame));
+                TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.stopMusic, {}));
+
             }
-        }
     }
 
     @action
-    quitSubGame(message = {}) {
+    quitSubGame(message = {},isVertic=false) {
         TW_Log('message---quitSubGame-222-', message);
         TN_JUMP_HOME();
-        this.subGameParams = {
-            url: '',
-            isGame: true,
-        };
-
-        if (TW_OnValueJSHome) {
-            TW_OnValueJSHome(
-                TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lobbyResume, {
-                    ...message,
-                })
-            );
+        if(!isVertic){
+            this.subGameParams = {url: '', isGame: true};
+        }else {
+            this.subVerGameParams={url: '', isGame: true};
         }
-        TW_Store.gameUpateStore.isInSubGame = false;
+
+        if(!TW_Store.bblStore.isSubGameRecharge){
+            TW_Store.gameUpateStore.isInSubGame = false;
+            TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.lobbyResume, {...message}));
+        }
     }
 
     @observable
@@ -425,7 +421,7 @@ export default class BBLStore {
                             break;
                         case "openAppWeb":
                             // TN_JUMP_RN();
-                            TW_Store.bblStore.subGameParams = {
+                            TW_Store.bblStore.subVerGameParams = {
                                 url: message.param,
                                 isShowReload: true,
                                 type: message.type,
@@ -434,7 +430,7 @@ export default class BBLStore {
                             };
                             break;
                         case "customerService":
-                            TW_Store.bblStore.subGameParams = {
+                            TW_Store.bblStore.subVerGameParams = {
                                 url: TW_Store.gameUIStroe.gustWebUrl,
                                 isShowReload: false,
                                 type: message.type,

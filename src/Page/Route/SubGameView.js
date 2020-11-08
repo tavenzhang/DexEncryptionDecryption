@@ -19,18 +19,21 @@ export default class SubGameView extends Component {
 
     render() {
         let subGameParams=TW_Store.bblStore.subGameParams;
-        let isShow =subGameParams.url != "";
-        let isOpenVderWebView=subGameParams.isOpenThirdVerWebView;
+        let subVerticParas=TW_Store.bblStore.subVerGameParams;
+        let isOpenVderWebView=subVerticParas.url.length>1;
+        let isOpenHorizonView=subGameParams.url.length>1;
+        let isShow =isOpenVderWebView || isOpenHorizonView;
         if (this.refs.myView) {
             this.refs.myView.setNativeProps({style: {zIndex: isShow ? 999 : -999}});
         }
-        TW_Log("SubGameView--TW_Store.bblStore.isShow---" + isShow+"--TW_Store.gameUIStroe.isOpenVderWebView=="+TW_Store.gameUIStroe.isShowGuest,isOpenVderWebView)
+        TW_Log("SubGameView--TW_Store.bblStore.isShow---" + isShow+"--TW_Store.gameUIStroe.isOpenVderWebView=="+TW_Store.gameUIStroe.isShowGuest,TW_Store.bblStore.subVerGameParams)
         return (<View  style={{
             position: "absolute",
             width: isOpenVderWebView ? SCREEN_H:SCREEN_W,
             height: isOpenVderWebView ? SCREEN_W:SCREEN_H,
             backgroundColor: "rgba(10,10,10,0.3)", zIndex: 999}} ref={"myView"}>
-            {isOpenVderWebView ?  <TWVerWebView {...TW_Store.bblStore.subGameParams} />:<TWWebGameView  {...TW_Store.bblStore.subGameParams}/>}
+            {isOpenHorizonView ?  <TWWebGameView  {...TW_Store.bblStore.subGameParams}/>:null}
+            {isOpenVderWebView ?  <TWVerWebView {...TW_Store.bblStore.subVerGameParams} />:null}
             <PhoneStateView/>
         </View>)
     }

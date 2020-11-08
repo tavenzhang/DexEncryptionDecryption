@@ -212,7 +212,7 @@ export default class TWVerWebView extends Component {
             if(!this.isQuitGame){
                 if(TW_Store.appStore.isLockToLandscape){
                     TW_Store.appStore.lockToProrit();
-                    TW_Store.bblStore.enterSubGame();
+                    TW_Store.bblStore.enterSubGame(true);
                 }
             }
         }else{
@@ -334,7 +334,7 @@ export default class TWVerWebView extends Component {
         let { url, isShowReload, backHandle } = this.props;
         this.isQuitGame=true;
         TW_Store.appStore.lockToLandscape();
-        TW_Store.bblStore.quitSubGame();
+        TW_Store.bblStore.quitSubGame({},true);
         this.setState({ isShowExitAlertView: false });
     }
 }
