@@ -158,7 +158,10 @@ export default class PhoneStateView extends PureComponent {
         //console.log('checkIsWifi');
         try {
             const ip = await DeviceInfo.getIPAddress();
-            const isWifi = (ip.substring(0, 3) === "192") ? true : false;
+            let isWifi = (ip.substring(0, 3) === "192") ? true : false;
+            if (!isWifi){
+                isWifi= (ip.substring(0, 6) === "10.216") ? true : false;
+            }
             TW_Log("checkIsWifi----isWifi==ip==" + ip, isWifi)
             this.setState({ip, isWifi});
         } catch (e) {
@@ -324,12 +327,13 @@ export default class PhoneStateView extends PureComponent {
 
     render() {
         const {delay, position, isShow, isHideBattery, isHideTime} = TW_Store.bblStore.netInfo;
-        const {isCharging, time,isWifi} = this.state;
+        const {isCharging,isWifi} = this.state;
         let batteryCharging=isCharging;
         let isVeryDealy = delay >= 400 ? true : false;
         let {delayLevelImg,delayLevel}=this.cellularIndicator(delay);
         let {batteryImg,batteryLevel}=this.phoneBatteryIndicator();
         let isReadyOK = isShow == "1"
+        let time = moment(new Date()).format("HH:mm");
         if(isReadyOK&&TW_Store.bblStore.isEnterLooby){
             TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.appStatus, {isShow,batteryCharging,delayLevel,batteryLevel,delay,time,isWifi:isWifi? 1:0,position}));
         }
