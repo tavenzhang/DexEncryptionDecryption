@@ -21,6 +21,9 @@ export default class BBLStore {
     @observable
     isLoading = true;
 
+
+
+
     @observable
     avatarData = null;
 
@@ -32,6 +35,8 @@ export default class BBLStore {
 
     @observable
     isEnterLooby = false;
+
+    soundCacheData = {key:"",data:""};
 
     validDomain = [];
 
@@ -242,7 +247,8 @@ export default class BBLStore {
         loadingView: "loadingView",
         gtestBack:"gtestBack",
         isMute: "isMute",
-        appStatus:"appStatus"
+        appStatus:"appStatus",
+        soundCache:"soundCache"
     };
 
     //bgm.mp3 click.mp3 close.mp3 flopleft.mp3 flopright.mp3 recharge.mp3 rightbottomclose.mp3 showlogo.mp3
@@ -407,6 +413,10 @@ export default class BBLStore {
                 case "game_common":
                     let actions = message.name || message.do;
                     switch (actions) {
+                        case "soundCache":
+                            this.soundCacheData.key=message.key;
+                            this.soundCacheData.data=message.data;
+                            break;
                         case "onGameInit":
                             this.isEnterLooby = true;
                             break;

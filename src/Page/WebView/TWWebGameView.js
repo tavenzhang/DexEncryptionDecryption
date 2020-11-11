@@ -88,11 +88,11 @@ export default class TWWebGameView extends Component {
                 };
             }
         }
-        TW_Log("myUrl------------------------myParam--" + myParam + "-\n-newUrl----" + newUrl + "---source==", source);
+        TW_Log("myUrl------------------------myParam--" + myParam + "-\n-newUrl----" + newUrl ,source);
         let injectJs = `(function() {
-              window.postMessage = function(data) {
+            window.postMessage = function(data) {
                 window.ReactNativeWebView.postMessage(data);
-              };
+              };  
             })()`;
         let wenConteView =
             <WebView
@@ -245,6 +245,11 @@ export default class TWWebGameView extends Component {
                     }
                     TW_Store.userStore.exitAppToLoginPage();
                     TW_OnValueJSHome(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.logout));
+                    break;
+                case "soundCache":
+                     TW_Store.bblStore.soundCacheData.key=message.key;
+                     TW_Store.bblStore.soundCacheData.data=message.data;
+                     TN_MSG_TO_GAME(TW_Store.bblStore.getWebAction(TW_Store.bblStore.ACT_ENUM.soundCache, {key: message.key,data:message.data}));
                     break;
                 case "gtest":
                     let status=message.status;
