@@ -1,0 +1,340 @@
+PODS:
+  - Base64 (1.1.2)
+  - boost-for-react-native (1.63.0)
+  - CodePush (5.6.0):
+    - Base64 (~> 1.1)
+    - JWT (~> 3.0.0-beta.7)
+    - React
+    - SSZipArchive (~> 2.1)
+  - DoubleConversion (1.1.6)
+  - Folly (2018.10.22.00):
+    - boost-for-react-native
+    - DoubleConversion
+    - Folly/Default (= 2018.10.22.00)
+    - glog
+  - Folly/Default (2018.10.22.00):
+    - boost-for-react-native
+    - DoubleConversion
+    - glog
+  - glog (0.3.5)
+  - IQKeyboardManager (4.0.13)
+  - JCoreRN (1.3.2):
+    - React
+  - JPushRN (2.5.3):
+    - React
+  - JWT (3.0.0-beta.12):
+    - Base64 (~> 1.1.2)
+  - Picker (4.3.7):
+    - Picker/Core (= 4.3.7)
+  - Picker/Core (4.3.7):
+    - React
+  - React (0.60.3):
+    - React-Core (= 0.60.3)
+    - React-DevSupport (= 0.60.3)
+    - React-RCTActionSheet (= 0.60.3)
+    - React-RCTAnimation (= 0.60.3)
+    - React-RCTBlob (= 0.60.3)
+    - React-RCTImage (= 0.60.3)
+    - React-RCTLinking (= 0.60.3)
+    - React-RCTNetwork (= 0.60.3)
+    - React-RCTSettings (= 0.60.3)
+    - React-RCTText (= 0.60.3)
+    - React-RCTVibration (= 0.60.3)
+    - React-RCTWebSocket (= 0.60.3)
+  - React-Core (0.60.3):
+    - Folly (= 2018.10.22.00)
+    - React-cxxreact (= 0.60.3)
+    - React-jsiexecutor (= 0.60.3)
+    - yoga (= 0.60.3.React)
+  - React-cxxreact (0.60.3):
+    - boost-for-react-native (= 1.63.0)
+    - DoubleConversion
+    - Folly (= 2018.10.22.00)
+    - glog
+    - React-jsinspector (= 0.60.3)
+  - React-DevSupport (0.60.3):
+    - React-Core (= 0.60.3)
+    - React-RCTWebSocket (= 0.60.3)
+  - React-fishhook (0.60.3)
+  - React-jscallinvoker (0.60.3):
+    - Folly (= 2018.10.22.00)
+    - React-cxxreact (= 0.60.3)
+  - React-jsi (0.60.3):
+    - boost-for-react-native (= 1.63.0)
+    - DoubleConversion
+    - Folly (= 2018.10.22.00)
+    - glog
+    - React-jsi/Default (= 0.60.3)
+  - React-jsi/Default (0.60.3):
+    - boost-for-react-native (= 1.63.0)
+    - DoubleConversion
+    - Folly (= 2018.10.22.00)
+    - glog
+  - React-jsiexecutor (0.60.3):
+    - DoubleConversion
+    - Folly (= 2018.10.22.00)
+    - glog
+    - React-cxxreact (= 0.60.3)
+    - React-jsi (= 0.60.3)
+  - React-jsinspector (0.60.3)
+  - react-native-background-timer (2.2.0):
+    - React
+  - react-native-cameraroll (1.1.1):
+    - React
+  - react-native-fetch-blob (0.10.6):
+    - React-Core
+  - react-native-keep-awake (4.0.0):
+    - React
+  - react-native-netinfo (4.1.4):
+    - React
+  - react-native-orientation (3.1.3):
+    - React
+  - react-native-splash-screen (3.0.6):
+    - React
+  - react-native-webview (6.11.1):
+    - React
+  - React-RCTActionSheet (0.60.3):
+    - React-Core (= 0.60.3)
+  - React-RCTAnimation (0.60.3):
+    - React-Core (= 0.60.3)
+  - React-RCTBlob (0.60.3):
+    - React-Core (= 0.60.3)
+    - React-RCTNetwork (= 0.60.3)
+    - React-RCTWebSocket (= 0.60.3)
+  - React-RCTImage (0.60.3):
+    - React-Core (= 0.60.3)
+    - React-RCTNetwork (= 0.60.3)
+  - React-RCTLinking (0.60.3):
+    - React-Core (= 0.60.3)
+  - React-RCTNetwork (0.60.3):
+    - React-Core (= 0.60.3)
+  - React-RCTSettings (0.60.3):
+    - React-Core (= 0.60.3)
+  - React-RCTText (0.60.3):
+    - React-Core (= 0.60.3)
+  - React-RCTVibration (0.60.3):
+    - React-Core (= 0.60.3)
+  - React-RCTWebSocket (0.60.3):
+    - React-Core (= 0.60.3)
+    - React-fishhook (= 0.60.3)
+  - ReactNativeKeyboardManager (4.0.13-10):
+    - IQKeyboardManager (= 4.0.13)
+    - React
+    - React-RCTText
+  - RNDeviceInfo (2.3.2):
+    - React
+  - RNFS (2.14.0):
+    - React
+  - RNSound (0.10.9):
+    - React-Core
+    - RNSound/Core (= 0.10.9)
+  - RNSound/Core (0.10.9):
+    - React-Core
+  - RNViewShot (2.6.0):
+    - React
+  - RNZipArchive (5.0.5):
+    - React
+    - RNZipArchive/Core (= 5.0.5)
+    - SSZipArchive (~> 2.1)
+  - RNZipArchive/Core (5.0.5):
+    - React
+    - SSZipArchive (~> 2.1)
+  - sharetrace-react-native (1.0.2):
+    - React
+    - SharetraceSDK
+  - SharetraceSDK (1.8.1)
+  - SSZipArchive (2.2.3)
+  - yoga (0.60.3.React)
+
+DEPENDENCIES:
+  - CodePush (from `../node_modules/react-native-code-push`)
+  - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
+  - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
+  - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - JCoreRN (from `../node_modules/jcore-react-native`)
+  - JPushRN (from `../node_modules/jpush-react-native`)
+  - Picker (from `../node_modules/react-native-picker`)
+  - React (from `../node_modules/react-native/`)
+  - React-Core (from `../node_modules/react-native/react`)
+  - React-cxxreact (from `../node_modules/react-native/ReactCommon/cxxreact`)
+  - React-DevSupport (from `../node_modules/react-native/react`)
+  - React-fishhook (from `../node_modules/react-native/Libraries/fishhook`)
+  - React-jscallinvoker (from `../node_modules/react-native/ReactCommon/jscallinvoker`)
+  - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
+  - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
+  - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
+  - react-native-background-timer (from `../node_modules/react-native-background-timer`)
+  - "react-native-cameraroll (from `../node_modules/@react-native-community/cameraroll`)"
+  - react-native-fetch-blob (from `../node_modules/react-native-fetch-blob`)
+  - react-native-keep-awake (from `../node_modules/react-native-keep-awake`)
+  - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
+  - react-native-orientation (from `../node_modules/react-native-orientation`)
+  - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
+  - react-native-webview (from `../node_modules/react-native-webview`)
+  - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
+  - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
+  - React-RCTBlob (from `../node_modules/react-native/Libraries/Blob`)
+  - React-RCTImage (from `../node_modules/react-native/Libraries/Image`)
+  - React-RCTLinking (from `../node_modules/react-native/Libraries/LinkingIOS`)
+  - React-RCTNetwork (from `../node_modules/react-native/Libraries/Network`)
+  - React-RCTSettings (from `../node_modules/react-native/Libraries/Settings`)
+  - React-RCTText (from `../node_modules/react-native/Libraries/Text`)
+  - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
+  - React-RCTWebSocket (from `../node_modules/react-native/Libraries/WebSocket`)
+  - ReactNativeKeyboardManager (from `../node_modules/react-native-keyboard-manager`)
+  - RNDeviceInfo (from `../node_modules/react-native-device-info`)
+  - RNFS (from `../node_modules/react-native-fs`)
+  - RNSound (from `../node_modules/react-native-sound`)
+  - RNViewShot (from `../node_modules/react-native-view-shot`)
+  - RNZipArchive (from `../node_modules/react-native-zip-archive`)
+  - sharetrace-react-native (from `../node_modules/sharetrace-react-native`)
+  - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
+
+SPEC REPOS:
+  trunk:
+    - Base64
+    - boost-for-react-native
+    - IQKeyboardManager
+    - JWT
+    - SharetraceSDK
+    - SSZipArchive
+
+EXTERNAL SOURCES:
+  CodePush:
+    :path: "../node_modules/react-native-code-push"
+  DoubleConversion:
+    :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
+  Folly:
+    :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
+  glog:
+    :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  JCoreRN:
+    :path: "../node_modules/jcore-react-native"
+  JPushRN:
+    :path: "../node_modules/jpush-react-native"
+  Picker:
+    :path: "../node_modules/react-native-picker"
+  React:
+    :path: "../node_modules/react-native/"
+  React-Core:
+    :path: "../node_modules/react-native/react"
+  React-cxxreact:
+    :path: "../node_modules/react-native/ReactCommon/cxxreact"
+  React-DevSupport:
+    :path: "../node_modules/react-native/react"
+  React-fishhook:
+    :path: "../node_modules/react-native/Libraries/fishhook"
+  React-jscallinvoker:
+    :path: "../node_modules/react-native/ReactCommon/jscallinvoker"
+  React-jsi:
+    :path: "../node_modules/react-native/ReactCommon/jsi"
+  React-jsiexecutor:
+    :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
+  React-jsinspector:
+    :path: "../node_modules/react-native/ReactCommon/jsinspector"
+  react-native-background-timer:
+    :path: "../node_modules/react-native-background-timer"
+  react-native-cameraroll:
+    :path: "../node_modules/@react-native-community/cameraroll"
+  react-native-fetch-blob:
+    :path: "../node_modules/react-native-fetch-blob"
+  react-native-keep-awake:
+    :path: "../node_modules/react-native-keep-awake"
+  react-native-netinfo:
+    :path: "../node_modules/@react-native-community/netinfo"
+  react-native-orientation:
+    :path: "../node_modules/react-native-orientation"
+  react-native-splash-screen:
+    :path: "../node_modules/react-native-splash-screen"
+  react-native-webview:
+    :path: "../node_modules/react-native-webview"
+  React-RCTActionSheet:
+    :path: "../node_modules/react-native/Libraries/ActionSheetIOS"
+  React-RCTAnimation:
+    :path: "../node_modules/react-native/Libraries/NativeAnimation"
+  React-RCTBlob:
+    :path: "../node_modules/react-native/Libraries/Blob"
+  React-RCTImage:
+    :path: "../node_modules/react-native/Libraries/Image"
+  React-RCTLinking:
+    :path: "../node_modules/react-native/Libraries/LinkingIOS"
+  React-RCTNetwork:
+    :path: "../node_modules/react-native/Libraries/Network"
+  React-RCTSettings:
+    :path: "../node_modules/react-native/Libraries/Settings"
+  React-RCTText:
+    :path: "../node_modules/react-native/Libraries/Text"
+  React-RCTVibration:
+    :path: "../node_modules/react-native/Libraries/Vibration"
+  React-RCTWebSocket:
+    :path: "../node_modules/react-native/Libraries/WebSocket"
+  ReactNativeKeyboardManager:
+    :path: "../node_modules/react-native-keyboard-manager"
+  RNDeviceInfo:
+    :path: "../node_modules/react-native-device-info"
+  RNFS:
+    :path: "../node_modules/react-native-fs"
+  RNSound:
+    :path: "../node_modules/react-native-sound"
+  RNViewShot:
+    :path: "../node_modules/react-native-view-shot"
+  RNZipArchive:
+    :path: "../node_modules/react-native-zip-archive"
+  sharetrace-react-native:
+    :path: "../node_modules/sharetrace-react-native"
+  yoga:
+    :path: "../node_modules/react-native/ReactCommon/yoga"
+
+SPEC CHECKSUMS:
+  Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
+  boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
+  CodePush: 284402fb7418973c3f24a0a9cf0d1d48d96a97c8
+  DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
+  Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
+  glog: 1f3da668190260b06b429bb211bfbee5cd790c28
+  IQKeyboardManager: 8eab4d8111418414619d1df8e4779ce5d0f8d7e2
+  JCoreRN: 4b0ad270209c0e1ab2ec92b33f19774ee15f3c25
+  JPushRN: 24d74b712a1cc214be8e62dc356b7c331180472d
+  JWT: 9b5c05abbcc1a0e69c3c91e1655b3387fc7e581d
+  Picker: 4f1722c94059567cabd80e53d0ef72ca290d2b93
+  React: ac23e9cc8d2d4cfe9b536b5cc0c32d19b9937bcf
+  React-Core: 84de3cf80e31f0267c5ce0b5b482d59ce30a8a57
+  React-cxxreact: a802a1c6b14f3de66ba032460b424c17ececd1e2
+  React-DevSupport: ae72c4fc86c03197f007bb24404077c85f6dabc1
+  React-fishhook: 12bd79b4461280f441937dea83f11d9fb660edfc
+  React-jscallinvoker: 5d1aec0ae0ca7c41aafd92155db9d83f6732a178
+  React-jsi: c2b6e57836bcae2677a036384111dc2c58e94369
+  React-jsiexecutor: d9023c5c199114d2b6f38ec861a4d923c73d0735
+  React-jsinspector: 817b64f3c8a807f09d78620f4f505868d89b26f3
+  react-native-background-timer: 53c0e028a95d58b1f4498ef7ce152b6c6b337595
+  react-native-cameraroll: c5598e8ae3d9b3cb717bf7c696e20707ff61c6ae
+  react-native-fetch-blob: 0cbdf9764c75d9438c162427395f4bc35a857d5a
+  react-native-keep-awake: eba3137546b10003361b37c761f6c429b59814ae
+  react-native-netinfo: d0d956b8035de2c68d9367c93d2f91b5b874ae87
+  react-native-orientation: d4a97266b06ec8d45d74e626656a730ebbebbb6f
+  react-native-splash-screen: d712b25c25f6671a15227f9b8579f87b2dbb0340
+  react-native-webview: f11ac6c8bcaba5b71ddda1c12a10c8ea059b080f
+  React-RCTActionSheet: 9c42321fd5652515d706dd722c5a10b1970d7ec8
+  React-RCTAnimation: fabb087dde8964c9a835a7fabd0e7e5701787913
+  React-RCTBlob: 93f34281d9c9c9e216b25824309eed9fe22a5d41
+  React-RCTImage: b09f30159b048eb9a0f859f8f9b0878f3311e8eb
+  React-RCTLinking: 9dba672b3d5aadab59e93f9ab8c65e5e24b9fb73
+  React-RCTNetwork: 4b2f706819f08b6fa15c47909985f96b80859832
+  React-RCTSettings: 59c0eedc36b9aa9dd21cdbb5ab9591ba04132b1f
+  React-RCTText: b026f8350c2cbe0daeb9880dd9c6e018fce0daf7
+  React-RCTVibration: 5d9ed4a968e9d42880ddcc7c29bee3417c745408
+  React-RCTWebSocket: 69d8565d66043f244b4129f3d7154c5689fb7d3e
+  ReactNativeKeyboardManager: 507c7ed7971ef4b7c001503655431ea407588c1f
+  RNDeviceInfo: bdc3e922b2ed0f086e9d9ab534e61bc316f08576
+  RNFS: aa36b86dc268cb8773bafba7375f97860570ac4e
+  RNSound: 9c4f2bf690584b7fe7571911b05a9c2eb2d32aa8
+  RNViewShot: 05672e0b3c36cd70633466614b4451869a70c6c7
+  RNZipArchive: d6ed91cda5869ff2e07ea7ef7ed3c0ae47c53688
+  sharetrace-react-native: 80f8ac9445fb0ee7a7c3cbac7a5e87286f9b7478
+  SharetraceSDK: fc41ed82716262f90ca8a1c68b3de999e85b6ed0
+  SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
+  yoga: 843fe25849b56131275bf3e5da2c468e96f68aff
+
+PODFILE CHECKSUM: 5ffad4bc7d1a3cb245cb1ca8a8addbb14f94c32c
+
+COCOAPODS: 1.9.3
